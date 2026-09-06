@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<chapter id="localguide">
+    
+<title>Using &MiKTeX;</title>
+
+<section id="gettingstarted">
+
+<title>Getting Started</title>
+
+<para>If you have never used &TeX; before, then it is recommendable
+<indexterm>
+<primary>local guide</primary>
+</indexterm>
+to work through one of the &TeX;/&LaTeX; tutorials. A good starting
+point is the &TeX; &FAQ;: <ulink
+url="https://texfaq.org/">https://texfaq.org/</ulink>.</para>
+
+<para>&MiKTeX; doesn't differ very much from
+any other &TeX; system you might have used before.
+Typesetting with &MiKTeX; involves these steps:</para>
+<procedure>
+<step><para>Start &TeXworks; (a sophisticated &TeX; frontend) and edit
+your &LaTeX; document.</para></step>
+<step><para>Press <keycombo>
+<keycap>Ctrl</keycap>
+<keycap>T</keycap>
+</keycombo>
+to create a typeset view of your document.</para></step>
+</procedure>
+
+</section>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="texfeatures.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="texifying.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="printing.xml" />
+
+</chapter>

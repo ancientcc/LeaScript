@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<refentry id="initexmf">
+
+<?dbhh topicname="MIKTEXHELP_INITEXMF" topicid="0"?>
+
+<refmeta>
+<refentrytitle>initexmf</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">&PACKAGE_NAME;</refmiscinfo>
+<refmiscinfo class="version">&miktexrev;</refmiscinfo>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>initexmf</refname>
+<refpurpose>&MiKTeX; configuration utility</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+
+<cmdsynopsis>
+&initexmf;
+<arg choice="opt" rep="repeat"><replaceable>option</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+
+<title>Description</title>
+
+<para>&initexmf; can be used to configure &MiKTeX;.</para>
+
+</refsect1>
+
+<refsect1>
+<title>User mode vs. administrator mode</title>
+
+<para>This utility can be run in two modes:</para>
+
+<variablelist>
+<varlistentry>
+<term>User mode (default)</term>
+<listitem>
+<para>&MiKTeX; operates on user-scoped configuration and data files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>Administrator mode</term>
+<listitem>
+<para>Only system-wide &MiKTeX; configuration and data files are
+modified, assuming that the &MiKTeX; setup is shared by all users.
+The utility must be run with administrator privileges.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>By default, the utility runs in user mode.  You can turn on
+administrator mode with the <option>--admin</option> option.</para>
+
+</refsect1>
+
+<refsect1>
+
+<title>Options</title>
+
+<variablelist>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/admin.xml" />
+<varlistentry>
+<term><option>--default-paper-size=<replaceable>paper</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--default-paper-size=paper</primary>
+</indexterm>
+<indexterm>
+<primary>paper size</primary>
+<secondary>setting default</secondary>
+</indexterm>
+<para>Set the default paper size.  <replaceable>paper</replaceable>
+must be <option>a4</option> or
+<option>letter</option>.</para></listitem>
+</varlistentry>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/disableinstaller.xml" />
+<varlistentry>
+<term><option>--edit-config-file=<replaceable>configfile</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--edit-config-file=file</primary>
+</indexterm>
+<para>Open the specified config file in a text editor.</para>
+</listitem>
+</varlistentry>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/enableinstaller.xml" />
+<varlistentry>
+<term><option>--list-modes</option></term>
+<listitem>
+<indexterm>
+<primary>--list-modes</primary>
+</indexterm>
+<indexterm>
+<primary>METAFONT</primary>
+<secondary>modes</secondary>
+</indexterm>
+<para>List all known &METAFONT; modes.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--print-only</option></term>
+<listitem>
+<indexterm>
+<primary>--print-only</primary>
+</indexterm>
+<para>Print what would be done.  Nothing is changed.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--quiet</option></term>
+<listitem>
+<indexterm>
+<primary>--quiet</primary>
+</indexterm>
+<para>Suppress screen output.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--register-root=<replaceable>dir</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--register-root</primary>
+</indexterm>
+<indexterm>
+<primary>&TEXMF; root</primary>
+<secondary>registering</secondary>
+</indexterm>
+<para>Register a &TEXMF; root directory.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--report</option></term>
+<listitem>
+<indexterm>
+<primary>--report</primary>
+</indexterm>
+<para>Write a &MiKTeX; configuration report.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--set-config-value=[<replaceable>section</replaceable>]<replaceable>valuename</replaceable>=<replaceable>value</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--set-config-value=[section]valuename=value</primary>
+</indexterm>
+<para>Set a value to be stored in the &MiKTeXconfigurationdatastore;
+(see <citerefentry><refentrytitle>miktex.ini</refentrytitle><manvolnum>5</manvolnum></citerefentry>).</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--show-config-value=[<replaceable>section</replaceable>]<replaceable>valuename</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--show-config-value=[section]valuename</primary>
+</indexterm>
+<para>Print a value from the &MiKTeXconfigurationdatastore; (see <citerefentry><refentrytitle>miktex.ini</refentrytitle><manvolnum>5</manvolnum></citerefentry>).</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--unregister-root=<replaceable>dir</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--unregister-root</primary>
+</indexterm>
+<indexterm>
+<primary>&TEXMF; root</primary>
+<secondary>unregistering</secondary>
+</indexterm>
+<para>Unregister a &TEXMF; root directory.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--user-roots=<replaceable>directories</replaceable></option></term>
+<listitem><para>Register user root directories.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--verbose</option></term>
+<listitem>
+<indexterm>
+<primary>--verbose</primary>
+</indexterm>
+<para>Print information on what is being done.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--version</option></term>
+<listitem>
+<indexterm>
+<primary>--version</primary>
+</indexterm>
+<para>Print the version number and exit.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>See also</title>
+
+<simplelist type="inline">
+<member><citerefentry><refentrytitle>miktex</refentrytitle><manvolnum>1</manvolnum></citerefentry></member>
+<member><citerefentry><refentrytitle>miktex.ini</refentrytitle><manvolnum>5</manvolnum></citerefentry></member>
+</simplelist>
+
+</refsect1>
+
+</refentry>

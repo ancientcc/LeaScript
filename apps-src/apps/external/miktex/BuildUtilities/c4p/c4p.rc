@@ -1,0 +1,21 @@
+/**
+ * @file c4p.rc
+ * @author Christian Schenk
+ * @brief Windows resources
+ *
+ * @copyright Copyright © 1991-2022 Christian Schenk
+ *
+ * This file is part of C4P.
+ *
+ * C4P is licensed under GNU General Public License version 2 or any later
+ * version.
+ */
+
+#include "c4p-version.h"
+
+#define VER_INTERNALNAME_STR "c4p"
+#define VER_ORIGINALFILENAME_STR "c4p.exe"
+
+#define VER_FILEDESCRIPTION_STR "C4P - Pascal-to-C converter"
+
+#include <miktex/win/version.rc>

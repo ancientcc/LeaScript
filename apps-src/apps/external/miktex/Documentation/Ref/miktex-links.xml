@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<refentry id="miktex-links">
+
+<?dbhh topicname="MIKTEXHELP_MIKTEX_LINKS" topicid="0"?>
+
+<refmeta>
+<refentrytitle>miktex-links</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">&PACKAGE_NAME;</refmiscinfo>
+<refmiscinfo class="version">&miktexrev;</refmiscinfo>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>miktex-links</refname>
+<refpurpose>manage links from scripts and formats to executables</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+
+<cmdsynopsis>
+&miktex;
+<arg choice="opt" rep="repeat"><replaceable>common-option</replaceable></arg>
+<arg choice="plain">links</arg>
+<arg choice="plain"><replaceable>command</replaceable></arg>
+<arg choice="opt" rep="repeat"><replaceable>command-option-or-parameter</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+
+<title>Description</title>
+
+<para>Commands for managing links from scripts and formats to executables.</para>
+
+</refsect1>
+
+<refsect1>
+
+<title>Commands</title>
+
+<variablelist>
+<varlistentry>
+<term><command>install</command> <optional><option>--force</option></optional></term>
+<listitem>
+<para>Install all links. Existing links will be overwritten, if <option>--force</option> is specified.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><command>list</command> <optional><option>--template <replaceable>template</replaceable></option></optional></term>
+<listitem>
+<para>List all links.</para>
+<para><replaceable>template</replaceable> controls the output of each record.
+It can contain the following placeholders:</para>
+<para><simplelist type='inline'>
+<member><code>{linkName}</code></member>
+<member><code>{linkType}</code></member>
+<member><code>{target}</code></member>
+</simplelist></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><command>uninstall</command></term>
+<listitem>
+<para>Uninstall all links.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>See also</title>
+
+<simplelist type="inline">
+<member><citerefentry><refentrytitle>miktex</refentrytitle><manvolnum>1</manvolnum></citerefentry></member>
+</simplelist>
+
+</refsect1>
+
+</refentry>

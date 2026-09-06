@@ -1,0 +1,21 @@
+/**
+ * @file ttf2afm.rc
+ * @author Christian Schenk
+ * @brief Windows resources
+ *
+ * @copyright Copyright © 1998-2022 Christian Schenk
+ *
+ * This file is free software; the copyright holder gives unlimited permission
+ * to copy and/or distribute it, with or without modifications, as long as this
+ * notice is preserved.
+ */
+
+#pragma code_page(65001)
+
+#include "ttf2afm-version.h"
+
+#define VER_FILEDESCRIPTION_STR "TTF-to-AFM Converter"
+#define VER_INTERNALNAME_STR "ttf2afm"
+#define VER_ORIGINALFILENAME_STR "ttf2afm.exe"
+
+#include "miktex/win/version.rc"

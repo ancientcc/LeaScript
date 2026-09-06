@@ -1,0 +1,1162 @@
+#ifndef HEALTH_CONTROLLER_HPP_INCLUDED
+#define HEALTH_CONTROLLER_HPP_INCLUDED
+
+#include "base_controller.hpp"
+#include "mouse_handler_base.hpp"
+#include "health_display.hpp"
+#include "health_unit_map.hpp"
+#include "map.hpp"
+#include "health.hpp"
+#include "cairo2.hpp"
+#include "wkoscript.hpp"
+
+
+namespace gui2 {
+class ttext_box;
+class thealth_scene;
+}
+
+struct trectdata_C {
+	SDL_Rect* ptr;
+	int count;
+};
+
+struct trectdata2_C {
+	SDL_Rect* ptr;
+	int vsize;
+	int size;
+};
+
+enum {dyncharttype_idcontain};
+extern const std::map<int, std::string> dynchart_types;
+
+class LRUCache
+{
+public:
+    // Constructor: set the maximum cache size N.
+    explicit LRUCache(size_t capacity) 
+		: capacity_(capacity)
+	{}
+
+    // 1. Get cached item: pass an int ID, return the corresponding cv::Mat.
+    // If not found, return an empty cv::Mat.
+    cv::Mat get(int key)
+	{
+        // std::lock_guard<std::mutex> lock(mutex_);
+        
+        auto it = cache_map_.find(key);
+        if (it == cache_map_.end()) {
+            // Not found, return an empty Mat.
+            return cv::Mat(); 
+        }
+
+        // Hit: move the current node to the head of the list (indicating it was most recently used).
+        // std::list::splice is an O(1) operation, which is much faster than deleting and then inserting.
+        cache_list_.splice(cache_list_.begin(), cache_list_, it->second);
+        
+        // Return the stored image data.
+        return it->second->second; 
+    }
+
+    // 2. Store in cache: pass an ID and the corresponding cv::Mat.
+    void put(int key, const cv::Mat& mat)
+	{
+        // std::lock_guard<std::mutex> lock(mutex_);
+
+        // Case A: If the key already exists in the cache.
+        auto it = cache_map_.find(key);
+        if (it != cache_map_.end()) {
+            // Update the Mat data 
+			// (note: must clone to prevent external destruction from reclaiming the data, or shallow copying causing the original data to be modified).
+            it->second->second = mat.clone(); 
+            // Move to the head of the list.
+            cache_list_.splice(cache_list_.begin(), cache_list_, it->second);
+            return;
+        }
+
+        // Case B: If the cache is full, evict the least recently used node (at the tail of the list).
+        if (cache_map_.size() >= capacity_)
+		{
+            // Get the node at the end of the list.
+            auto last_node = cache_list_.end();
+            last_node--; 
+            
+            // 1. Remove the corresponding record from the hash table (using the node's key field).
+            cache_map_.erase(last_node->first);
+            
+            // 2. Remove the node from the list (the node's destructor will automatically release the internal cv::Mat memory).
+            cache_list_.erase(last_node);
+        }
+
+        // Case C: Insert new data at the head of the list.
+        // Note: Must clone(); the cached data is an independent memory copy.
+        cache_list_.push_front({key, mat.clone()}); 
+        // Record the iterator position of this node in the list.
+        cache_map_[key] = cache_list_.begin();
+    }
+
+    // 3. Helper function: Get the current cache size.
+    size_t size() const
+	{
+        // std::lock_guard<std::mutex> lock(mutex_);
+        return cache_map_.size();
+    }
+
+    // 4. Helper function: Clear the cache (suitable for calling when reloading data).
+    void clear()
+	{
+        // std::lock_guard<std::mutex> lock(mutex_);
+        cache_list_.clear();
+        cache_map_.clear();
+    }
+
+    // 5. Helper function: Manually evict an ID (e.g., when data has been updated and needs a forced refresh).
+    void remove(int key)
+	{
+        // std::lock_guard<std::mutex> lock(mutex_);
+        auto it = cache_map_.find(key);
+        if (it != cache_map_.end()) {
+            cache_list_.erase(it->second);
+            cache_map_.erase(it);
+        }
+    }
+
+private:
+    size_t capacity_;                  // Maximum cache size (e.g., N=5).
+    // mutable std::mutex mutex_;         // Mutex to ensure thread safety.
+
+    // List node: stores <record ID, image data>.
+    using Node = std::pair<int, cv::Mat>;
+    // Doubly linked list container.
+    std::list<Node> cache_list_;
+    // Hash table: record ID -> iterator to the corresponding node in the list (enabling O(1) lookups).
+    std::unordered_map<int, typename std::list<Node>::iterator> cache_map_;
+};
+
+class tmat_loader
+{
+public:
+    tmat_loader() 
+		: image_cache_(MAX_CACHE_NUM) 
+	{} // MAX_CACHE_NUM is recommended to be set to 4 or 5.
+
+    // Interface exposed to the UI thread: retrieve cv::Mat by ID.
+    cv::Mat getChartMat(int record_id)
+	{
+        // 1. Try to retrieve from the cache.
+        cv::Mat cached_mat = image_cache_.get(record_id);
+        if (!cached_mat.empty()) {
+			// Return directly; at this point, the LRU cache has already moved this ID to the front internally.
+            return cached_mat;
+        }
+
+        // 2. Cache miss; the image needs to be generated in a background thread. For now, return empty and notify the UI to show a loading state.
+        // In a real project, you would send a generation task to a task queue.
+        // triggerGenerateTask(record_id);
+        return cv::Mat(); 
+    }
+
+    // Callback function: called when the image generated in the background thread is ready.
+    void onChartGenerated(int record_id, cv::Mat generated_mat)
+	{
+        // 3. Insert the newly generated Mat into the cache.
+        // Note: The generated Mat here must be converted from ARGB to CV_8UC3, and its format must match the UI requirements.
+        image_cache_.put(record_id, generated_mat);
+
+        // 4. Notify the UI thread to update the interface.
+        // NotifyUIThreadToRefresh(record_id);
+    }
+
+private:
+    const int MAX_CACHE_NUM = 4; // Assume your limit is only 4 items.
+    LRUCache image_cache_;
+};
+
+class health_controller: public base_controller, public events::mouse_handler_base
+{
+public:
+	enum {chartsel_today, chartsel_yesterday, chartsel_2daysago, 
+		chartsel_15days, chartsel_30days, chartsel_fixed_count, chartsel_dyn_min = chartsel_fixed_count};
+
+	struct tdyn_chartsel
+	{
+	public:
+		tdyn_chartsel()
+			: type(nposm)
+			, snapshot_size({nposm, nposm})
+			, workout_at2s(sizeof(tworkout_at2))
+		{
+			memset(time_s, 0, sizeof(time_s));
+			memset(day_offset_ys, 0, sizeof(day_offset_ys));
+			memset(workout_durations, 0, sizeof(workout_durations));
+			memset(workout_count, 0, sizeof(workout_count));
+			memset(share_workout_count, 0, sizeof(share_workout_count));
+			memset(max_range, 0, sizeof(max_range));
+
+			memset(result2s, 0, sizeof(result2s));
+		}
+
+		~tdyn_chartsel()
+		{
+			clear();
+		}
+
+		void set_idcontain_rule(const std::string& _key)
+		{
+			VALIDATE(!_key.empty(), null_str);
+			type = dyncharttype_idcontain;
+			key = _key;
+
+			clear();
+		}
+
+		bool valid() const { return type != nposm && !key.empty(); }
+
+		void to_pref(config& cfg) const;
+		void from_pref(const config& cfg);
+		void clear_pref()
+		{
+			type = nposm;
+			key.clear();
+		}
+
+		std::string title() const;
+		std::string chart_title() const;
+
+		void clear()
+		{
+			snapshot_size = SDL_Size{0, 0};
+			memset(time_s, 0, sizeof(time_s));
+			memset(day_offset_ys, 0, sizeof(day_offset_ys));
+			memset(workout_durations, 0, sizeof(workout_durations));
+			memset(workout_count, 0, sizeof(workout_count));
+			memset(share_workout_count, 0, sizeof(share_workout_count));
+			memset(max_range, 0, sizeof(max_range));
+
+			int count = sizeof(result2s) / sizeof(result2s[0]);
+			for (int at = 0; at < count; at ++) {
+				if (result2s[at] != nullptr) {
+					delete result2s[at];
+					result2s[at] = nullptr;
+				}
+			}
+
+			workout_at2s.clear();
+		}
+
+	public:
+		int type;
+		std::string key;
+
+		SDL_Size snapshot_size;
+		time_t time_s[MAX_HEALTH_DAYS];
+		int day_offset_ys[MAX_HEALTH_DAYS];
+		int workout_durations[MAX_HEALTH_DAYS];
+		int workout_count[MAX_HEALTH_DAYS];
+		int share_workout_count[MAX_HEALTH_DAYS];
+		SDL_Range max_range[MAX_HEALTH_DAYS];
+
+		aplt::thealth::thealth_result2* result2s[MAX_HEALTH_DAYS];
+
+		struct tworkout_at2
+		{
+			int day_at;
+			int workout_at;
+		};
+		telem_array_C workout_at2s;
+	};
+
+	health_controller(trhealth_scene_slot& scene_slot, const config &app_cfg, CVideo& video,
+		aplt::thealth& health, int sdl_field_small_font_size);
+	~health_controller();
+
+	health_display& gui() { return *gui_; }
+	const health_display& gui() const { return *gui_; }
+	events::mouse_handler_base& get_mouse_handler_base() override { return *this; }
+	health_display& get_display() override { return *gui_; }
+	const health_display& get_display() const override { return *gui_; }
+
+	health_unit_map& get_units() override { return units_; }
+	const health_unit_map& get_units() const override { return units_; }
+
+	bool allow_draw() const { return allow_draw_; }
+
+	void app_first_drawn();
+	void app_resize_screen();
+
+	std::vector<tdyn_chartsel*>& dyn_chartsels() { return dyn_chartsels_; }
+	int64_t day_chartsel_2_t(int64_t sel);
+	void refresh_chart_by_sel(int64_t sel);
+
+	bool verify_dyn_chart_inc_id(const std::string& label) const;
+	void click_insert_dyn_chart(gui2::tbutton& widget);
+	void click_flt_to_top(gui2::tbutton& widget);
+	void click_flt_erase(gui2::tbutton& widget);
+	SDL_Size calculate_snapshot_size(bool conside_share) const;
+	void did_watermark_text_changed(gui2::ttext_box& widget);
+	void enter_share();
+	void exit_share(bool finish);
+	void update_which_charts_label();
+
+	bool is_day_chartsel(int sel) const
+	{
+		return sel == chartsel_today || sel == chartsel_yesterday || sel == chartsel_2daysago;
+	}
+
+	bool is_days_chartsel(int sel) const
+	{
+		return sel == chartsel_15days || sel == chartsel_30days;
+	}
+
+	int days_from_days_chartsel(int sel) const
+	{
+		if (sel == chartsel_15days) {
+			return 15;
+
+		} else if (sel == chartsel_30days) {
+			return 30;
+		}
+		VALIDATE(false, null_str);
+		return nposm;
+	}
+
+	#define chartsel_has_header_mat(sel)	is_day_chartsel(sel)
+	#define chartsel_has_sit_mat(sel)		is_day_chartsel(sel)
+
+	inline bool chartsel_has_summary_mat(int sel)
+	{
+		return sel >= chartsel_dyn_min;
+	}
+
+	enum {mattype_day_header, mattype_day_sit, mattype_summary,
+		mattype_day_workout, mattype_days_sit, mattype_tip, mattype_count};
+	struct tdraw_item
+	{
+		int type;
+		int at;
+		SDL_Point offset;
+		const cv::Mat* mat;
+	};
+	const tdraw_item* draw_items(int& count) const 
+	{ 
+		count = draw_items_.vsize;
+		tdraw_item* result = (tdraw_item*)draw_items_.data;
+		return result;
+	}
+	tdraw_item& find_draw_item(int type, int index) const;
+
+#define is_my_btn_all(btn) \
+	((btn) == pl_btn_play  || (btn) == pl_btn_step_backward || (btn) == pl_btn_step_forward || (btn) == pl_btn_stop || (btn) == pl_btn_progressbar || (btn) == pl_btn_share)
+
+#define is_my_btn_when_nonpausing(btn) \
+	((btn) == pl_btn_play || (btn) == pl_btn_stop || (btn) == pl_btn_progressbar || (btn) == pl_btn_share)
+
+	// enum {btn_play, btn_stop, btn_progressbar, btn_count};
+	struct tworkout_mat2_C
+	{
+		tuint8data_C zip_workout;
+		tchardata_C wkoscript_cfg_data;
+		config* wkoscript_cfg;
+		aplt::thealth::tevent_item* wkon32_event_items;
+		int wkon32_event_item_count;
+		cv::Mat* workout_mat;
+		cv::Mat* landmarks_mat;
+		SDL_Rect btn_rects[pl_btn_count];
+		SDL_Rect play_1th_rect;
+		trectdata_C tip_rects;
+		int rep_steps[WORKOUT_MAX_FLOW_STATES];
+		SDL_Point chart_margin_lr;
+		SDL_Range range_ms;
+		bool_set_t share;
+	};
+
+	void free_mat2_data(tworkout_mat2_C& mat2)
+	{
+		if (mat2.zip_workout.ptr != nullptr) {
+			free(mat2.zip_workout.ptr);
+			mat2.zip_workout.ptr = nullptr;
+		}
+		if (mat2.wkoscript_cfg_data.ptr != nullptr) {
+			free(mat2.wkoscript_cfg_data.ptr);
+			mat2.wkoscript_cfg_data.ptr = nullptr;
+		}
+		if (mat2.wkoscript_cfg != nullptr) {
+			delete mat2.wkoscript_cfg;
+			mat2.wkoscript_cfg = nullptr;
+		}
+		if (mat2.wkon32_event_items != nullptr) {
+			free(mat2.wkon32_event_items);
+			mat2.wkon32_event_items = nullptr;
+		}
+		if (mat2.workout_mat != nullptr) {
+			delete mat2.workout_mat;
+			mat2.workout_mat = nullptr;
+		}
+		if (mat2.landmarks_mat != nullptr) {
+			delete mat2.landmarks_mat;
+			mat2.landmarks_mat = nullptr;
+		}
+		if (mat2.tip_rects.ptr != nullptr) {
+			free(mat2.tip_rects.ptr);
+			mat2.tip_rects.ptr = nullptr;
+		}
+		memset(&mat2, 0, sizeof(mat2));
+	}
+
+	void set_workout_mat2_data(tworkout_mat2_C& mat2, const uint8_t* zip_workout_data, int zip_workout_len,
+		const char* wkoscript_cfg_data, int wkoscript_cfg_len, const aplt::thealth::tevent_item* wkon32_event_items, int wkon32_event_item_count)
+	{
+		VALIDATE(mat2.zip_workout.ptr == nullptr, null_str);
+		VALIDATE(mat2.wkoscript_cfg_data.ptr == nullptr, null_str);
+		VALIDATE(mat2.wkoscript_cfg == nullptr, null_str);
+		VALIDATE(mat2.wkon32_event_items == nullptr, null_str);
+		VALIDATE(mat2.workout_mat == nullptr, null_str);
+		VALIDATE(mat2.landmarks_mat == nullptr, null_str);
+
+		// don't modify some field, for example: 'share'
+		// memset(&mat2, 0, sizeof(mat2));
+
+		if (zip_workout_data != nullptr) {
+			VALIDATE(zip_workout_len != 0, null_str);
+			mat2.zip_workout.ptr = (uint8_t*)malloc(zip_workout_len);
+			memcpy(mat2.zip_workout.ptr, zip_workout_data, zip_workout_len);
+			mat2.zip_workout.len = zip_workout_len;
+		}
+		if (wkoscript_cfg_data != nullptr) {
+			if (wkoscript_cfg_len != 0) {
+				mat2.wkoscript_cfg_data.ptr = (char*)malloc(wkoscript_cfg_len);
+				memcpy(mat2.wkoscript_cfg_data.ptr, wkoscript_cfg_data, wkoscript_cfg_len);
+				mat2.wkoscript_cfg_data.len = wkoscript_cfg_len;
+
+				mat2.wkoscript_cfg = new config;
+				aplt::read_config_ex(std::string(mat2.wkoscript_cfg_data.ptr, mat2.wkoscript_cfg_data.len), *mat2.wkoscript_cfg);
+			}
+		}
+		VALIDATE(wkon32_event_items != nullptr && wkon32_event_item_count > 0, null_str);
+		int s = wkon32_event_item_count * sizeof(aplt::thealth::tevent_item);
+		mat2.wkon32_event_items = (aplt::thealth::tevent_item*)malloc(s);
+		memcpy(mat2.wkon32_event_items, wkon32_event_items, s);
+		mat2.wkon32_event_item_count = wkon32_event_item_count;
+	}
+
+	void clear_workout_mat2s()
+	{
+		tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+		for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+			tworkout_mat2_C& mat2 = mat2s[at];
+			free_mat2_data(mat2);
+		}
+		workout_mat2s_.clear();
+	}
+
+	void clear_tip_mat2()
+	{
+		if (!tip_mat_.empty()) {
+			clear_tip_mat();
+		}
+	}
+
+	void clear_dyn_chartsels()
+	{
+		for (std::vector<tdyn_chartsel*>::iterator it = dyn_chartsels_.begin(); it != dyn_chartsels_.end(); ++ it) {
+			tdyn_chartsel* chartsel = *it;
+			delete chartsel;
+		}
+		dyn_chartsels_.clear();
+	}
+
+	void calculate_share_workout_count(tdyn_chartsel& dyn_chartsel) const;
+	std::string default_status_msg() const;
+
+private:
+	void app_create_display(int initial_zoom) override;
+	void app_post_initialize() override;
+	void app_play_slice() override;
+
+	void app_execute_command(int command, const std::string& sparam) override;
+
+	bool app_mouse_motion(const int x, const int y, const bool minimap) override;
+	void app_left_mouse_down(const int x, const int y, const bool minimap) override;
+	void app_left_mouse_up(const int x, const int y, const bool click) override;
+	// void app_right_mouse_down(const int x, const int y) override;
+
+	void reload_map(int w, int h);
+	int calc_should_map_w() const;
+	void make_sure_map();
+	// enum {chartscene_normal, chartscene_enter_share, chartscene_count};
+	void refresh_day_chart(time_t t, bool redraw_only, const SDL_Point& redraw_which_chart = SDL_Point{nposm, nposm});
+	void refresh_days_chart(int days);
+	void refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, bool redraw_only, const SDL_Point& redraw_which_chart = SDL_Point{nposm, nposm});
+
+	cv::Mat draw_header_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+		const aplt::thealth::thealth_result2& result2);
+
+	cv::Mat draw_sit_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		int small_font_size, const aplt::thealth::thealth_result2& result2);
+
+	cv::Mat draw_workout_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		int small_font_size, const aplt::thealth::thealth_result2& result2, int workout_at, const tworkout_mat2_C& workout_mat2, 
+		SDL_Rect* btn_rects_result, trectdata_C* tip_rects_result, int* rep_steps_result, SDL_Point* chart_margin_lr_result);
+
+	cv::Mat draw_workout_mat2(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+	int small_font_size, const aplt::thealth::thealth_result2& result2, int workout_at, tworkout_mat2_C& workout_mat2);
+
+	void adjust_rects_after_draw_fake_workout_mats();
+	void adjust_rects_after_draw_workout_mat(const SDL_Point& offset, tworkout_mat2_C& mat2);
+
+	struct tdays_mat_slot
+	{
+	public:
+		tdays_mat_slot(health_controller& controller, bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+			int small_font_size, int days, aplt::thealth::thealth_result2** result2s = nullptr)
+			: controller_(controller)
+			, to_image(to_image)
+			, mat_width(mat_width)
+			, radius(radius)
+			, map_margin(map_margin)
+			, chart_margin(chart_margin)
+			, small_font_size(small_font_size)
+			, days(days)
+			, result2s_(result2s)
+		{}
+		virtual ~tdays_mat_slot() {}
+
+		virtual int fid_count() const = 0;
+		virtual int bar_labels_size() const = 0;
+		virtual void get_chart2_margin(int& left, int& right) = 0;
+		virtual std::string day_pattern_val() const { return "23:20-23:59"; }
+		virtual void get_3height(int max_day_labels_height, int& title_height, int& legend_height, int& day_labels_height) = 0;
+		virtual cairo::tsdl_field* pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color) = 0;
+		virtual void did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2) {}
+		virtual cairo::tsdl_field* fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool result2_valid, std::string& day_label_val) = 0;
+		virtual cv::Mat cairo_draw_days_mat(int mat_height) = 0;
+		virtual const cairo::tsdl_field& post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color) = 0;
+		virtual const cairo::tsdl_field& post_render_day_array(int day, surface& surf) = 0;
+
+		aplt::thealth::thealth_result2** result2s() { return result2s_; }
+
+	protected:
+		health_controller& controller_;
+		bool to_image;
+		int mat_width;
+		double radius;
+		const SDL_Point map_margin;
+		const SDL_Point chart_margin;
+		int small_font_size;
+		int days;
+		aplt::thealth::thealth_result2** result2s_;
+	};
+
+	struct tdays_sit_mat_slot: public tdays_mat_slot
+	{
+	public:
+		tdays_sit_mat_slot(health_controller& controller, bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+			int small_font_size, int days)
+			: tdays_mat_slot(controller, to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days)
+		{}
+
+	private:
+		int fid_count() const override { return fields.fid_count; }
+		int bar_labels_size() const override { return fields.bar_4labels.size(); }
+		void get_chart2_margin(int& left, int& right) override
+		{
+			left = chart_margin.x + fields.Y_axis_label_width + fields.Y_axis_label_chart_gap;
+			right = left;
+		}
+		void get_3height(int max_day_labels_height, int& title_height, int& legend_height, int& day_labels_height) override
+		{
+			fields.title_height = fields.title.name_text_size.y + chart_margin.y - 5;
+			fields.legend_height = fields.legend_improper_alert.name_text_size.y * 2 
+				+ 12 + fields.y_axis_title_gap_y;
+			fields.day_labels_height = max_day_labels_height;
+
+			title_height = fields.title_height;
+			legend_height = fields.legend_height;
+			day_labels_height = fields.day_labels_height;
+		}
+		cairo::tsdl_field* pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color) override;
+		cairo::tsdl_field* fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool result2_valid, std::string& day_label_val) override;
+		cv::Mat cairo_draw_days_mat(int mat_height) override;
+		const cairo::tsdl_field& post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color) override;
+		const cairo::tsdl_field& post_render_day_array(int day, surface& surf) override;
+
+	private:
+		cairo::tdays_posture_fields fields;
+	};
+
+	struct tdays_workout_mat_slot: public tdays_mat_slot
+	{
+	public:
+		tdays_workout_mat_slot(health_controller& controller, bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+			int small_font_size, int days)
+			: tdays_mat_slot(controller, to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days)
+			, fields(false)
+		{}
+	private:
+		int fid_count() const override { return fields.fid_count; }
+		int bar_labels_size() const override { return fields.bar_4labels.size(); }
+		std::string day_pattern_val() const override { return "02:23:20-12:23:59"; }
+		void get_chart2_margin(int& left, int& right) override
+		{
+			left = chart_margin.x + fields.Y_axis_label_width + fields.Y_axis_label_chart_gap;
+			right = left;
+		}
+		void get_3height(int max_day_labels_height, int& title_height, int& legend_height, int& day_labels_height) override
+		{
+			fields.title_height = fields.title.name_text_size.y + chart_margin.y - 5;
+			fields.legend_height = fields.legend_improper_alert.name_text_size.y * 2 
+				+ 12 + fields.y_axis_title_gap_y;
+			fields.day_labels_height = max_day_labels_height;
+
+			title_height = fields.title_height;
+			legend_height = fields.legend_height;
+			day_labels_height = fields.day_labels_height;
+		}
+		cairo::tsdl_field* pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color) override;
+		cairo::tsdl_field* fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool result2_valid, std::string& day_label_val) override;
+		cv::Mat cairo_draw_days_mat(int mat_height) override;
+		const cairo::tsdl_field& post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color) override;
+		const cairo::tsdl_field& post_render_day_array(int day, surface& surf) override;
+
+	private:
+		cairo::tdays_workout_fields fields;
+	};
+
+	struct tdays_summary_mat_slot: public tdays_mat_slot
+	{
+	public:
+		tdays_summary_mat_slot(health_controller& controller, bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+			int small_font_size, int days, const std::string& title, bool is_sharing, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
+			tdyn_chartsel* dyn_chartsel)
+			: tdays_mat_slot(controller, to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, 
+				dyn_chartsel != nullptr? dyn_chartsel->result2s: nullptr)
+			, title(title)
+			, fields(is_sharing)
+			, btn_rects(btn_rects)
+			, tip_rects(tip_rects)
+			, share(share)
+			, dyn_chartsel(dyn_chartsel)
+		{}
+	private:
+		int fid_count() const override { return fields.fid_count; }
+		int bar_labels_size() const override { return fields.bar_4labels.size(); }
+		std::string day_pattern_val() const override { return "02:23:20-12:23:59"; }
+		void get_chart2_margin(int& left, int& right) override
+		{
+			left = chart_margin.x + fields.Y_axis_label_width + fields.Y_axis_label_chart_gap;
+			right = left;
+		}
+		void get_3height(int max_day_labels_height, int& title_height, int& legend_height, int& day_labels_height) override
+		{
+			fields.title_height = fields.title.name_text_size.y + chart_margin.y - 5;
+			fields.legend_height = fields.legend_improper_alert.name_text_size.y * 2 
+				+ 12 + fields.y_axis_title_gap_y;
+			fields.day_labels_height = max_day_labels_height;
+			fields.day_labels_height += fields.chart_remark.name_text_size.y;
+
+			title_height = fields.title_height;
+			legend_height = fields.legend_height;
+			day_labels_height = fields.day_labels_height;
+		}
+		cairo::tsdl_field* pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color) override;
+		void did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2) override;
+		cairo::tsdl_field* fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool result2_valid, std::string& day_label_val) override;
+		cv::Mat cairo_draw_days_mat(int mat_height) override;
+		const cairo::tsdl_field& post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color) override;
+		const cairo::tsdl_field& post_render_day_array(int day, surface& surf) override;
+
+	private:
+		const std::string title;
+		cairo::tdays_workout_fields fields;
+		SDL_Rect* btn_rects;
+		trectdata2_C& tip_rects;
+		const bool_set_t& share;
+		tdyn_chartsel* dyn_chartsel;
+	};
+
+	cv::Mat draw_days_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		int small_font_size, int days, tdays_mat_slot& slot);
+
+	cv::Mat draw_days_sit_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		int small_font_size, int days);
+
+	cv::Mat draw_days_workout_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		int small_font_size, int days);
+
+	cv::Mat draw_days_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		int small_font_size, int days, const std::string& title, bool is_sharing, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
+		tdyn_chartsel& dyn_chartsel);
+
+	void clear_fake_workouts_rects()
+	{
+		for (int at = 0; at < fake_workout_count; at ++) {
+			tsingle_mat* fake = fake_workouts_[at];
+
+			fake->clear();
+		}
+	}
+
+	struct ttip6
+	{
+		int col_at;
+		int workout_at_in_page;
+		int flow_state_at;
+		int col_type;
+		int ctx;
+
+		// Used to control the Y position where the tip is displayed.
+		// may_y = 'map_y of mouse_x' - 'workout.offset.x'.
+		int map_y;
+
+		// 'share' can use below direct. don't include map_margin_.y
+		int map_ltop_y;
+	};
+	ttip6 parse_tip_at(int workout_at, const aplt::thealth::tworkout_result2& workout, const tworkout_mat2_C& mat2, int tip_at) const;
+
+	cv::Mat draw_tip_mat(bool to_image, int allowed_width, int allowed_height, const SDL_Point& map_margin,
+		int small_font_size, const aplt::thealth::thealth_result2& result2, const ttip6& tip6, const aplt::thealth::tworkout_result2& workout, const tworkout_mat2_C& mat2);
+	cv::Mat draw_tip_mat2(bool to_image, const ttip6& tip6, const aplt::thealth::thealth_result2& result2, int workout_at_in_result2, SDL_Point* map_ltop_result);
+
+	void clear_tip_mat()
+	{
+		VALIDATE(!tip_mat_.empty(), null_str);
+		VALIDATE(curr_tip6_.col_at != nposm, null_str);
+
+		tip_mat_ = cv::Mat();
+		curr_tip6_ = ttip6{nposm, nposm, nposm, nposm, nposm, nposm};
+	}
+
+	void do_save_workout_mat2s_and_tip(int bg_width, const tdyn_chartsel* dyn_chartsel, int header_hide_height, surface& bg_surf, int& y_offset);
+	void do_save_image(const std::string& watermark_msg);
+
+	void empty_mat2_rects(tworkout_mat2_C& mat2)
+	{
+		memset(mat2.btn_rects, 0, sizeof(mat2.btn_rects));
+
+		if (mat2.tip_rects.count != 0) {
+			memset(mat2.tip_rects.ptr, 0, sizeof(SDL_Rect) * mat2.tip_rects.count);
+
+		} else {
+			VALIDATE(mat2.tip_rects.ptr == nullptr, null_str);
+		}
+	}
+
+	enum {fake_workout_min = 1000, fake_workout_header = fake_workout_min, fake_workout_sit, fake_workout_summary,
+		fake_workout_max = fake_workout_summary, fake_workout_count = fake_workout_max + 1 - fake_workout_min};
+
+	enum {clicktype_btn, clicktype_tip, clicktype_count};
+	struct tclick
+	{
+		int workout_at_in_page;
+		int type;
+		int ctx;
+	};
+	tclick in_which_rect(int screen_x, int screen_y) const;
+
+	const aplt::thealth::thealth_result2& calc_result2_and_workout_at(int workout_at_in_page, int& workout_at_in_result2);
+
+	void player_seek_to(int screen_x, int screen_y);
+	void adjust_progressbar_rect(int workout_at);
+
+	bool start_player(int workout_at);
+	void stop_player();
+
+	void set_workout_mat2s_share(bool_set_t share)
+	{
+		tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+		for (int mat2_at = 0; mat2_at < workout_mat2s_.vsize; mat2_at ++) {
+			tworkout_mat2_C& mat2 = mat2s[mat2_at];
+			mat2.share = share;
+		}
+	}
+
+	void set_day_mats_share(bool_set_t share)
+	{
+		header_mat_.share = share;
+		sit_mat_.share = share;
+		set_workout_mat2s_share(share);
+	}
+
+	void set_idcontain_mats_share(bool_set_t share)
+	{
+		summary_mat_.share = share;
+		set_workout_mat2s_share(share);
+	}
+
+	void dyn_charts_to_pref(const std::vector<tdyn_chartsel*>& dyn_chartsels);
+	void dyn_charts_from_pref(std::vector<tdyn_chartsel*>& dyn_chartsels);
+
+public:
+	static std::string unsatisfied_isnan_msgstr;
+	static std::string unsatisfied_absend_landmark_msgstr;
+
+private:
+	trhealth_scene_slot& scene_slot_;
+	aplt::thealth& health_;
+	tmap map_;
+	health_unit_map units_;
+	health_display* gui_;
+	gui2::thealth_scene* dlg_;
+	gui2::twindow* window_;
+	const int vert_locs_;
+	const SDL_Point map_margin_;
+	const SDL_Point chart_margin_;
+	const int charts_gap_y_;
+	const double chart_radius_;
+	const int chart_height_;
+	const int posture_small_font_size_;
+	const std::string dunhao_msgstr_;
+	const int one_chinese_line_height_;
+
+	struct tcairo_improper
+	{
+		tcairo_improper(int type, const std::string& label, const SDL_DColor& color)
+			: type(type)
+			, label(label)
+			, color(color)
+		{}
+
+		int type;
+		std::string label;
+		SDL_DColor color;
+	};
+	std::vector<tcairo_improper> cairo_impropers;
+	const SDL_DColor sit_duration_color_;
+	const SDL_DColor improper_duration_color_;
+	const SDL_DColor improper_alert_color_;
+	const SDL_DColor workout_duration_color_;
+	const SDL_DColor share_alert_color_;
+	const SDL_DColor nonpose_state_duration_color_;
+	const SDL_DColor pose_state_duration_color_;
+	const SDL_DColor satisfied_duration_color_;
+	const SDL_DColor unsatisfied_duration_color_;
+	const int max_workout_charts_;
+	int64_t undarw_chart_sel_;
+
+	uint32_t next_1second_ticks_;
+	bool allow_draw_;
+
+	std::vector<tdyn_chartsel*> dyn_chartsels_;
+	int64_t curr_chartsel_;
+	aplt::thealth::thealth_result2 curr_day_result2_;
+	bool is_sharing_;
+	int watermark_font_size_;
+	SDL_Color watermark_font_color_;
+	int watermark_halo_;
+
+	// tdraw_item stores pointers to cv::Mat objects. 
+	// The following are the objects these pointers point to.
+	struct tsingle_mat
+	{
+	public:
+		tsingle_mat(int mat_type, int fake_workout_at)
+			: mat_type(mat_type)
+			, fake_workout_at(fake_workout_at)
+			// If 'draw_item_at' is 'nposm', 
+			// it means that this tsingle_mat is not present in 'draw_items'.
+			, draw_item_at(nposm)
+			, share(bool_set_none)
+		{
+			VALIDATE(mat_type >= 0 && mat_type < mattype_count, null_str);
+			VALIDATE(fake_workout_at >= fake_workout_min && fake_workout_at < fake_workout_min + fake_workout_count, null_str);
+			memset(btn_rects, 0, sizeof(btn_rects));
+			memset(&tip_rects, 0, sizeof(tip_rects));
+		}
+
+		~tsingle_mat()
+		{
+			if (tip_rects.ptr != nullptr) {
+				free(tip_rects.ptr);
+				tip_rects.ptr = nullptr;
+			}
+		}
+
+		void clear()
+		{
+			draw_item_at = nposm;
+			memset(btn_rects, 0, sizeof(btn_rects));
+			tip_rects.vsize = 0;
+			// share = bool_set_none;
+		}
+
+	public:
+		const int mat_type;
+		const int fake_workout_at;
+		int draw_item_at;
+		cv::Mat mat;
+		SDL_Rect btn_rects[pl_btn_count];
+		trectdata2_C tip_rects;
+		bool_set_t share;
+	};
+
+	tsingle_mat header_mat_;
+	tsingle_mat sit_mat_;
+	tsingle_mat summary_mat_;
+	telem_array_C workout_mat2s_;
+	cv::Mat days_sit_mat_;
+	cv::Mat days_workout_mat_;
+
+	tsingle_mat* fake_workouts_[fake_workout_count];
+
+	ttip6 curr_tip6_;
+	cv::Mat tip_mat_;
+
+	telem_array_C draw_items_;
+
+	class tplayer
+	{
+	public:
+		tplayer(health_controller& controller)
+			: controller_(controller)
+			, workout_(sizeof(uint8_t))
+			, workout_at_in_page_(nposm)
+			, event_items_(sizeof(aplt::thealth::tevent_item))
+			, range_ms_min_(nposm)
+			, duration_ms_(nposm)
+			, played_ms_(nposm)
+			, cursor_(nposm)
+			, wkon32_cursor_(nposm)
+			, wkon32_frame_at_(nposm)
+			, curr_state2_(nullptr)
+			, draw_item_(nullptr)
+			, interval_(MEDIAPIPE_POSTURE_MIN_INTERVAL)
+			// , interval_(20)
+			, next_ticks_(0)
+		{
+			for (int at = 0; at < mediapipe::kNumPoseLandmarks; at ++) {
+				nan_landmarks_[at].x = std::numeric_limits<float>::quiet_NaN();
+				nan_landmarks_[at].y = std::numeric_limits<float>::quiet_NaN();
+			}
+			memcpy(last_landmarks_, nan_landmarks_, sizeof(nan_landmarks_));
+		}
+
+		~tplayer()
+		{
+			VALIDATE(!is_ing(), null_str);
+		}
+
+		bool set_workout_data(const tuint8data_C& zip_workout, const config& wkoscript_cfg, int workout_at, 
+			const aplt::thealth::tevent_item* event_items, int event_item_count);
+		telem_array_C& workout_data() { return workout_; }
+		int workout_at_in_page() const { return workout_at_in_page_; }
+
+		void start(int width, int height);
+		void set_draw_item(tdraw_item& draw_item);
+		void stop();
+		void restart();
+		void seek_to_ratio(double ratio);
+		void seek_to_cursor(int played_ms, int cursor);
+		bool is_ing() const { return cursor_ != nposm; }
+		void make_sure_stop()
+		{
+			if (is_ing()) {
+				stop();
+			}
+		}
+
+		void pause(bool enter);
+		bool is_pausing() const
+		{
+			VALIDATE(is_ing(), null_str);
+			return next_ticks_ == UINT_MAX;
+		}
+
+		void step_one(bool backward);
+		void update_landmarks_mat_for_redraw();
+
+		bool is_0() const;
+		bool is_end() const;
+		bool is_time_to_next() const;
+		cv::Mat get_mat(bool update_cursor);
+		void play_next();
+
+		struct trestorer
+		{
+		public:
+			trestorer(tplayer& player)
+				: player_(player)
+				, played_ms_(player.played_ms_)
+				, cursor_(player.cursor_)
+				, wkon32_cursor_(player.wkon32_cursor_)
+				, wkon32_frame_at_(player.wkon32_frame_at_)
+				, curr_state2_(player.curr_state2_)
+				, next_ticks_(player.next_ticks_) // when save, maybe in pausing
+			{
+				VALIDATE(player_.is_ing(), null_str);
+			}
+
+			~trestorer()
+			{
+				VALIDATE(!player_.is_ing(), null_str);
+				player_.controller_.start_player(nposm);
+				player_.next_ticks_ = next_ticks_;
+				int cursor = cursor_;
+				if (cursor == player_.workout_.vsize || player_.is_pausing()) {
+					// seek_to_cursor will call player_.play_next, 
+					// it require 'cursor_ < player_.workout_.vsize'.
+					// played_ms_ -= player_.interval_;
+
+					// int max_duration = played_ms_ - interval_;
+					int max_duration = played_ms_;
+					player_.check_and_calculate_duration_ex(max_duration);
+
+				} else {
+					if (curr_state2_ != player_.curr_state2_) {
+						player_.curr_state2_to(curr_state2_);
+					}
+					player_.seek_to_cursor(played_ms_, cursor);
+				}
+			}
+
+		private:
+			tplayer& player_;
+			int played_ms_;
+			int cursor_;
+			int wkon32_cursor_;
+			int wkon32_frame_at_;
+			aplt::twkoscript::tstate2* curr_state2_;
+			uint32_t next_ticks_;
+		};
+
+	private:
+		void did_landmarks_mat_changed(cv::Mat& result);
+
+		// Does not include the landmark pointed to by 'max_duration'.
+		SDL_Point check_and_calculate_duration(int max_duration, int* curr_flow_state) const;
+		void check_and_calculate_duration_ex(int max_duration);
+		bool parse_non_landmarks_bytes();
+
+		// Include the frame pointed to by 'target_frame'.
+		bool move_wkon32_cursor_to_frame_at(int target_frame_at);
+		void curr_state2_to(aplt::twkoscript::tstate2* new_state2);
+
+	private:
+		health_controller& controller_;
+		SDL_FPoint nan_landmarks_[mediapipe::kNumPoseLandmarks];
+		SDL_FPoint last_landmarks_[mediapipe::kNumPoseLandmarks];
+		telem_array_C workout_;
+		config wkoscript_cfg_;
+		int workout_at_in_page_;
+		telem_array_C event_items_;
+		aplt::twkoscript script_;
+		int range_ms_min_;
+		SDL_Size mat_size_;
+		SDL_Rect video_clip_;
+		int duration_ms_;
+		int played_ms_;
+		int cursor_;
+		int wkon32_cursor_;
+		int wkon32_frame_at_;
+
+		aplt::twkoscript::tstate2* curr_state2_;
+		tdraw_item* draw_item_;
+
+		const int interval_;
+		uint32_t next_ticks_;
+	};
+	tplayer player_;
+
+	class tclear_interest_hiting_lock
+	{
+	public:
+		tclear_interest_hiting_lock(health_controller& controller)
+			: controller_(controller)
+			, may_empty_tip_mat_(false)
+			, tip_mat_is_update_(false)
+		{}
+
+		~tclear_interest_hiting_lock()
+		{
+			controller_.interest_hiting_.clear();
+
+			if (may_empty_tip_mat_ && !tip_mat_is_update_ && !controller_.tip_mat_.empty()) {
+				controller_.clear_tip_mat();
+			}
+		}
+
+		void set_may_empty_tip_mat()
+		{
+			VALIDATE(!may_empty_tip_mat_, null_str);
+			may_empty_tip_mat_ = true;
+		}
+
+		void set_tip_mat_is_update()
+		{
+			VALIDATE(!tip_mat_is_update_, null_str);
+			tip_mat_is_update_ = true;
+		}
+
+	private:
+		health_controller& controller_;
+		bool may_empty_tip_mat_;
+		bool tip_mat_is_update_;
+	};
+	struct tinterest_hiting
+	{
+	public:
+		tinterest_hiting(health_controller& controller)
+			: controller_(controller)
+		{
+			clear();
+		}
+
+		void set(const tclick& _click)
+		{
+			VALIDATE(_click.workout_at_in_page >= 0, null_str);
+			if (_click.workout_at_in_page < fake_workout_min) {
+				VALIDATE(_click.workout_at_in_page < controller_.workout_mat2s_.vsize, null_str);
+
+			} else {
+				VALIDATE(_click.workout_at_in_page <= fake_workout_max, null_str);
+			}
+			
+			VALIDATE(_click.type >= 0 && _click.type < clicktype_count, null_str);
+			if (_click.type == clicktype_btn) {
+				VALIDATE(is_my_btn_all(_click.ctx), null_str);
+			}
+			click = _click;
+		}
+
+		void clear()
+		{
+			click.workout_at_in_page = nposm;
+			click.type = nposm;
+			click.ctx = nposm;
+		}
+		bool valid() const { return click.ctx != nposm; }
+
+		bool in_progressbar() const { return click.type == clicktype_btn && click.ctx == pl_btn_progressbar; }
+
+	public:
+		tclick click;
+
+	private:
+		health_controller& controller_;
+	};
+	tinterest_hiting interest_hiting_;
+
+	class thide_cairo_share_lock
+	{
+	public:
+		thide_cairo_share_lock(health_controller& controller)
+			: controller_(controller)
+		{
+			VALIDATE(!controller_.hide_cairo_share_, null_str);
+			controller_.hide_cairo_share_ = true;
+		}
+
+		~thide_cairo_share_lock()
+		{
+			VALIDATE(controller_.hide_cairo_share_, null_str);
+			controller_.hide_cairo_share_ = false;
+		}
+
+	private:
+		health_controller& controller_;
+	};
+	bool hide_cairo_share_;
+
+	tmat_loader mat_loader_;
+};
+
+#endif

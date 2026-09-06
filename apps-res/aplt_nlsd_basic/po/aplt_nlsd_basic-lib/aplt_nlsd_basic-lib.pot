@@ -1,0 +1,179 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: aplt_nlsd_basic-lib\n"
+"POT-Creation-Date: 2026-02-26 11:26+0800\n"
+"PO-Revision-Date: 2016-01-03 20:34+0800\n"
+"Last-Translator: service <service@leagor.com>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-KeywordsList: _;vgettext2\n"
+"X-Poedit-Basepath: ../../../..\n"
+"X-Poedit-SearchPath-0: apps-res/aplt_nlsd_basic/lua\n"
+"X-Poedit-SearchPath-1: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib\n"
+"X-Poedit-SearchPath-2: apps-src/apps/libnlsd_basic\n"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:27
+msgid "name^base_lamp_v1"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:52
+msgid "Basic"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:62
+msgid "Driver"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:63
+msgid "More"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:123
+msgid "driver^remark"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:158
+msgid "Copyright"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:389
+msgid "It has been set. To confirm whether the set was successful, you can exit the applet and then enter it again to check whether the thresholds displayed for the two buttons here match what was previously set."
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:398
+msgid "$threshold seconds"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:430
+msgid "Value cannot be empty"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:435
+msgid "Value type must be $type"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:438
+msgid "The value needs to be in the range of [$min, $max]"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/lua/main.lua:37
+msgid "task^turn_off"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:1
+msgid "Baudrate"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:3
+msgid "Button press threshold"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:5
+msgid "Longpress threshold"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:7
+msgid "Non power"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:9
+msgid "Power"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:11
+msgid "Product"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:13
+msgid "Serial"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:15
+msgid "Set threshold"
+msgstr ""
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:17
+msgid "module^base"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/block_task.cpp:45
+#: apps-src/apps/libnlsd_basic/block_task.cpp:62
+#: apps-src/apps/libnlsd_basic/block_task.cpp:70
+msgid "It is not current base driver."
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:346
+msgid "manufacturer code"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:347
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:360
+msgid "According to the $field, the control board is not a Nulandston product."
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:359
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:365
+msgid "product code"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:366
+msgid "A fatal error has occurred. During operation, the product code in the control board has changed."
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:436
+msgid "Automatic light off has been canceled"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:473
+msgid "suspended the current scene '$scene'"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:476
+msgid "Resumed the current scene '$scene'"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:480
+msgid "Switched to the scene '$scene'"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:486
+msgid "Switch scene failed: $err_msg"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:519
+msgid "Privacy protection is disabled."
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:522
+msgid "Privacy protection is enabled."
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:530
+msgid "Failed to enter the lecture listening state. There must be at least one valid courseware in the courselist."
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:537
+msgid "Exited the lecture listening state."
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:558
+msgid "Lamp(V1)"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:562
+msgid "Doll(V1)"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:567
+msgid "Control board(V$ver)"
+msgstr ""
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:707
+msgid "[NLSD]Unsupport SN: $sn"
+msgstr ""

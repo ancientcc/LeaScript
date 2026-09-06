@@ -1,0 +1,5 @@
+This directory contains all kinds of certificate, license and agreement.
+
+If it is base text, in order to let Rose read directly, files need to be encoded in UTF-8.
+
+[**&expl##@]答案解析[/**&expl##@](换行)。经常出现[**&expl]变成了[/**&expl]。出现了前缀、后缀都是[/**&expl]

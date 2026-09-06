@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.leagor.studio">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!--
+    iaccess on android5.1(hwit X5), if no this permission, maybe result:
+    JNI DETECTED ERROR IN APPLICATION: JNI CallStaticVoidMethod called with pending exception 'java.lang.SecurityException' thrown in unknown throw location!
+    -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- ====== 录屏相关3权限 ====== -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--app extra uses-permission will insert after it!-->
+
+    <!-- Why need to set 'extractNativeLibs', refer to https://blog.csdn.net/z936689039/article/details/122402772 -->
+    <application
+        android:requestLegacyExternalStorage="true"
+        android:allowBackup="true"
+        android:extractNativeLibs="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.App">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
+        <!--
+        Why add android:configChanges. In some device, changeOrientation cannot change, and report below error:
+        W/WindowManager(515): Force clearing orientation change: Window{42f36b58 u0 com.leagor.sleep}
+        Have to use it, and disable pause/resume when changeOrientaion. I hope someone to fix it, and git rid of android:configChanges.
+        !-->
+        <service
+            android:name="org.libsdl.app.ForOnDestroyService"
+            android:enabled="true" />
+        <service
+            android:name="org.libsdl.app.UpdateService"
+            android:enabled="true" />
+        <!-- 录屏服务 -->
+        <service
+            android:name="org.libsdl.app.ScreenRecordingService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+
+        <activity android:name=".app"
+            android:exported="true"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|density|layoutDirection|colorMode|fontScale|fontWeightAdjustment">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--app extra receiver will insert after it!-->
+    </application>
+
+</manifest>

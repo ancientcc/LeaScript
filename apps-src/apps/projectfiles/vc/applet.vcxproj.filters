@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="rose_lua">
+      <UniqueIdentifier>{69c51871-c6ea-4dfb-9016-db6b242a5270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_basic">
+      <UniqueIdentifier>{0FD619AF-20F0-4205-9E4A-3B33FB33ABC7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_basic\lua">
+      <UniqueIdentifier>{D40A5038-B68E-4282-914B-F122894BDE9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_khome">
+      <UniqueIdentifier>{E275237B-D1F6-4A83-BA6E-AA28BC01C852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_khome\lua">
+      <UniqueIdentifier>{215AEA76-B479-4442-99F6-DB1D0516945E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_nlsd_basic">
+      <UniqueIdentifier>{3B249048-899B-4F3D-828F-29E20B145436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_nlsd_basic\lua">
+      <UniqueIdentifier>{D4C404BE-2995-4666-9CB7-A6A7E3459018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_khomelua">
+      <UniqueIdentifier>{7930E6CC-025D-435C-88BB-4930C5A77594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_khomelua\lua">
+      <UniqueIdentifier>{2E64A2AF-D788-411D-8619-4344CC0261BA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_basiclua">
+      <UniqueIdentifier>{607F9594-5E0D-45B9-AB7B-1F2BB9E39E5F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aplt_leagor_basiclua\lua">
+      <UniqueIdentifier>{0D0C469D-BF62-49AE-BEC9-782CC7879363}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\apps-res\data\core\lua\core.lua">
+      <Filter>rose_lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\data\core\lua\package.lua">
+      <Filter>rose_lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\data\core\lua\std.lua">
+      <Filter>rose_lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_basic\lua\home.lua">
+      <Filter>aplt_leagor_basic\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_basic\lua\main.lua">
+      <Filter>aplt_leagor_basic\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_basic\settings.cfg">
+      <Filter>aplt_leagor_basic</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khome\lua\home.lua">
+      <Filter>aplt_leagor_khome\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khome\lua\main.lua">
+      <Filter>aplt_leagor_khome\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khome\settings.cfg">
+      <Filter>aplt_leagor_khome</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khome\lua\query.lua">
+      <Filter>aplt_leagor_khome\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khome\lua\restaurant.lua">
+      <Filter>aplt_leagor_khome\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khome\lua\face.lua">
+      <Filter>aplt_leagor_khome\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khome\lua\posture.lua">
+      <Filter>aplt_leagor_khome\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_nlsd_basic\lua\home.lua">
+      <Filter>aplt_nlsd_basic\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_nlsd_basic\lua\main.lua">
+      <Filter>aplt_nlsd_basic\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_nlsd_basic\settings.cfg">
+      <Filter>aplt_nlsd_basic</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khomelua\lua\home.lua">
+      <Filter>aplt_leagor_khomelua\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khomelua\lua\main.lua">
+      <Filter>aplt_leagor_khomelua\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_khomelua\settings.cfg">
+      <Filter>aplt_leagor_khomelua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_basiclua\lua\home.lua">
+      <Filter>aplt_leagor_basiclua\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_basiclua\lua\main.lua">
+      <Filter>aplt_leagor_basiclua\lua</Filter>
+    </None>
+    <None Include="..\..\..\..\apps-res\aplt_leagor_basiclua\settings.cfg">
+      <Filter>aplt_leagor_basiclua</Filter>
+    </None>
+  </ItemGroup>
+</Project>

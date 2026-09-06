@@ -1,0 +1,941 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="libavcodec">
+      <UniqueIdentifier>{e8a8a4ef-25b8-4067-af38-a9ac00504573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libavformat">
+      <UniqueIdentifier>{5a585f7f-9b2b-48cf-9815-bc0bcc30b2e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libavutil">
+      <UniqueIdentifier>{e67fb06c-4ad0-4aaf-b667-809c6775ea21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libavcodec\x86">
+      <UniqueIdentifier>{c186593e-84c1-461b-a406-6682de80a096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libavutil\x86">
+      <UniqueIdentifier>{87b69b67-7ad4-4c1a-bfe2-023628340869}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\dummy_funcs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aac_ac3_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aac_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacadtsdec.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacps_float.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacpsdsp_float.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacsbr.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aactab.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\ac3tab.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\allcodecs.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\avdct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\avfft.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\avpacket.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bitstream.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bitstream_filter.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bitstream_filters.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\cabac.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\cbrt_data.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\codec_desc.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\d3d11va.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dct32_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dct32_float.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dirac.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dv_profile.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_fixed_32.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_float.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_init_table.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\flac.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\flac_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\flacdata.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\golomb.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_cabac.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_cavlc.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_direct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_loopfilter.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_mb.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_parse.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_picture.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_ps.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_refs.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_sei.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_slice.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264chroma.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264data.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264dec.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264dsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264idct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264pred.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264qpel.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h2645_parse.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\imgconvert.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jni.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\kbdwin.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mathtables.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mdct_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mdct_fixed_32.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mdct_float.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mediacodec.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg4audio.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg12data.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudio.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudio_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodata.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodec_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodecheader.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp_data.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp_float.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\options.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\opus.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\opus_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pcm.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\profiles.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pthread.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pthread_frame.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pthread_slice.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\qsv_api.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\raw.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\rdft.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sinewin.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sinewin_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\startcode.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbis.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbis_data.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbis_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbisdec.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp3.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp3_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp8.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp8_parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\xiph.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\aacdec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\allformats.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\apetag.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\avio.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\aviobuf.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\cutils.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\dump.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\flac_picture.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\flacdec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\format.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\id3v1.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\id3v2.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\img2.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\isom.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\matroskadec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\metadata.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mov.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mov_chan.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mp3dec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mux.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggdec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsecelt.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsedaala.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsedirac.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseflac.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseogm.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseopus.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseskeleton.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsespeex.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsetheora.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsevorbis.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsevp8.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\os_support.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\protocols.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\qtpalette.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\rawdec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\replaygain.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\riff.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\riffdec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\rmsipr.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\url.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\vorbiscomment.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\wavdec.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\matroska.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\aes.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\aes_ctr.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\avstring.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\base64.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\bprint.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\buffer.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\camellia.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\channel_layout.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\color_utils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\crc.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\dict.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\display.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\downmix_info.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\error.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\eval.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\fifo.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\file_open.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\frame.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\hwcontext.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\imgutils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\integer.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\intmath.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\lfg.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\log.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\log2_tab.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\mastering_display_metadata.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\mathematics.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\md5.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\mem.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\opt.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\parseutils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\pixdesc.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\pixelutils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\random_seed.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\rational.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\reverse.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\samplefmt.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\sha.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\stereo3d.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\tea.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\threadmessage.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\time.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\timecode.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\twofish.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\utils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\constants.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\dct_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fft_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\flacdsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_intrapred_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_qpel.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264chroma_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264dsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\hpeldsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\mpegaudiodsp.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\sbrdsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\fixed_dsp_init.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\lls_init.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp56rac.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\aacpsdsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\utils.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\decode.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\encode.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\utils.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\options.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\cpu.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\fixed_dsp.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\float_dsp.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\float_dsp_init.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sbrdsp_fixed.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sbrdsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\idctdsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fdctdsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pixblockdsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aac_adtstoasc_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\chomp_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dump_extradata_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dca_core_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\extract_extradata_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_mp4toannexb_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\hevc_mp4toannexb_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\imx_dump_header_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mjpeg2jpeg_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mjpega_dump_header_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mp3_header_decompress_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg4_unpack_bframes_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\movsub_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\noise_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\null_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\remove_extradata_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp9_raw_reorder_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp9_superframe_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp9_superframe_split_bsf.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg12framerate.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jfdctint.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jfdctfst.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\faandct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fdctdsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\error_resilience.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\videodsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\me_cmp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\videodsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\idctdsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jrevdct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\simple_idct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\faanidct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\xvididct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\me_cmp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\snow_dwt.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\pixblockdsp_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\slicethread.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\snowdsp.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\snow.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\hpeldsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\xvididct_init.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\spherical.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\lzo.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\dv.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\hwcontext_d3d11va.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\hwcontext_dxva2.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\imgutils_init.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\pixelutils_init.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\cpu.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\dct32.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fft.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fpel.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_chromamc.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_chromamc_10bit.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_deblock.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_deblock_10bit.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_idct.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_idct_10bit.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_intrapred.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_intrapred_10bit.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_qpel_8bit.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_qpel_10bit.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_weight.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_weight_10bit.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\hpeldsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\imdct36.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\qpel.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\sbrdsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\vorbisdsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\cpuid.asm">
+      <Filter>libavutil\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\fixed_dsp.asm">
+      <Filter>libavutil\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\float_dsp.asm">
+      <Filter>libavutil\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\lls.asm">
+      <Filter>libavutil\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\flacdsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\aacpsdsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\emms.asm">
+      <Filter>libavutil\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\idctdsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\simple_idct.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\simple_idct10.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\me_cmp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\pixblockdsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\videodsp.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\xvididct.asm">
+      <Filter>libavcodec\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\imgutils.asm">
+      <Filter>libavutil\x86</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\pixelutils.asm">
+      <Filter>libavutil\x86</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\external\3rdparty\third_party\ffmpeg\ffmpeg.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

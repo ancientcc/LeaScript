@@ -1,0 +1,107 @@
+# Chinese translations for MiKTeX package.
+# Copyright (C) 2021 THE MiKTeX'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the MiKTeX package.
+# Christian Schenk <cs@miktex.org>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MiKTeX 21.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-27 19:14+0100\n"
+"PO-Revision-Date: 2021-01-28 12:16+0100\n"
+"Last-Translator: Christian Schenk <cs@miktex.org>\n"
+"Language-Team: Chinese (simplified)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: SetupService.cpp:1960
+#, fuzzy
+msgid "The PATH variable does not include the MiKTeX executables."
+msgstr "PATH 变量不含有 MiKTeX 可执行文件。"
+
+#: SetupService.cpp:1961
+#, fuzzy
+msgid ""
+"Find the directory which contains the MiKTeX executables and add it to the "
+"environment variable PATH."
+msgstr ""
+"查找 MiKTeX 可执行文件所在的目录并将其添加到 PATH 环境变量。"
+
+#: SetupService.cpp:1976 SetupService.cpp:2008
+#, fuzzy
+msgid "So far, no MiKTeX administrator has checked for updates."
+msgstr "截至目前，尚未有 MikTeX 管理员检查更新。"
+
+#: SetupService.cpp:1977 SetupService.cpp:1986 SetupService.cpp:1999
+#: SetupService.cpp:2009 SetupService.cpp:2018
+#, fuzzy
+msgid "Switch to MiKTeX administrator mode and check for updates."
+msgstr "切换到 MiKTeX 管理员模式并检查更新。"
+
+#: SetupService.cpp:1985 SetupService.cpp:2017
+msgid ""
+"It has been a long time since a MiKTeX administrator has checked for updates."
+msgstr ""
+
+#: SetupService.cpp:1998 SetupService.cpp:2037
+#, fuzzy
+msgid "User/administrator updates are out-of-sync."
+msgstr "用户/管理员更新未同步。"
+
+#: SetupService.cpp:2028
+msgid "So far, you have not checked for updates as a MiKTeX user."
+msgstr ""
+
+#: SetupService.cpp:2029 SetupService.cpp:2038 SetupService.cpp:2048
+msgid "Stay in MiKTeX user mode and check for updates."
+msgstr ""
+
+#: SetupService.cpp:2047
+msgid ""
+"It has been a long time since you have checked for updates as a MiKTeX user."
+msgstr ""
+
+#: SetupService.cpp:2064
+#, fuzzy
+msgid "So far, you have not checked for MiKTeX updates."
+msgstr "截至目前，您尚未检查 MikTeX 更新。"
+
+#: SetupService.cpp:2065 SetupService.cpp:2074
+#, fuzzy
+msgid "Check for MiKTeX updates."
+msgstr "检查 MiKTeX 更新。"
+
+#: SetupService.cpp:2073
+msgid "It has been a long time since you have checked for MiKTeX updates."
+msgstr ""
+
+#: SetupService.cpp:2088
+#, fuzzy
+msgid "Root directory #{0} is covered by root directory #{1}."
+msgstr "根目录 #{0} 由根目录 #{1} 根目录涵盖。"
+
+#: SetupService.cpp:2097
+#, fuzzy
+msgid "Root directory #{0} covers root directory #{1}."
+msgstr "根目录 #{0} 涵盖根目录 #{1}。"
+
+#: SetupService.cpp:2118
+msgid "Package {0} has been tampered with."
+msgstr ""
+
+#: win/winSetupService.cpp:145
+#, fuzzy
+msgid "MiKTeX Console helps you to manage your MiKTeX configuration."
+msgstr "MiKTeX Console 帮助您管理您的 MiKTeX 配置。"
+
+#: win/winSetupService.cpp:162
+#, fuzzy
+msgid "TeXworks is a TeX front-end program."
+msgstr "TeXworks 是一个 TeX 前端程序。"
+
+#: win/winSetupService.cpp:637
+#, fuzzy
+msgid "MiKTeX is a scalable TeX distribution for Windows, Linux and macOS."
+msgstr "MiKTeX 是 Windows、Linux 和 MacOS 的一个可扩展的 TeX 发行版。"

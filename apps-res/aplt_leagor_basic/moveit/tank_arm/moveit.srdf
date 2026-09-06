@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="tank_arm">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="robot_arm">
+        <chain base_link="arm_Link" tip_link="grasping_frame" />
+    </group>
+    <group name="robot_claw">
+        <joint name="d" />
+        <joint name="e" />
+        <joint name="f" />
+        <joint name="h" />
+    </group>
+    <group name="robot_pan">
+        <chain base_link="pan_Link" tip_link="pan_frame" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="arm_init" group="robot_arm">
+        <joint name="a" value="0" />
+        <joint name="b" value="0" />
+        <joint name="c" value="0" />
+    </group_state>
+    <group_state name="claw_open" group="robot_claw">
+        <joint name="d" value="-0.6" />
+        <joint name="f" value="0" />
+    </group_state>
+    <group_state name="claw_close" group="robot_claw">
+        <joint name="d" value="0.2282" />
+        <joint name="f" value="0" />
+    </group_state>
+    <group_state name="pan_init" group="robot_pan">
+        <joint name="x" value="0" />
+        <joint name="y" value="-0.1492" />
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="robot_eff" parent_link="grasping_frame" group="robot_claw" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="Link1" link2="Link2" reason="Adjacent" />
+    <disable_collisions link1="Link1" link2="arm_Link" reason="Adjacent" />
+    <disable_collisions link1="Link1" link2="base_link" reason="Never" />
+    <disable_collisions link1="Link1" link2="pan_Link" reason="Never" />
+    <disable_collisions link1="Link1" link2="pan_Link1" reason="Never" />
+    <disable_collisions link1="Link1" link2="pan_link2" reason="Never" />
+    <disable_collisions link1="Link2" link2="Link3" reason="Adjacent" />
+    <disable_collisions link1="Link2" link2="arm_Link" reason="Never" />
+    <disable_collisions link1="Link2" link2="base_link" reason="Never" />
+    <disable_collisions link1="Link2" link2="left_Link" reason="Never" />
+    <disable_collisions link1="Link2" link2="left_claw_Link" reason="Never" />
+    <disable_collisions link1="Link2" link2="pan_Link" reason="Never" />
+    <disable_collisions link1="Link2" link2="pan_Link1" reason="Never" />
+    <disable_collisions link1="Link2" link2="pan_link2" reason="Never" />
+    <disable_collisions link1="Link2" link2="right_Link" reason="Never" />
+    <disable_collisions link1="Link2" link2="right_claw_Link" reason="Never" />
+    <disable_collisions link1="Link3" link2="left_Link" reason="Adjacent" />
+    <disable_collisions link1="Link3" link2="left_claw_Link" reason="Never" />
+    <disable_collisions link1="Link3" link2="pan_Link" reason="Never" />
+    <disable_collisions link1="Link3" link2="pan_Link1" reason="Never" />
+    <disable_collisions link1="Link3" link2="pan_link2" reason="Never" />
+    <disable_collisions link1="Link3" link2="right_Link" reason="Adjacent" />
+    <disable_collisions link1="Link3" link2="right_claw_Link" reason="Never" />
+    <disable_collisions link1="arm_Link" link2="base_link" reason="Adjacent" />
+    <disable_collisions link1="arm_Link" link2="pan_Link" reason="Never" />
+    <disable_collisions link1="arm_Link" link2="pan_Link1" reason="Never" />
+    <disable_collisions link1="arm_Link" link2="pan_link2" reason="Never" />
+    <disable_collisions link1="base_link" link2="pan_Link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="pan_Link1" reason="Never" />
+    <disable_collisions link1="left_Link" link2="left_claw_Link" reason="Adjacent" />
+    <disable_collisions link1="left_Link" link2="pan_Link" reason="Never" />
+    <disable_collisions link1="left_Link" link2="pan_Link1" reason="Never" />
+    <disable_collisions link1="left_Link" link2="pan_link2" reason="Never" />
+    <disable_collisions link1="left_Link" link2="right_Link" reason="Default" />
+    <disable_collisions link1="left_Link" link2="right_claw_Link" reason="Never" />
+    <disable_collisions link1="left_claw_Link" link2="right_Link" reason="Never" />
+    <disable_collisions link1="pan_Link" link2="pan_Link1" reason="Adjacent" />
+    <disable_collisions link1="pan_Link" link2="pan_link2" reason="Never" />
+    <disable_collisions link1="pan_Link" link2="right_Link" reason="Never" />
+    <disable_collisions link1="pan_Link" link2="right_claw_Link" reason="Never" />
+    <disable_collisions link1="pan_Link1" link2="pan_link2" reason="Adjacent" />
+    <disable_collisions link1="pan_Link1" link2="right_Link" reason="Never" />
+    <disable_collisions link1="pan_link2" link2="right_Link" reason="Never" />
+    <disable_collisions link1="right_Link" link2="right_claw_Link" reason="Adjacent" />
+</robot>

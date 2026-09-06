@@ -1,0 +1,944 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: aplt_leagor_basic-lib\n"
+"Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
+"POT-Creation-Date: 2026-03-02 09:42+0800\n"
+"PO-Revision-Date: 2026-03-02 09:43+0800\n"
+"Last-Translator: \n"
+"Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.8\n"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:56
+msgid "name^base_doll"
+msgstr "玩偶"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:57
+msgid "name^base_wheeltec_box"
+msgstr "WHEELTEC A1"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:58
+msgid "name^base_wheeltec_open"
+msgstr "WHEELTEC C1"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:59
+msgid "name^base_wheeltec_open_m"
+msgstr "WHEELTEC MC1"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:60
+msgid "name^base_rosserial"
+msgstr "Ros Serial"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:61
+msgid "name^base_yahboom"
+msgstr "YahBoom"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:85
+msgid "Basic"
+msgstr "Basic"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:98
+msgid "Driver"
+msgstr "驱动"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:99
+msgid "Navigation"
+msgstr "导航"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:100
+msgid "Speech"
+msgstr "语音"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:101
+msgid "IoT"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:102
+msgid "AI"
+msgstr "AI"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:205
+msgid "driver^remark"
+msgstr ""
+"在Android，如果用的是USB转串口，设备节点ttyUSBn对应哪个设备是不固定的，这里以"
+"USB口路径作为设备标识。为确认某个USB口是哪路径，可用以下方法：插入USB，点击上"
+"面“串口”下拉框，看多出哪个选项，此选项就是该USB口路径。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:215
+msgid "rosserial base help"
+msgstr ""
+"使用rosserial协议传输速度控制命令的底盘。示例：小R科技（深圳）的履带底盘。对"
+"小R底盘，支持机械臂的，波特率选230400。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:226
+msgid "wheeltec_open base help"
+msgstr ""
+"轮趣科技机器人。敞开式安装，相比A系列，更适合开发者调试机器人。对底盘，串口"
+"选“/dev/ttyACM0”，波特率115200。雷达用N10，波特率选230400。因为不带机械臂，机"
+"械臂的串口和波特率值，或和底盘一致，或留空。但“设置”中机械臂驱动须要置空。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:229
+msgid "wheeltec_open_m base help"
+msgstr ""
+"轮趣科技机器人。敞开式安装，带六轴机械臂。对底盘，串口选“/dev/ttyACM0”，波特"
+"率115200。雷达用N10，波特率选230400。对机械臂，串口、波特率要和底盘一样值。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:234
+msgid "wheeltec_box base help"
+msgstr ""
+"轮趣科技机器人。封盒安装。对底盘，串口选“/dev/ttyACM0”，波特率115200。雷达用"
+"N10，波特率选230400。因为不带机械臂，机械臂的串口和波特率值，或和底盘一致，或"
+"留空。但“设置”中机械臂驱动须要置空。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:262
+msgid "yahboom base help"
+msgstr ""
+"亚博科技（深圳）麦克纳姆轮底盘。适配还有较大问题，尤其要调头转向时。有两个原"
+"因，1）给小车一个较小速度时，像(x,y,theta) = (0, 0, 0.524)，这时机器人前面会"
+"长时间不动，有1秒多。2）给定一个速度后，亚博底盘会按着这个速度一直运行下去，"
+"直到发个停止命令，这种机制和设想的会自动停止不一样。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:272
+msgid "doll base help"
+msgstr ""
+"适用于玩偶，台灯，以及windows系统上需要运行坐姿检测、陪伴做操等功能、但没接设"
+"备时场景。工作在不可移动模式。只需填写底盘，至于雷达、机械臂，留空就行。在"
+"windows，没接设备时，底盘串口选一个没在用的，波特率选115200。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:282
+msgid "unknown base help"
+msgstr "未知底盘"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:294
+msgid "Test navigation"
+msgstr "测试导航"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:295
+msgid "navigation^note $ble"
+msgstr ""
+"此版本测试方法：\n"
+"1）单击“$ble”，进度条消失后，机器人开始移动，目标是绑定到“位置”的坐标。导航过"
+"程中，可通过右上角“地图”按钮查看地图。一旦导航成功，计数数值会加一，失败则减"
+"一。如果想中止导航，须关闭小程序当前窗口。当然，还可以是退出小程序。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:323
+msgid "spark help $min_maxtoken"
+msgstr ""
+"语音识别用的是科大讯飞在线语音听写SDK，须要填对APPID参数。要得到这字段，您需"
+"要先在科大讯飞注册一个账号。\n"
+"以下任一字段，修改后，需切到其它页，或退出小程序，才会生效。\n"
+"同时关闭语音识别和提问，可以避免这里的语音驱动去连接外网。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:379
+msgid ">= $maxtoken or -1"
+msgstr ">= $maxtoken或-1"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:395
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:7
+msgid "Device ID"
+msgstr "设备ID"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:394
+msgid "iot help $device_id"
+msgstr ""
+"只支持接入涂鸭平台的传感器，像门铃、门磁、烟雾报警器，等等。技术上，得到传感"
+"器事件用的是涂鸭提供的“云开发”方案。在这里填上云开发授权密钥，以及要接收事件"
+"的传感器“$device_id”。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:457
+msgid "IoT Device ID"
+msgstr "传感器设备ID"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:475
+msgid "Deepseek"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:474
+msgid "ai help $deepseek"
+msgstr ""
+"AI驱动连的是$deepseek大模型，须要填对API key参数。要得到这字段，您需要先在"
+"$deepseek注册一个账号。\n"
+"以下任一字段，修改后，需切到其它页，或退出小程序，才会生效。"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:800
+msgid "Need to set the current map, or have at least one position on the map"
+msgstr "需设置当前地图，或在地图至少有一个位置"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:840
+msgid "Set the position you want to navigate to"
+msgstr "先设置要导航到的位置"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:954
+msgid "No supported iot source"
+msgstr "不支持的IoT设备源"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:65
+msgid "task^grasp"
+msgstr "抓取"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:66
+msgid "task^press_top"
+msgstr "按顶部"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:67
+msgid "task^press_middle"
+msgstr "按壁上"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:68
+msgid "task^move2_task"
+msgstr "移动以及任务"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:69
+msgid "task^exe_task_only"
+msgstr "只执行任务"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:70
+msgid "task^speak_var"
+msgstr "说出变量"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:71
+msgid "task^modify_env_var"
+msgstr "修改环境变量"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:72
+msgid "task^alert"
+msgstr "提醒"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:73
+msgid "task^privacy"
+msgstr "隐私保护"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:74
+msgid "task^base_scene"
+msgstr "切换底盘场景"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:75
+msgid "task^timed_task"
+msgstr "定时任务"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:76
+msgid "task^charge"
+msgstr "充电"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:77
+msgid "task^add_timed_reminder"
+msgstr "添加定时提醒"
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:78
+msgid "task^exam"
+msgstr "制做试卷"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:1
+msgid "Baudrate"
+msgstr "波特率"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:3
+msgid "Client ID"
+msgstr "Client ID"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:5
+msgid "Client Secret"
+msgstr "Client Secret"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:9
+msgid "Millisecond"
+msgstr "毫秒"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:11
+msgid "Motor threshold"
+msgstr "电机运行时长"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:13
+msgid "Position"
+msgstr "位置"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:15
+msgid "Product"
+msgstr "产品"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:17
+msgid "Serial"
+msgstr "串口"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:19
+msgid "Version"
+msgstr "版本"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:21
+msgid "Voice Threshold"
+msgstr "人声阈值"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:23
+msgid "disable_question label"
+msgstr "关闭语音提问"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:25
+msgid "disable_recognition label"
+msgstr "关闭语音识别"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:27
+msgid "goaling_enable label"
+msgstr "开启移动时识别语音"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:29
+msgid "module^base"
+msgstr "底盘"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:31
+msgid "module^laser"
+msgstr "雷达"
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:33
+msgid "module^moveit"
+msgstr "机械臂"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:40
+msgid "revise_essay^start_question"
+msgstr ""
+"身份：资深高中语文老师和专业的高考阅卷组组长 任务：根据作文题目修改我写的作"
+"文 要求：请根据高考评分细则修改我的作文，请从行文、立意、行文结构等关键要素进"
+"行评价并修改我的作文，请从中找出最大问题，并针对这个问题给出专业提升意见。作"
+"文题目是“{作文题目}”\n"
+"{作文内容}"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:40
+msgid "revise_essay^start_tip"
+msgstr "一般第一个提问"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:41
+msgid "revise_essay^main_problem_question"
+msgstr "请举例说明如何“{强化审题训练，捉住逻辑链}”"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:41
+msgid "revise_essay^main_problem_tip"
+msgstr "知道作文最大问题后，如何做，才能加深理解"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:42
+msgid "revise_essay^method_example_question"
+msgstr ""
+"运用你所提炼的{方法论（即上述四个步骤）}，能否结合高考真题作文进行同样的拆分"
+"讲解，做到举一反三，加深我对此方法理解"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:42
+msgid "revise_essay^method_example_tip"
+msgstr "进一步理解，AI总结出的解决最大问题方法"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:43
+msgid "revise_essay^make_better_question"
+msgstr "关于以上我们的讨论，为了作文分数提升，你觉得我还需要问你什么问题。"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:43
+msgid "revise_essay^make_better_tip"
+msgstr "看还能有哪些提问"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:46
+msgid "revise essay's reference"
+msgstr ""
+"如何用AI批改作文视频\n"
+"https://www.bilibili.com/video/BV1kx8Fz8Egg"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:103
+msgid "revise_essay^storyboards_question"
+msgstr ""
+"我想做一个关于古诗《{古诗名称}》的AI视频，帮我设计一下每句古诗的分镜脚本，包"
+"括景别，运镜，文案，画面，时间轴。以表格的形式输出。"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:103
+msgid "revise_essay^storyboards_tip"
+msgstr "生成分镜场景"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:104
+msgid "revise_essay^painting_prompts_question"
+msgstr ""
+"请根据Midjourney语法规则，详细上面表格中的每一个时间轴对应的分镜脚本，包含画"
+"面细节、风格参数与镜头语言，生成Midjourney绘画的中、英文提示词。每个提示词都"
+"加上“卡通风格，3d皮克斯风格”，每个画在都要出现一个穿粉色唐装服饰的女孩，并且"
+"保持人物一致，风格一致，着装一致。注意，表格中每个时间轴都要生成。"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:104
+msgid "revise_essay^painting_prompts_tip"
+msgstr "把分镜生成为AI绘画提示词，便于AI工具中生成"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:107
+msgid "Make poem video's reference"
+msgstr ""
+"用DeepSeek做儿童启蒙古诗词视频\n"
+"https://www.bilibili.com/video/BV1pCQBYUEqd"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:172
+msgid "Revise essay"
+msgstr "批改作文"
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:175
+msgid "Make poem video"
+msgstr "制做儿童古诗视频"
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:78
+msgid "User canceled the question."
+msgstr "用户取消问题"
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:81
+msgid "reply error: $err"
+msgstr "应答错误：$err"
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:83
+msgid "generate summary fail: $err"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:163
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:263
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:396
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:476
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:665
+#: apps-src/apps/libleagor_basic/iot/leagor_iot.cpp:214
+msgid "Invalid json request"
+msgstr "无效json请求"
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:721
+msgid "'API key' cannot be empty."
+msgstr "“API key”不能是空。"
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:828
+msgid "deepseek^conversation summary, $summary"
+msgstr "你是DeepSeek助手。当前对话摘要：$summary"
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:934
+msgid "deepseek^conversation summary prompt, $history"
+msgstr ""
+"请将以下对话压缩为100字以内的摘要，保留重要信息：\n"
+"$history\n"
+"摘要："
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:938
+msgid "deepseek^conversation summary role"
+msgstr "你是一个专业的对话摘要生成器"
+
+#: apps-src/apps/libleagor_basic/base/leagor_base.cpp:231
+msgid "[Leagor]Unsupport SN: $sn"
+msgstr "[Leagor]不支持的序列号：$sn"
+
+#: apps-src/apps/libleagor_basic/dcamera/leagor_dcamera.cpp:92
+msgid "[Leagor]because load OrbbecSDK.dll, don't support dcamera remark"
+msgstr ""
+"在windows系统，不清楚加载OrbbecSDK.dll要依赖什么，在一些电脑会失败。为不让出"
+"问题，发布windows下的Basic时，不包含深度相机功能。若要有深度相机功能，可做以"
+"下修改。\n"
+"1、在Linker，增加依赖：../../../linker/windows/lib/x64/OrbbecSDK.lib\n"
+"2、编译orbbec下的ob_camera_node.cpp、ob_camera_node_driver.cpp、"
+"orbbec_ros.cpp、ros_sensor.cpp、utils.cpp。\n"
+"3、leagor_dcamera.cpp的tleagor_dcamera::tleagor_dcamera，在_WIN32分支，让和其"
+"它平台一样执行“device_ = orbbec_create_device()”。\n"
+"4、leagor_dcamera.cpp的aplt_create_dcamera_slot，support_windows改为值为"
+"true。"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:175
+msgid "Voice is to long"
+msgstr "一次说得太长，记不住"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:219
+msgid "$hour hour $min min $sec sec"
+msgstr "$hour时$min分$sec秒"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:255
+msgid "$time, go to $position $timing."
+msgstr "$time，去$position|$timing。"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:266
+msgid "recently $max_speak_tasks are,"
+msgstr "最近$max_speak_tasks个是，"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:268
+msgid "There are $tasks timing tasks today. $recently"
+msgstr "今天还有$tasks个定时任务。$recently"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:271
+msgid "There are no timing tasks today."
+msgstr "今天已没有定时任务。"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:336
+msgid ""
+"Maximum times of speech recognition SDK can be used per day has been reached"
+msgstr "已到达语音识别SDK每天使用次数上限"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:338
+msgid "Please check if the APPID used to access iFlytek is correct"
+msgstr "请检查用于访问讯飞的APPID是否正确"
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:502
+msgid "[Leagor]load xfyun's $so(libmsc) fail"
+msgstr "[Leagor]语音驱动。加载科大讯飞的$so(libmsc)失败"
+
+#: apps-src/apps/libleagor_basic/task/aiagent_task.cpp:223
+msgid "An AI agent task is currently running."
+msgstr "正有个AI agent作务在运行。"
+
+#: apps-src/apps/libleagor_basic/task/aiagent_task.cpp:227
+msgid "'question' cannot be empty"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:30
+msgid "add_timed_reminder prompt^study #0"
+msgstr ""
+"浙江学校，初三第一学期，学期过了一半，要物理考试。做个从今天10点开始，后面每"
+"天从8点起，连续2天的学习计划。每天最晚到21点。每个时间段间隔不要小于1小时。时"
+"间要连续，需列出不学习的休息时间，但小于半小时的不要列。做成三列表格，第一列"
+"是数字，像1表示第1天，2表示第2天，依此类推。第二列是时间段，类似8:00-9:30。第"
+"三列是要做的事，描述事时不要超过40个字。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:30
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:31
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:32
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:33
+msgid "add_timed_reminder prompt's note^3 columns"
+msgstr "对“做成三列表格”后内容，除修改“40”这个字数外，不要修改其它的。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:31
+msgid "add_timed_reminder prompt^study #1"
+msgstr ""
+"浙江学校，初三第一学期，学期差不多过了一半，要物理考试。做个从明天开始，连续2"
+"天的学习计划。每天从8点开始，最晚到21点。每个时间段间隔不要小于1小时。时间要"
+"连续，需列出不学习的休息时间，但小于半小时的不要列。做成三列表格，第一列是数"
+"字，像2表示明天，3表示后天，依此类推。第二列是时间段，类似8:00-9:30。第三列是"
+"要做的事，描述事时不要超过40个字。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:32
+msgid "add_timed_reminder prompt^rehabilitation #0"
+msgstr ""
+"出现急性腰扭伤。做个从今天10点开始，后面每天从7点起，连续3天的康复计划。每天"
+"最晚到22点，各时间段要连续。做成三列表格，第一列是数字，像1表示第1天，即今"
+"天，2表示第2天，依此类推。第二列是时间段，类似8:00-9:30。第三列是要做的事，描"
+"述事时不要超过40个字。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:33
+msgid "add_timed_reminder prompt^rehabilitation #1"
+msgstr ""
+"出现急性腰扭伤。做个从明天开始，连续3天的康复计划。每天从7点开始，最晚到22"
+"点。各时间段要连续。做成三列表格，第一列是数字，像1表示第一天，即今天，2表示"
+"明天，3表示后天，依此类推。第二列是时间段，类似8:00-9:30。第三列是要做的事，"
+"描述事时不要超过40个字。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:45
+msgid "No questions are available."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:52
+msgid "exam prompt^math, full exam"
+msgstr ""
+"注意，此试卷是高三数学，所有题型汇集在一段连续的文字中。请生成10道选择题，6道"
+"填空题，5道解答题，其中至少两道解答题的小题同时有选择题、填空题，以及不是这两"
+"种的。对有小题的解答题，大题题目中不要出现小题题目。每种大题型中，至少有一道"
+"的题目含有插图。\n"
+"回答只须填写这一段文字，不要加其它的。把这段文字放在代码块，方便复制原始数"
+"据。为美观，题目、解析、解答过程等长点内容用上latex布局命令，像"
+"\\begin{align*}、\\begin{itemize}、\\begin{enumerate}等。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:53
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:61
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:66
+msgid "exam note^math"
+msgstr ""
+"不要修改这两部分内容：一是“注意，此试卷是”的前面部分，二是从“回答只须填写这一"
+"段文字”开始到结尾。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:56
+msgid "exam prompt^math, choice only"
+msgstr ""
+"注意，此试卷是高三数学，所有题型汇集在一段连续的文字中。请生成5道选择题。其"
+"中，至少有一道的题目含有插图。\n"
+"回答只须填写这一段文字，不要加其它的。把这段文字放在代码块，方便复制原始数"
+"据。为美观，题目、解析、解答过程等长点内容用上latex布局命令，像"
+"\\begin{align*}、\\begin{itemize}、\\begin{enumerate}等。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:57
+msgid "exam note^math, choice only"
+msgstr ""
+"不要修改这两部分内容：一是“注意，此试卷是”的前面部分，二是从“回答只须填写这一"
+"段文字”开始到结尾。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:60
+msgid "exam prompt^math, solving only"
+msgstr ""
+"注意，此试卷是高三数学，所有题型汇集在一段连续的文字中。请生成4道解答题。其"
+"中，至少有一道的题目含有插图。\n"
+"回答只须填写这一段文字，不要加其它的。把这段文字放在代码块，方便复制原始数"
+"据。为美观，题目、解析、解答过程等长点内容用上latex布局命令，像"
+"\\begin{align*}、\\begin{itemize}、\\begin{enumerate}等。"
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:65
+msgid "exam prompt^other, full exam"
+msgstr ""
+"注意，此试卷是<科目>，所有题型汇集在一段连续的文字中。请生成10道选择题，6道填"
+"空题，5道解答题，其中至少两道解答题的小题同时有选择题、填空题，以及不是这两种"
+"的。对有小题的解答题，大题题目中不要出现小题题目。每种大题型中，至少有一道的"
+"题目含有插图。\n"
+"回答只须填写这一段文字，不要加其它的。把这段文字放在代码块，方便复制原始数"
+"据。为美观，题目、解析、解答过程等长点内容用上latex布局命令，像"
+"\\begin{align*}、\\begin{itemize}、\\begin{enumerate}等。"
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:51
+msgid "This applet is not set to current AI driver."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:72
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:388
+msgid "Missing input var: $var"
+msgstr "缺少输入变量：$var"
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:80
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:393
+msgid "Input var($var) must be single var"
+msgstr "输入变量($var)必须是单变量"
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:86
+msgid "Input var($var)'s type must be $type"
+msgstr "输入变量($var)须是$type类型"
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:93
+msgid "Input var($var)'s cannot be empty"
+msgstr "输入变量($var)不能是空"
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:115
+msgid "$file isn't a valid image file"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:74
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:118
+msgid "No var: $var"
+msgstr "缺少变量：$var"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:84
+msgid "var($var) must be single var"
+msgstr "变量($var)必须是单变量"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:87
+msgid "var($var)'s type must be string"
+msgstr "变量($var)的类型必须是string"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:94
+msgid "var($var)'s value is $val, but curmap isn't existed"
+msgstr "变量($var)值是$val，必须地图不存在该位置"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:110
+msgid "var($var)'s value is $val, but this task isn't existed"
+msgstr "变量($var)值是$val，但找不到该任务"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:139
+msgid "Executing task, and please wait"
+msgstr "正执行任务，请等待"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:140
+msgid "Task finished"
+msgstr "任务结束"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:178
+msgid "val^true"
+msgstr "真"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:178
+msgid "val^false"
+msgstr "假"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:200
+msgid "The $index variable, Type: $type, Value: $val."
+msgstr "第$index个变量，类型：$type，值：$val。"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:206
+msgid "$count variables. $vars"
+msgstr "$count个变量。$vars"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:241
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:669
+msgid "Unknonw task: $task"
+msgstr "未知任务：$task"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:399
+msgid "Input var($var)'s type must be string"
+msgstr "输入变量($var)须是字符串类型"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:406
+msgid "var($var) isn't environment variable."
+msgstr "变量($var)不是环境变量"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:416
+msgid ""
+"var($var) is an environment variable, but it is automatically updated by the "
+"system and cannot be modified by the user."
+msgstr "变量($var)是环境变量，但由系统自动更新，用户不能改"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:553
+msgid "Unsupported action: $action."
+msgstr "不支持操作：$action。"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:556
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:570
+msgid "Switch scene failed. $err_msg"
+msgstr "切换场景失败。$err_msg"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:582
+msgid "$tag. $reason"
+msgstr "$tag。$reason"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:629
+msgid "Add timed task failed"
+msgstr "添加定时任务失败"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:631
+msgid "'task_cfg' cannot be empty"
+msgstr "“task_cfg”不能是空"
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:638
+msgid "'task_cfg' is invalid"
+msgstr "“task_cfg”无效格式"
+
+#~ msgid "task^speak"
+#~ msgstr "播放语音"
+
+#~ msgid "exam note^math, solving only"
+#~ msgstr ""
+#~ "不要修改这两部分内容：一是“注意，此试卷是”的前面部分，二是从“回答只须填写"
+#~ "这一段文字”开始到结尾。"
+
+#~ msgid "exam note^other, full exam"
+#~ msgstr ""
+#~ "不要修改这两部分内容：一是“注意，此试卷是”的前面部分，二是从“回答只须填写"
+#~ "这一段文字”开始到结尾。<科目>改成你想要的得到题目的科目，像初高数学。"
+
+#, fuzzy
+#~| msgid "task^add_timed_reminder"
+#~ msgid "add_timed_reminder prompt's note #1"
+#~ msgstr "添加定时提醒"
+
+#~ msgid "An unknown error occurred while handling the question"
+#~ msgstr "处理提问时出现未知错误"
+
+#~ msgid ""
+#~ "The three fields of service authentication information used to access the "
+#~ "iFLYTEK Spark model must not empty"
+#~ msgstr "用于访问讯飞星火大模型的服务认证信息三字段不能是空"
+
+#~ msgid "Spark model wasn't ready to handle chat request"
+#~ msgstr "之前初始化讯飞星火大模型时失败，不能处理聊天请求"
+
+#~ msgid "Still waiting before answering, can't handle new chat request"
+#~ msgstr "还在等待之前回答，不能处理新的聊天请求"
+
+#~ msgid "Please set the Spark version you want to use correctly."
+#~ msgstr "请正确设置要使用的星火模型版本。"
+
+#~ msgid ""
+#~ "Spark Model returned an error. errno: $errno. It may be that the service "
+#~ "interface authentication information is incorrect"
+#~ msgstr ""
+#~ "讯飞星火大模型返回错误。错误码：$errno。可能是填写的服务接口认证信息错误"
+
+#~ msgid "Spark Model returned an error. errno: $errno."
+#~ msgstr "讯飞星火大模型返回错误。错误码：$errno。"
+
+#~ msgid "lan_only label"
+#~ msgstr "允许语音提问"
+
+#~ msgid "There is no scene."
+#~ msgstr "请先去kLink定义场景"
+
+#~ msgid "Scene not found: $scene."
+#~ msgstr "没找到场景：$scene"
+
+#~ msgid "No scenes available to suspend."
+#~ msgstr "没有可挂起场景。"
+
+#~ msgid "No scenes available to resume."
+#~ msgstr "没有可恢复运行场景。"
+
+#~ msgid "poem^jing4ye4si1"
+#~ msgstr ""
+#~ "《静夜思》——李白。\n"
+#~ "床前明月光，疑是地上霜。\n"
+#~ "举头望明月，低头思故乡"
+
+#~ msgid "poem^jue2ju4"
+#~ msgstr ""
+#~ "《绝句》——杜甫。\n"
+#~ "两个黄鹂鸣翠柳，一行白鹭上青天。\n"
+#~ "窗含西岭千秋雪，门泊东吴万里船"
+
+#~ msgid "poem^jin1gu3yuan2"
+#~ msgstr ""
+#~ "《金谷园》——杜牧。\n"
+#~ "繁华事散逐香尘，流水无情草自春。\n"
+#~ "日暮东风怨啼鸟，落花犹似坠楼人"
+
+#~ msgid "poem^xi1sai4shan1huai2gu3"
+#~ msgstr ""
+#~ "《西塞山怀古》——刘禹锡。\n"
+#~ "王濬楼船下益州，金陵王气黯然收。\n"
+#~ "千寻铁锁沉江底，一片降幡出石头。\n"
+#~ "人世几回伤往事，山形依旧枕寒流。\n"
+#~ "今逢四海为家日，故垒萧萧芦荻秋"
+
+#~ msgid "There is no task to execute"
+#~ msgstr "不存在要执行的任务"
+
+#~ msgid "swith scene to sit_front"
+#~ msgstr "1号切换到场景振作前"
+
+#~ msgid "task^repeat_speak"
+#~ msgstr "重复说话"
+
+#~ msgid "type^array"
+#~ msgstr "数组"
+
+#~ msgid "type^bool"
+#~ msgstr "布尔"
+
+#~ msgid "type^integer"
+#~ msgstr "整型"
+
+#~ msgid "type^double"
+#~ msgstr "浮点型"
+
+#~ msgid "type^string"
+#~ msgstr "字符串"
+
+#~ msgid "To be modified var($var) isn't exist"
+#~ msgstr "要修改的变量($var)不存在"
+
+#~ msgid "var($var) isn't modifiable environment variable."
+#~ msgstr "变量($var)是环境变量，但由系统自动更新，用户不能改"
+
+#~ msgid "Timing is not right, it cannot be executed"
+#~ msgstr "时机不对，不能执行"
+
+#~ msgid ""
+#~ "The applet in which the task resides is running, it cannot be executed"
+#~ msgstr "任务所在的小程序正在运行，不能执行"
+
+#~ msgid "Unable to get $permission permission, it cannot be executed"
+#~ msgstr "没法获得$permission权限，不能执行"
+
+#~ msgid ""
+#~ "Valid base-drive needs to be set up, as well as serial's path and baudrate"
+#~ msgstr "需要设置底盘驱动，以及底盘串口路径和波特率"
+
+#~ msgid ""
+#~ "The system task has not been started for a long time, stop execute. it "
+#~ "may be that the base-drive is not set"
+#~ msgstr "长时间未开始任务，不再执行。可能是没设置底盘驱动"
+
+#~ msgid "Not recognized"
+#~ msgstr "无法识别"
+
+#~ msgid "Try to place the object in the center of camera's view"
+#~ msgstr "尽量把物体放在摄像头视野的中央"
+
+#~ msgid "The battery voltage is $level volts, please charge"
+#~ msgstr "电池电压$level伏，请充电"
+
+#~ msgid ""
+#~ "The battery voltage has not been received for a long time, check the base "
+#~ "serial's connection"
+#~ msgstr "已较长时间没收到电池电压，检查下底盘串口连接"
+
+#~ msgid "OK! move to $position|$task"
+#~ msgstr "好的，这就去$position|$task"
+
+#~ msgid "OK! move to $position|$task, and send to $position2"
+#~ msgstr "好的，这就去$position|$task，送到$position2"
+
+#~ msgid "OK! move to $position"
+#~ msgstr "好的，这就去$position"
+
+#~ msgid "Arrived at $position"
+#~ msgstr "已到达$position"
+
+#~ msgid "Unable to reach $position"
+#~ msgstr "无法到达$position"
+
+#~ msgid "OK! move to $position and see what's there"
+#~ msgstr "好的，这就去$position看看有什么"
+
+#~ msgid "task^doorbell"
+#~ msgstr "按下门铃"
+
+#~ msgid "Hello, the owner is not here, is there anything I need to do"
+#~ msgstr "您好，屋主不在。我可以帮做这些事：收快递、拿药、开灯、以及关灯"
+
+#~ msgid "Please tell me the express number"
+#~ msgstr "请说下快递单号"
+
+#~ msgid "It's the express here, wait, I'll open a small door for you"
+#~ msgstr "是这儿的快递，等下，给你开个小门"
+
+#~ msgid "The door is open, please wait"
+#~ msgstr "正在开小门，请等待"
+
+#~ msgid ""
+#~ "The small door is open, please put the delivery through the small door "
+#~ "into the house"
+#~ msgstr "小门开了，请把快递由小门放入屋内"
+
+#~ msgid ""
+#~ "The owner will come home at night, and will be there tomorrow, and you "
+#~ "can come back when he arrives"
+#~ msgstr "屋主要晚上到家，明天会在，可到时再来"
+
+#~ msgid "OK, let's go take the medicine"
+#~ msgstr "好的，这就去拿药"
+
+#~ msgid "I'm taking my medicine, please wait"
+#~ msgstr "正在拿药，请等待"
+
+#~ msgid "The medicine is here, please check"
+#~ msgstr "药拿来了，请查收"
+
+#~ msgid "The lights are on, please wait"
+#~ msgstr "正在开灯，请等待"
+
+#~ msgid "The lights are on, what else can I do to help you"
+#~ msgstr "灯开了，还有什么可帮您的"
+
+#~ msgid "The lights are off, please wait"
+#~ msgstr "正在关灯，请等待"
+
+#~ msgid "The lights are off, what else can I do to help you"
+#~ msgstr "灯关了，还有什么可帮您的"
+
+#~ msgid "wheeltec base help"
+#~ msgstr ""
+#~ "轮趣（盒装，不带机械臂）。对底盘，串口选“/dev/ttyACM0”，波特率115200。对雷"
+#~ "达，用N10时，波特率选230400，A1M8则选115200。对机械臂，因为机械臂驱动要置"
+#~ "空，这里什么值无影响，建议留空。"
+
+#~ msgid "timing^grasp3cmx3cm"
+#~ msgstr "拿木块"
+
+#~ msgid "position^ble"
+#~ msgstr "Ble设备"
+
+#~ msgid "position^moveit"
+#~ msgstr "机械臂设备"
+
+#~ msgid "plan aplt tasks msg: $recently $tasks."
+#~ msgstr ""
+#~ "今天还有$个任务。19时47分30秒，去窗台打开台灯。20时18分29秒，去沙发打开台"
+#~ "灯。"
+
+#~ msgid "request^nihao"
+#~ msgstr "你好"
+
+#~ msgid "request^caocaoshishui"
+#~ msgstr "曹操是谁"
+
+#~ msgid "No operation12. $result"
+#~ msgstr "没有操作12：$result"
+
+#~ msgid "Toolbox"
+#~ msgstr "套件"
+
+#~ msgid "Basic package"
+#~ msgstr "基础包"

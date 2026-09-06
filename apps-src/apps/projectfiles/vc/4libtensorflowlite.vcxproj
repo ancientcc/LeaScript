@@ -1,0 +1,1683 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\3rdparty\pthreadpool\src\memory1.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)downloads\pthreadpool\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\compiler\mlir\lite\allocation.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\compiler\mlir\lite\core\api\error_reporter.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\compiler\mlir\lite\core\model_builder_base.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\compiler\mlir\lite\experimental\remat\metadata_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\compiler\mlir\lite\schema\schema_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\compiler\mlir\lite\utils\string_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\core\framework\tensor.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)core\framework\</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\core\framework\tensor_shape.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\array.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\async\async_signature_runner.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\async\async_subgraph.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\async\task_internal.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\c\common.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\c\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)core\c\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\c\c_api.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\c\c_api_experimental.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\interpreter.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\interpreter_builder.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\interpreter_experimental.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\kernels\register.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\kernels\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)core\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\model_building.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\signature_runner.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\tools\verifier.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\tools\verifier_internal.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\external\external_delegate.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\api.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\convert.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\data_type.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\default\custom_parsers.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\default\custom_transformations.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\gpu_info.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\lstm_parser.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\memory_management.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\memory_management\greedy_by_breadth_assignment.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\memory_management\greedy_by_size_assignment.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\memory_management\internal.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\memory_management\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\memory_management\min_cost_flow_assignment.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\memory_management\types.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\memory_management\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\model.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\model_builder.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\model_builder_helper.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\model_transformer.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\object_reader.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\operations.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\operation_parser.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\precision.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\quantization_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\shape.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\add_bias.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\add_quant_adjustments.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\fuse_add_to_conv.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\fuse_mul_to_conv.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\global_pooling_to_reduce_op.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\make_fully_connected.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\make_padding.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\merge_densify.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\merge_padding_with.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\model_transformations.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\transformations\remove_noop.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\winograd_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\common\workgroup_selection.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\api.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\api2.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\command_queue.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\compiled_node.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\fuse_auto_input.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\fuse_inline.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\fuse_inplace.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\object_accessor.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\preprocessor.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\compiler\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\rename.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\compiler\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\shader_codegen.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\compiler\variable_accessor.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\converters\bhwc_to_phwc4.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\converters\phwc4_to_bhwc.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\egl_context.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\egl_environment.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\egl_surface.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\float16_conversions.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\gl_buffer.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\gl_errors.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\gl_program.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\gl_shader.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\gl_sync.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\gl_texture.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\gl_texture_helper.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\add.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\concat.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\conv.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\converter.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\custom_registry.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\depthwise_conv.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\elementwise.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\fully_connected.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\lstm.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\max_unpooling.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\mean.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\mul.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\pad.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\pooling.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\prelu.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\quantize_and_dequantize.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\registry.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\relu.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\resampler.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\reshape.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\resize.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\slice.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\softmax.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\space_to_depth.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\tile.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\kernels\transpose_conv.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\kernels\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\object_manager.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\request_gpu_info.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\runtime.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\serialization.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\workgroups\best_effort_calculator.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\workgroups\calculator.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\workgroups\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\workgroups\calculator_from_metadata.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\workgroups\default_calculator.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\gpu\gl\workgroups\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl\workgroups\ideal_workgroup_picker.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\gpu\gl_delegate.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\interpreter_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\nnapi\nnapi_delegate_disabled.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\serialization.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\telemetry.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\utils.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)delegates\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\xnnpack\file_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\xnnpack\quantization_util.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)xnnpack\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\xnnpack\weight_cache.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\delegates\xnnpack\xnnpack_delegate.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)delegates\xnnpack\</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\experimental\resource\initialization_status.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\experimental\resource\resource_variable.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\experimental\resource\static_hashtable.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\external_cpu_backend_context.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\assign_variable.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\atan2.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\atan2_custom.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\batch_matmul.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\bitcast.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\bitwise_xor.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\broadcast_args.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\broadcast_to.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\bucketize.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\call_once.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\complex_support.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\control_flow_common.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\conv3d.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\conv3d_transpose.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\cpu_backend_context.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\cpu_backend_gemm_eigen.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\cumsum.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\densify.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\deprecated_backends.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\depthwise_conv.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\depth_to_space.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\detection_postprocess.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\dilate.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\div.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\dynamic_update_slice.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\eigen_support.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\embedding_lookup.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\embedding_lookup_sparse.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\exp.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\expand_dims.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\fake_quant.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\fill.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\floor.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\floor_div.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\fully_connected.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\gather.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\gather_nd.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\gru_cell.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\hashtable.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\hashtable_find.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\hashtable_import.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\hashtable_lookup.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\hashtable_size.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\if.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\common.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)kernels\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\opaque_tensor_ctypes.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\optimized\4bit\fully_connected_reference.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\optimized\4bit\neon_fully_connected.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\optimized\4bit\sse_fully_connected.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\optimized\cpu_check.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\optimized\sse_tensor_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\portable_tensor_utils.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)kernels\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)kernels\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\reference\comparisons.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)kernels\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\runtime_shape.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\tensor_ctypes.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\transpose_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\utils\sparsity_format_converter.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\irfft2d.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\kernel_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\l2norm.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\local_response_norm.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\logical.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\lsh_projection.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\lstm.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\lstm_eval.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\matrix_diag.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\matrix_set_diag.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\maximum_minimum.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\multinomial.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\non_max_suppression.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\numeric_verify.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\pooling3d.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\quantize.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\random_ops.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\random_standard_normal_custom.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\random_uniform_custom.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\read_variable.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\rfft2d.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\right_shift.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\rng_bit_generator.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\rng_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\roll.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\round.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\scatter_nd.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\segment_sum.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\sign.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\sign_custom.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_add.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_and.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_case.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_composite.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_elementwise.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_gather.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_min_max.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_multiply.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_pad.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_reduce_window.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_scatter.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\stablehlo_shift_left.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\table.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\tensor_slice_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\unidirectional_sequence_gru.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\unsorted_segment.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\var_handle.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\logger.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\nnapi\nnapi_implementation_disabled.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\profiling\platform_profiler.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\profiling\root_profiler.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\profiling\telemetry\profiler.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)profiling\telemetry\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)profiling\telemetry\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\profiling\telemetry\telemetry.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)profiling\telemetry\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)profiling\telemetry\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\simple_memory_arena_debug_dump.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\simple_planner.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\tensorflow_profiler_logger_shim.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\tools\utils.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)tools\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)tools\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\api.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\cache.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\init.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\log.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\cache\descriptor.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\cache\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\cache\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\cache\deterministic.c" />
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\cache\init.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\cache\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\cache\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\info.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\init.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\isa.c" />
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\name.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\topology.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\uarch.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\vendor.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cpuinfo\src\x86\windows\init.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuinfo\x86\windows\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuinfo\x86\windows\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pthreadpool\src\fastpath.c" />
+    <ClCompile Include="..\..\external\3rdparty\pthreadpool\src\portable-api.c" />
+    <ClCompile Include="..\..\external\3rdparty\pthreadpool\src\windows.c" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\allocator.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\apply_multiplier.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\blocking_counter.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\block_map.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\context.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\context_get_ctx.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\cpuinfo.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\ctx.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\denormal.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\frontend.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\have_built_path_for_avx.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\have_built_path_for_avx2_fma.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\have_built_path_for_avx512.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\kernel_arm32.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\kernel_arm64.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\kernel_avx.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\kernel_avx2_fma.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\kernel_avx512.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\pack_arm.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\pack_avx.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\pack_avx2_fma.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\pack_avx512.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\prepacked_cache.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\prepare_packed_matrices.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\profiler\instrumentation.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\system_aligned_alloc.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\thread_pool.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\trmul.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\tune.cc" />
+    <ClCompile Include="..\..\external\3rdparty\ruy\ruy\wait.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\arena_planner.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\api\flatbuffer_conversions.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\api\op_resolver.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\api\tensor_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\core\subgraph.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\c\common_internal.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\c\c_api_opaque_internal.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\downloads\farmhash\src\farmhash.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\downloads\fft2d\fftsg.c" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\downloads\fft2d\fftsg2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\downloads\flatbuffers\src\idl_gen_text.cpp" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\downloads\flatbuffers\src\idl_parser.cpp" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\downloads\flatbuffers\src\reflection.cpp" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\downloads\flatbuffers\src\util.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)flatbuffers\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)flatbuffers\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\graph_info.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\activations.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\add.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\add_n.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\arg_min_max.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\audio_spectrogram.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\basic_rnn.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\batch_to_space_nd.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\bidirectional_sequence_lstm.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\bidirectional_sequence_rnn.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\cast.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\ceil.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\comparisons.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\concatenation.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\conv.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\dequantize.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\elementwise.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\floor_mod.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\kernel_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\mfcc.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)kernels\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)kernels\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\mfcc_dct.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\mfcc_mel_filterbank.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\optimized\neon_tensor_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\quantization_util.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)kernels\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)kernels\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\reference\portable_tensor_utils.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\spectrogram.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\internal\tensor_utils.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)kernels\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)kernels\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\mfcc.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\mirror_pad.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\mul.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\neg.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\one_hot.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\pack.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\pad.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\pooling.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\pow.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\range.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\rank.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\reduce.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\register_ref.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\reshape.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\resize_bilinear.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\resize_nearest_neighbor.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\reverse.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\reverse_sequence.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\select.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\shape.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\skip_gram.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\slice.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\space_to_batch_nd.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\space_to_depth.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\sparse_to_dense.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\split.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\split_v.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\squared_difference.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\squeeze.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\strided_slice.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\sub.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\svdf.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\tile.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\topk_v2.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\transpose.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\transpose_conv.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\unidirectional_sequence_lstm.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\unidirectional_sequence_rnn.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\unique.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\unpack.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\where.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\while.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\kernels\zeros_like.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\minimal_logging.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\minimal_logging_default.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\mutable_op_resolver.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\optional_debug_tools.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\simple_memory_arena.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\stderr_reporter.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\string_util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\tflite_with_xnnpack_optional.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\tools\versioning\gpu_compatibility.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\tools\versioning\op_signature.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\tools\versioning\op_version.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\tools\versioning\runtime_version.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\lite\util.cc" />
+    <ClCompile Include="..\..\external\tensorflow\tensorflow\tsl\platform\default\logging.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)tsl\platform\</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\allocator.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\bf16-f32-gemm\bf16-f32-gemm-1x4c2-minmax-scalar.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\build_identifier.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\cache.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\argmaxpool-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\avgpool-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\binary-elementwise-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\cmul-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\conv-hwc2chw-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\dwconv-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\dwconv2d-chw-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\gemm-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\hardware-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\ibilinear-chw-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\ibilinear-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\lut32norm-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\maxpool-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\pack-lh-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\raddstoreexpminusmax-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\reduce-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\spmm-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\transpose-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\unary-elementwise-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\unpool-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\vmulcaddc-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\x8-lut-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\xx-fill-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\configs\xx-pad-config.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\datatype.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\enums\allocation-type.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\enums\datatype-strings.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\enums\microkernel-type.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\enums\node-type.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\enums\operator-type.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-avgpool\gen\f16-avgpool-9p-minmax-f16c.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-25p16c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-25p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-25p32c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-25p32c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-25p8c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-25p8c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-3p16c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-3p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-3p32c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-3p32c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-3p8c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-3p8c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-4p16c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-4p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-4p32c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-4p32c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-4p8c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-4p8c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-9p16c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-9p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-9p32c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-9p32c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-9p8c-minmax-fma3-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-dwconv\gen\f16-dwconv-9p8c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32-vcvt\gen\f16-f32-vcvt-avx-int16-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32-vcvt\gen\f16-f32-vcvt-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32-vcvt\gen\f16-f32-vcvt-sse2-int16-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32-vcvt\gen\f16-f32-vcvt-sse41-int16-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32acc-gemm\gen\f16-f32acc-gemm-1x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32acc-gemm\gen\f16-f32acc-gemm-4x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32acc-igemm\gen\f16-f32acc-igemm-1x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32acc-igemm\gen\f16-f32acc-igemm-4x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32acc-rdsum\gen\f16-f32acc-rdsum-7p7x-f16c-c16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32acc-rdsum\gen\f16-f32acc-rdsum-7p7x-f16c-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-f32acc-rsum\gen\f16-f32acc-rsum-f16c-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-ibilinear\gen\f16-ibilinear-fma3-c16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-ibilinear\gen\f16-ibilinear-fma3-c8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-maxpool\gen\f16-maxpool-9p-minmax-avx2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-maxpool\gen\f16-maxpool-9p-minmax-sse41-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-qs8-vcvt\gen\f16-qs8-vcvt-scalar-imagic-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-qu8-vcvt\gen\f16-qu8-vcvt-scalar-imagic-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u16-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u40-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u40-acc5.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u40.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u48-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u48-acc3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u48.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u64-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u64-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u72-acc3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u72.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u80-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u80-acc5.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u80.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u96-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u96-acc3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u96-acc6.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-raddstoreexpminusmax\gen\f16-raddstoreexpminusmax-avx2-rr1-p2-u96.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-rdminmax\gen\f16-rdmax-2p2x-scalar-c2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-rdminmax\gen\f16-rdmin-2p2x-scalar-c2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-rminmax\gen\f16-rmax-scalar-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-rminmax\gen\f16-rmin-scalar-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-rminmax\gen\f16-rminmax-scalar-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vapproxgelu\gen\f16-vapproxgelu-scalar-rational-6-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vadd-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vadd-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vaddc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vaddc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vdiv-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vdiv-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vdivc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vdivc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmax-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmax-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmaxc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmaxc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmin-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmin-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vminc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vminc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmul-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmul-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmulc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vmulc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vprelu-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vprelu-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vpreluc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vpreluc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vrdivc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vrdivc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vrpreluc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vrpreluc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vrsubc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vrsubc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsqrdiff-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsqrdiff-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsqrdiffc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsqrdiffc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsub-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsub-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsubc-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vbinary\gen\f16-vsubc-f16c-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vclamp\gen\f16-vclamp-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vcos\gen\f16-vcos-scalar-rational-3-2-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-velu\gen\f16-velu-avx2-rr1-p3-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vgelu\gen\f16-vgelu-scalar-rational-6-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vhswish\gen\f16-vhswish-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vlrelu\gen\f16-vlrelu-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vmulcaddc\gen\f16-vmulcaddc-c16-minmax-fma3-2x.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vmulcaddc\gen\f16-vmulcaddc-c8-minmax-fma3-2x.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vrnd\gen\f16-vrndd-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vrnd\gen\f16-vrndne-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vrnd\gen\f16-vrndu-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vrnd\gen\f16-vrndz-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vrsqrt\gen\f16-vrsqrt-f16c-rsqrt-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vsigmoid\gen\f16-vsigmoid-avx2-rr1-p2-rcp-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vsin\gen\f16-vsin-scalar-rational-3-2-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vsqrt\gen\f16-vsqrt-f16c-rsqrt-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vtanh\gen\f16-vtanh-f16c-expm1minus-rr1-p3h2ts-rcp-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vtanh\gen\f16-vtanh-fma3-polynomial-p19h9t2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vunary\gen\f16-vabs-sse2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vunary\gen\f16-vneg-sse2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f16-vunary\gen\f16-vsqr-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-argmaxpool\f32-argmaxpool-9p8x-sse2-c4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-avgpool\gen\f32-avgpool-9p-minmax-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-avgpool\gen\f32-avgpool-9p-minmax-sse2-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-conv-hwc2chw\f32-conv-hwc2chw-3x3s2p1c3x4-sse-2x2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv2d-chw\gen\f32-dwconv2d-chw-3x3p1-minmax-sse-2x4-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv2d-chw\gen\f32-dwconv2d-chw-3x3p1-minmax-ssse3-2x4-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv2d-chw\gen\f32-dwconv2d-chw-3x3p1-minmax-ssse3-2x4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv2d-chw\gen\f32-dwconv2d-chw-3x3s2p1-minmax-sse-1x4-acc3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv2d-chw\gen\f32-dwconv2d-chw-3x3s2p1-minmax-sse-1x4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv2d-chw\gen\f32-dwconv2d-chw-5x5p2-minmax-sse-4x4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv2d-chw\gen\f32-dwconv2d-chw-5x5s2p2-minmax-sse-2x4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-25p16c-minmax-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-25p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-25p8c-minmax-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-3p16c-minmax-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-3p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-3p8c-minmax-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-3p8c-minmax-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-4p16c-minmax-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-4p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-4p8c-minmax-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-9p16c-minmax-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-9p16c-minmax-fma3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-dwconv\gen\f32-dwconv-9p8c-minmax-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-f16-vcvt\gen\f32-f16-vcvt-avx-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-f16-vcvt\gen\f32-f16-vcvt-f16c-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-f16-vcvt\gen\f32-f16-vcvt-sse2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-f16-vcvt\gen\f32-f16-vcvt-sse41-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-10x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-1x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-1x16-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-1x16s4-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-1x8-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-1x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-1x8-minmax-sse-load1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-4x16s4-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-4x2c4-minmax-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-4x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-4x8-minmax-sse-load1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-5x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-5x16-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-5x8-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-gemm\gen\f32-gemm-5x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-ibilinear-chw\gen\f32-ibilinear-chw-sse-p8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-ibilinear\gen\f32-ibilinear-sse-c8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-10x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-1x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-1x16-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-1x16s4-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-1x8-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-1x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-1x8-minmax-sse-load1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-4x16s4-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-4x2c4-minmax-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-4x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-4x8-minmax-sse-load1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-5x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-5x16-minmax-fma3-broadcast-prfm.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-5x8-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-igemm\gen\f32-igemm-5x8-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-maxpool\gen\f32-maxpool-9p-minmax-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-maxpool\gen\f32-maxpool-9p-minmax-sse2-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-1x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-1x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-1x16-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-1x8-minmax-sse41-dup.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-3x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-3x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-3x16-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc4w-gemm\gen\f32-qc4w-gemm-4x8-minmax-sse41-dup.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-1x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-1x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-1x16-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-1x8-minmax-sse41-dup.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-4x8-minmax-sse41-dup.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-5x16-minmax-avx-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-5x16-minmax-avx2-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qc8w-gemm\gen\f32-qc8w-gemm-5x16-minmax-fma3-broadcast.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qs8-vcvt\gen\f32-qs8-vcvt-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qs8-vcvt\gen\f32-qs8-vcvt-avx2-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qs8-vcvt\gen\f32-qs8-vcvt-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qs8-vcvt\gen\f32-qs8-vcvt-sse41-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qu8-vcvt\gen\f32-qu8-vcvt-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qu8-vcvt\gen\f32-qu8-vcvt-avx2-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-qu8-vcvt\gen\f32-qu8-vcvt-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr1-p5-u16-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr1-p5-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr1-p5-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr1-p5-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr2-p5-u16-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr2-p5-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr2-p5-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx2-rr2-p5-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx256skx-rr2-p5-u16-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx256skx-rr2-p5-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx256skx-rr2-p5-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx256skx-rr2-p5-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr1-p5-scalef-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr1-p5-scalef-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr1-p5-scalef-u64-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr1-p5-scalef-u64-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr2-p5-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr2-p5-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr2-p5-u64-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-avx512f-rr2-p5-u64-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-lut64-p2-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-lut64-p2-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-lut64-p2-u4-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-lut64-p2-u4-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-p5-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-p5-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-p5-u4-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-scalar-rr2-p5-u4-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-sse2-rr2-p5-u16-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-sse2-rr2-p5-u16-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-sse2-rr2-p5-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-raddstoreexpminusmax\gen\f32-raddstoreexpminusmax-sse2-rr2-p5-u8-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rdminmax\gen\f32-rdmax-2p2x-avx-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rdminmax\gen\f32-rdmax-2p2x-sse2-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rdminmax\gen\f32-rdmin-2p2x-avx-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rdminmax\gen\f32-rdmin-2p2x-sse2-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rdsum\gen\f32-rdsum-7p7x-minmax-avx-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rdsum\gen\f32-rdsum-7p7x-minmax-sse-c16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rminmax\gen\f32-rmax-avx-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rminmax\gen\f32-rmax-sse-u16-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rminmax\gen\f32-rmin-avx-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rminmax\gen\f32-rmin-sse-u16-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rminmax\gen\f32-rminmax-avx-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rminmax\gen\f32-rminmax-sse-u16-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rsum\gen\f32-rsum-avx-u32-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-rsum\gen\f32-rsum-sse-u16-acc4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-spmm\gen\f32-spmm-32x1-minmax-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vapproxgelu\gen\f32-vapproxgelu-avx-rational-12-10-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vapproxgelu\gen\f32-vapproxgelu-fma3-rational-12-10-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vapproxgelu\gen\f32-vapproxgelu-sse2-rational-12-10-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vadd-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vadd-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vadd-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vaddc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vaddc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vdiv-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vdiv-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vdiv-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vdivc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vdivc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vdivc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmax-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmax-scalar-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmax-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmaxc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmaxc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmaxc-scalar-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmaxc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmin-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmin-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmin-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vminc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vminc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vminc-scalar-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vminc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmul-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmul-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmul-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmulc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmulc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vmulc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vprelu-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vprelu-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vprelu-sse2-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vpreluc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vpreluc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vpreluc-sse2-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrdivc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrdivc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrdivc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrpreluc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrpreluc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrpreluc-sse2-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrsubc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrsubc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vrsubc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsqrdiff-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsqrdiff-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsqrdiff-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsqrdiffc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsqrdiffc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsqrdiffc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsub-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsub-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsub-avx512f-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsub-avx512f-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsub-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-avx512f-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-avx512f-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-scalar-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-sse-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vbinary\gen\f32-vsubc-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vclamp\gen\f32-vclamp-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vclamp\gen\f32-vclamp-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcopysign\gen\f32-vcopysign-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcopysign\gen\f32-vcopysign-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcopysign\gen\f32-vcopysignc-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcopysign\gen\f32-vcopysignc-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcopysign\gen\f32-vrcopysignc-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcopysign\gen\f32-vrcopysignc-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcos\gen\f32-vcos-avx-rational-5-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcos\gen\f32-vcos-fma3-rational-5-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vcos\gen\f32-vcos-sse2-rational-5-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-velu\gen\f32-velu-avx-rr2-lut4-p4-perm-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-velu\gen\f32-velu-avx2-rr1-lut4-p4-perm-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-velu\gen\f32-velu-sse2-rr2-lut16-p3-u12.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vexp\gen\f32-vexp-scalar-exp.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vgelu\gen\f32-vgelu-avx-rational-12-10-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vgelu\gen\f32-vgelu-fma3-rational-12-10-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vgelu\gen\f32-vgelu-sse2-rational-12-10-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vhswish\gen\f32-vhswish-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vhswish\gen\f32-vhswish-fma3-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vhswish\gen\f32-vhswish-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vlog\gen\f32-vlog-avx2-rational-3-3-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vlog\gen\f32-vlog-fma3-rational-3-3-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vlog\gen\f32-vlog-sse2-rational-3-3-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vlrelu\gen\f32-vlrelu-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vlrelu\gen\f32-vlrelu-sse-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vlrelu\gen\f32-vlrelu-sse41-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vmulcaddc\gen\f32-vmulcaddc-c4-minmax-sse-2x.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndd-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndd-sse2-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndd-sse41-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndne-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndne-sse2-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndne-sse41-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndu-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndu-sse2-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndu-sse41-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndz-avx-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndz-sse2-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrnd\gen\f32-vrndz-sse41-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrsqrt\gen\f32-vrsqrt-avx-rsqrt-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrsqrt\gen\f32-vrsqrt-fma3-rsqrt-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vrsqrt\gen\f32-vrsqrt-sse-rsqrt-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsigmoid\gen\f32-vsigmoid-avx-rr2-p5-nr2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsigmoid\gen\f32-vsigmoid-avx2-rr1-p5-div-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsigmoid\gen\f32-vsigmoid-sse2-rr2-lut64-p2-div-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsigmoid\gen\f32-vsigmoid-sse41-rr2-lut64-p2-div-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsin\gen\f32-vsin-avx-rational-5-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsin\gen\f32-vsin-fma3-rational-5-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsin\gen\f32-vsin-sse2-rational-5-4-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsqrt\gen\f32-vsqrt-avx-rsqrt-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsqrt\gen\f32-vsqrt-avx-sqrt-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsqrt\gen\f32-vsqrt-fma3-rsqrt-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vsqrt\gen\f32-vsqrt-sse-rsqrt-u12.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vtanh\gen\f32-vtanh-avx-rational-9-8-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vtanh\gen\f32-vtanh-fma3-rational-9-8-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vtanh\gen\f32-vtanh-sse2-rational-9-8-div.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vunary\gen\f32-vabs-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vunary\gen\f32-vabs-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vunary\gen\f32-vneg-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vunary\gen\f32-vneg-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vunary\gen\f32-vsqr-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\f32-vunary\gen\f32-vsqr-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\indirection.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\init.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\log.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\memory-planner.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\memory.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\microkernel-utils.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\microparams-init.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\mutex.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\normalization.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operator-delete.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operator-run.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operator-utils.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\argmax-pooling-nhwc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\average-pooling-nhwc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\batch-matrix-multiply-nc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\binary-elementwise-nd.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\constant-pad-nd.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\convolution-nchw.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\convolution-nhwc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\deconvolution-nhwc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\dynamic-fully-connected-nc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\fully-connected-nc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\max-pooling-nhwc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\pack-lh.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\reduce-nd.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\resize-bilinear-nchw.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\resize-bilinear-nhwc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\rope-nthc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\scaled-dot-product-attention-nhtc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\slice-nd.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\operators\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\softmax-nc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\transpose-nd.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\unary-elementwise-nc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\operators\unpooling-nhwc.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\params.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qb4w-gemm\gen\qd8-f16-qb4w-gemm-1x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qb4w-gemm\gen\qd8-f16-qb4w-gemm-3x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qc4w-gemm\gen\qd8-f16-qc4w-gemm-1x8c8-minmax-avx2-madd-prfm.c">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qc4w-gemm\gen\qd8-f16-qc4w-gemm-4x8c8-minmax-avx2-madd-prfm.c">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qc8w-gemm\gen\qd8-f16-qc8w-gemm-1x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qc8w-gemm\gen\qd8-f16-qc8w-gemm-3x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qc8w-igemm\gen\qd8-f16-qc8w-igemm-1x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f16-qc8w-igemm\gen\qd8-f16-qc8w-igemm-3x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-1x4c8-minmax-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-1x4c8-minmax-sse2-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-1x4c8-minmax-sse41-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-1x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-3x4c8-minmax-sse41-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-3x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-4x4c8-minmax-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qb4w-gemm\gen\qd8-f32-qb4w-gemm-4x4c8-minmax-sse2-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc4w-gemm\gen\qd8-f32-qc4w-gemm-1x4c8-minmax-sse2-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc4w-gemm\gen\qd8-f32-qc4w-gemm-1x4c8-minmax-ssse3-madd.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc4w-gemm\gen\qd8-f32-qc4w-gemm-1x8c8-minmax-avx2-madd-prfm.c">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc4w-gemm\gen\qd8-f32-qc4w-gemm-4x4c8-minmax-sse2-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc4w-gemm\gen\qd8-f32-qc4w-gemm-4x4c8-minmax-ssse3-madd.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc4w-gemm\gen\qd8-f32-qc4w-gemm-4x8c8-minmax-avx2-madd-prfm.c">
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-gemm\gen\qd8-f32-qc8w-gemm-1x4c8-minmax-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-gemm\gen\qd8-f32-qc8w-gemm-1x4c8-minmax-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-gemm\gen\qd8-f32-qc8w-gemm-1x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-gemm\gen\qd8-f32-qc8w-gemm-4x4c8-minmax-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-gemm\gen\qd8-f32-qc8w-gemm-4x4c8-minmax-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-gemm\gen\qd8-f32-qc8w-gemm-4x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-igemm\gen\qd8-f32-qc8w-igemm-1x4c8-minmax-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-igemm\gen\qd8-f32-qc8w-igemm-1x4c8-minmax-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-igemm\gen\qd8-f32-qc8w-igemm-1x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-igemm\gen\qd8-f32-qc8w-igemm-3x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-igemm\gen\qd8-f32-qc8w-igemm-4x4c8-minmax-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-igemm\gen\qd8-f32-qc8w-igemm-4x4c8-minmax-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qd8-f32-qc8w-igemm\gen\qd8-f32-qc8w-igemm-4x8c8-minmax-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-25p16c-minmax-fp32-avx-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-25p16c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-25p8c-minmax-fp32-sse2-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-25p8c-minmax-fp32-sse41-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-9p16c-minmax-fp32-avx-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-9p16c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-9p8c-minmax-fp32-sse2-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-dwconv\gen\qs8-dwconv-9p8c-minmax-fp32-sse41-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-f16-vcvt\gen\qs8-f16-vcvt-avx2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-f32-vcvt\gen\qs8-f32-vcvt-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-f32-vcvt\gen\qs8-f32-vcvt-avx2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-f32-vcvt\gen\qs8-f32-vcvt-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-f32-vcvt\gen\qs8-f32-vcvt-sse41-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-25p16c-minmax-fp32-avx-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-25p16c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-25p8c-minmax-fp32-avx-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-25p8c-minmax-fp32-sse2-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-25p8c-minmax-fp32-sse41-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-3p16c-minmax-fp32-avx-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-3p16c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-3p8c-minmax-fp32-sse2-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-3p8c-minmax-fp32-sse41-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-9p16c-minmax-fp32-avx-mul16-add16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-9p16c-minmax-fp32-avx-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-9p16c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-9p32c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-9p8c-minmax-fp32-sse2-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-dwconv\gen\qs8-qc8w-dwconv-9p8c-minmax-fp32-sse41-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-1x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-1x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-1x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-1x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-2x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-3x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-3x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-gemm\gen\qs8-qc8w-gemm-3x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-1x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-1x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-1x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-1x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-2x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-3x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-3x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-qc8w-igemm\gen\qs8-qc8w-igemm-3x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-rdsum\gen\qs8-rdsum-7p7x-minmax-fp32-avx2-c64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-rdsum\gen\qs8-rdsum-7p7x-minmax-fp32-sse41-c64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-rdsum\gen\qs8-rdsum-minmax-fp32-scalar-u1-acc1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-rsum\gen\qs8-rsum-avx2-u64-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-rsum\gen\qs8-rsum-ssse3-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul16-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul16-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul32-ld32-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul32-ld32-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx2-mul32-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx2-mul32-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx2-mul32-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx2-mul32-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx512skx-mul32-ld128-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-avx512skx-mul32-ld128-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse2-mul16-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse2-mul16-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul16-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul16-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul32-ld32-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul32-ld32-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vaddc\gen\qs8-vaddc-minmax-sse41-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul16-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul16-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul32-ld32-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul32-ld32-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx2-mul32-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx2-mul32-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx2-mul32-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx2-mul32-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx512skx-mul32-ld128-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-avx512skx-mul32-ld128-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse2-mul16-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse2-mul16-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul16-ld64-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul16-ld64-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul32-ld32-u24.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul32-ld32-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vadd\gen\qs8-vadd-minmax-sse41-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vcvt\gen\qs8-vcvt-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vcvt\gen\qs8-vcvt-avx2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vcvt\gen\qs8-vcvt-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vcvt\gen\qs8-vcvt-sse41-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vcvt\gen\qs8-vcvt-ssse3-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vlrelu\gen\qs8-vlrelu-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vlrelu\gen\qs8-vlrelu-avx2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vlrelu\gen\qs8-vlrelu-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vlrelu\gen\qs8-vlrelu-sse41-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmulc\gen\qs8-vmulc-minmax-fp32-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qs8-vmul\gen\qs8-vmul-minmax-fp32-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p16c-minmax-fp32-avx-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p16c-minmax-fp32-avx-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p16c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p16c-minmax-fp32-sse2-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p16c-minmax-fp32-sse41-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p16c-minmax-fp32-sse41-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p32c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p8c-minmax-fp32-avx-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p8c-minmax-fp32-avx-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p8c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p8c-minmax-fp32-sse2-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p8c-minmax-fp32-sse41-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-25p8c-minmax-fp32-sse41-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p16c-minmax-fp32-avx-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p16c-minmax-fp32-avx-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p16c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p16c-minmax-fp32-sse2-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p16c-minmax-fp32-sse41-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p16c-minmax-fp32-sse41-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p32c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p8c-minmax-fp32-avx-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p8c-minmax-fp32-avx-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p8c-minmax-fp32-avx2-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p8c-minmax-fp32-sse2-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p8c-minmax-fp32-sse41-mul16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-dwconv\gen\qu8-dwconv-9p8c-minmax-fp32-sse41-mul32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-f32-vcvt\gen\qu8-f32-vcvt-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-f32-vcvt\gen\qu8-f32-vcvt-avx2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-f32-vcvt\gen\qu8-f32-vcvt-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-f32-vcvt\gen\qu8-f32-vcvt-sse41-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-1x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-1x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-1x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-1x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-2x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-3x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-3x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-gemm\gen\qu8-gemm-3x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-1x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-1x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-1x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-1x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-2x4c8-minmax-fp32-avx-ld128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-3x4c8-minmax-fp32-sse2-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-3x4c8-minmax-fp32-sse41-ld64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-igemm\gen\qu8-igemm-3x8c8-minmax-fp32-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-rdsum\gen\qu8-rdsum-7p7x-ssse3-c64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-rdsum\gen\qu8-rdsum-scalar.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-rsum\gen\qu8-rsum-avx2-u64-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-rsum\gen\qu8-rsum-sse2-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-avx-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-avx-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-avx2-mul32-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-avx2-mul32-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-sse41-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vaddc\gen\qu8-vaddc-minmax-sse41-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx2-mul32-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx2-mul32-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx512skx-mul32-ld128-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-avx512skx-mul32-ld128-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-sse41-mul32-ld32-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vadd\gen\qu8-vadd-minmax-sse41-mul32-ld32-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vcvt\gen\qu8-vcvt-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vcvt\gen\qu8-vcvt-avx2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vcvt\gen\qu8-vcvt-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vcvt\gen\qu8-vcvt-sse41-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vcvt\gen\qu8-vcvt-ssse3-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vlrelu\gen\qu8-vlrelu-avx-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vlrelu\gen\qu8-vlrelu-avx2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vlrelu\gen\qu8-vlrelu-sse2-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vlrelu\gen\qu8-vlrelu-sse41-u32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmulc\gen\qu8-vmulc-minmax-fp32-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-avx-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-avx-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-sse2-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-sse2-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-sse41-mul16-ld64-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\qu8-vmul\gen\qu8-vmul-minmax-fp32-sse41-mul16-ld64-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\reference\binary-elementwise.cc" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\reference\packing.cc" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\reference\unary-elementwise.cc" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\runtime.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-ibilinear\gen\s8-ibilinear-sse2-c16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-ibilinear\gen\s8-ibilinear-sse2-c8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-ibilinear\gen\s8-ibilinear-sse41-c16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-ibilinear\gen\s8-ibilinear-sse41-c8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-maxpool\gen\s8-maxpool-9p-minmax-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-maxpool\gen\s8-maxpool-9p-minmax-sse41-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rdminmax\gen\s8-rdmax-2p2x-scalar-c2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rdminmax\gen\s8-rdmax-2p2x-sse41-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rdminmax\gen\s8-rdmin-2p2x-scalar-c2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rdminmax\gen\s8-rdmin-2p2x-sse41-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rminmax\gen\s8-rmax-scalar-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rminmax\gen\s8-rmax-sse41-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rminmax\gen\s8-rmin-scalar-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rminmax\gen\s8-rmin-sse41-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rminmax\gen\s8-rminmax-scalar-u2-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-rminmax\gen\s8-rminmax-sse41-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-vclamp\s8-vclamp-avx2-u128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-vclamp\s8-vclamp-sse2-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\s8-vclamp\s8-vclamp-sse41-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\sanitizers.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\argmax-pooling-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\average-pooling-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\batch-matrix-multiply.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\binary.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\subgraph\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\concatenate.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\convolution-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\copy.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\subgraph\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\deconvolution-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\deprecated.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\depth-to-space-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\depthwise-convolution-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\even-split.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\fully-connected-sparse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\fully-connected.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\max-pooling-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\pack-lh.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\subgraph\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\reshape-helpers.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\rope.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\subgraph\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\scaled-dot-product-attention.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\softmax.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\space-to-depth-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\static-constant-pad.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\static-reduce.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\static-resize-bilinear-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\static-slice.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\static-transpose.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\unary.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\subgraph\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\unpooling-2d.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\subgraph\validation.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\subgraph\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2-k-over-2048.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2-k-over-64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2minus-k-over-16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2minus-k-over-2048.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2minus-k-over-32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2minus-k-over-4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2minus-k-over-64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tables\exp2minus-k-over-8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\tensor.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)XNNPACK\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-ibilinear\gen\u8-ibilinear-sse2-c16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-ibilinear\gen\u8-ibilinear-sse2-c8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-ibilinear\gen\u8-ibilinear-sse41-c16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-ibilinear\gen\u8-ibilinear-sse41-c8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-lut32norm\u8-lut32norm-scalar.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-maxpool\gen\u8-maxpool-9p-minmax-scalar-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-maxpool\gen\u8-maxpool-9p-minmax-sse2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-rdminmax\gen\u8-rdmax-2p2x-sse2-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-rdminmax\gen\u8-rdmin-2p2x-sse2-c32.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-rminmax\gen\u8-rmax-sse2-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-rminmax\gen\u8-rmin-sse2-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-rminmax\gen\u8-rminmax-sse2-u32-acc2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-vclamp\u8-vclamp-avx2-u128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\u8-vclamp\u8-vclamp-sse2-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x16-packw\gen\x16-packw-x16-gemm-goi-avx2-u16-prfm.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x16-transposec\gen\x16-transposec-16x16-reuse-switch-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x16-transposec\gen\x16-transposec-8x8-reuse-multi-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x24-transposec\gen\x24-transposec-1x2-scalar.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x24-transposec\x24-transposec-4x4-ssse3.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x16-gemm-gio-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x16-gemm-goi-avx-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x16s4-gemm-goi-avx-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x2c4-gemm-goi-sse2-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x32-gemm-gio-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x8-gemm-gio-avx-u8.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x8-gemm-goi-avx-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-packw\gen\x32-packw-x8-gemm-goi-sse2-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-transposec\gen\x32-transposec-8x8-reuse-multi-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-transposec\x32-transposec-4x4-sse.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x32-unpool\x32-unpool-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-2x2-multi-mov-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-2x2-multi-multi-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-2x2-multi-switch-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-2x2-reuse-mov-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-2x2-reuse-multi-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-2x2-reuse-switch-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-4x4-multi-mov-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-4x4-multi-multi-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-4x4-multi-switch-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-4x4-reuse-mov-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-4x4-reuse-multi-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x64-transposec\gen\x64-transposec-4x4-reuse-switch-avx.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-lut\gen\x8-lut-avx-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-lut\gen\x8-lut-avx2-u128.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-lut\gen\x8-lut-scalar-u4.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-packq\x8-packq-scalar-f32qp8-u1.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-packw\gen\x8-packw-x16-gemm-goi-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-packw\gen\x8-packw-x2-gemm-goi-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-packw\gen\x8-packw-x32-gemm-goi-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-packw\gen\x8-packw-x4-gemm-goi-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-packw\gen\x8-packw-x8-gemm-goi-scalar-u2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-16x16-reuse-mov-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-16x16-reuse-switch-sse2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-1x2-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-1x4-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-2x1-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-2x2-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-2x4-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-32x32-reuse-mov-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-32x32-reuse-switch-avx2.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-4x1-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-4x2-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\x8-transposec\gen\x8-transposec-4x4-scalar-int.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\xx-copy\xx-copy-scalar-memcpy.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\xx-fill\xx-fill-scalar-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\xx-fill\xx-fill-sse2-u64.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\xx-pad\xx-pad-p16-sse2-u16.c" />
+    <ClCompile Include="..\..\external\tensorflow\XNNPACK\src\xx-transposev\xx-transposev-1x1-scalar-memcpy.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\tensorflow\tensorflow\lite\core\model_builder.h" />
+    <ClInclude Include="..\..\external\tensorflow\tensorflow\lite\core\model_builder_rose.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{D4AD7090-1CC6-46A6-88AA-909749FCA1B4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>tensorflowlite</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>4libtensorflowlite</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(Configuration)\4libtensorflowlite\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Configuration)\4libtensorflowlite\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;NOMINMAX;EIGEN_MPL2_ONLY;FARMHASH_NO_BUILTIN_EXPECT;FLATBUFFERS_LOCALE_INDEPENDENT=1;RUY_HAVE_CPUINFO;CPUINFO_LOG_LEVEL=2;TFL_STATIC_LIBRARY_BUILD;PTHREADPOOL_USE_FASTPATH=1;FXDIV_USE_INLINE_ASSEMBLY=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../external/3rdparty/cpuinfo/include;../../external/3rdparty/cpuinfo/src;../../external/3rdparty/FXdiv/include;../../external/3rdparty/pthreadpool/include;../../external/3rdparty/ruy;../../external/chromium/third_party/abseil-cpp;../../external/tensorflow;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../external/tensorflow/tensorflow/lite/downloads/gemmlowp;../../external/tensorflow/tensorflow/lite/downloads/farmhash/src;../../external/tensorflow/tensorflow/lite/downloads/flatbuffers/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4200;4267;4244;4800;4503;4554;4996;4348;4018;4099;4146;4267;4305;4307;4715;4722;4723;4838;4309;4334;4003;4244;4267;4503;4506;4800;4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;NOMINMAX;EIGEN_MPL2_ONLY;FARMHASH_NO_BUILTIN_EXPECT;FLATBUFFERS_LOCALE_INDEPENDENT=1;RUY_HAVE_CPUINFO;CPUINFO_LOG_LEVEL=2;TFL_STATIC_LIBRARY_BUILD;TFLITE_MMAP_DISABLED;PTHREADPOOL_USE_FASTPATH=1;FXDIV_USE_INLINE_ASSEMBLY=0;restrict=;_ITERATOR_DEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4251;4267;4275</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../external/3rdparty/cpuinfo/include;../../external/3rdparty/cpuinfo/src;../../external/3rdparty/FP16/include;../../external/3rdparty/FXdiv/include;../../external/3rdparty/pthreadpool/include;../../external/3rdparty/ruy;../../external/chromium/third_party/abseil-cpp;../../external/powervr-graphics/include;../../external/protobuf/src;../../external/tensorflow;../../external/tensorflow/XNNPACK;../../external/tensorflow/XNNPACK/include;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../external/tensorflow/tensorflow/lite/downloads/gemmlowp;../../external/tensorflow/tensorflow/lite/downloads/farmhash/src;../../external/tensorflow/tensorflow/lite/downloads/flatbuffers/include;../../external/tensorflow/third_party/xla;../../../linker/include/SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/experimental:c11atomics</AdditionalOptions>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

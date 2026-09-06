@@ -1,0 +1,17 @@
+/**
+ * @file miktex/KPSE/Emulation
+ * @defgroup KPSE Kpathsea emulation
+ * @author Christian Schenk
+ * @brief Utilities for emulating the Kpathsea library
+ *
+ * @copyright Copyright © 2000-2024 Christian Schenk
+ *
+ * This file is part of the MiKTeX KPSEMU Library.
+ *
+ * MiKTeX KPSEMU Library is licensed under GNU General Public License version 2
+ * or any later version.
+ */
+
+#pragma once
+
+#include "Emulation.h"

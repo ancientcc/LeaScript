@@ -1,0 +1,695 @@
+<robot
+  name="tank_arm">
+
+
+  <material name="Orange">
+    <color rgba="1.0  0.55 0.0 1.0"/>
+  </material>
+
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.014795 -0.00011444 0.096773"
+        rpy="0 0 0" />
+      <mass
+        value="0.77918" />
+      <inertia
+        ixx="0.007554"
+        ixy="-3.2017E-06"
+        ixz="0.00099038"
+        iyy="0.0083605"
+        iyz="5.2704E-06"
+        izz="0.0088156" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="Orange">
+       
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="arm_Link">
+    <inertial>
+      <origin
+        xyz="0.0008317 -5.3906E-08 0.025779"
+        rpy="0 0 0" />
+      <mass
+        value="0.010198" />
+      <inertia
+        ixx="5.2716E-06"
+        ixy="1.3804E-11"
+        ixz="-2.0545E-07"
+        iyy="1.0832E-05"
+        iyz="3.4273E-12"
+        izz="6.5263E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/arm_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/arm_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_Joint"
+    type="fixed">
+    <origin
+      xyz="0.11787 0 0.078855"
+      rpy="0.79764 2.5278E-15 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="arm_Link" />
+  </joint>
+  <link
+    name="Link1">
+    <inertial>
+      <origin
+        xyz="1.3133E-05 0.022899 -0.028003"
+        rpy="0 0 0" />
+      <mass
+        value="0.038608" />
+      <inertia
+        ixx="3.4941E-05"
+        ixy="-3.3407E-08"
+        ixz="1.1062E-08"
+        iyy="1.0591E-05"
+        iyz="-3.5759E-07"
+        izz="2.7337E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/Link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/Link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a"
+    type="revolute">
+    <origin
+      xyz="-0.02656 0 0.05"
+      rpy="1.5708 -1.1102E-16 -1.5708" />
+    <parent
+      link="arm_Link" />
+    <child
+      link="Link1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="2" />
+  </joint>
+  <link
+    name="Link2">
+    <inertial>
+      <origin
+        xyz="-0.014038831496598 0.0139678700935986 -0.030924646516322"
+        rpy="0 0 0" />
+      <mass
+        value="0.0490506563674175" />
+      <inertia
+        ixx="1.96243089206479E-05"
+        ixy="2.01841763318362E-06"
+        ixz="-6.14073290374005E-07"
+        iyy="1.83750208039923E-05"
+        iyz="2.68275279391349E-06"
+        izz="1.92681541418611E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/Link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/Link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="b"
+    type="revolute">
+    <origin
+      xyz="0.0007415 0.088419 -0.0492"
+      rpy="3.1416 1.2015E-16 -1.5708" />
+    <parent
+      link="Link1" />
+    <child
+      link="Link2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="3.14"
+      effort="1000"
+      velocity="2" />
+  </joint>
+  <link
+    name="Link3">
+    <inertial>
+      <origin
+        xyz="-0.0024037 -0.016091 0.030128"
+        rpy="0 0 0" />
+      <mass
+        value="0.028086" />
+      <inertia
+        ixx="8.4228E-06"
+        ixy="2.7504E-07"
+        ixz="1.4119E-07"
+        iyy="7.5632E-06"
+        iyz="8.4624E-07"
+        izz="1.0816E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/Link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/Link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="c"
+    type="revolute">
+    <origin
+      xyz="-0.040891 0.028 -0.023798"
+      rpy="1.388E-14 1.5621 -3.1416" />
+    <parent
+      link="Link2" />
+    <child
+      link="Link3" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="2" />
+  </joint>
+
+   <link name="grasping_frame"/>
+  <joint name="grasping_frame_joint" type="fixed">
+ <parent link="Link3"/>
+ <child link="grasping_frame"/>
+ <origin xyz="0 0 0.1" rpy="0 0 0"/>
+ </joint>
+  <link
+    name="left_Link">
+    <inertial>
+      <origin
+        xyz="0.004218 0.0069489 -0.00092142"
+        rpy="0 0 0" />
+      <mass
+        value="0.0024316" />
+      <inertia
+        ixx="3.3298E-07"
+        ixy="-1.7517E-07"
+        ixz="-1.6999E-08"
+        iyy="2.1999E-07"
+        iyz="-2.3967E-08"
+        izz="5.2084E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/left_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/left_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="d"
+    type="revolute">
+    <origin
+      xyz="0.014 0.0045 0.032"
+      rpy="1.5708 0.04259 2.0836E-17" />
+    <parent
+      link="Link3" />
+    <child
+      link="left_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+     lower="-0.7"
+      upper="0.7"
+      effort="1000"
+      velocity="2" />
+  </joint>
+  <link
+    name="left_claw_Link">
+    <inertial>
+      <origin
+        xyz="-0.0067138 -0.023128 0.0029439"
+        rpy="0 0 0" />
+      <mass
+        value="0.0029301" />
+      <inertia
+        ixx="8.9998E-07"
+        ixy="-1.6504E-07"
+        ixz="-6.254E-10"
+        iyy="6.8011E-08"
+        iyz="-3.9118E-09"
+        izz="9.4647E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/left_claw_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/left_claw_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="e"
+    type="fixed">
+    <origin
+      xyz="0.016301 0.023985 0.006"
+      rpy="-3.1416 -4.1254E-17 0.034572" />
+    <parent
+      link="left_Link" />
+    <child
+      link="left_claw_Link" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="right_Link">
+    <inertial>
+      <origin
+        xyz="-0.0047805 0.0064355 -0.00097122"
+        rpy="0 0 0" />
+      <mass
+        value="0.0024778" />
+      <inertia
+        ixx="3.0347E-07"
+        ixy="1.8733E-07"
+        ixz="1.9868E-08"
+        iyy="2.6091E-07"
+        iyz="-2.29E-08"
+        izz="5.3015E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/right_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/right_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="f"
+    type="revolute">
+    <origin
+      xyz="-0.014 0.0042501 0.032"
+      rpy="1.5708 -0.023479 1.7352E-17" />
+    <parent
+      link="Link3" />
+    <child
+      link="right_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.7"
+      upper="0.7"
+      effort="1000"
+      velocity="2" />
+  </joint>
+  <link
+    name="right_claw_Link">
+    <inertial>
+      <origin
+        xyz="0.0067138 0.023128 0.0030561"
+        rpy="0 0 0" />
+      <mass
+        value="0.0029301" />
+      <inertia
+        ixx="8.9998E-07"
+        ixy="-1.6504E-07"
+        ixz="-6.254E-10"
+        iyy="6.8011E-08"
+        iyz="-3.9118E-09"
+        izz="9.4647E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/right_claw_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/right_claw_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="h"
+    type="fixed">
+    <origin
+      xyz="-0.018574 0.022271 0"
+      rpy="-2.2204E-16 5.7246E-17 -0.022923" />
+    <parent
+      link="right_Link" />
+    <child
+      link="right_claw_Link" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="pan_Link">
+    <inertial>
+      <origin
+        xyz="-0.014795 -0.00011444 0.096773"
+        rpy="0 0 0" />
+      <mass
+        value="0.77918" />
+      <inertia
+        ixx="0.007554"
+        ixy="-3.2017E-06"
+        ixz="0.00099038"
+        iyy="0.0083605"
+        iyz="5.2704E-06"
+        izz="0.0088156" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/pan_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/pan_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="p"
+    type="fixed">
+    <origin
+      xyz="-0.026312 0.0135 0.23074"
+      rpy="5.6487E-17 3.9989E-18 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="pan_Link" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  
+  <link
+    name="pan_Link1">
+    <inertial>
+      <origin
+        xyz="-0.00021633 -0.0039459 0.019586"
+        rpy="0 0 0" />
+      <mass
+        value="0.01402" />
+      <inertia
+        ixx="2.2964E-06"
+        ixy="4.1923E-08"
+        ixz="3.4316E-08"
+        iyy="1.9438E-06"
+        iyz="-2.722E-07"
+        izz="2.4497E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/pan_Link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/pan_Link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="x"
+    type="revolute">
+    <origin
+      xyz="-0.0135 0.020993 0.0015"
+      rpy="5.421E-20 -2.1947E-16 1.5226E-13" />
+    <parent
+      link="pan_Link" />
+    <child
+      link="pan_Link1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+	  lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="2"
+     />
+  </joint>
+  <link
+    name="pan_link2">
+    <inertial>
+      <origin
+        xyz="0.013997 0.033225 0.017741"
+        rpy="0 0 0" />
+      <mass
+        value="0.03494" />
+      <inertia
+        ixx="2.7616E-05"
+        ixy="-5.2792E-06"
+        ixz="-1.0568E-08"
+        iyy="9.0293E-06"
+        iyz="5.9812E-08"
+        izz="2.9513E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/pan_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://tank_arm/.meshes/pan_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="y"
+    type="revolute">
+    <origin
+      xyz="0.01662 0.01781 0.037782"
+      rpy="1.5708 0.044008 -1.5708" />
+    <parent
+      link="pan_Link1" />
+    <child
+      link="pan_link2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-3"
+      upper="0"
+      effort="1000"
+      velocity="2" />
+  </joint>
+    <link name="pan_frame"/>
+	 <joint name="pan_frame_joint" type="fixed">
+      <parent link="pan_link2"/>
+      <child link="pan_frame"/>
+      <origin xyz="0 0.07 0" rpy="0 0 0"/>
+    </joint>
+</robot>

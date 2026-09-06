@@ -1,0 +1,6343 @@
+#define GETTEXT_DOMAIN "rose-lib"
+
+/*
+ * How to use...
+ * display_lock lock(game.disp());
+ * hotkey::scope_changer changer(game.app_cfg(), "hotkey_ocr");
+ * health_controller controller(game.app_cfg(), game.video());
+ * controller.initialize(display::ZOOM_72);
+ * int ret = controller.main_loop();
+ */
+
+#include "health_controller.hpp"
+#include "health_display.hpp"
+#include "gui/widgets/window.hpp"
+#include "gui/widgets/report.hpp"
+#include "gui/dialogs/health_scene.hpp"
+#include "gui/dialogs/message.hpp"
+#include "gui/dialogs/edit_box.hpp"
+#include "gettext.hpp"
+#include "rose_config.hpp"
+#include "cairo2.hpp"
+#include "aplt2.hpp"
+#include "preferences.hpp"
+// #include "mediapipe/rose/mediapipe_api.hpp"
+#include "filesystem.hpp"
+#include <opencv2/imgproc.hpp>
+
+using namespace std::placeholders;
+
+// extern std::string scene_get_file_val(const aplt::tbase_scene& scene);
+
+#ifdef _WIN32
+#include <shellapi.h>
+#endif
+
+static SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int mat_width, bool hide_cairo_share,
+	const aplt::thealth::thealth_result2& result2, int workout_at, const health_controller::tworkout_mat2_C& workout_mat2, 
+	SDL_Rect* btn_rects_result, trectdata_C* tip_rects_result, int* rep_steps_result, SDL_Point* chart_margin_lr_result, cv::Mat* result_mat);
+
+// SDL_Size draw_workout_mat2(const tchart_metrics& metrics, int mat_type, int mat_width,
+//	bool hide_cairo_share, const aplt::thealth::thealth_result2& result2, int workout_at, health_controller::tworkout_mat2_C& workout_mat2, cv::Mat* mat_result);
+
+
+void win_ShellExecuteW_open(const std::string& url)
+{
+#ifdef _WIN32
+	VALIDATE(game_config::os == os_windows, null_str);
+	VALIDATE(!url.empty(), null_str);
+
+	wchar_t* urlw = (wchar_t *)SDL_iconv_string("UTF-16LE", "UTF-8", (char *)(url.c_str()), url.size()+1);
+	ShellExecuteW(NULL, L"open", urlw, NULL, NULL, SW_SHOWNORMAL);
+	SDL_free(urlw);
+#endif
+}
+
+cv::Mat create_neutral_mat_from_surf(const surface& surf)
+{
+	VALIDATE(surf.get() != nullptr, null_str);
+	VALIDATE(surf->format->BytesPerPixel == 4, null_str);
+
+	cv::Mat mat = cv::Mat(surf->h, surf->w, CV_8UC4);
+	uint8_t* data = mat.ptr<uint8_t>(0);
+	memcpy(data, surf->pixels, surf->h * surf->w * surf->format->BytesPerPixel);
+
+	return mat;
+}
+
+static std::string generate_map_data2(int width, int height, bool colorful)
+{
+    VALIDATE((width % HEAL_UNIT_LOCS) == 0 && (height % HEAL_UNIT_LOCS) == 0, null_str);
+    return generate_map_data(width, height, colorful, square_terrain_almost_white);
+	// return generate_map_data(width, height, colorful, square_terrain_red);
+}
+
+int64_t start_of_file_day_from_filename(const std::string& filename, bool* is_bak_ptr)
+{
+	if (is_bak_ptr != nullptr) {
+		*is_bak_ptr = false;
+	}
+
+	int s = filename.size();
+	if (s != 18 && s != 22) {
+		return nposm;
+	}
+
+	const char* name = filename.c_str();
+	const std::string prefix = "health20";
+	if (SDL_strncmp(name, prefix.c_str(), prefix.size()) != 0) {
+		return nposm;
+	}
+
+	int pos = prefix.size();
+	for (int at = 0; at < 6; at ++) {
+		char ch = name[pos + at];
+		if (ch < '0' || ch > '9') {
+			return nposm;
+		}
+	}
+
+	pos += 6;
+	if (SDL_strncmp(name + pos, ".dat", 4) != 0) {
+		return nposm;
+	}
+
+	const bool is_bak = s == 22;
+	if (is_bak) {
+		pos += 4;
+		if (SDL_strncmp(name + pos, ".bak", 4) != 0) {
+			return nposm;
+		}
+	}
+
+	std::string ts_str(name, prefix.size() - 2, 8);
+	ts_str.append("000000");
+	int64_t t = utils::yyyymmddhhmmss_2_ts(ts_str, nullptr);
+	int64_t start_of_file_day = utils::calculate_0h0m0s_ts(t);
+
+	if (is_bak_ptr != nullptr) {
+		*is_bak_ptr = is_bak;
+	}
+
+	return start_of_file_day;
+}
+
+bool is_valid_health_dat_name(const char* name, int64_t start_of_today, int max_days)
+{
+	// health20260323.dat or health20260323.dat.bak
+	if (name == nullptr) {
+		return false;
+	}
+/*
+	int s = SDL_strlen(name);
+	if (s != 18 && s != 22) {
+		return false;
+	}
+
+	const std::string prefix = "health20";
+	if (SDL_strncmp(name, prefix.c_str(), prefix.size()) != 0) {
+		return false;
+	}
+
+	int pos = prefix.size();
+	for (int at = 0; at < 6; at ++) {
+		char ch = name[pos + at];
+		if (ch < '0' || ch > '9') {
+			return false;
+		}
+	}
+
+	pos += 6;
+	if (SDL_strncmp(name + pos, ".dat", 4) != 0) {
+		return false;
+	}
+
+	const bool is_bak = s == 22;
+	if (is_bak) {
+		pos += 4;
+		if (SDL_strncmp(name + pos, ".bak", 4) != 0) {
+			return false;
+		}
+	}
+
+	std::string ts_str(name, prefix.size() - 2, 8);
+	ts_str.append("000000");
+	int64_t t = utils::yyyymmddhhmmss_2_ts(ts_str, nullptr);
+	const int64_t start_of_file_day = utils::calculate_0h0m0s_ts(t);
+*/
+	bool is_bak = false;;
+	const int64_t start_of_file_day = start_of_file_day_from_filename(name, &is_bak);
+	if (start_of_file_day > start_of_today) {
+		return false;
+	}
+
+	int64_t min_t = start_of_today - (max_days - 1) * ONE_DAY_SECONDS;
+
+	if (start_of_file_day < min_t) {
+		return false;
+	}
+
+	if (is_bak) {
+		if (start_of_file_day != start_of_today) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+static bool did_walk_health_dat(const std::string& dir, const SDL_dirent2* dirent, int64_t start_of_today, int max_days, bool valid, std::set<std::string>& filenames, const std::string& root)
+{
+	bool isdir = SDL_DIRENT_DIR(dirent->mode);
+	if (!isdir) {
+		bool curr_formatted = is_valid_health_dat_name(dirent->name, start_of_today, max_days);
+
+		if (valid && curr_formatted) {
+			filenames.insert(root + "/" + dirent->name);
+
+		} else if (!valid && !curr_formatted) {
+			filenames.insert(root + "/" + dirent->name);
+		}
+
+	} else {
+		if (!valid) {
+			filenames.insert(root + "/" + dirent->name);
+		}
+	}
+	return true;
+}
+/*
+bool did_walk_health_dat_formatted(const std::string& dir, const SDL_dirent2* dirent, int64_t start_of_today, int max_days, std::set<std::string>& formatted_filenames, const std::string& root)
+{
+	bool isdir = SDL_DIRENT_DIR(dirent->mode);
+	if (!isdir) {
+		if (!is_valid_health_dat_name(dirent->name, start_of_today, max_days)) {
+		} else {
+			formatted_filenames.insert(root + "/" + dirent->name);
+		}
+	} else {
+	}
+	return true;
+}
+*/
+void collect_health_files(const std::string& saves_health_dir, int max_days, bool valid, std::set<std::string>& filenames)
+{
+	VALIDATE(max_days > 0, null_str);
+	filenames.clear();
+	const std::string& saves_dir = saves_health_dir;
+
+	const int64_t start_of_today = utils::calculate_0h0m0s_ts(time(nullptr));
+	std::map<std::string, std::string> full_images;
+	walk_dir(saves_dir, false, std::bind(&did_walk_health_dat, _1, _2, start_of_today, max_days, valid, std::ref(filenames), std::ref(saves_dir)));
+}
+
+const std::map<int, std::string> dynchart_types = {
+		{dyncharttype_idcontain, "idcontain"},
+		};
+
+void health_controller::tdyn_chartsel::to_pref(config& cfg) const
+{
+	cfg.clear();
+	VALIDATE(valid(), null_str);
+
+	cfg["type"] = dynchart_types.find(dyncharttype_idcontain)->second;
+	cfg["key"] = key;
+}
+
+int dynchart_type_from_str(const std::string& str)
+{
+	for (std::map<int, std::string>::const_iterator it = dynchart_types.begin(); it != dynchart_types.end(); ++ it) {
+		const std::string& id = it->second;
+		if (str == id) {
+			return it->first;
+		}
+	}
+	return nposm;
+}
+
+void health_controller::tdyn_chartsel::from_pref(const config& cfg)
+{
+	clear_pref();
+
+	type = dynchart_type_from_str(cfg["type"].str());
+	if (type == nposm) {
+		return;
+	}
+	key = cfg["type"].str();
+
+	if (key.empty()) {
+		clear_pref();
+	}
+}
+
+std::string health_controller::tdyn_chartsel::title() const
+{
+	utils::string_map symbols;
+	symbols["key"] = str_cast(key);
+	return vgettext2("ID Inc \"$key\"", symbols); 
+}
+
+std::string health_controller::tdyn_chartsel::chart_title() const
+{
+	utils::string_map symbols;
+	symbols["days"] = str_cast(MAX_HEALTH_DAYS);
+	symbols["key"] = str_cast(key);
+	return vgettext2("Workout records from the last $days days containing \"$key\"", symbols); 
+}
+
+static double normalize2(double value, double max_value, double chart_height)
+{
+    return (value / max_value) * chart_height;
+}
+
+int calculate_chart_height2(int height_in_dot)
+{
+	double max_fix_value = 1.25; // 1.25
+	const double hdpi_scale = gui2::twidget::hdpi_scale;
+	double result;
+	if (hdpi_scale <= max_fix_value) {
+		result = height_in_dot * hdpi_scale;
+
+	} else {
+		// hdpi_scale(3) --> 1.40(chart height)
+		double val = normalize2(hdpi_scale - max_fix_value, 1.75, 0.15);
+		result = height_in_dot * (max_fix_value + val);
+	}
+	return result;
+}
+
+double chart_height_using_hdpi_scale()
+{
+	double max_fix_value = 1.25; // 1.25
+	const double hdpi_scale = gui2::twidget::hdpi_scale;
+	if (hdpi_scale <= max_fix_value) {
+		return hdpi_scale;
+
+	} else {
+		// hdpi_scale(3) --> 1.40(chart height)
+		double val = normalize2(hdpi_scale - max_fix_value, 1.75, 0.15);
+		return (max_fix_value + val);
+	}
+}
+
+int calculate_chart_height(int height_in_dot)
+{
+	double hdpi_scale = chart_height_using_hdpi_scale();
+	int result = height_in_dot * hdpi_scale;
+
+	int height2 = calculate_chart_height2(height_in_dot);
+	VALIDATE(result == height2, null_str);
+
+	return result;
+}
+
+tchart_metrics::tchart_metrics(int sdl_field_small_font_size, int height_in_dot)
+	: map_margin_({4, 4}) // {20, 20}
+	, chart_margin_({16, 16}) // {25, 35}
+	, charts_gap_y_(2)
+	, chart_radius_(25.0)
+	// , chart_height_(180 * SDL_min(gui2::twidget::hdpi_scale, 1.3)) // 225(64* 3 + 32)
+	, chart_height_(calculate_chart_height(height_in_dot == nposm? 180: height_in_dot))
+	// , posture_small_font_size_(game_config::os == os_windows? font::SIZE_SMALLER: font::SIZE_SMALLEST)
+	, posture_small_font_size_(sdl_field_small_font_size)
+	, dunhao_msgstr_(_("dunhao"))
+	, improper_duration_color_({1.0, 0.0, 0.0, 1.0})
+	// , improper_alert_color_({1.0, 165 / 255.0, 0 / 255.0, 1.0})
+	, improper_alert_color_({0.9, 0.7, 0.1, 1.0})
+	, workout_duration_color_({65 / 255.0, 105 / 255.0, 225 / 255.0, 1.0})
+	, share_alert_color_({124 / 255.0, 252 / 255.0, 0 / 255.0, 1.0})
+	, nonpose_state_duration_color_({112 / 255.0, 128 / 255.0, 144 / 255.0, 1.0})
+	// , pose_state_duration_color_({135 / 255.0, 206 / 255.0, 235 / 255.0, 1.0})
+	// , pose_state_duration_color_({195 / 255.0, 176 / 255.0, 145 / 255.0, 1.0})
+	, pose_state_duration_color_({255 / 255.0, 0 / 255.0, 255 / 255.0, 1.0})
+	, satisfied_duration_color_({78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0})
+	, unsatisfied_duration_color_({1.0, 0.0, 0.0, 1.0})
+	, chart_title_font_size_(font::SIZE_LARGER)
+{}
+
+std::string health_controller::unsatisfied_isnan_msgstr;
+std::string health_controller::unsatisfied_absend_landmark_msgstr;
+
+health_controller::health_controller(trhealth_scene_slot& scene_slot, const config& app_cfg, CVideo& video, 
+	aplt::thealth& health, int sdl_field_small_font_size)
+	: base_controller(SDL_GetTicks(), app_cfg, video)
+	, tchart_metrics(sdl_field_small_font_size)
+	, scene_slot_(scene_slot)
+	, health_(health)
+	, map_(null_str)
+	, units_(*this, map_, false)
+	, gui_(nullptr)
+	, dlg_(nullptr)
+	, window_(nullptr)
+	// , vert_locs_(posix_align_ceil2(24, HEAL_UNIT_LOCS))
+	, vert_locs_(posix_align_ceil2(48, HEAL_UNIT_LOCS))
+	// , map_margin_({4, 4}) // {20, 20}
+	// , chart_margin_({16, 16}) // {25, 35}
+	// , charts_gap_y_(2)
+	// , chart_radius_(25.0)
+	// , chart_height_(180 * SDL_min(gui2::twidget::hdpi_scale, 1.3)) // 225(64* 3 + 32)
+	// , chart_height_(calculate_chart_height(180))
+	// , posture_small_font_size_(game_config::os == os_windows? font::SIZE_SMALLER: font::SIZE_SMALLEST)
+	// , posture_small_font_size_(sdl_field_small_font_size)
+	// , dunhao_msgstr_(_("dunhao"))
+	, one_chinese_line_height_(font::get_rendered_text_size(_("The height of one line of Chinese text"), INT_MAX, sdl_field_small_font_size).y)
+	, cairo_impropers({
+		{aplt::sitimproper_all_captured, _("improper reason^all captured"), {1.0, 0, 1.0, 1.0}},
+		// sit front special reason
+		{aplt::sitimproper_shoulder_x_in_middle, _("improper reason^shoulder x in middle"), {195 / 255.0, 176 / 255.0, 145 / 255.0, 1.0}},
+		{aplt::sitimproper_not_too_close, _("improper reason^not too close"), {135 / 255.0, 206 / 255.0, 235 / 255.0, 1.0}},
+		{aplt::sitimproper_face_not_too_crooked, _("improper reason^face not too crooked"), {1.0, 195 / 255.0, 4 / 255.0, 1.0}},
+		{aplt::sitimproper_head_not_too_low, _("improper reason^head not too low"), {1.0, 192 / 255.0, 203 / 255.0, 1.0}},
+		{aplt::sitimproper_parallel_not_too_crooked, _("improper reason^parallel not too crooked"), {18 / 255.0, 10 / 255.0, 143 / 255.0, 1.0}},
+
+		// sit side special reason
+		{aplt::sitimproper_head_not_too_forward, _("improper reason^head not too forward"), {0, 100 / 255.0, 148 / 255.0, 1.0}},
+		{aplt::sitimproper_spine_not_too_bending, _("improper reason^spine not too bending"), {128 / 255.0, 0, 128 / 255.0, 1.0}},
+		{aplt::sitimproper_shoulder_width_not_too_broad, _("improper reason^shoulder width not too broad"), {238 / 255.0, 130 / 255.0, 238 / 255.0, 1.0}},
+		{aplt::sitimproper_spine_not_too_long, _("improper reason^spine not too long"), {1.0, 215 / 255.0, 0, 1.0}},
+		{aplt::sitimproper_hip_not_too_high, _("improper reason^hip not too high"), {128 / 255.0, 128 / 255.0, 128 / 255.0, 1.0}},
+		})
+	, sit_duration_color_({78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0})
+	// , improper_duration_color_({1.0, 0.0, 0.0, 1.0})
+	// , improper_alert_color_({1.0, 165 / 255.0, 0 / 255.0, 1.0})
+	// , improper_alert_color_({0.9, 0.7, 0.1, 1.0})
+	// , workout_duration_color_({65 / 255.0, 105 / 255.0, 225 / 255.0, 1.0})
+	// , share_alert_color_({124 / 255.0, 252 / 255.0, 0 / 255.0, 1.0})
+	// , nonpose_state_duration_color_({112 / 255.0, 128 / 255.0, 144 / 255.0, 1.0})
+	// , pose_state_duration_color_({135 / 255.0, 206 / 255.0, 235 / 255.0, 1.0})
+	// , pose_state_duration_color_({195 / 255.0, 176 / 255.0, 145 / 255.0, 1.0})
+	// , pose_state_duration_color_({255 / 255.0, 0 / 255.0, 255 / 255.0, 1.0})
+	// , satisfied_duration_color_({78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0})
+	// , unsatisfied_duration_color_({1.0, 0.0, 0.0, 1.0})
+	, max_workout_charts_(65) // 10
+	// , chart_title_font_size_(font::SIZE_LARGER)
+	, undarw_chart_sel_(nposm)
+	, next_1second_ticks_(0)
+	, allow_draw_(false)
+	, curr_chartsel_(nposm)
+	, is_sharing_(false)
+	, watermark_font_size_(font::SIZE_SMALLER)
+	, watermark_font_color_(font::GRAY_COLOR)
+	, watermark_halo_(halo::NO_HALO)
+	, header_mat_(mattype_day_header, fake_workout_header)
+	, sit_mat_(mattype_day_sit, fake_workout_sit)
+	, summary_mat_(mattype_summary, fake_workout_summary)
+	, workout_mat2s_(sizeof(tworkout_mat2_C))
+	, curr_tip6_(ttip6{nposm, nposm, nposm, nposm, nposm})
+	, draw_items_(sizeof(tdraw_item))
+	, player_(*this)
+	// , btn_rects_{empty_rect, empty_rect, empty_rect}
+	, interest_hiting_(*this)
+	, hide_cairo_share_(false)
+	, max_lru_cache_num_(4)
+	, lru_cache_(*this, max_lru_cache_num_)
+	, testing_lru_cache_(false)
+{
+/*
+	int s1 = sizeof(aplt::treason_C);
+	int s2 = sizeof(aplt::tflow_state_C);
+
+	aplt::tflow_state_C flow_states[WORKOUT_MAX_FLOW_STATES];
+	int s3 = sizeof(flow_states);
+	SDL_Log("sizeof(aplt::treason_C): %i, sizeof(aplt::tflow_state_C): %i, flow_states[WORKOUT_MAX_FLOW_STATES]: %i(%.3f K)", s1, s2, s3, s3 / 1024.0);
+*/
+/*
+	int mselapse_array[] = {60 * 1000, 3600 * 1000, 33 * 1000, 50 * 1000};
+	for (int at = 0; at < sizeof(mselapse_array) / sizeof(mselapse_array[0]); at ++) {
+		int mselapse = mselapse_array[at];
+
+		// mselapse += 12;
+
+		// int show_ms_below_sec = 3600 * 1000;
+		int show_ms_below_sec = 10;
+		int time_sep = utils::timesep_i18n;
+		std::string str_timesep_i18n = utils::format_mselapse_hm_or_ms_or_dotms(mselapse, true, time_sep, false, show_ms_below_sec);
+
+		time_sep = utils::timesep_unit;
+		std::string str_timesep_unit = utils::format_mselapse_hm_or_ms_or_dotms(mselapse, true, time_sep, false, show_ms_below_sec);
+
+		time_sep = utils::timesep_colon;
+		std::string str_timesep_colon = utils::format_mselapse_hm_or_ms_or_dotms(mselapse, true, time_sep, false, show_ms_below_sec);
+	
+	
+		SDL_Log("%i ms => str_timesep_i18n: %s, str_timesep_unit: %s, str_timesep_colon: %s", 
+			mselapse, str_timesep_i18n.c_str(), str_timesep_unit.c_str(), str_timesep_colon.c_str());
+	}
+*/
+	VALIDATE(IS_MULTIPLE_OF_4(map_margin_.x), null_str);
+	VALIDATE(IS_MULTIPLE_OF_4(map_margin_.y), null_str);
+
+	std::string str = preferences::dyn_charts();
+	preferences::set_dyn_charts(str);
+
+	// C array cannot evaluate in struct-list.
+	fake_workouts_[0] = &header_mat_;
+	fake_workouts_[1] = &sit_mat_;
+	fake_workouts_[2] = &summary_mat_;
+
+	if (unsatisfied_isnan_msgstr.empty()) {
+		unsatisfied_isnan_msgstr = _("Absent landmark(nan)");
+		unsatisfied_absend_landmark_msgstr = _("Absent landmark");
+	}
+
+	// make sure draw_items_.data is valid.
+	draw_items_.resize_data(1, 0);
+
+	int original_width = 12;
+	map_ = tmap(generate_map_data2(original_width, vert_locs_, false));
+
+	const std::string& health_dir = health_.health_dir();
+	const int max_days = health_.max_save_days();
+
+	std::set<std::string> filenames;
+	collect_health_files(health_dir, max_days, false, filenames);
+
+	for (std::set<std::string>::const_iterator it = filenames.begin(); it != filenames.end(); ++ it) {
+		const std::string& file = *it;
+		SDL_DeleteFiles(file.c_str());
+	}
+/*
+	surface surf;
+	std::vector<tcode2> fake_mats = {{fake_workout_to_top, "misc/to_top.png"}, 
+		{fake_workout_erase, "misc/erase.png"}};
+	for (std::vector<tcode2>::const_iterator it = fake_mats.begin(); it != fake_mats.end(); ++ it) {
+		const tcode2& code2 = *it;
+		surf = image::get_image(code2.id);
+		VALIDATE(surf.get() != nullptr, null_str);
+		tsingle_mat& fake = *fake_workouts_[code2.code - fake_workout_min];
+		fake.mat = create_neutral_mat_from_surf(surf);
+	}
+*/
+	dyn_charts_from_pref(dyn_chartsels_);
+/*
+	dyn_chartsels_.push_back(tdyn_chartsel());
+	tdyn_chartsel& dyn_chartsel = dyn_chartsels_.back();
+	dyn_chartsel.set_idcontain_rule("leagor_plank");
+*/
+}
+
+health_controller::~health_controller()
+{
+	if (player_.is_ing()) {
+		player_.stop();
+	}
+	clear_workout_mat2s();
+
+	clear_dyn_chartsels();
+
+	if (gui_) {
+		delete gui_;
+		gui_ = nullptr;
+	}
+}
+
+void health_controller::app_create_display(int initial_zoom)
+{
+	gui_ = new health_display(scene_slot_, *this, units_, video_, map_, initial_zoom);
+}
+
+void health_controller::app_post_initialize()
+{
+	dlg_ = static_cast<gui2::thealth_scene*>(gui_->get_theme());
+	window_ = dlg_->get_window();
+
+	gui2::tfloat_widget* flt_widget = window_->find_float_widget("flt_to_top");
+	flt_widget->set_visible(true);
+
+	// flt_widget = window_->find_float_widget("flt_erase");
+	// flt_widget->set_visible(true);
+}
+
+void health_controller::app_play_slice()
+{
+	uint32_t now = SDL_GetTicks();
+    if (now > next_1second_ticks_) {
+        // dlg_->refresh_statusbar_grid(now);
+		scene_slot_.timer_handler(now);
+
+        const int threshold_1s = 1000;
+        next_1second_ticks_ = now + threshold_1s;
+    }
+
+	if (player_.is_time_to_next()) {
+		player_.play_next();
+	}
+}
+
+void health_controller::app_execute_command(int command, const std::string& sparam)
+{
+	using namespace gui2;
+
+	switch (command) {
+		case thealth_scene::HOTKEY_RETURN:
+			// player_.make_sure_stop();
+			do_quit_ = true;
+			break;
+
+		case thealth_scene::HOTKEY_SHARE:
+			// share();
+			break;
+
+		case HOTKEY_ZOOM_IN:
+			gui_->set_zoom(ZOOM_INCREMENT);
+			break;
+		case HOTKEY_ZOOM_OUT:
+			gui_->set_zoom(-ZOOM_INCREMENT);
+			break;
+
+		case HOTKEY_SYSTEM:
+			break;
+
+		default:
+			base_controller::app_execute_command(command, sparam);
+	}
+}
+
+health_controller::tclick health_controller::in_which_rect(int screen_x, int screen_y) const
+{
+	SDL_Point map_xy{screen_x, screen_y};
+	gui_->screen_2_map(map_xy.x, map_xy.y);
+	
+	for (int fake_at = 0; fake_at < fake_workout_count; fake_at ++) {
+		tsingle_mat& fake = *fake_workouts_[fake_at];
+		for (int btn = 0; btn < pl_btn_count; btn ++) {
+			const SDL_Rect& rect = fake.btn_rects[btn];
+			if (rect.w > 0) {
+				if (point_in_rect(map_xy.x, map_xy.y, rect)) {
+					return tclick{fake.fake_workout_at, clicktype_btn, btn};
+				}
+			}
+		}
+
+		for (int tip_at = 0; tip_at < fake.tip_rects.vsize; tip_at ++) {
+			const SDL_Rect& rect = fake.tip_rects.ptr[tip_at];
+			if (rect.w > 0) {
+				if (point_in_rect(map_xy.x, map_xy.y, rect)) {
+					return tclick{fake.fake_workout_at, clicktype_tip, tip_at};
+				}
+			}
+		}
+	}
+
+	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	for (int mat2_at = 0; mat2_at < workout_mat2s_.vsize; mat2_at ++) {
+		const tworkout_mat2_C& mat2 = mat2s[mat2_at];
+		for (int btn = 0; btn < pl_btn_count; btn ++) {
+			const SDL_Rect& rect = mat2.btn_rects[btn];
+			if (rect.w > 0) {
+				if (point_in_rect(map_xy.x, map_xy.y, rect)) {
+					return tclick{mat2_at, clicktype_btn, btn};
+				}
+			}
+		}
+		for (int tip_at = 0; tip_at < mat2.tip_rects.count; tip_at ++) {
+			const SDL_Rect& rect = mat2.tip_rects.ptr[tip_at];
+			if (rect.w > 0) {
+				if (point_in_rect(map_xy.x, map_xy.y, rect)) {
+					return tclick{mat2_at, clicktype_tip, tip_at};
+				}
+			}
+		}
+	}
+	return tclick{nposm, nposm, nposm};
+}
+
+void health_controller::player_seek_to(int screen_x, int screen_y)
+{
+	VALIDATE(interest_hiting_.click.workout_at_in_page == player_.workout_at_in_page(), null_str);
+	VALIDATE(interest_hiting_.click.type == clicktype_btn, null_str);
+	VALIDATE(interest_hiting_.click.ctx == pl_btn_progressbar, null_str);
+	VALIDATE(player_.is_ing(), null_str);
+
+	const tworkout_mat2_C& mat2 = *(const tworkout_mat2_C*)workout_mat2s_.elem(interest_hiting_.click.workout_at_in_page);
+	const SDL_Rect& rect = mat2.btn_rects[pl_btn_progressbar];
+	SDL_Point map_xy{screen_x, screen_y};
+	gui_->screen_2_map(map_xy.x, map_xy.y);
+	double ratio = 1.0 * (map_xy.x - rect.x) / rect.w;
+	player_.seek_to_ratio(ratio);
+}
+
+void health_controller::adjust_progressbar_rect(int workout_at)
+{
+	VALIDATE(workout_at >= 0 && workout_at < workout_mat2s_.vsize, null_str);
+
+	int min_height = 12 * gui2::twidget::hdpi_scale;
+	tworkout_mat2_C& mat2 = *(tworkout_mat2_C*)workout_mat2s_.mutable_elem(workout_at);
+	SDL_Rect& rect = mat2.btn_rects[pl_btn_progressbar];
+	if (rect.h < min_height) {
+		rect.y -= (min_height - rect.h) / 2;
+		rect.h = min_height;
+	}
+}
+
+bool health_controller::app_mouse_motion(const int x, const int y, const bool minimap)
+{
+	if (minimap) {
+		return true;
+	}
+
+	const SDL_Rect& _map_area = gui_->main_map_view_rect();
+	if (!point_in_rect(x, y, _map_area)) {
+		interest_hiting_.clear();
+	}
+
+	if (!interest_hiting_.valid()) {
+		return true;
+	}
+
+	tclick now_hiting = in_which_rect(x, y);
+
+	if (memcmp(&now_hiting, &interest_hiting_.click, sizeof(now_hiting)) != 0) {
+		if (!interest_hiting_.in_progressbar()) {
+			interest_hiting_.clear();
+		}
+	}
+
+	if (interest_hiting_.in_progressbar()) {
+		player_seek_to(x, y);
+	}
+
+	return !interest_hiting_.valid();
+}
+
+void health_controller::app_left_mouse_down(const int x, const int y, const bool minimap)
+{
+	if (minimap) {
+		return;
+	}
+
+	VALIDATE(!interest_hiting_.valid(), null_str);
+
+	tclick now_hiting = in_which_rect(x, y);
+	if (now_hiting.workout_at_in_page == nposm) {
+		return;
+	}
+
+	interest_hiting_.set(now_hiting);
+
+	if (interest_hiting_.in_progressbar()) {
+		player_seek_to(x, y);
+	}
+}
+
+void health_controller::app_left_mouse_up(const int x, const int y, const bool click)
+{
+	tclear_interest_hiting_lock lock(*this);
+
+	if (!click) {
+		return;
+	}
+
+	lock.set_may_empty_tip_mat();
+
+	if (!point_in_rect(x, y, gui_->main_map_widget_rect())) {
+		return;
+	}
+
+	if (gui_->point_in_volatiles(x, y)) {
+		return;
+	}
+
+	if (!interest_hiting_.valid()) {
+		return;
+	}
+
+	tclick now_hiting = in_which_rect(x, y);
+	if (memcmp(&now_hiting, &interest_hiting_.click, sizeof(now_hiting)) != 0) {
+		return;
+	}
+
+	if (interest_hiting_.click.type == clicktype_btn) {
+		VALIDATE(misc_btn_open_url == pl_btn_stop, null_str);
+		if (interest_hiting_.click.ctx == pl_btn_play) {
+			if (!player_.is_ing() || player_.workout_at_in_page() != interest_hiting_.click.workout_at_in_page) {
+				if (player_.is_ing()) {
+					stop_player();
+				}
+				bool retval = start_player(interest_hiting_.click.workout_at_in_page);
+				if (!retval) {
+					std::string msg = _("Playback failed. The action script format used by this workout is too old and is no longer supported.");
+					gui2::thealth_scene::tmsg_data_show_message* pdata = 
+						new gui2::thealth_scene::tmsg_data_show_message(msg);
+					rtc::Thread::Current()->Post(RTC_FROM_HERE, dlg_, gui2::thealth_scene::MSG_SHOW_MESSAGE, pdata);
+
+					// gui2::show_message(null_str, msg);
+				}
+
+			} else if (player_.is_end()) {
+				player_.restart();
+
+			} else if (player_.is_pausing()) {
+				player_.pause(false);
+
+			} else {
+				player_.pause(true);
+			}
+
+		} else if (interest_hiting_.click.ctx == pl_btn_step_backward) {
+			if (!player_.is_0()) {
+				player_.step_one(true);
+			}
+
+		} else if (interest_hiting_.click.ctx == pl_btn_step_forward) {
+			if (!player_.is_end()) {
+				player_.step_one(false);
+			}
+
+		} else if (interest_hiting_.click.ctx == pl_btn_stop) {
+			if (player_.is_ing()) {
+				stop_player();
+
+			} else {
+				VALIDATE(misc_btn_open_url == pl_btn_stop, null_str);
+				tworkout_mat2_C* mat2 = (tworkout_mat2_C*)workout_mat2s_.mutable_elem(interest_hiting_.click.workout_at_in_page);
+				const config& wkoscript_cfg = *mat2->wkoscript_cfg;
+				const std::string reference = wkoscript_cfg["reference"].str();
+				if (!reference.empty()) {
+					SDL_OpenUrl(reference.c_str());
+					// win_ShellExecuteW_open(reference);
+				}
+			}
+
+		} else if (interest_hiting_.click.ctx == pl_btn_share) {
+			VALIDATE(is_sharing_, null_str);
+
+			bool_set_t* share_ptr = nullptr;
+			SDL_Point redraw_which_chart{mattype_day_workout, 0};
+			if (interest_hiting_.click.workout_at_in_page < fake_workout_min) {
+				tworkout_mat2_C* mat2 = (tworkout_mat2_C*)workout_mat2s_.mutable_elem(interest_hiting_.click.workout_at_in_page);
+				redraw_which_chart.y = interest_hiting_.click.workout_at_in_page;
+
+				share_ptr = &mat2->share;
+
+			} else {
+				tsingle_mat& mat2 = *fake_workouts_[interest_hiting_.click.workout_at_in_page - fake_workout_min];
+				redraw_which_chart.x = mat2.mat_type;
+
+				share_ptr = &mat2.share;
+			}
+			bool_set_t& share = *share_ptr;
+			if (share == bool_set_false) {
+				share = bool_set_true;
+			} else {
+				VALIDATE(share == bool_set_true, null_str);
+				share = bool_set_false;
+			}
+
+			const int sel = curr_chartsel_;
+			if (is_day_chartsel(sel)) {
+				refresh_day_chart(day_chartsel_2_t(sel), true, redraw_which_chart);
+
+			} else if (is_days_chartsel(sel)) {
+
+			} else {
+				VALIDATE(sel >= chartsel_dyn_min, null_str);
+				VALIDATE(sel - chartsel_dyn_min < (int)dyn_chartsels_.size(), null_str);
+				tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+
+				refresh_idcontain_chart(dyn_chartsel, true, redraw_which_chart);
+			}
+
+			update_which_charts_label();
+		}
+
+	} else if (interest_hiting_.click.type == clicktype_tip) {
+		int tip_at = interest_hiting_.click.ctx;
+
+		if (interest_hiting_.click.workout_at_in_page < fake_workout_min) {
+			const tworkout_mat2_C* mat2 = (tworkout_mat2_C*)workout_mat2s_.mutable_elem(interest_hiting_.click.workout_at_in_page);
+			
+			int workout_at_in_result2 = nposm;
+
+			const aplt::thealth::thealth_result2& result2 = calc_result2_and_workout_at( 
+				interest_hiting_.click.workout_at_in_page, workout_at_in_result2);
+			VALIDATE(workout_at_in_result2 >= 0 && workout_at_in_result2 < (int)result2.workouts.size(), null_str);
+			const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at_in_result2];
+
+			ttip6 tip6 = parse_tip_at(interest_hiting_.click.workout_at_in_page, workout, *mat2, tip_at);
+			VALIDATE(tip6.map_y == nposm && tip6.map_ltop_y == nposm, null_str);
+			if (tip6.col_type == cairo::coltype_seg || tip6.col_type == cairo::coltype_rep) {
+
+				tdraw_item& workout_item = find_draw_item(mattype_day_workout, interest_hiting_.click.workout_at_in_page);
+
+				tip6.map_y = gui_->screen_2_map_y(y) - workout_item.offset.y;
+				draw_tip_mat2(false, tip6, result2, workout_at_in_result2, nullptr);
+
+				lock.set_tip_mat_is_update();
+
+				// imwrite(tip_mat_, "1.png");
+
+			} else {
+				VALIDATE(tip6.col_type == cairo::coltype_pose_state, null_str);
+			}
+
+		} else {
+			tsingle_mat& mat2 = *fake_workouts_[interest_hiting_.click.workout_at_in_page - fake_workout_min];
+			VALIDATE(mat2.fake_workout_at == fake_workout_summary, null_str);
+
+			VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+			const tdyn_chartsel& chartsel = *dyn_chartsels_[curr_chartsel_ - chartsel_dyn_min];
+
+			int screen_x = 0;
+			int screen_y = chartsel.day_offset_ys[tip_at];
+			gui_->map_2_screen(screen_x, screen_y);
+			gui_->scroll_to_xy(screen_x, screen_y, display::ONSCREEN);
+		}
+	}
+}
+
+void blit_header_value(surface& surf, int x, int y, const std::string& value, int digit_font_size, int other_font_size)
+{
+	if (value.empty()) {
+		return;
+	}
+
+	utils::utf8_iterator curr_itor = value;
+	int nondigit_start = value.size();
+	for (; curr_itor != utils::utf8_iterator::end(value); ++ curr_itor) {
+		wchar_t wch = *curr_itor;
+		if (wch < '0' || wch > '9') {
+			const std::pair<std::string::const_iterator, std::string::const_iterator>& substr = curr_itor.substr();
+			nondigit_start = std::distance(value.cbegin(), substr.first);
+			break;
+		}
+	}
+	surface text_surf;
+	SDL_Rect dst_rect;
+	int digit_height = nposm;
+	int other_x = x;
+	if (nondigit_start > 0) {
+		const std::string digit_str = value.substr(0, nondigit_start);
+		text_surf = font::get_rendered_text(digit_str, INT_MAX, digit_font_size, font::BLACK_COLOR);
+		dst_rect = ::create_rect(x, y, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+		other_x = x + text_surf->w;
+		digit_height = text_surf->h;
+	}
+	if (nondigit_start != (int)value.size()) {
+		const std::string other_str = value.substr(nondigit_start);
+		text_surf = font::get_rendered_text(other_str, INT_MAX, other_font_size, font::GRAY_COLOR);
+		if (digit_height != nposm) {
+			int jitter = (digit_font_size - other_font_size) / 2;
+			dst_rect = ::create_rect(other_x, y + digit_height - jitter - text_surf->h, text_surf->w, text_surf->h);
+		} else {
+			dst_rect = ::create_rect(other_x, y, text_surf->w, text_surf->h);
+		}
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+}
+
+void health_controller::app_first_drawn()
+{
+	// make_sure_map();
+
+	VALIDATE(!allow_draw_, null_str);
+	allow_draw_ = true;
+
+	if (undarw_chart_sel_ != nposm) {
+		refresh_chart_by_sel(undarw_chart_sel_);
+		undarw_chart_sel_ = nposm;
+	}
+}
+
+void health_controller::app_resize_screen()
+{
+	gui_->app_resize_screen();
+
+	// make_sure_map();
+
+	VALIDATE(curr_chartsel_ != nposm, null_str);
+
+	
+	{
+		std::unique_ptr<tplayer::trestorer> restorer;
+		if (player_.is_ing()) {
+			restorer.reset(new tplayer::trestorer(player_));
+		}
+
+		refresh_chart_by_sel(curr_chartsel_);
+	}
+
+	if (watermark_halo_ != halo::NO_HALO) {
+		did_watermark_text_changed(*dlg_->watermark_widget().text_box());
+	}
+}
+
+cv::Mat health_controller::draw_header_mat(bool to_image, int mat_width, double radius, const SDL_Point& /*map_margin*/, const SDL_Point& chart_margin,
+	const aplt::thealth::thealth_result2& result2)
+{
+	SDL_Point max_size = {0, 0};
+	cairo::theader_fields fields;
+	for (int at = 0; at < fields.fid_count; at ++) {
+		cairo::tsdl_field* field = fields.arrays[at];
+		std::string icon;
+		std::string name;
+		std::string value;
+		if (at == fields.fid_sitting_period) {
+			icon = "misc/period28.png";
+			name = _("posture^Sitting period");
+			value = result2.to_msg_sit_period();
+
+		} else if (at == fields.fid_sitting_duration) {
+			icon = "misc/sit28.png";
+			name = _("posture^Sitting duration");
+			value = result2.to_msg_sit_duration();
+
+		} else if (at == fields.fid_improper_alert) {
+			icon = "misc/alert_yellow28.png";
+			name = _("posture^Improper alert");
+			value = result2.to_msg_alert_count(true);
+
+		} else if (at == fields.fid_sedentary_alert) {
+			icon = "misc/alert_blue28.png";
+			name = _("posture^Sedentary alert");
+			value = result2.to_msg_alert_count(false);
+
+		} else if (at == fields.fid_workout) {
+			icon = "misc/workout28.png";
+			name = _("posture^Workout");
+			value = result2.to_msg_workouts();
+
+		} else {
+			VALIDATE(false, null_str);
+		}
+		field->set(icon, name, font::SIZE_SMALL, value, font::SIZE_LARGER, SDL_Point{20, 20}, SDL_Point{0, 5});
+		field->desire_size.x = field->name_text_size.x;
+		field->desire_size.y = field->margin.y * 2 + field->name_text_size.y + field->gap.y + field->val_text_size.y;
+		max_size.x = SDL_max(max_size.x, field->desire_size.x);
+		max_size.y = SDL_max(max_size.y, field->desire_size.y);
+	}
+
+	fields.share = hide_cairo_share_? bool_set_none: header_mat_.share;
+	fields.pl_btn_rects = header_mat_.btn_rects;
+
+	const int header_height = chart_margin_.y * 2 + max_size.y;
+	cv::Mat result_mat = cairo::draw_header_mat(to_image, mat_width, header_height, radius, chart_margin_, fields);
+
+	surface text_surf;
+	SDL_Rect dst_rect;
+	{
+		surface surf(result_mat);
+		for (int at = 0; at < fields.fid_count; at ++) {
+			const cairo::tsdl_field& field = *fields.arrays[at];
+
+			int icon_size = 24;
+			text_surf = image::get_image(field.icon);
+			text_surf = scale_surface(text_surf, icon_size, icon_size);
+			VALIDATE(text_surf.get() != nullptr, null_str);
+			dst_rect = ::create_rect(field.offset.x + field.margin.x, 
+				field.offset.y + field.margin.y + (field.name_text_size.y - text_surf->w) / 2, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+
+			int x_start = dst_rect.x + icon_size + 2;
+
+			text_surf = font::get_rendered_text(field.name, INT_MAX, field.name_font_size, font::GRAY_COLOR);
+			dst_rect = ::create_rect(x_start, field.offset.y + field.margin.y, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+
+			int y = dst_rect.y + text_surf->h + field.gap.y;
+			blit_header_value(surf, field.offset.x + field.margin.x, y, field.val, field.val_font_size, field.name_font_size);
+		}
+	}
+	return result_mat;
+}
+
+cv::Mat health_controller::draw_sit_mat(bool to_image, int mat_width, double radius, const SDL_Point& /*map_margin*/, const SDL_Point& chart_margin,
+	int small_font_size, const aplt::thealth::thealth_result2& result2)
+{
+	//
+	// sit chart
+	//
+	cairo::tsit_fields fields;
+	for (int at = 0; at < fields.fid_count; at ++) {
+		cairo::tsdl_field* field = fields.arrays[at];
+		std::string icon;
+		std::string name;
+		int name_font_size = 0;
+		SDL_DColor cairo_color{0.0, 0.0, 0.0, 0.0};
+		if (at == fields.fid_title) {
+			icon = "misc/chair48.png";
+			name = _("title^posture chart");
+			name_font_size = chart_title_font_size_;
+
+		} else if (at == fields.fid_today) {
+			name = utils::format_time_ymd4(result2.start_of_today, true, true, true);
+			name_font_size = font::SIZE_DEFAULT;
+			cairo_color = SDL_DColor{232 / 255.0, 241 / 255.0, 250 / 255.0, 1.0};
+
+		} else if (at == fields.fid_left_y_axis) {
+			name = _("posture^left_y_axis title");
+			name_font_size = small_font_size;
+
+		} else if (at == fields.fid_right_y_axis) {
+			name = _("posture^right_y_axis title");
+			name_font_size = small_font_size;
+
+		} else if (at == fields.fid_legend_sit_duration) {
+			name = _("posture^Sitting duration");
+			name_font_size = small_font_size;
+			// cairo_color = SDL_DColor{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+			cairo_color = sit_duration_color_;
+
+		} else if (at == fields.fid_legend_improper_duration) {
+			name = _("posture^Improper duration");
+			name_font_size = small_font_size;
+			// cairo_color = SDL_DColor{1.0, 0.0, 0.0, 1.0};
+			cairo_color = improper_duration_color_;
+
+			// const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+
+		} else if (at == fields.fid_legend_improper_alert) {
+			name = _("posture^Improper alert count");
+			name_font_size = small_font_size;
+			// cairo_color = SDL_DColor{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+			// cairo_color = SDL_DColor{1.0, 195 / 255.0, 0 / 255.0, 1.0};
+			cairo_color = improper_alert_color_;
+
+		} else if (at == fields.fid_chart_remark) {
+			name = _("posture^chart remak");
+			name_font_size = small_font_size;
+
+		} else {
+			VALIDATE(false, null_str);
+		}
+		field->set(icon, name, name_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+		field->cairo_color = cairo_color;
+		field->desire_size.x = field->name_text_size.x;
+		field->desire_size.y = field->margin.y * 2 + field->name_text_size.y + field->gap.y + field->val_text_size.y;
+	}
+
+	memcpy(fields.sit_durations, result2.sit_durations, sizeof(fields.sit_durations));
+	memcpy(fields.improper_durations, result2.improper_durations, sizeof(fields.improper_durations));
+
+	for (int type = 0; type < aplt::sitimproper_reason_count; type ++) {
+		const int* durations = result2.type_improper_durations[type];
+		bool insert = false;
+		for (int hour = 0; hour < ONE_DAY_HOURS; hour ++) {
+			if (durations[hour] != 0) {
+				insert = true;
+				break;
+			}
+		}
+		if (!insert) {
+			continue;
+		}
+		const tcairo_improper& cairo_improper = cairo_impropers[type];
+
+		fields.type_impropers.push_back(cairo::tsit_fields::ttype_improper(type));
+		cairo::tsit_fields::ttype_improper& type_improper = fields.type_impropers.back();
+		std::string name;
+		type_improper.color = cairo_improper.color;
+		name = cairo_improper.label;
+
+		memcpy(type_improper.durations, durations, sizeof(type_improper.durations));
+
+		cairo::tsdl_field& field = type_improper.label;
+		field.set(null_str, name, small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+	memcpy(fields.improper_alerts, result2.improper_alerts, sizeof(fields.improper_alerts));
+
+	//
+	// calculate misc 'height'
+	//
+	fields.title_height = fields.title.name_text_size.y + chart_margin.y;
+	fields.legend_height = fields.legend_improper_alert.name_text_size.y * 3 
+		+ fields.legend_2legend_gap_y + 12 + fields.y_axis_title_gap_y;
+	fields.time_labels_height = 40 + fields.chart_remark.name_text_size.y;
+
+	const int chart_height = chart_height_;
+	const int canvas_height = chart_margin_.y + fields.title_height + fields.legend_height +
+		chart_height + fields.time_labels_height + chart_margin_.y;
+
+	fields.share = hide_cairo_share_? bool_set_none: sit_mat_.share;
+	fields.pl_btn_rects = sit_mat_.btn_rects;
+
+	cv::Mat result_mat = cairo::draw_sit_dual_axis_stacked_bar_chart(to_image, mat_width, canvas_height, radius, chart_margin, fields);
+	// imwrite(result_mat, "1-posture_mat.png");
+
+	surface text_surf;
+	SDL_Rect dst_rect;
+	{
+		surface surf(result_mat);
+		for (int at = 0; at < fields.fid_count; at ++) {
+			const cairo::tsdl_field& field = *fields.arrays[at];
+
+			SDL_Color font_color = font::GRAY_COLOR;
+			int x_start = field.offset.x;
+			if (at == fields.fid_title) {
+				surface img_surf = image::get_image(field.icon);
+				VALIDATE(img_surf.get() != nullptr, null_str);
+				img_surf = scale_surface(img_surf, field.name_text_size.y, field.name_text_size.y);
+				dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+				sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+				x_start += img_surf->w;
+				font_color = font::BLACK_COLOR;
+
+			} else if (at == fields.fid_left_y_axis) {
+				font_color = font::BLACK_COLOR;
+
+			} else if (at == fields.fid_right_y_axis) {
+				const SDL_DColor& dcolor = fields.legend_improper_duration.cairo_color;
+				font_color = SDL_Color{(uint8_t)(int)(dcolor.r * 255), (uint8_t)(int)(dcolor.g * 255), (uint8_t)(int)(dcolor.b * 255), 255};
+			}
+
+			text_surf = font::get_rendered_text(field.name, INT_MAX, field.name_font_size, font_color);
+			dst_rect = ::create_rect(x_start, field.offset.y, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+		}
+
+		for (std::vector<cairo::tsit_fields::ttype_improper>::iterator it = fields.type_impropers.begin(); it != fields.type_impropers.end(); ++ it) {
+			cairo::tsdl_field& field = it->label;
+
+			text_surf = font::get_rendered_text(field.name, INT_MAX, field.name_font_size, font::GRAY_COLOR);
+			{
+				// text_surf = image::get_image("misc/chart_background.png");
+				// text_surf = scale_surface(text_surf, 40, 20);
+			}
+			dst_rect = ::create_rect(field.offset.x, field.offset.y, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+		}
+	}
+	return result_mat;
+}
+
+cv::Mat health_controller::draw_days_sit_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+	int small_font_size, int days)
+{
+	tdays_sit_mat_slot slot(*this, to_image, mat_width, radius, map_margin, chart_margin, 
+			small_font_size, days);
+	return draw_days_mat(to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, slot);
+}
+
+cv::Mat health_controller::draw_days_workout_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+	int small_font_size, int days)
+{
+	tdays_workout_mat_slot slot(*this, to_image, mat_width, radius,map_margin, chart_margin, 
+			small_font_size, days);
+	return draw_days_mat(to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, slot);
+}
+
+cv::Mat health_controller::draw_days_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+	int small_font_size, int days, const std::string& title, bool is_sharing, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
+	tdyn_chartsel& dyn_chartsel)
+{
+	tdays_summary_mat_slot slot(*this, to_image, mat_width, radius,map_margin, chart_margin, 
+		small_font_size, days, title, is_sharing, btn_rects, tip_rects, share, 
+		&dyn_chartsel);
+	return draw_days_mat(to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, slot);
+}
+
+cairo::tsdl_field* health_controller::tdays_sit_mat_slot::pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color)
+{
+	cairo::tsdl_field* field = fields.arrays[at];
+
+	if (at == fields.fid_title) {
+		utils::string_map symbols;
+		icon = "misc/chair48.png";
+		symbols["days"] = str_cast(days);
+		name = vgettext2("title^posture chart, $days", symbols);
+		name_font_size = controller_.chart_title_font_size_;
+
+	} else if (at == fields.fid_this_days) {
+		std::stringstream ss;
+		ss << utils::format_time_ymd4(desire_start_of_today - ((days - 1) * ONE_DAY_SECONDS), true, true, true);
+		ss << "-";
+		ss << utils::format_time_ymd4(desire_start_of_today, false, true, true);
+		name = ss.str();
+		name_font_size = font::SIZE_DEFAULT;
+		cairo_color = SDL_DColor{232 / 255.0, 241 / 255.0, 250 / 255.0, 1.0};
+
+	} else if (at == fields.fid_left_y_axis) {
+		name = _("posture^left_y_axis title, days");
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_right_y_axis) {
+		name = _("posture^right_y_axis title, days");
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_legend_sit_duration) {
+		name = _("posture^Sitting duration");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+		cairo_color = controller_.sit_duration_color_;
+
+		// const SDL_DColor sit_duration_color{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+
+	} else if (at == fields.fid_legend_improper_duration) {
+		name = _("posture^Improper duration");
+		name_font_size = small_font_size;
+
+		// cairo_color = SDL_DColor{1.0, 0.0, 0.0, 1.0};
+		cairo_color = controller_.improper_duration_color_;
+
+		// const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+		const SDL_DColor improper_duration_color{1.0, 0.0, 0.0, 1.0};
+
+	} else if (at == fields.fid_legend_improper_alert) {
+		name = _("posture^Improper alert count");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 0 / 255.0, 1.0};
+
+		// cairo_color = SDL_DColor{1.0, 165 / 255.0, 0 / 255.0, 1.0};
+		cairo_color = controller_.improper_alert_color_;
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+
+	return field;
+}
+
+cairo::tsdl_field* health_controller::tdays_sit_mat_slot::fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool retbool, std::string& day_label_val)
+{
+	fields.sit_durations[day] = result2.calc_total(aplt::thealth::thealth_result2::type_sit_duration);
+	fields.improper_durations[day] = result2.calc_total(aplt::thealth::thealth_result2::type_improper_duration);
+	fields.improper_alerts[day] = result2.calc_total(aplt::thealth::thealth_result2::type_improper_alert);
+
+	// bottom's day labels
+	int time_sep = utils::timesep_unit;
+	fields.bar_4labels.push_back(cairo::tdays_posture_fields::tbar_4label());
+	cairo::tdays_posture_fields::tbar_4label& bar_4label = fields.bar_4labels.back();
+	// sit duration
+	if (retbool) {
+		bar_4label.sit.set(null_str, utils::format_elapse_hm_or_ms(fields.sit_durations[day], true, time_sep),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.sit.clear();
+	}
+
+	// improper duration
+	if (retbool) {
+		bar_4label.improper.set(null_str, utils::format_elapse_hm_or_ms(fields.improper_durations[day], true, time_sep, false),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.improper.clear();
+	}
+
+	// improper alert count
+	if (retbool) {
+		bar_4label.improper_alert.set(null_str, str_cast(fields.improper_alerts[day]),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.improper_alert.clear();
+	}
+
+	// day label
+	day_label_val.clear();
+	if (retbool) {
+		day_label_val = result2.to_msg_sit_period();
+	}
+	return &bar_4label.day;	
+}
+
+cv::Mat health_controller::tdays_sit_mat_slot::cairo_draw_days_mat(int mat_height)
+{
+	return cairo::draw_days_posture_dual_axis_stacked_bar_chart(to_image, mat_width, mat_height, radius, chart_margin, days, fields);
+}
+
+const cairo::tsdl_field& health_controller::tdays_sit_mat_slot::post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color)
+{
+	const cairo::tsdl_field& field = *fields.arrays[at];
+	x_start = field.offset.x;
+	y_start = field.offset.y;
+	if (at == fields.fid_title) {
+		surface img_surf = image::get_image(field.icon);
+		VALIDATE(img_surf.get() != nullptr, null_str);
+		img_surf = scale_surface(img_surf, field.name_text_size.y, field.name_text_size.y);
+		SDL_Rect dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+		sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+		x_start += img_surf->w;
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_left_y_axis) {
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_right_y_axis) {
+		const SDL_DColor& dcolor = fields.legend_improper_alert.cairo_color;
+		font_color = SDL_Color{(uint8_t)(int)(dcolor.r * 255), (uint8_t)(int)(dcolor.g * 255), (uint8_t)(int)(dcolor.b * 255), 255};
+	}
+	return field;
+}
+
+const cairo::tsdl_field& health_controller::tdays_sit_mat_slot::post_render_day_array(int day, surface& surf)
+{
+	surface text_surf;
+	SDL_Rect dst_rect;
+
+	const cairo::tdays_posture_fields::tbar_4label& bar_3label = fields.bar_4labels[day];
+
+	SDL_Color font_color = font::SDL_DColor_to_SDL_Color(fields.legend_sit_duration.cairo_color);
+	int x_start;
+	int y_start;
+	// sit duration
+	const cairo::tsdl_field* field = &bar_3label.sit;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+
+	// improper duration
+	font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_duration.cairo_color);
+	field = &bar_3label.improper;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+
+	// improper alert
+	font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_alert.cairo_color);
+	field = &bar_3label.improper_alert;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+	return bar_3label.day;
+}
+
+//
+// draw days workout mat
+//
+cairo::tsdl_field* health_controller::tdays_workout_mat_slot::pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color)
+{
+	cairo::tsdl_field* field = fields.arrays[at];
+
+	if (at == fields.fid_title) {
+		icon = "misc/workout48.png";
+		utils::string_map symbols;
+		symbols["days"] = str_cast(days);
+		name = vgettext2("title^workout chart, $days", symbols);
+		name_font_size = controller_.chart_title_font_size_;
+
+	} else if (at == fields.fid_this_days) {
+		std::stringstream ss;
+		ss << utils::format_time_ymd4(desire_start_of_today - ((days - 1) * ONE_DAY_SECONDS), true, true, true);
+		ss << "-";
+		ss << utils::format_time_ymd4(desire_start_of_today, false, true, true);
+		name = ss.str();
+		name_font_size = font::SIZE_DEFAULT;
+		cairo_color = SDL_DColor{232 / 255.0, 241 / 255.0, 250 / 255.0, 1.0};
+
+	} else if (at == fields.fid_left_y_axis) {
+		name = _("workout^Workout duration");
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_right_y_axis) {
+		name = _("workout^Workout count");
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_legend_workout_duration) {
+		name = _("workout^Workout duration");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+		cairo_color = controller_.workout_duration_color_;
+
+		// const SDL_DColor sit_duration_color{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+
+	} /* else if (at == fields.fid_legend_improper_duration) {
+		// bool no_legend_improper_duration = true;
+		name = _("posture^Improper duration");
+		name_font_size = small_font_size;
+
+		// cairo_color = SDL_DColor{1.0, 0.0, 0.0, 1.0};
+		cairo_color = controller_.improper_duration_color_;
+
+		// const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+		const SDL_DColor improper_duration_color{1.0, 0.0, 0.0, 1.0};
+
+	} */ else if (at == fields.fid_legend_improper_alert) {
+		name = _("workout^Workout count");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 0 / 255.0, 1.0};
+
+		// cairo_color = SDL_DColor{1.0, 165 / 255.0, 0 / 255.0, 1.0};
+		cairo_color = controller_.improper_alert_color_;
+
+	} else if (at == fields.fid_legend_share_alert) {
+/*
+		name = _("workout^Workout count");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 0 / 255.0, 1.0};
+
+		// cairo_color = SDL_DColor{1.0, 165 / 255.0, 0 / 255.0, 1.0};
+		cairo_color = controller_.improper_alert_color_;
+*/
+	} else if (at == fields.fid_chart_remark) {
+/*
+		std::stringstream name_ss;
+		name_ss << _("wko^days workout summary chart remark");
+		name = name_ss.str();
+*/
+		name_font_size = small_font_size;
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+	return field;
+}
+
+cairo::tsdl_field* health_controller::tdays_workout_mat_slot::fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool retbool, std::string& day_label_val)
+{
+	fields.sit_durations[day] = result2.calc_workout_total(aplt::thealth::thealth_result2::type_workout_duration);
+	fields.sit_durations[day] /= 1000;
+	// fields.improper_durations[day] = 2;
+	fields.improper_alerts[day] = result2.calc_workout_total(aplt::thealth::thealth_result2::type_workout_times);
+
+	// bottom's day labels
+	int time_sep = utils::timesep_unit;
+	fields.bar_4labels.push_back(cairo::tdays_workout_fields::tbar_4label());
+	cairo::tdays_workout_fields::tbar_4label& bar_4label = fields.bar_4labels.back();
+	// sit duration
+	if (retbool) {
+		bar_4label.sit.set(null_str, utils::format_elapse_hm_or_ms(fields.sit_durations[day], true, time_sep),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.sit.clear();
+	}
+/*
+	// improper duration
+	if (retbool) {
+		bar_4label.improper.set(null_str, utils::format_elapse_hm_or_ms(fields.improper_durations[day], true, intl, false),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.improper.clear();
+	}
+*/
+	// improper alert count
+	if (retbool) {
+		bar_4label.improper_alert.set(null_str, str_cast(fields.improper_alerts[day]),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.improper_alert.clear();
+	}
+
+	// day label
+	day_label_val.clear();
+	if (retbool) {
+		day_label_val = result2.to_msg_workout_max_range();
+	}
+	return &bar_4label.day;
+}
+
+cv::Mat health_controller::tdays_workout_mat_slot::cairo_draw_days_mat(int mat_height)
+{
+	// SDL_Rect* tip_rects_tmp = (SDL_Rect*)malloc(sizeof(SDL_Rect) * fields.col_count);
+	// fields.tip_rects = tip_rects_tmp;
+
+	SDL_Rect* tip_rects = (SDL_Rect*)malloc(sizeof(SDL_Rect) * days);
+
+	VALIDATE(fields.tip_rects == nullptr, null_str);
+	fields.tip_rects = tip_rects;
+	SDL_Rect btn_rects_tmp[pl_btn_count];
+	fields.pl_btn_rects = btn_rects_tmp;
+
+	fields.share = bool_set_none;
+	cv::Mat result = cairo::draw_days_workout_dual_axis_stacked_bar_chart(to_image, mat_width, mat_height, radius, chart_margin, days, fields);
+	free(tip_rects);
+
+	return result;
+}
+
+const cairo::tsdl_field& health_controller::tdays_workout_mat_slot::post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color)
+{
+	const cairo::tsdl_field& field = *fields.arrays[at];
+	x_start = field.offset.x;
+	y_start = field.offset.y;
+	if (at == fields.fid_title) {
+		surface img_surf = image::get_image(field.icon);
+		VALIDATE(img_surf.get() != nullptr, null_str);
+		img_surf = scale_surface(img_surf, field.name_text_size.y, field.name_text_size.y);
+		SDL_Rect dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+		sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+		x_start += img_surf->w;
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_left_y_axis) {
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_right_y_axis) {
+		const SDL_DColor& dcolor = fields.legend_improper_alert.cairo_color;
+		font_color = SDL_Color{(uint8_t)(int)(dcolor.r * 255), (uint8_t)(int)(dcolor.g * 255), (uint8_t)(int)(dcolor.b * 255), 255};
+
+	}
+	return field;
+}
+
+const cairo::tsdl_field& health_controller::tdays_workout_mat_slot::post_render_day_array(int day, surface& surf)
+{
+	surface text_surf;
+	SDL_Rect dst_rect;
+
+	const cairo::tdays_workout_fields::tbar_4label& bar_3label = fields.bar_4labels[day];
+	// const cairo::tdays_workout_fields::tbar_4label& bar_3label = *it;
+
+	SDL_Color font_color = font::SDL_DColor_to_SDL_Color(fields.legend_workout_duration.cairo_color);
+	int x_start;
+	int y_start;
+	// sit duration
+	const cairo::tsdl_field* field = &bar_3label.sit;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+/*
+	// improper duration
+	font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_duration.cairo_color);
+	field = &bar_3label.improper;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+*/
+	// improper alert
+	font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_alert.cairo_color);
+	field = &bar_3label.improper_alert;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+	return bar_3label.day;
+}
+
+//
+// draw days summary mat
+//
+cairo::tsdl_field* health_controller::tdays_summary_mat_slot::pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color)
+{
+	cairo::tsdl_field* field = fields.arrays[at];
+
+	if (at == fields.fid_title) {
+		icon = "misc/workout48.png";
+		utils::string_map symbols;
+		symbols["days"] = str_cast(days);
+		// name = vgettext2("title^workout chart, $days", symbols);
+		name = title;
+		name_font_size = controller_.chart_title_font_size_;
+
+	} else if (at == fields.fid_this_days) {
+		std::stringstream ss;
+		ss << utils::format_time_ymd4(desire_start_of_today - ((days - 1) * ONE_DAY_SECONDS), true, true, true);
+		ss << "-";
+		ss << utils::format_time_ymd4(desire_start_of_today, false, true, true);
+		name = ss.str();
+		name_font_size = font::SIZE_DEFAULT;
+		cairo_color = SDL_DColor{232 / 255.0, 241 / 255.0, 250 / 255.0, 1.0};
+
+	} else if (at == fields.fid_left_y_axis) {
+		name = _("workout^Workout duration");
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_right_y_axis) {
+		name = _("workout^Workout count");
+		if (fields.is_sharing) {
+			name.append("/").append(_("wko^Share workout count"));
+		}
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_legend_workout_duration) {
+		name = _("workout^Workout duration");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+		// cairo_color = controller_.sit_duration_color_;
+		cairo_color = controller_.workout_duration_color_;
+
+		// const SDL_DColor sit_duration_color{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+
+	} /* else if (at == fields.fid_legend_improper_duration) {
+		// bool no_legend_improper_duration = true;
+		name = _("posture^Improper duration");
+		name_font_size = small_font_size;
+
+		// cairo_color = SDL_DColor{1.0, 0.0, 0.0, 1.0};
+		cairo_color = controller_.improper_duration_color_;
+
+		// const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+		const SDL_DColor improper_duration_color{1.0, 0.0, 0.0, 1.0};
+
+	} */ else if (at == fields.fid_legend_improper_alert) {
+		name = _("workout^Workout count");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 0 / 255.0, 1.0};
+
+		// cairo_color = SDL_DColor{1.0, 165 / 255.0, 0 / 255.0, 1.0};
+		cairo_color = controller_.improper_alert_color_;
+
+	} else if (at == fields.fid_legend_share_alert) {
+		if (fields.is_sharing) {
+			name = _("wko^Share workout count");
+		}
+		name_font_size = small_font_size;
+
+		cairo_color = controller_.share_alert_color_;
+
+	} else if (at == fields.fid_chart_remark) {
+		std::stringstream name_ss;
+		name_ss << _("wko^days workout summary chart remark");
+		name = name_ss.str();
+		name_font_size = small_font_size;
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+	return field;
+}
+
+static std::string to_msg_workout_max_range(const SDL_Range& range_ms)
+{
+	SDL_Range result = range_ms;
+
+	result.min /= 1000;
+	result.max /= 1000;
+
+	std::stringstream ss;
+	int hour_min = (result.min / 3600) % 24;
+	int hour_max = (result.max / 3600) % 24;
+	// if (hour_min != hour_max) {
+	if (true) {
+		ss << utils::format_elapse_hms2(result.min);
+		ss << "-";
+		ss << utils::format_elapse_hms2(result.max);
+
+	} else {
+		// result.min -= hour_min * 3600;
+		result.max -= hour_max * 3600;
+		ss << utils::format_elapse_hms2(result.min, false);
+		ss << "-";
+		ss << utils::format_elapse_ms2(result.max, false);
+	}
+	return ss.str();
+}
+
+void health_controller::tdays_summary_mat_slot::did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2)
+{
+	if (dyn_chartsel == nullptr) {
+		return;
+	}
+
+	memset(dyn_chartsel->workout_durations, 0, sizeof(dyn_chartsel->workout_durations));
+	memset(dyn_chartsel->workout_count, 0, sizeof(dyn_chartsel->workout_count));
+
+	int NUM = sizeof(dyn_chartsel->max_range) / sizeof(dyn_chartsel->max_range[0]);
+	for (int at = 0; at < NUM; at ++) {
+		dyn_chartsel->max_range[at] = SDL_Range{nposm, nposm};
+	}
+
+	int workout_at = 0;
+	for (std::vector<aplt::thealth::tworkout_result2>::const_iterator it = result2.workouts.begin(); it != result2.workouts.end(); ++ it, workout_at ++) {
+		const aplt::thealth::tworkout_result2& workout_result2 = *it;
+		bool skip = true;
+		if (result2.workout_cfgs.count(workout_result2.wkoscript_index) != 0) {
+			const std::string& wkoscript_cfg_str = result2.workout_cfgs.find(workout_result2.wkoscript_index)->second;
+			std::string id = aplt::wkoscript_extract_id(wkoscript_cfg_str);
+			skip = id.find(dyn_chartsel->key) == std::string::npos;
+		}
+
+		if (!skip) {
+			tuint8cdata_C zip_workout = result2.find_zip_workout(workout_result2.start_s);
+			if (zip_workout.ptr == nullptr) {
+				VALIDATE(zip_workout.len == 0, null_str);
+			}
+		}
+			
+		if (skip) {
+			continue;
+		}
+
+		int new_duration = workout_result2.range_ms.max - workout_result2.range_ms.min;
+		dyn_chartsel->workout_durations[day] += new_duration;
+		dyn_chartsel->workout_count[day] ++;
+
+		// Take the workout with the longest duration.
+		bool update_max_range = false;
+		if (dyn_chartsel->max_range[day].min == nposm) {
+			update_max_range = true;
+
+		} else {
+			int existed_duration = dyn_chartsel->max_range[day].max - dyn_chartsel->max_range[day].min;
+			update_max_range = new_duration > existed_duration;
+		}
+		if (update_max_range) {
+			dyn_chartsel->max_range[day] = workout_result2.range_ms;
+		}
+	}
+}
+
+cairo::tsdl_field* health_controller::tdays_summary_mat_slot::fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool retbool, std::string& day_label_val)
+{
+	if (dyn_chartsel == nullptr) {
+		fields.sit_durations[day] = result2.calc_workout_total(aplt::thealth::thealth_result2::type_workout_duration);
+	} else {
+		fields.sit_durations[day] = dyn_chartsel->workout_durations[day];
+	}
+	fields.sit_durations[day] /= 1000;
+	// fields.improper_durations[day] = 2;
+	if (dyn_chartsel == nullptr) {
+		fields.improper_alerts[day] = result2.calc_workout_total(aplt::thealth::thealth_result2::type_workout_times);
+	} else {
+		fields.improper_alerts[day] = dyn_chartsel->workout_count[day];
+	}
+	if (dyn_chartsel == nullptr) {
+		fields.share_alerts[day] = result2.calc_workout_total(aplt::thealth::thealth_result2::type_workout_times);
+	} else {
+		fields.share_alerts[day] = dyn_chartsel->share_workout_count[day];
+	}
+
+	// bottom's day labels
+	int time_sep = utils::timesep_unit;
+	fields.bar_4labels.push_back(cairo::tdays_workout_fields::tbar_4label());
+	cairo::tdays_workout_fields::tbar_4label& bar_4label = fields.bar_4labels.back();
+	// sit duration
+	if (retbool) {
+		bar_4label.sit.set(null_str, utils::format_elapse_hm_or_ms(fields.sit_durations[day], true, time_sep),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.sit.clear();
+	}
+/*
+	// improper duration
+	if (retbool) {
+		bar_4label.improper.set(null_str, utils::format_elapse_hm_or_ms(fields.improper_durations[day], true, intl, false),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.improper.clear();
+	}
+*/
+	// improper alert count
+	if (retbool) {
+		bar_4label.improper_alert.set(null_str, str_cast(fields.improper_alerts[day]),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.improper_alert.clear();
+	}
+
+	// day label
+	day_label_val.clear();
+	if (retbool) {
+		if (dyn_chartsel == nullptr) {
+			day_label_val = result2.to_msg_workout_max_range();
+
+		} else if (dyn_chartsel->max_range[day].min != nposm) {
+			day_label_val = to_msg_workout_max_range(dyn_chartsel->max_range[day]);
+		}
+	}
+	return &bar_4label.day;
+}
+
+cv::Mat health_controller::tdays_summary_mat_slot::cairo_draw_days_mat(int mat_height)
+{
+	if (tip_rects.size >= days) {
+		VALIDATE(tip_rects.ptr != nullptr, null_str);
+	} else {
+		if (tip_rects.ptr != nullptr) {
+			free(tip_rects.ptr);
+		}
+		tip_rects.ptr = (SDL_Rect*)malloc(sizeof(SDL_Rect) * days);
+		tip_rects.size = days;
+	}
+	tip_rects.vsize = days;
+
+	VALIDATE(fields.tip_rects == nullptr, null_str);
+	fields.tip_rects = tip_rects.ptr;
+	fields.pl_btn_rects = btn_rects;
+
+	fields.share = controller_.hide_cairo_share_? bool_set_none: share;
+
+	return cairo::draw_days_workout_dual_axis_stacked_bar_chart(to_image, mat_width, mat_height, radius, chart_margin, days, fields);
+}
+
+const cairo::tsdl_field& health_controller::tdays_summary_mat_slot::post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color)
+{
+	const cairo::tsdl_field& field = *fields.arrays[at];
+	x_start = field.offset.x;
+	y_start = field.offset.y;
+	if (at == fields.fid_title) {
+		surface img_surf = image::get_image(field.icon);
+		VALIDATE(img_surf.get() != nullptr, null_str);
+		img_surf = scale_surface(img_surf, field.name_text_size.y, field.name_text_size.y);
+		SDL_Rect dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+		sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+		x_start += img_surf->w;
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_left_y_axis) {
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_right_y_axis) {
+		const SDL_DColor& dcolor = fields.legend_improper_alert.cairo_color;
+		font_color = SDL_Color{(uint8_t)(int)(dcolor.r * 255), (uint8_t)(int)(dcolor.g * 255), (uint8_t)(int)(dcolor.b * 255), 255};
+
+	}
+	return field;
+}
+
+const cairo::tsdl_field& health_controller::tdays_summary_mat_slot::post_render_day_array(int day, surface& surf)
+{
+	surface text_surf;
+	SDL_Rect dst_rect;
+
+	const cairo::tdays_workout_fields::tbar_4label& bar_3label = fields.bar_4labels[day];
+	// const cairo::tdays_workout_fields::tbar_4label& bar_3label = *it;
+
+	SDL_Color font_color = font::SDL_DColor_to_SDL_Color(fields.legend_workout_duration.cairo_color);
+	int x_start;
+	int y_start;
+	// sit duration
+	const cairo::tsdl_field* field = &bar_3label.sit;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+/*
+	// improper duration
+	font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_duration.cairo_color);
+	field = &bar_3label.improper;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+*/
+	// improper alert
+	font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_alert.cairo_color);
+	field = &bar_3label.improper_alert;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+	return bar_3label.day;
+}
+
+cv::Mat health_controller::draw_days_mat(bool to_image, int mat_width, double radius, const SDL_Point& /*map_margin*/, const SDL_Point& chart_margin,
+	int small_font_size, int days, tdays_mat_slot& slot)
+{
+	VALIDATE(IS_MULTIPLE_OF_4(mat_width), null_str);
+	VALIDATE_POSTURE_DAYS(days);
+
+	utils::string_map symbols;
+	//
+	// posture chart
+	//
+	
+	int max_day_labels_height = 0;
+	const time_t t = time(nullptr); // + ONE_DAY_SECONDS * 15
+	const int64_t desire_start_of_today = utils::calculate_0h0m0s_ts(t);
+	const int fid_count = slot.fid_count();
+	for (int at = 0; at < fid_count; at ++) {
+		// cairo::tsdl_field* field = fields.arrays[at];
+		std::string icon;
+		std::string name;
+		int name_font_size = 0;
+		SDL_DColor cairo_color{0.0, 0.0, 0.0, 0.0};
+
+		cairo::tsdl_field* field = slot.pre_fill_sdl_field(at, desire_start_of_today, icon, name, name_font_size, cairo_color);
+
+		if (!name.empty()) {
+			field->set(icon, name, name_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+			field->cairo_color = cairo_color;
+			field->desire_size.x = field->name_text_size.x;
+			field->desire_size.y = field->margin.y * 2 + field->name_text_size.y + field->gap.y + field->val_text_size.y;
+		}	
+	}
+
+	// const int chart2_margin_left = chart_margin.x + fields.Y_axis_label_width + fields.Y_axis_label_chart_gap;
+	// const int chart2_margin_right = chart2_margin_left;
+	int chart2_margin_left;
+	int chart2_margin_right;
+	slot.get_chart2_margin(chart2_margin_left, chart2_margin_right);
+    // const int chart2_margin_top = chart_margin.y + fields.title_height + fields.legend_height;
+    // const int chart2_margin_bottom = fields.day_labels_height + chart_margin.y;
+	const int chart2_width = mat_width - chart2_margin_left - chart2_margin_right;
+
+	double column_width = (double)chart2_width / days;
+    double gap = column_width * 0.2;
+    double bar_width = column_width - gap;
+    double bar_width_by_2 = bar_width / 2;
+
+	const std::string day_pattern_val = slot.day_pattern_val();
+	tpoint one_time_label_size = font::get_rendered_text_size(day_pattern_val, INT_MAX, posture_small_font_size_);
+	const bool use_rotate_if_2line = true;
+	bool day_label_use_2line = one_time_label_size.x + 0 > column_width;
+	int rotate_angle = 0;
+	if (day_label_use_2line && use_rotate_if_2line) {
+		day_label_use_2line = false;
+		rotate_angle = 30; // 45
+	}
+
+	struct tm first_day_tm;
+	struct tm this_day_tm;
+	for (int day = 0; day < days; day ++) {
+		aplt::thealth::thealth_result2 result2_tmp;
+		aplt::thealth::thealth_result2* result2_ptr = nullptr;
+		aplt::thealth::thealth_result2** result2s = slot.result2s();
+		if (result2s != nullptr) {
+			if (result2s[day] == nullptr) {
+				result2s[day] = new aplt::thealth::thealth_result2;
+				health_.load_health_data_4_report(t - (days - 1 - day) * ONE_DAY_SECONDS, *result2s[day]);
+			}
+			result2_ptr = result2s[day];
+		} else {
+			health_.load_health_data_4_report(t - (days - 1 - day) * ONE_DAY_SECONDS, result2_tmp);
+			result2_ptr = &result2_tmp;
+		}
+		aplt::thealth::thealth_result2& result2 = *result2_ptr;
+		bool retbool = result2.valid();
+
+		const int64_t desire_start_of_this_day = desire_start_of_today - (days - 1 - day) * ONE_DAY_SECONDS;
+		if (retbool) {
+			retbool = result2.start_of_today == desire_start_of_this_day;
+			if (!retbool) {
+				result2.clear();
+			}
+		}
+
+		if (retbool) {
+			slot.did_load_valid_result2(day, result2);
+		}
+
+		if (day == 0) {
+			utils::localtime_clone(desire_start_of_this_day, first_day_tm);
+		}
+
+		std::string day_label_val;
+		cairo::tsdl_field* day_field = slot.fill_day_array(day, result2, retbool, day_label_val);
+
+		// day label
+		utils::localtime_clone(desire_start_of_this_day, this_day_tm);
+
+		std::string day_str;
+		if (desire_start_of_this_day == desire_start_of_today) {
+			day_str = _("Today");
+		} else if (desire_start_of_this_day == desire_start_of_today - ONE_DAY_SECONDS) {
+			day_str = _("Yesterday");
+		} else {
+			bool mon = day == 0 || (first_day_tm.tm_mon != this_day_tm.tm_mon);
+			day_str = utils::format_time_ymd4(desire_start_of_this_day, false, mon, true);
+		}
+		if (first_day_tm.tm_mon != this_day_tm.tm_mon) {
+			first_day_tm.tm_mon = this_day_tm.tm_mon;
+		}
+		// const int tm_wday = utils::get_tm_wday(desire_start_of_this_day);
+		if (this_day_tm.tm_wday == 1) {
+			// monday
+			day_str.append("(" + utils::weekday_name_form_tm_wday(this_day_tm.tm_wday, true) + ")");
+		}
+
+		if (rotate_angle == 0) {
+			day_field->set(null_str, day_str, posture_small_font_size_,
+				day_label_val, !day_label_val.empty()? posture_small_font_size_: 0, SDL_Point{4, 0}, {4, 0});
+		} else {
+			day_field->set(null_str, day_str, posture_small_font_size_,
+				null_str, 0, SDL_Point{4, 0}, {4, 0});
+			if (!day_label_val.empty()) {
+				day_field->val = day_label_val;
+				day_field->val_font_size = posture_small_font_size_;
+				surface text_surf = font::get_rendered_text(day_label_val, INT_MAX, day_field->val_font_size);
+				text_surf = rotate_surface(text_surf, rotate_angle, nullptr, 0);
+				day_field->val_text_size = tpoint(text_surf->w, text_surf->h);
+			}
+		}
+
+		max_day_labels_height = SDL_max(max_day_labels_height, day_field->name_text_size.y + day_field->val_text_size.y);
+	}
+	// VALIDATE((int)fields.bar_4labels.size() == days, null_str);
+	VALIDATE(slot.bar_labels_size() == days, null_str);
+
+	//
+	// calculate misc 'height'
+	//
+/*
+	fields.title_height = fields.title.name_text_size.y + chart_margin.y - 5;
+	fields.legend_height = fields.legend_improper_alert.name_text_size.y * 2 
+		+ 12 + fields.y_axis_title_gap_y;
+	fields.day_labels_height = max_day_labels_height;
+*/
+	int title_height;
+	int legend_height;
+	int day_labels_height;
+
+	int day_labels_height2 = max_day_labels_height;
+	if (day_label_use_2line) {
+		day_labels_height2 += one_time_label_size.y;
+	}
+	slot.get_3height(day_labels_height2, title_height, legend_height, day_labels_height);
+
+	const int chart_height = chart_height_;
+	const int mat_height = chart_margin_.y + title_height + legend_height +
+		chart_height + day_labels_height + chart_margin_.y;
+	//
+
+	// cv::Mat result_mat = cairo::draw_days_workout_dual_axis_stacked_bar_chart(to_image, mat_width, mat_height, radius, chart_margin, days, fields);
+	cv::Mat result_mat = slot.cairo_draw_days_mat(mat_height);
+	// imwrite(result_mat, "1-posture_mat.png");
+
+	surface text_surf;
+	SDL_Rect dst_rect;
+	{
+		surface surf(result_mat);
+		for (int at = 0; at < fid_count; at ++) {
+			int x_start = 0;
+			int y_start = 0;
+			SDL_Color font_color = font::GRAY_COLOR;
+			const cairo::tsdl_field& field = slot.post_render_sdl_field(at, surf, x_start, y_start, font_color);
+
+			if (!field.name.empty()) {
+				text_surf = font::get_rendered_text(field.name, INT_MAX, field.name_font_size, font_color);
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+		}
+
+		const SDL_Color period_color[] = {
+			// font::SDL_DColor_to_SDL_Color(fields.legend_sit_duration.cairo_color),
+			{255, 0, 0, 255},
+			{100, 149, 237, 255},
+		};
+		for (int day_at = 0; day_at < days; day_at ++) {
+			const cairo::tsdl_field& day_field = slot.post_render_day_array(day_at, surf);
+			// day label
+			bool odd = day_at & 1;
+			const SDL_Color& color = period_color[odd? 1: 0];
+
+			// field = &bar_3label.day;
+			const cairo::tsdl_field* field = &day_field;
+			// font_color = font::GRAY_COLOR;
+			SDL_Color font_color = !field->val.empty() && odd? color: font::GRAY_COLOR;
+			text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+			int x_start = field->offset.x - field->name_text_size.x / 2;
+			int y_start = field->offset.y + field->margin.y;
+			dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+
+			if (!field->val.empty()) {
+				y_start += text_surf->h + field->gap.y;
+				text_surf = font::get_rendered_text(field->val, INT_MAX, field->val_font_size, font_color);
+				if (rotate_angle != 0) {
+					text_surf = rotate_surface(text_surf, rotate_angle, nullptr, 0);
+				}
+				x_start = field->offset.x - field->val_text_size.x / 2;
+				if (odd && day_label_use_2line) {
+					y_start += one_time_label_size.y;
+				}
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+		}
+	}
+	return result_mat;
+}
+
+health_controller::ttip6 health_controller::parse_tip_at(int workout_at, const aplt::thealth::tworkout_result2& workout, const tworkout_mat2_C& mat2, int tip_at) const
+{
+	VALIDATE(workout_at >= 0, null_str);
+
+	const aplt::tflow_state_C* flow_states = workout.flow_states2.data();
+	int flow_state_count = workout.flow_states2.size();
+
+	int col_at = 0;
+    for (int at = 0; at < flow_state_count; at ++) {
+        const aplt::tflow_state_C& state = flow_states[at];
+		// state.rep_step always is 1, require use 'rep_step' when 'draw workout mat'(mat2.rep_steps[at]).
+		if (tip_at == col_at) {
+			return ttip6{tip_at, workout_at, at, cairo::coltype_pose_state, 0, nposm, nposm};
+		}
+		col_at ++;
+		if (state.seg_count != 0) {
+			VALIDATE(state.rep_count == 0, null_str);
+			int col_at2 = col_at + state.seg_count;
+			if (tip_at < col_at2) {
+				// tip4.ctx is 'seg_at'.
+				return ttip6{tip_at, workout_at, at, cairo::coltype_seg, tip_at - col_at, nposm, nposm};
+			}
+			col_at = col_at2;
+		}
+		if (state.rep_count != 0) {
+			VALIDATE(state.seg_count == 0, null_str);
+			int col_at2 = col_at + aplt::calc_flow_state_rep_cols2(state.rep_count, mat2.rep_steps[at]);
+			if (tip_at < col_at2) {
+				// tip4.ctx is 'rep_at', not 'col_at'.
+				return ttip6{tip_at, workout_at, at, cairo::coltype_rep, (tip_at - col_at) * mat2.rep_steps[at],
+					nposm, nposm};
+				// return ttip4{workout_at, at, cairo::coltype_rep, tip_at - col_at};
+			}
+			col_at = col_at2;
+        }
+    }
+	return ttip6{nposm, nposm, nposm, nposm, nposm, nposm, nposm};
+}
+
+std::string reason_name_from_code(int r, const std::vector<std::string>& unsatisfied_legend_names)
+{
+	std::string name = str_cast(r);
+	if (r == aplt::workoutn32_unsatisfied_isnan) {
+		// name = _("Absent landmark(nan)");
+		name = health_controller::unsatisfied_isnan_msgstr;
+	} else if (r == aplt::workoutn32_unsatisfied_absend_landmark) {
+		// name = _("Absent landmark");
+		name = health_controller::unsatisfied_absend_landmark_msgstr;
+	} else if (r >= aplt::workoutn32_unsatisfied_pose_min && r <= aplt::workoutn32_unsatisfied_reason_max) {
+		int pose_at = r - aplt::workoutn32_unsatisfied_pose_min;
+		if (pose_at < (int)unsatisfied_legend_names.size()) {
+			name = unsatisfied_legend_names[pose_at];
+		}
+	}
+	return name;
+}
+
+std::string format_range_ms(const SDL_Range& range_ms)
+{
+	char buf[64];
+	int len = SDL_snprintf(buf, sizeof(buf), "%s - %s", 
+		utils::format_mselapse_hm_or_ms_or_dotms(range_ms.min, true, utils::timesep_colon, false, 3600).c_str(),
+		utils::format_mselapse_hm_or_ms_or_dotms(range_ms.max, true, utils::timesep_colon, false, 3600).c_str());
+	return std::string(buf, len);
+}
+
+std::string format_xxx(int at, const SDL_Range& range)
+{
+	std::string result("#");
+	result.append(str_cast(at + 1)).append("(").append(format_range_ms(range)).append(")");
+
+	return result;
+}
+
+cv::Mat health_controller::draw_tip_mat(bool to_image, int /*allowed_width*/, int /*allowed_height*/, const SDL_Point& map_margin,
+	int small_font_size, const aplt::thealth::thealth_result2& result2, const ttip6& tip6, const aplt::thealth::tworkout_result2& workout, const tworkout_mat2_C& mat2)
+{
+	const aplt::tflow_state_C* flow_states = workout.flow_states2.data();
+	int flow_state_count = workout.flow_states2.size();
+
+	VALIDATE(tip6.flow_state_at < flow_state_count, null_str);
+	VALIDATE(tip6.col_type == cairo::coltype_seg || tip6.col_type == cairo::coltype_rep, null_str);
+
+	std::string wkoscript_cfg_str;
+	config wkoscript_cfg;
+	if (result2.workout_cfgs.count(workout.wkoscript_index) != 0) {
+		wkoscript_cfg_str = result2.workout_cfgs.find(workout.wkoscript_index)->second;
+		aplt::read_config_ex(wkoscript_cfg_str, true, wkoscript_cfg);
+		if (wkoscript_cfg.empty()) {
+			wkoscript_cfg_str.clear();
+		}
+	}
+
+	std::string header_str;
+	std::stringstream left_label_ss;
+	std::stringstream right_label_ss;
+
+	const aplt::tflow_state_C& flow_state = flow_states[tip6.flow_state_at];
+	const config* state2_cfg = nullptr;
+	if (flow_state.state >= 0 && wkoscript_cfg.has_child("state2")) {
+		const config& cfg2 = wkoscript_cfg.child("state2", flow_state.state);
+		if (cfg2) {
+			state2_cfg = &cfg2;
+		}
+	}
+	VALIDATE(state2_cfg != nullptr, null_str);
+
+	std::string state_name = "Unknown state name";
+	if (state2_cfg != nullptr) {
+		state_name = (*state2_cfg)["state"].str();
+	}
+
+	std::string type_str;
+	if (tip6.col_type == cairo::coltype_seg) {
+		type_str = _("wko^Time segment");
+	} else if (tip6.col_type == cairo::coltype_rep) {
+		type_str = _("wko^Tow-phase rep");
+	}
+	header_str.append("(" + ht::generate_format(type_str, 0xff808080) + ")");
+	header_str.append(state_name);
+
+	std::vector<std::string> unsatisfied_legend_names;
+	if (state2_cfg != nullptr) {
+		const config& track_pose_cfg = state2_cfg->child("track_pose");
+		if (track_pose_cfg) {
+			BOOST_FOREACH (const config &pose_cfg, track_pose_cfg.child_range("pose")) {
+				std::string legend_str = pose_cfg["name"].str();
+				VALIDATE(!legend_str.empty(), null_str);
+				unsatisfied_legend_names.push_back(legend_str);
+			}
+		}
+	}
+
+	SDL_Point tip_margin{16, 16};
+	// int max_lines = (allowed_height - tip_margin.y * 2) / one_chinese_line_height_;
+	int max_lines = nposm;
+
+	std::string range_msgstr;
+	SDL_Range range_ms{0, 0};
+	if (tip6.col_type == cairo::coltype_seg) {
+		VALIDATE(tip6.ctx < flow_state.seg_count, null_str);
+		const int seg_at = tip6.ctx;
+		const aplt::tsegment_C& seg = flow_state.segs[seg_at];
+
+		int fix_ts_offset = seg.start_ms - workout.range_ms.min;
+
+		range_msgstr.append("#");
+		range_msgstr.append(str_cast(seg_at + 1)).append("(");
+		int duration = seg.duration_ms;
+		if (seg_at != flow_state.seg_count - 1) {
+			duration = flow_state.segs[seg_at + 1].start_ms - seg.start_ms;
+		}
+		range_msgstr.append(format_range_ms(SDL_Range{fix_ts_offset, fix_ts_offset + duration}));
+		range_msgstr.append(")");
+
+		max_lines = seg.unsatisfied_reason_count;
+		if (max_lines > 16) {
+			max_lines = (seg.unsatisfied_reason_count + 1) / 2;
+		}
+
+		for (int reason_at = 0; reason_at < seg.unsatisfied_reason_count; reason_at ++) {
+			// if (reason_at == max_lines * 2) {
+			//	break;
+			// }
+			std::stringstream& label_ss = reason_at < max_lines? left_label_ss: right_label_ss;
+
+			const aplt::treason_C& reason = seg.unsatisfied_reasons[reason_at];
+			int ts_offset = fix_ts_offset + reason.ts_ms;
+			if (!label_ss.str().empty()) {
+				label_ss << "\n";
+			}
+			label_ss << utils::format_mselapse_hm_or_ms_or_dotms(ts_offset, true, utils::timesep_colon, false, 3600);
+
+			std::string name = reason_name_from_code(reason.r, unsatisfied_legend_names);
+			label_ss << " " << name;
+		}
+
+	} else if (tip6.col_type == cairo::coltype_rep) {
+		VALIDATE(flow_state.rep_step == MIN_REP_STEP, null_str);
+		const int rep_step = mat2.rep_steps[tip6.flow_state_at];
+
+		// calculate 'max_lines'
+		int total_reasons = 0;
+		for (int step_at = 0; step_at < rep_step; step_at ++) {
+			int rep_at = tip6.ctx + step_at;
+			if (rep_at == flow_state.rep_count) {
+				break;
+			}
+			const aplt::trepetition_C& rep = flow_state.reps[rep_at];
+			for (int phase_at = 0; phase_at < WKO_MAX_PHASE_COUNT; phase_at ++) {
+				total_reasons += rep.unsatisfied_reason_count[phase_at];
+			}
+		}
+		max_lines = total_reasons;
+		if (max_lines > 16) {
+			max_lines = (total_reasons + 1) / 2;
+		}
+
+		// VALIDATE(tip4.ctx < flow_state.rep_count / rep_step, null_str);
+		VALIDATE(tip6.ctx < flow_state.rep_count, null_str);
+		int had_reasons = 0;
+		for (int step_at = 0; step_at < rep_step; step_at ++) {
+			int rep_at = tip6.ctx + step_at;
+			if (rep_at == flow_state.rep_count) {
+				break;
+			}
+			const aplt::trepetition_C& rep = flow_state.reps[rep_at];
+			int fix_ts_offset = rep.active_start_ms[0] - workout.range_ms.min;
+
+			if (!range_msgstr.empty()) {
+				range_msgstr.append(dunhao_msgstr_);
+			} else {
+				range_msgstr.append("#");
+			}
+			range_msgstr.append(str_cast(rep_at + 1));
+			range_msgstr.append("(");
+
+			int duration = 0;
+			if (rep_at != flow_state.rep_count - 1) {
+				duration = flow_state.reps[rep_at + 1].active_start_ms[0] - rep.active_start_ms[0];
+			} else {
+				duration = rep.rep_complete_ms - rep.active_start_ms[0];
+			}
+			range_msgstr.append(format_range_ms(SDL_Range{fix_ts_offset, fix_ts_offset + duration}));
+			range_msgstr.append(")");
+
+
+			for (int phase_at = 0; phase_at < WKO_MAX_PHASE_COUNT; phase_at ++) {
+				for (int reason_at = 0; reason_at < rep.unsatisfied_reason_count[phase_at]; reason_at ++) {
+					// if (reason_at == max_lines * 2) {
+					//	break;
+					// }
+					std::stringstream& label_ss = had_reasons < max_lines? left_label_ss: right_label_ss;
+					had_reasons ++;
+
+					const aplt::treason_C& reason = rep.unsatisfied_reasons[phase_at][reason_at];
+					int ts_offset = fix_ts_offset + reason.ts_ms;
+					if (!label_ss.str().empty()) {
+						label_ss << "\n";
+					}
+					label_ss << "[" << rep_at + 1 << "." << phase_at + 1 << "]";
+					label_ss << utils::format_mselapse_hm_or_ms_or_dotms(ts_offset, true, utils::timesep_colon, false, 3600);
+
+					std::string name = reason_name_from_code(reason.r, unsatisfied_legend_names);
+					label_ss << " " << name;
+				}
+			}
+		}
+		VALIDATE(had_reasons == total_reasons, null_str);
+	}
+	header_str.append("\n");
+	header_str.append(range_msgstr);
+	VALIDATE(!header_str.empty(), null_str);
+
+	double radius = 22;
+
+	SDL_Size header_size{0, 0};
+	int label_width[2] = {0, 0};
+	int max_lr_height = 0;
+	cairo::ttip_fields fields(small_font_size);
+	for (int at = 0; at < fields.fid_count; at ++) {
+		cairo::tsdl_field* field = fields.arrays[at];
+		std::string icon;
+		std::string name;
+		std::string value;
+
+		if (at == fields.fid_header) {
+			name = header_str;
+			// value = result2.to_msg_sit_period();
+
+		} else if (at == fields.fid_left_label) {
+			name = left_label_ss.str();
+			// value = result2.to_msg_sit_period();
+
+		} else if (at == fields.fid_right_label) {
+			name = right_label_ss.str();
+			// value = result2.to_msg_sit_period();
+
+		} else {
+			VALIDATE(false, null_str);
+		}
+		if (name.empty()) {
+			continue;
+		}
+		field->set(icon, name, small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+		// field->cairo_color = cairo_color;
+		field->desire_size.x = field->name_text_size.x;
+		field->desire_size.y = field->margin.y * 2 + field->name_text_size.y + field->gap.y + field->val_text_size.y;
+
+		if (at == fields.fid_header) {
+			header_size.w = field->desire_size.x;
+			header_size.h = field->desire_size.y;
+
+		} else if (at == fields.fid_left_label || at == fields.fid_right_label) {
+			if (at == fields.fid_left_label) {
+				label_width[0] = field->desire_size.x;
+
+			} else if (at == fields.fid_right_label) {
+				label_width[1] = field->desire_size.x;
+			}
+			max_lr_height = SDL_max(max_lr_height, field->desire_size.y);
+		}
+	}
+
+	// const int mat_width = tip_margin.x * 2 + max_size.x;
+	// const int mat_height = tip_margin.y * 2 + max_size.y;
+
+
+	int lr_gap_x = 8 * gui2::twidget::hdpi_scale;
+	int shadow_blur_radius = 0; // 4
+	int content_width = SDL_max(header_size.w, label_width[0] + label_width[1]);
+	int mat_width = tip_margin.x * 2 + shadow_blur_radius * 2 + content_width;
+	int mat_height = tip_margin.y * 2 + shadow_blur_radius * 2 + header_size.h;
+	if (max_lr_height != 0) {
+		mat_height += fields.hdr_label_gap_y + max_lr_height;
+	}
+	fields.lr_gap_x = lr_gap_x;
+
+	cv::Mat result_mat = cairo::draw_tip_mat(to_image, mat_width, mat_height, radius, tip_margin, shadow_blur_radius, fields);
+
+	surface text_surf;
+	SDL_Rect dst_rect;
+	{
+		surface surf(result_mat);
+		for (int at = 0; at < fields.fid_count; at ++) {
+			const cairo::tsdl_field& field = *fields.arrays[at];
+/*
+			int icon_size = 24;
+			text_surf = image::get_image(field.icon);
+			text_surf = scale_surface(text_surf, icon_size, icon_size);
+			VALIDATE(text_surf.get() != nullptr, null_str);
+			dst_rect = ::create_rect(field.offset.x + field.margin.x, 
+				field.offset.y + field.margin.y + (field.name_text_size.y - text_surf->w) / 2, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+
+			int x_start = dst_rect.x + icon_size + 2;
+*/
+			int x_start = field.offset.x;
+
+			SDL_Color font_color = font::BLACK_COLOR; // GRAY_COLOR
+			if (!field.name.empty()) {
+				text_surf = font::get_rendered_text(field.name, INT_MAX, field.name_font_size, font_color);
+				dst_rect = ::create_rect(x_start, field.offset.y + field.margin.y, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+		}
+
+		// imwrite(surf, "1.png");
+	}
+	return result_mat;
+}
+
+cv::Mat health_controller::draw_tip_mat2(bool to_image, const ttip6& tip6, const aplt::thealth::thealth_result2& result2, int workout_at_in_result2, SDL_Point* map_ltop_result)
+{
+	VALIDATE(tip6.workout_at_in_page >= 0, null_str);
+	VALIDATE(workout_at_in_result2 >= 0 && workout_at_in_result2 < (int)result2.workouts.size(), null_str);
+
+	const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at_in_result2];
+	const tworkout_mat2_C* mat2 = (const tworkout_mat2_C*)workout_mat2s_.elem(tip6.workout_at_in_page);
+	// Note, at this point, mat2->workout_mat maybe is nullptr.
+	VALIDATE(tip6.col_at >= 0 && tip6.col_at < mat2->tip_rects.count, null_str); 
+
+	int zoom = gui_->zoom();
+	const int width = calc_should_map_w() * zoom;
+	const int small_font_size = posture_small_font_size_;
+
+	tdraw_item& workout_item = find_draw_item(mattype_day_workout, tip6.workout_at_in_page);
+	const SDL_Size& workout_mat_size = workout_item.mat_size;
+	tip_mat_ = draw_tip_mat(false, width - map_margin_.x * 2, workout_mat_size.h/*workout_item.mat->rows*/,
+		map_margin_, small_font_size, result2, tip6, workout, *mat2);
+
+	const int chart_width = workout_mat_size.w - mat2->chart_margin_lr.x - mat2->chart_margin_lr.y;
+	double column_width = (double)chart_width / mat2->tip_rects.count;
+
+	// priority1: place right
+	int offset_x2 = mat2->chart_margin_lr.x + column_width * (tip6.col_at + 1);
+	if (offset_x2 + tip_mat_.cols > workout_mat_size.w) {
+		// 2: place left
+		offset_x2 = mat2->chart_margin_lr.x + column_width * tip6.col_at - tip_mat_.cols;
+	}
+
+	// SDL_Point map_xy{x, y};
+	// gui_->screen_2_map(map_xy.x, map_xy.y);
+
+	int offset_y = map_margin_.y + tip6.map_ltop_y;
+	if (!to_image) {
+		// The logic below is to ensure that 'tip_mat' is displayed as large as possible within the current window. 
+		// It should only be used when it is first shown, as the mouse position is guaranteed to be correct at that time. 
+		// In other cases, such as sharing or resizing the window, it should not enter here.
+		SDL_Rect widget_rect = gui_->main_map_widget_rect();
+		if (tip_mat_.rows >= widget_rect.h) {
+			offset_y = widget_rect.y;
+		} else {
+			int screen_y = gui_->map_2_screen_y(tip6.map_y + workout_item.offset.y);
+			// VALIDATE(screen_y == screen_y2, null_str);
+
+			offset_y = screen_y - tip_mat_.rows / 2;
+			if (offset_y + tip_mat_.rows > widget_rect.y + widget_rect.h) {
+				offset_y = widget_rect.y + widget_rect.h - tip_mat_.rows;
+
+			} else if (offset_y < widget_rect.y) {
+				offset_y = widget_rect.y;
+			}
+		}
+		offset_y = gui_->screen_2_map_y(offset_y);
+	}
+
+	SDL_Point map_ltop{offset_x2, offset_y - map_margin_.y};
+	// SDL_Point map_ltop{offset_x2, offset_y};
+	if (map_ltop_result != nullptr) {
+		*map_ltop_result = map_ltop;
+	}
+
+	if (!to_image) {
+		curr_tip6_ = tip6;
+		curr_tip6_.map_ltop_y = map_ltop.y;
+
+		tdraw_item& tip_item = find_draw_item(mattype_tip, 0);
+
+		tip_item.offset.x = workout_item.offset.x + offset_x2;
+		tip_item.offset.y = offset_y; // workout_item.offset.y
+		tip_item.mat_size = SDL_Size{tip_item.mat->cols, tip_item.mat->rows};
+	}
+
+	return tip_mat_;
+}
+
+bool health_controller::tplayer::set_workout_data(const tuint8data_C& zip_workout, const config& wkoscript_cfg, int workout_at,
+	const aplt::thealth::tevent_item* event_items, int event_item_count)
+{
+	if (wkoscript_cfg.empty()) {
+		return false;
+	}
+	if (zip_workout.ptr == nullptr) {
+		return false;
+	}
+
+	// VALIDATE(workout_.vsize == 0, null_str);
+	workout_.clear();
+	if (zip_workout.ptr != nullptr) {
+		VALIDATE(zip_workout.len != 0, null_str);
+		zlib::uncompress(zip_workout.ptr, zip_workout.len, workout_);
+/*
+		write_file(game_config::preferences_dir + "/1-uncompress.dat", 
+			workout_.data, workout_.vsize);
+*/
+	}
+	wkoscript_cfg_ = wkoscript_cfg;
+	workout_at_in_page_ = workout_at;
+
+	event_items_.clear();
+	VALIDATE(event_item_count > 0, null_str);
+	event_items_.put_size(event_items, event_item_count);
+
+	range_ms_min_ = nposm;
+	const aplt::thealth::tevent_item* items = (aplt::thealth::tevent_item*)event_items_.data;
+	for (int at = 0; at < event_items_.vsize; at ++) {
+		const aplt::thealth::tevent_item& item = items[at];
+		if (item.type == aplt::workoutevt_n32 && item.ctx == aplt::workoutn32_first_satisfied) {
+			range_ms_min_ = item.ms_since0;
+			break;
+		}
+	}
+	VALIDATE(range_ms_min_ != nposm, null_str);
+
+	// It may return false. For example: the wkoscript format may have been upgraded, 
+	// but 'wkoscript_cfg_' is the old version format.
+	bool valid = script_.from_cfg(wkoscript_cfg_);
+	return valid;
+}
+
+void health_controller::tplayer::start(int mat_width, int mat_height)
+{
+	VALIDATE(!is_ing(), null_str);
+	// VALIDATE(that.vsize > 0, null_str);
+	VALIDATE(mat_width > 0 && mat_height > 0, null_str);
+
+	VALIDATE(draw_item_ == nullptr, null_str);
+
+	// workout_.assign_data(that);
+	VALIDATE(workout_.vsize > 0, null_str);
+
+	controller_.validate_landmarks_mat_are_nullptr();
+
+	mat_size_.w = mat_width;
+	mat_size_.h = mat_height;
+
+	const SDL_Point& chart_margin = controller_.chart_margin_;
+	video_clip_.x = chart_margin.x;
+	video_clip_.y = chart_margin.y;
+
+	// SDL_Size d1_size{1280, 720};
+	SDL_Size d1_size{720, 720};
+	SDL_Size max_video_clip{mat_width - 2 * chart_margin.x, mat_height - 2 * chart_margin.y};
+	SDL_Size adapted_size = calculate_max_size_with_ratio(d1_size.w, d1_size.h, max_video_clip.w, max_video_clip.h);
+	video_clip_.w = adapted_size.w;
+	video_clip_.h = adapted_size.h;
+
+	cursor_ = 0;
+	duration_ms_ = check_and_calculate_duration(nposm, nullptr).x;
+	played_ms_ = 0;
+
+	wkon32_cursor_ = nposm;
+	wkon32_frame_at_ = nposm;
+
+	next_ticks_ = SDL_GetTicks();
+
+	tworkout_mat2_C* mat2 = (tworkout_mat2_C*)controller_.workout_mat2s_.mutable_elem(workout_at_in_page_);
+	controller_.empty_mat2_rects(*mat2);
+}
+
+void health_controller::tplayer::set_draw_item(tdraw_item& draw_item)
+{
+	VALIDATE(is_ing(), null_str);
+
+	VALIDATE(draw_item_ == nullptr, null_str);
+	draw_item_ = &draw_item;
+}
+
+bool health_controller::start_player(int workout_at)
+{
+	if (workout_at != nposm) {
+		const tworkout_mat2_C* mat2 = (tworkout_mat2_C*)workout_mat2s_.mutable_elem(workout_at);
+
+		bool retval = player_.set_workout_data(mat2->zip_workout, *mat2->wkoscript_cfg, workout_at, mat2->wkon32_event_items, mat2->wkon32_event_item_count);
+
+		if (!retval) {
+			return false;
+		}
+
+	} else {
+		VALIDATE(player_.workout_data().vsize > 0, null_str);
+		VALIDATE(player_.workout_at_in_page() >= 0 && player_.workout_at_in_page() < workout_mat2s_.vsize, null_str);
+	}
+
+	tdraw_item& item = find_draw_item(mattype_day_workout, player_.workout_at_in_page());
+	// const cv::Mat& workout_mat = *item.mat;
+	// VALIDATE(!item.mat->empty(), null_str);
+
+	telem_array_C& workout_data = player_.workout_data();
+	VALIDATE(workout_data.vsize != 0, null_str);
+	player_.start(item.mat_size.w, item.mat_size.h);
+	VALIDATE(!player_.is_end(), null_str);
+
+	player_.set_draw_item(item);
+	return true;
+}
+
+const aplt::thealth::thealth_result2& health_controller::calc_result2_and_workout_at(int workout_at_in_page, int& workout_at_in_result2)
+{
+	const aplt::thealth::thealth_result2* result2_ptr = &curr_day_result2_;
+	workout_at_in_result2 = workout_at_in_page;
+	if (curr_chartsel_ >= chartsel_dyn_min) {
+		const tdyn_chartsel& chartsel = *dyn_chartsels_[curr_chartsel_ - chartsel_dyn_min];
+		tdyn_chartsel::tworkout_at2* at2s = (tdyn_chartsel::tworkout_at2*)chartsel.workout_at2s.data;
+		const tdyn_chartsel::tworkout_at2& at2 = at2s[workout_at_in_page];
+		workout_at_in_result2 = at2.workout_at;
+
+		VALIDATE(chartsel.result2s[at2.day_at] != nullptr, null_str);
+		result2_ptr = chartsel.result2s[at2.day_at];
+/*
+		if (at2.day_at != MAX_HEALTH_DAYS - 1) {
+			time_t t = chartsel.rule.time_s[at2.day_at];
+			bool retbool = health_.load_health_data_4_report(t, result2_for_dyn);
+			VALIDATE(retbool, null_str);
+			result2_ptr = &result2_for_dyn;
+
+		} else {
+			int ii = 0;
+		}
+*/
+	}
+	return *result2_ptr;
+}
+
+void health_controller::validate_landmarks_mat_are_nullptr() const
+{
+	const tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+		const tworkout_mat2_C& mat2 = mat2s[at];
+		VALIDATE(mat2.landmarks_mat == nullptr, null_str);
+	}
+}
+
+void health_controller::stop_player()
+{
+	player_.stop();
+	tdraw_item& item = find_draw_item(mattype_day_workout, player_.workout_at_in_page());
+	tworkout_mat2_C& mat2 = *(tworkout_mat2_C*)workout_mat2s_.elem(player_.workout_at_in_page());
+
+	if (curr_chartsel_ < chartsel_dyn_min) {
+		// Why must it be recalculated 'mat2.workout_mat' here? 
+		// — During playback, some actions may have been performed, such as sharing. 
+		// When playback starts, sharing is on; when playback ends, sharing is off.
+		// int64_t t = day_chartsel_2_t(curr_chartsel_);
+		// const aplt::thealth::thealth_result2& result2 = curr_day_result2_;
+
+		int workout_at_in_result2 = nposm;
+
+		const aplt::thealth::thealth_result2& result2 = calc_result2_and_workout_at( 
+				player_.workout_at_in_page(), workout_at_in_result2);
+			VALIDATE(workout_at_in_result2 >= 0 && workout_at_in_result2 < (int)result2.workouts.size(), null_str);
+
+		const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at_in_result2];
+
+		// player_.stop has set all btn_rects is 0. so rerequire set @btn_rects_result.
+		int width = map_.w() * gui_->zoom();
+		VALIDATE(mat2.workout_mat->cols == width - map_margin_.x * 2, null_str);
+		cv::Mat mat;
+		draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+				result2, workout_at_in_result2, mat2, mat2.btn_rects, &mat2.tip_rects, mat2.rep_steps, &mat2.chart_margin_lr, &mat);
+		VALIDATE(!mat.empty(), null_str);
+		*mat2.workout_mat = mat;
+
+		adjust_rects_after_draw_workout_mat(item.offset, mat2);
+
+		VALIDATE(memcmp(mat2.btn_rects + pl_btn_play, &mat2.play_1th_rect, sizeof(SDL_Rect)) == 0, null_str);
+	
+		item.mat = mat2.workout_mat;
+
+	} else {
+		// why call below statment?
+		//   if (!player_.ing()), did_mat_evicted() will validate 'item.mat == mat2.workout_mat'.
+		item.mat = mat2.workout_mat;
+		lru_cache_.remove(player_.workout_at_in_page());
+	}
+
+	mat2.btn_rects[pl_btn_play] = mat2.play_1th_rect;
+}
+
+void health_controller::tplayer::stop()
+{
+	VALIDATE(is_ing(), null_str);
+	// don't clear below tow. use for resize_screen.
+	// workout_.clear();
+	// wkoscript_cfg_.clear();
+
+	cursor_ = nposm;
+	curr_state2_to(nullptr);
+	draw_item_ = nullptr;
+
+	tworkout_mat2_C* mat2 = (tworkout_mat2_C*)controller_.workout_mat2s_.mutable_elem(workout_at_in_page_);
+	controller_.empty_mat2_rects(*mat2);
+
+	VALIDATE(mat2->landmarks_mat != nullptr, null_str);
+	delete mat2->landmarks_mat;
+	mat2->landmarks_mat = nullptr;
+	controller_.validate_landmarks_mat_are_nullptr();
+}
+
+void health_controller::tplayer::restart()
+{
+	cursor_ = 0;
+	played_ms_ = 0;
+
+	wkon32_cursor_ = nposm;
+	wkon32_frame_at_ = nposm;
+
+	if (next_ticks_ == UINT_MAX) {
+		// always from non-pausing.
+		next_ticks_ = SDL_GetTicks();
+	}
+
+	play_next();
+}
+
+void health_controller::tplayer::seek_to_ratio(double ratio)
+{
+	if (ratio < 0.0) {
+		ratio = 0.0;
+	} else if (ratio > 1.0) {
+		ratio = 1.0;
+	}
+	int max_duration = (int)(duration_ms_ * ratio);
+	check_and_calculate_duration_ex(max_duration);
+}
+
+void health_controller::tplayer::seek_to_cursor(int played_ms, int cursor)
+{
+	VALIDATE(cursor < workout_.vsize, null_str);
+
+	played_ms_ = played_ms;
+	cursor_ = cursor;
+
+	VALIDATE((played_ms_ % interval_) == 0, null_str);
+	int target_frame_at = played_ms_ / interval_ - 1;
+	if (target_frame_at == -1) {
+		wkon32_cursor_ = nposm;
+		wkon32_frame_at_ = nposm;
+
+	} else if (target_frame_at != wkon32_frame_at_) {
+		move_wkon32_cursor_to_frame_at(target_frame_at);
+	}
+
+	play_next();
+}
+
+void health_controller::tplayer::pause(bool enter)
+{
+	VALIDATE(is_ing(), null_str);
+
+	if (enter) {
+		VALIDATE(!is_pausing(), null_str);
+
+		VALIDATE(played_ms_ >= interval_, null_str);
+		next_ticks_ = UINT_MAX;
+
+		// int max_duration = played_ms_ - interval_;
+		int max_duration = played_ms_;
+		check_and_calculate_duration_ex(max_duration);
+		
+	} else {
+		VALIDATE(is_pausing(), null_str);
+		next_ticks_ = SDL_GetTicks();
+		play_next();
+	}
+	// play_next();
+}
+
+void health_controller::tplayer::step_one(bool backward)
+{
+	VALIDATE(is_pausing(), null_str);
+
+	if (backward) {
+		VALIDATE(played_ms_ >= interval_, null_str);
+		int max_duration = played_ms_ - interval_;
+		// int max_duration = played_ms_;
+
+		check_and_calculate_duration_ex(max_duration);
+
+	} else {
+		play_next();
+	}
+}
+
+void health_controller::tplayer::did_landmarks_mat_changed(cv::Mat& result)
+{
+	tworkout_mat2_C* mat2 = (tworkout_mat2_C*)controller_.workout_mat2s_.mutable_elem(workout_at_in_page_);
+	if (mat2->landmarks_mat == nullptr) {
+		mat2->landmarks_mat = new cv::Mat(result);
+	} else {
+		*mat2->landmarks_mat = result;
+	}
+	VALIDATE(draw_item_ != nullptr, null_str);
+	draw_item_->mat = mat2->landmarks_mat;
+}
+
+void health_controller::tplayer::update_landmarks_mat_for_redraw()
+{
+	VALIDATE(is_ing(), null_str);
+
+	if (!is_end()) {
+		if (is_pausing()) {
+			VALIDATE(played_ms_ >= interval_, null_str);
+			// int max_duration = played_ms_ - interval_;
+			int max_duration = played_ms_;
+
+			check_and_calculate_duration_ex(max_duration);
+
+		} else {
+			play_next();
+		}
+
+	} else {
+		cv::Mat result = get_mat(false);
+		did_landmarks_mat_changed(result);
+	}
+}
+
+bool health_controller::tplayer::is_0() const 
+{ 
+	VALIDATE(is_ing(), null_str);
+	bool retval = cursor_ == 0;
+	if (retval) {
+		VALIDATE(played_ms_ == 0, null_str);
+
+	} else {
+		// Note that when 'cursor_ != 0', it is possible for 'played_ms_ == 0' to occur, 
+		// such as when reading some prefix byte, for example 'wkotype_enter_state'.
+		VALIDATE(played_ms_ > 0, null_str);
+	}
+	return retval;
+}
+
+bool health_controller::tplayer::is_end() const 
+{ 
+	VALIDATE(is_ing(), null_str);
+	return cursor_ == workout_.vsize; 
+}
+
+bool health_controller::tplayer::is_time_to_next() const
+{
+	return is_ing() && !is_end() && SDL_GetTicks() >= next_ticks_;
+	// return is_ing() && SDL_GetTicks() >= next_ticks_;
+}
+
+SDL_Point health_controller::tplayer::check_and_calculate_duration(int max_duration, int* curr_flow_state) const
+{
+	uint8_t* data = workout_.data;
+	int vsize = workout_.vsize;
+	int pos = 0;
+
+	int duration_ms = 0;
+	int cursor = 0;
+	int frames = 0;
+	while (pos < vsize) {
+		if (data[pos] == WORKOUT_TYPE_PREFIX) {
+			if (vsize - pos < WORKOUT_TYPE_BYTES) {
+				return SDL_Point{nposm, nposm};
+			}
+			pos ++;
+			int type = data[pos ++];
+			if (type < 0 || type >= aplt::thealth::wkotype_count) {
+				return SDL_Point{nposm, nposm};
+			}
+			if (curr_flow_state != nullptr) {
+				if (type == aplt::thealth::wkotype_enter_state) {
+					memcpy(curr_flow_state, data + pos, 4);
+				}
+			}
+			pos += 4;
+
+		} else {
+			int count = data[pos ++];
+			int require_size = (1 + sizeof(SDL_U16Point)) * count;
+			if (vsize - pos < require_size) {
+				return SDL_Point{nposm, nposm};
+			}
+			if (max_duration != nposm && duration_ms + interval_ >= max_duration) {
+				// must include 'duration_ms + interval_ == max_duration', 
+				// it can make sure 'cursor < workout_.vsize'.
+				break;
+			}
+			pos += require_size;
+
+			duration_ms += interval_;
+			cursor = pos;
+			frames ++;
+		}
+	}
+	if (max_duration == nposm) {
+		VALIDATE(pos == vsize, null_str);
+	}
+	
+	return SDL_Point{duration_ms, cursor};
+}
+
+void health_controller::tplayer::check_and_calculate_duration_ex(int max_duration)
+{
+	int curr_flow_state;
+	SDL_Point result = check_and_calculate_duration(max_duration, &curr_flow_state);
+	if (result.x != nposm) {
+		if (curr_state2_ != nullptr) {
+			// Even if the state does not change, some variables still need to be reset to their initial values, 
+			// such as the 'first_active_period_start_sent' of 'trep_counter'.
+			curr_state2_to(nullptr);
+		}
+		curr_state2_to(&script_.states.find(curr_flow_state)->second);
+	}
+	seek_to_cursor(result.x, result.y);
+}
+
+bool health_controller::tplayer::parse_non_landmarks_bytes()
+{
+	uint8_t* data = workout_.data;
+	int vsize = workout_.vsize;
+	int pos = cursor_;
+	VALIDATE(pos < vsize, null_str);
+
+	int curr_flow_state;
+	while (pos < vsize) {
+		if (data[pos] == WORKOUT_TYPE_PREFIX) {
+			if (vsize - pos < WORKOUT_TYPE_BYTES) {
+				VALIDATE(false, null_str);
+				return false;
+			}
+			pos ++;
+			int type = data[pos ++];
+			if (type == aplt::thealth::wkotype_enter_state) {
+				memcpy(&curr_flow_state, data + pos, 4);
+				if (curr_state2_ == nullptr || curr_state2_->state != curr_flow_state) {
+					curr_state2_to(&script_.states.find(curr_flow_state)->second);
+				}
+			}
+			pos += 4;
+
+		} else {
+			break;
+		}
+	}
+	VALIDATE((pos - cursor_) % WORKOUT_TYPE_BYTES == 0, null_str);
+	cursor_ = pos;
+	return true;
+}
+
+bool health_controller::tplayer::move_wkon32_cursor_to_frame_at(int target_frame_at)
+{
+	VALIDATE(target_frame_at >= 0 && target_frame_at < event_items_.vsize, null_str);
+	VALIDATE(target_frame_at != wkon32_frame_at_, null_str);
+	VALIDATE(wkon32_frame_at_ >= -1, null_str);
+
+	const aplt::thealth::tevent_item* items = (aplt::thealth::tevent_item*)event_items_.data;
+	if (wkon32_frame_at_ != -1) {
+		VALIDATE(wkon32_ctx_is_analyze_track_pose_result(items[wkon32_cursor_].ctx), null_str);
+	} else {
+		VALIDATE(wkon32_cursor_ == -1, null_str);
+	}
+
+	int wkon32_item_at = nposm;
+	int frame_at = wkon32_frame_at_;
+	if (target_frame_at > wkon32_frame_at_) {
+		wkon32_item_at = wkon32_cursor_ + 1;
+		frame_at = wkon32_frame_at_;
+
+	} else if (target_frame_at < wkon32_frame_at_) {
+		wkon32_item_at = 0;
+		frame_at = -1;
+	}
+
+	for (int at = wkon32_item_at; at < event_items_.vsize; at ++) {
+		const aplt::thealth::tevent_item& item = items[at];
+		if (item.type != aplt::workoutevt_n32) {
+			VALIDATE(false, null_str);
+			continue;
+		}
+		if (wkon32_ctx_is_analyze_track_pose_result(item.ctx)) {
+			frame_at ++;
+			if (frame_at == target_frame_at) {
+				wkon32_frame_at_ = frame_at;
+				wkon32_cursor_ = at;
+				return true;
+			}
+
+		} else if (item.ctx == aplt::workoutn32_active_period_start) {
+			VALIDATE(curr_state2_->task->type == aplt::twkoscript::tasktype_rep_counter, null_str);
+			aplt::twkoscript::trep_counter* task2 = static_cast<aplt::twkoscript::trep_counter*>(curr_state2_->task);
+			if (!task2->first_active_period_start_sent()) {
+				task2->set_first_active_period_start_sent(true);
+
+			} else {
+				curr_state2_->track_pose.curr_phase_ ++;
+				if (curr_state2_->track_pose.curr_phase_ == (int)task2->phases.size()) {
+					curr_state2_->track_pose.curr_phase_ = 0;
+				}
+				curr_state2_->track_pose.update_landmarks(script_);
+			}
+		}
+	}
+	return false;
+}
+
+void health_controller::tplayer::curr_state2_to(aplt::twkoscript::tstate2* new_state2)
+{
+	if (curr_state2_ != nullptr) {
+		if (new_state2 != nullptr) {
+			VALIDATE(curr_state2_->state != new_state2->state, null_str);
+		}
+		aplt::twkoscript::ttrack_pose& track_pose = curr_state2_->track_pose;
+		if (track_pose.valid()) {
+			track_pose.curr_phase_ = nposm;
+		}
+		if (curr_state2_->task->type == aplt::twkoscript::tasktype_rep_counter) {
+			aplt::twkoscript::trep_counter* task2 = static_cast<aplt::twkoscript::trep_counter*>(curr_state2_->task);
+			task2->set_first_active_period_start_sent(false);
+		}
+	}
+	if (new_state2 != nullptr) {
+		aplt::twkoscript::ttrack_pose& track_pose = new_state2->track_pose;
+
+		VALIDATE(track_pose.curr_phase_ == nposm, null_str);
+		if (track_pose.valid()) {
+			track_pose.curr_phase_ = 0;
+			track_pose.update_landmarks(script_);
+		}
+	}
+	curr_state2_ = new_state2;
+}
+
+cv::Mat health_controller::tplayer::get_mat(bool update_cursor)
+{
+	if (!update_cursor) {
+		VALIDATE(is_end(), "update_curosr = false, only use for is_end()");
+	}
+
+	uint8_t* data = workout_.data;
+	int vsize = workout_.vsize;
+
+	if (update_cursor) {
+		VALIDATE(cursor_ < vsize, null_str);
+		bool retbool = parse_non_landmarks_bytes();
+		if (!retbool) {
+			// file format error, end it.
+			cursor_ = vsize;
+			// return cv::Mat();
+		} else {
+			if (cursor_ >= vsize) {
+				VALIDATE(cursor_ == vsize, null_str);
+
+				VALIDATE(played_ms_ == duration_ms_, null_str);
+
+				bool retval = move_wkon32_cursor_to_frame_at(wkon32_frame_at_ + 1);
+				VALIDATE(!retval, null_str);
+			}
+		}
+	}
+
+	const bool is_end_mat = cursor_ == vsize;
+
+	SDL_FPoint* landmarks = last_landmarks_;
+	// SDL_FPoint landmarks[mediapipe::kNumPoseLandmarks];
+	if (!is_end_mat) {
+		int pos = cursor_;
+
+		VALIDATE(pos < vsize, null_str);
+		memcpy(landmarks, nan_landmarks_, sizeof(nan_landmarks_));
+
+		int count = data[pos ++];
+		int require_size = (1 + sizeof(SDL_U16Point)) * count;
+		VALIDATE(vsize - pos >= require_size, null_str);
+
+		int l_index;
+		SDL_U16Point u16;
+		for (int at = 0; at < count; at ++) {
+			l_index = data[pos ++];
+			memcpy(&u16, data + pos, sizeof(SDL_U16Point));
+			VALIDATE(u16.x != rose_u16_nan && u16.y != rose_u16_nan, null_str);
+
+			landmarks[l_index].x = float_2_u16::dequantize_n05p15(u16.x);
+			landmarks[l_index].y = float_2_u16::dequantize_n05p15(u16.y);
+		
+			pos += sizeof(SDL_U16Point);
+		}
+		cursor_ = pos;
+
+		if (!is_pausing()) {
+			next_ticks_ = SDL_GetTicks() + interval_;
+		}
+	}
+	int playstyle = pl_btn_pause;
+	if (is_end()) {
+		playstyle = pl_btn_restart;
+
+	} else if (is_pausing()) {
+		playstyle = pl_btn_play;
+	}
+
+	tworkout_mat2_C* mat2 = (tworkout_mat2_C*)controller_.workout_mat2s_.mutable_elem(workout_at_in_page_);
+	double radius = controller_.chart_radius_;
+	const SDL_Point& chart_margin = controller_.chart_margin_;
+	// bool sel_landmarks[mediapipe::kNumPoseLandmarks];
+	// memset(sel_landmarks, 0, sizeof(sel_landmarks));
+	VALIDATE(curr_state2_ != nullptr, null_str);
+
+	cairo::tlandmark_fields fields(controller_.posture_small_font_size_, lmkmode_both, true, nullptr, false);
+	if (curr_state2_->track_pose.valid()) {
+		// fields.phase_count = wko_phase_count_from_task_type(curr_state2_->task->type);
+		// fields.phase_sel = curr_state2_->track_pose.curr_phase_;
+	}
+	fields.share = controller_.hide_cairo_share_? bool_set_none: mat2->share;
+
+	bool to_image = true; // for do_save_image. now is use it.
+	cv::Mat result_mat = cairo::draw_landmarks_mat(to_image, mat_size_.w, mat_size_.h, radius, chart_margin,
+		video_clip_, landmarks, mediapipe::kNumPoseLandmarks, played_ms_, duration_ms_, playstyle, 
+		mat2->btn_rects, pl_btn_count, fields);
+	controller_.adjust_progressbar_rect(workout_at_in_page_);
+	if (!is_end_mat) {
+		played_ms_ += interval_;
+	}
+
+	std::string overlay_msg;
+	std::string unsatisfied_msg;
+	int ts = nposm;
+	if (!curr_state2_->track_pose.valid()) {
+		// if last state2 isn't pose state, will enter here.
+
+	} else if (!is_end_mat) {
+		const aplt::twkoscript::tstate2& state2 = *curr_state2_;
+
+		bool retval = move_wkon32_cursor_to_frame_at(wkon32_frame_at_ + 1);
+		if (!is_end_mat) {
+			VALIDATE(retval, null_str);
+			int played_frames = played_ms_ / interval_;
+			VALIDATE(wkon32_frame_at_ + 1 == played_frames, null_str);
+		} else {
+			char buf[256];
+			SDL_snprintf(buf, sizeof(buf), "wkon32_frame_at_: %i, played_ms_: %i, interval_: %i, cursor_: %i, retval: %s", 
+				wkon32_frame_at_, played_ms_, interval_, cursor_, retval? "true": "false");
+			VALIDATE(false, buf);
+			VALIDATE(!retval, null_str);
+		}
+		const aplt::thealth::tevent_item* items = (aplt::thealth::tevent_item*)event_items_.data;
+		const aplt::thealth::tevent_item& item = items[wkon32_cursor_];
+		ts = item.ms_since0 - range_ms_min_;
+
+		int unsatisfied_reason = script_.analyze_track_pose(state2, landmarks, nposm, unsatisfied_msg, overlay_msg, nullptr);
+		// VALIDATE(unsatisfied_reason == items[wkon32_cursor_].ctx, null_str);
+
+	} else {
+		int played_frames = played_ms_ / interval_;
+		VALIDATE(wkon32_frame_at_ + 1 == played_frames, null_str);
+	}
+	
+	{
+		surface surf(result_mat);		
+		std::string state_name = "Unknown state name";
+		if (curr_state2_ != nullptr) {
+			state_name = script_.state_names[curr_state2_->state];
+		}
+
+		int font_size = font::SIZE_DEFAULT;
+		SDL_Color font_color = font::GRAY_COLOR;
+		surface text_surf = font::get_rendered_text(state_name, INT_MAX, font_size, font_color);
+		SDL_Rect dst_rect = ::create_rect(video_clip_.x, video_clip_.y, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+
+		if (!overlay_msg.empty() || !unsatisfied_msg.empty()) {
+			std::stringstream ss;
+			// On a phone, the entire workout chart cannot be displayed at once. 
+			// During each single-step operation, to allow real-time viewing of timestamp changes, 
+			// the time is placed at the bottom.
+			ss << (played_ms_ / interval_) << "/" << (duration_ms_ / interval_);
+			if (ts != nposm) {
+				ss << "  " << utils::format_mselapse_hm_or_ms_or_dotms(ts, true, utils::timesep_colon, false, 3600);
+			}
+			ss << "\n";
+
+			if (!overlay_msg.empty()) {
+				ss << overlay_msg;
+			} else {
+				ss << unsatisfied_msg;
+			}
+
+			// ss << "\n";
+			// ss << "wkon32_frame_at_: " << wkon32_frame_at_ << " wkon32_cursor_: " << wkon32_cursor_;
+			surface text_surf = font::get_rendered_text(ss.str(), INT_MAX, font_size, font_color);
+			dst_rect = ::create_rect(video_clip_.x + video_clip_.w, video_clip_.y, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+		}
+	}
+
+	VALIDATE(draw_item_ != nullptr, null_str);
+	for (int at = 0; at < pl_btn_count; at ++) {
+		SDL_Rect& rect = mat2->btn_rects[at];
+		bool is_my = false;
+		if (playstyle == pl_btn_play) {
+			// it is in pausing
+			is_my = is_my_btn_all(at);
+		} else {
+			is_my = is_my_btn_when_nonpausing(at);
+		}
+		if (!controller_.is_sharing_ && at == pl_btn_share) {
+			VALIDATE(is_my, null_str);
+			is_my = false;
+		}
+		if (is_my) {
+			VALIDATE(rect.w > 0 && rect.h > 0, null_str);
+			rect.x += draw_item_->offset.x;
+			rect.y += draw_item_->offset.y;
+		}
+	}
+
+	return result_mat;
+}
+
+void health_controller::tplayer::play_next()
+{
+	cv::Mat result = get_mat(true);
+	if (result.empty()) {
+		VALIDATE(cursor_ == workout_.vsize, null_str);
+		return;
+	}
+
+	did_landmarks_mat_changed(result);
+}
+
+int join_unsatisfied_reason_str(const std::string& state_name, const std::map<int, SDL_Point>& reasons, const std::vector<std::string>& unsatisfied_legend_names, 
+	int chart2_width, int small_font_size, std::string& unsatisfied_one_line_msg, std::stringstream& unsatisfied_reason_str_ss)
+{
+	bool first_reason_this_state = true;
+	std::stringstream this_r_ss;
+	std::stringstream tmp_ss;
+	int reason_count = 0;
+	char buf[32];
+	for (std::map<int, SDL_Point>::const_iterator it = reasons.begin(); it != reasons.end(); ++ it) {
+		int r = it->first;
+
+		std::string name = reason_name_from_code(r, unsatisfied_legend_names);				
+		this_r_ss.str("");
+
+		if (first_reason_this_state) {
+			first_reason_this_state = false;
+			this_r_ss << "[" << ht::generate_format(state_name, 0xffff00ff, small_font_size) << "]";
+		}
+		const SDL_Point& count2 = it->second;
+		if (count2.y != nposm) {
+			SDL_snprintf(buf, sizeof(buf), "(%i+%i)", count2.x, count2.y);
+		} else {
+			SDL_snprintf(buf, sizeof(buf), "(%i)", count2.x);
+		}
+		this_r_ss << ht::generate_format(buf, 0xff000000, font::SIZE_SMALL) << name;
+
+		// SDL_Log("this_r_ss: %s", this_r_ss.str().c_str());
+
+		tmp_ss.str("");
+		tmp_ss << unsatisfied_one_line_msg;
+		if (!unsatisfied_one_line_msg.empty()) {
+			tmp_ss << "  ";
+		}
+		tmp_ss << this_r_ss.str();
+		int w = font::get_rendered_text_size(tmp_ss.str(), INT_MAX, small_font_size).x;
+		if (w > chart2_width) {
+			if (!unsatisfied_reason_str_ss.str().empty()) {
+				unsatisfied_reason_str_ss << "\n";
+			}
+			unsatisfied_reason_str_ss << unsatisfied_one_line_msg;
+
+			// remember it. it is first reason im this_line.
+			unsatisfied_one_line_msg = this_r_ss.str();
+
+		} else {
+			unsatisfied_one_line_msg = tmp_ss.str();
+		}
+
+		reason_count += count2.x;
+		if (count2.y != nposm) {
+			reason_count += count2.y;
+		}
+	}
+
+	return reason_count;
+}
+
+void test_calculate_best_chinese_chars()
+{
+	int font_size = font::SIZE_SMALLER;
+	int one_chinese_width = 16;
+	for (int width = 0; width < 8192; width ++) {
+		if (width == 547) {
+			int ii = 0;
+		}
+		int max_state_name_chars = font::calculate_best_chinese_chars(width, font_size);
+		SDL_Log("width: %i, => max_state_name_chars: %i, diff: %i", 
+			width, max_state_name_chars, width - max_state_name_chars * one_chinese_width);
+	}
+	int ii = 0;
+}
+
+void push_col2_to_bar_4labels(const cairo::tworkout_fields::tcol2_C& col2, 
+	cairo::tworkout_fields& fields, int posture_small_font_size, const aplt::tflow_state_C& flow_state,
+	const aplt::thealth::tworkout_result2& workout, const config* state2_cfg, int max_state_name_chars,
+	int& max_day_labels_height, SDL_Size& max_state_name_labels_size, bool& day_label_use_2line,
+	int& last_state_name_label_width, double column_width, const std::string& day_str, const std::string& state_name)
+{
+	VALIDATE(col2.type >= 0 && col2.type < cairo::coltype_count, null_str);
+
+	// bottom's day labels
+	bool time_sep = utils::timesep_unit;
+	fields.bar_4labels.push_back(cairo::tworkout_fields::tbar_4label());
+	cairo::tworkout_fields::tbar_4label& bar_4label = fields.bar_4labels.back();
+
+	// state duration
+	if (col2.state_duration_ms != nposm) {
+		bar_4label.state.set(null_str, utils::format_mselapse_hm_or_ms_or_dotms(col2.state_duration_ms, true, time_sep, false),
+			posture_small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+
+	// satisfied duration
+	if (col2.satisfied_duration_ms != nposm && col2.type != cairo::coltype_seg) {
+		// when 'col2.type == cairo::coltype_seg', displaying all three together is too crowded.
+		// Leave some space and only show the two on the sides.
+		bar_4label.satisfied.set(null_str, utils::format_mselapse_hm_or_ms_or_dotms(col2.satisfied_duration_ms, true, time_sep, false),
+			posture_small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+
+	// unsatisfied duration
+	if (col2.unsatisfied_duration_ms != nposm) {
+		bar_4label.unsatisfied.set(null_str, utils::format_mselapse_hm_or_ms_or_dotms(col2.unsatisfied_duration_ms, true, time_sep, false),
+			posture_small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+
+	// improper alert count
+	if (col2.improper_alert.x != 0 || col2.improper_alert.y > 0) {
+		char buf[32];
+		if (col2.improper_alert.y == nposm) {
+			SDL_snprintf(buf, sizeof(buf), "%i", col2.improper_alert.x);
+		} else {
+			SDL_snprintf(buf, sizeof(buf), "%i+%i", col2.improper_alert.x, col2.improper_alert.y);
+		}
+		bar_4label.improper_alert.set(null_str, buf,
+			posture_small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+		
+	// rep duration
+	if (col2.rep_duration_ms != nposm) {
+		bar_4label.rep_duration.set(null_str, utils::format_mselapse_hm_or_ms_or_dotms(col2.rep_duration_ms, true, time_sep, false),
+			posture_small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+
+	// day label
+	VALIDATE(!day_str.empty() && !state_name.empty(), null_str);
+/*
+	std::string day_str = utils::format_elapse_hm_or_ms(flow_state.start_s - workout.range.min, true, time_sep, false);
+	std::string state_name = "Unknown state name";
+	if (state2_cfg != nullptr) {
+		state_name = (*state2_cfg)["state"].str();
+	}
+	state_name = utils::truncate_to_max_chars2(state_name, max_state_name_chars, true);
+*/
+	bar_4label.day.set(null_str, day_str, posture_small_font_size,
+		state_name, posture_small_font_size, SDL_Point{4, 0}, {4, 0});
+
+	max_day_labels_height = SDL_max(max_day_labels_height, bar_4label.day.name_text_size.y + bar_4label.day.val_text_size.y);
+
+	max_state_name_labels_size.w = SDL_max(max_state_name_labels_size.w, bar_4label.day.val_text_size.x);
+	max_state_name_labels_size.h = SDL_max(max_state_name_labels_size.h, bar_4label.day.val_text_size.y);
+
+	if (!day_label_use_2line && last_state_name_label_width != nposm) {
+		day_label_use_2line = (last_state_name_label_width + bar_4label.day.val_text_size.x) / 2 > column_width;
+	}
+	last_state_name_label_width = bar_4label.day.val_text_size.x;
+}
+
+SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int mat_width, bool hide_cairo_share,
+	const aplt::thealth::thealth_result2& result2, int workout_at, const health_controller::tworkout_mat2_C& workout_mat2, 
+	SDL_Rect* btn_rects_result, trectdata_C* tip_rects_result, int* rep_steps_result, SDL_Point* chart_margin_lr_result, cv::Mat* result_mat)
+{
+	VALIDATE(IS_MULTIPLE_OF_4(mat_width), null_str);
+
+	const double radius = metrics.chart_radius_;
+	const SDL_Point& map_margin = metrics.map_margin_;
+	const SDL_Point& chart_margin = metrics.chart_margin_;
+	const int small_font_size = metrics.posture_small_font_size_;
+	// test_calculate_best_chinese_chars();
+
+	VALIDATE(workout_at >= 0 && workout_at < (int)result2.workouts.size(), null_str);
+	const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at];
+
+	std::string wkoscript_cfg_str;
+	const config& wkoscript_cfg = *workout_mat2.wkoscript_cfg;
+	VALIDATE(workout_mat2.wkon32_event_items != nullptr, null_str);
+
+	SDL_Size max_state_name_labels_size{0, 0};
+	int last_state_name_label_width = nposm;
+	int max_day_labels_height = 0;
+	const time_t t = time(nullptr); // + ONE_DAY_SECONDS * 15
+	const int64_t desire_start_of_today = utils::calculate_0h0m0s_ts(t);
+
+	utils::string_map symbols;
+	cairo::tworkout_fields fields(workout.range_ms);
+
+	// copy 'fields.flow_states'
+	// fields.flow_state_count = workout.flow_state_count;
+	// memcpy(fields.flow_states, workout.flow_states, workout.flow_state_count * sizeof(aplt::tflow_state_C));
+	fields.flow_state_count = workout.flow_states2.size();
+	memcpy(fields.flow_states, workout.flow_states2.data(), fields.flow_state_count * sizeof(aplt::tflow_state_C));
+
+	VALIDATE(fields.cols == nullptr && fields.col_count == 0, null_str);
+
+	// notice: rep_step in workout.flow_states always is 1. below update only in fields.flow_states.
+	const int max_reps_must_step1 = 3;
+	const int min_reps_must_step2 = 20; // 20
+	std::map<int, int> may_step2_states;
+	int rep_steps_tmp[WORKOUT_MAX_FLOW_STATES];
+    for (int at = 0; at < fields.flow_state_count; at ++) {
+        aplt::tflow_state_C& flow_state = fields.flow_states[at];
+		VALIDATE(flow_state.rep_step == MIN_REP_STEP, null_str);
+		fields.col_count ++;
+        if (flow_state.rep_count != 0) {
+			VALIDATE(flow_state.seg_count == 0, null_str);
+			if (flow_state.rep_count >= min_reps_must_step2) {
+				flow_state.rep_step = 2;
+			} else if (flow_state.rep_count > max_reps_must_step1) {
+				may_step2_states.insert(std::make_pair(at, flow_state.rep_count));
+			}
+			fields.col_count += calc_flow_state_rep_cols(flow_state);
+        }
+		if (flow_state.seg_count != 0) {
+			VALIDATE(flow_state.rep_count == 0, null_str);
+/*
+			bool is_time_counter = false;
+			const config* state2_cfg = nullptr;
+			if (flow_state.state >= 0 && wkoscript_cfg.has_child("state2")) {
+				const config& cfg2 = wkoscript_cfg.child("state2", flow_state.state);
+				if (cfg2 && cfg2.has_child("task")) {
+					const config& cfg3 = cfg2.child("task", 0);
+					is_time_counter = cfg3["type"].str() == "time_counter";
+				}
+			}
+			if (!is_time_counter) {
+				flow_state.seg_count = 0;
+			}
+*/
+			fields.col_count += flow_state.seg_count;
+		}
+		rep_steps_tmp[at] = flow_state.rep_step;
+    }
+
+	const int desire_max_col_count = 24;
+	while (fields.col_count > desire_max_col_count && !may_step2_states.empty()) {
+		SDL_Point max_rep_count{nposm, nposm};
+		for (std::map<int, int>::const_iterator it = may_step2_states.begin(); it != may_step2_states.end(); ++ it) {
+			int rep_count = it->second;
+			if (rep_count > max_rep_count.y) {
+				max_rep_count.x = it->first;
+				max_rep_count.y = rep_count;
+			}
+		}
+		aplt::tflow_state_C& state = fields.flow_states[max_rep_count.x];
+		VALIDATE(state.rep_step == MIN_REP_STEP, null_str);
+		fields.col_count -= calc_flow_state_rep_cols(state);
+		state.rep_step = 2;
+		fields.col_count += calc_flow_state_rep_cols(state);
+		may_step2_states.erase(may_step2_states.find(max_rep_count.x));
+
+		rep_steps_tmp[max_rep_count.x] = state.rep_step;
+	}
+	if (rep_steps_result != nullptr) {
+		memcpy(rep_steps_result, rep_steps_tmp, fields.flow_state_count * sizeof(int));
+	}
+
+	// create 'fields.cols'
+	VALIDATE(fields.col_count > 0, null_str);
+	fields.cols = (cairo::tworkout_fields::tcol2_C*)malloc(fields.col_count * sizeof(cairo::tworkout_fields::tcol2_C));
+	memset(fields.cols, 0, fields.col_count * sizeof(cairo::tworkout_fields::tcol2_C));
+
+	const int chart2_margin_left = chart_margin.x + fields.Y_axis_label_width + fields.Y_axis_label_chart_gap;
+	const int chart2_margin_right = chart2_margin_left;
+    // const int chart2_margin_top = chart_margin.y + fields.title_height + fields.legend_height;
+    // const int chart2_margin_bottom = fields.day_labels_height + chart_margin.y;
+	const int chart2_width = mat_width - chart2_margin_left - chart2_margin_right;
+
+	// double column_width = (double)chart2_width / workout.flow_state_count;
+	double column_width = (double)chart2_width / fields.col_count;
+    double gap = column_width * 0.2;
+    double bar_width = column_width - gap;
+    double bar_width_by_2 = bar_width / 2;
+
+	if (chart_margin_lr_result != nullptr) {
+		chart_margin_lr_result->x = chart2_margin_left;
+		chart_margin_lr_result->y = chart2_margin_right;
+	}
+
+	int max_state_name_chars = font::calculate_best_chinese_chars(column_width * 2, metrics.posture_small_font_size_) - 1;
+	// const bool day_label_use_2line = max_state_name_labels_size.w + 0 > column_width;
+	bool day_label_use_2line = false;
+
+	// The final std::stringstream that stores the multi-line descriptions of unsatisfied reasons.
+	std::stringstream unsatisfied_reason_str_ss;
+	// The line of text currently being concatenated but not yet saved into the final result.
+	std::string unsatisfied_one_line_msg;
+	int col_at = 0;
+	for (int state_at = 0; state_at < fields.flow_state_count; state_at ++) {
+		const aplt::tflow_state_C& flow_state = fields.flow_states[state_at];
+
+		const config* state2_cfg = nullptr;
+		if (flow_state.state >= 0 && wkoscript_cfg.has_child("state2")) {
+			const config& cfg2 = wkoscript_cfg.child("state2", flow_state.state);
+			if (cfg2) {
+				state2_cfg = &cfg2;
+			}
+		}
+		bool is_pose_state = state2_cfg == nullptr || state2_cfg->has_child("track_pose");
+		const bool has_seg_or_rep = flow_state.seg_count != 0 || flow_state.rep_count != 0;
+		if (is_pose_state) {
+			fields.has_pose_state = true;
+		}
+
+		std::string state_name = "Unknown state name";
+		if (state2_cfg != nullptr) {
+			state_name = (*state2_cfg)["state"].str();
+		}
+		state_name = utils::truncate_to_max_chars2(state_name, max_state_name_chars, true);
+
+		// int time_sep = utils::timesep_unit;
+		int time_sep2 = utils::timesep_colon;
+		{
+			cairo::tworkout_fields::tcol2_C& to_col2 = fields.cols[col_at];
+			to_col2.type = is_pose_state? cairo::coltype_pose_state: cairo::coltype_voice_state;
+
+			VALIDATE(flow_state.end_ms >= flow_state.start_ms, null_str);
+			to_col2.state_duration_ms = flow_state.end_ms - flow_state.start_ms;
+			to_col2.satisfied_duration_ms = is_pose_state && !has_seg_or_rep? flow_state.satisfied_duration_ms: nposm;
+			to_col2.unsatisfied_duration_ms = is_pose_state && !has_seg_or_rep? flow_state.unsatisfied_duration_ms: nposm;
+			to_col2.improper_alert = SDL_Point{flow_state.alerts, nposm};
+			if (flow_state.rep_count != 0) {
+				to_col2.improper_alert.x = 0;
+			}
+			to_col2.rep_duration_ms = nposm;
+
+			// std::string day_str = utils::format_elapse_hm_or_ms((flow_state.start_ms - workout.range_ms.min) / 1000, true, time_sep, false);
+			std::string day_str = utils::format_elapse_hm_or_ms((flow_state.start_ms - workout.range_ms.min) / 1000, true, time_sep2, false);
+
+			push_col2_to_bar_4labels(to_col2, fields, metrics.posture_small_font_size_, flow_state, workout,
+				state2_cfg, max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
+				day_label_use_2line, last_state_name_label_width, column_width, day_str, state_name);
+
+			col_at ++;
+		}
+
+		std::vector<std::string> unsatisfied_legend_names;
+		if (state2_cfg != nullptr) {
+			const config& track_pose_cfg = state2_cfg->child("track_pose");
+			if (track_pose_cfg) {
+				BOOST_FOREACH (const config &pose_cfg, track_pose_cfg.child_range("pose")) {
+					std::string legend_str = pose_cfg["name"].str();
+					VALIDATE(!legend_str.empty(), null_str);
+					unsatisfied_legend_names.push_back(legend_str);
+				}
+			}
+		}
+
+		if (flow_state.rep_count != 0) {
+			fields.has_rep = true;
+			int reason_count = 0;
+			std::map<int, SDL_Point> reasons;
+			std::stringstream number_msgstr;
+            for (int rep_at = 0; rep_at < flow_state.rep_count; ) {
+				cairo::tworkout_fields::tcol2_C& to_col2 = fields.cols[col_at];
+				to_col2.type = cairo::coltype_rep;
+
+				to_col2.state_duration_ms = nposm;
+				to_col2.satisfied_duration_ms = nposm;
+				to_col2.unsatisfied_duration_ms = nposm;
+
+				VALIDATE(to_col2.improper_alert.x == 0 && to_col2.improper_alert.y == 0, null_str);
+				VALIDATE(to_col2.rep_duration_ms == 0, null_str);
+				VALIDATE(to_col2.phase2_duration_ms == 0, null_str);
+				std::string day_str;
+
+				number_msgstr.str("");
+				for (int step_at = 0; step_at < flow_state.rep_step && rep_at < flow_state.rep_count; step_at ++, rep_at ++) {
+					const aplt::trepetition_C& rep = flow_state.reps[rep_at];
+
+					int rep_reasons[WKO_MAX_PHASE_COUNT] = {0, 0};
+					for (int phase_at = 0; phase_at < WKO_MAX_PHASE_COUNT; phase_at ++) {
+						for (int r_at = 0; r_at < rep.unsatisfied_reason_count[phase_at]; r_at ++) {						
+							rep_reasons[phase_at] ++;
+
+							int r = rep.unsatisfied_reasons[phase_at][r_at].r;
+							SDL_Point* reason_to = nullptr;
+							if (reasons.count(r) == 0) {
+								reason_to = &reasons.insert(std::make_pair(r, SDL_Point{0, 0})).first->second;
+							} else {
+								reason_to = &reasons.find(r)->second;
+							}
+							if (phase_at == 0) {
+								reason_to->x ++;
+							} else {
+								reason_to->y ++;
+							}
+							reason_count ++;
+						}
+					}
+					to_col2.improper_alert.x += rep_reasons[0];
+					to_col2.improper_alert.y += rep_reasons[1];
+
+					// rep duration
+					if (rep_at != 0) {
+						to_col2.rep_duration_ms += rep.rep_complete_ms - flow_state.reps[rep_at - 1].rep_complete_ms;
+					} else {
+						to_col2.rep_duration_ms += rep.rep_complete_ms - rep.active_start_ms[0];
+					}
+
+					// tow phase duration
+					if (rep_at != flow_state.rep_count - 1) {
+						to_col2.phase2_duration_ms += flow_state.reps[rep_at + 1].active_start_ms[0] - rep.active_start_ms[0];
+					} else {
+						to_col2.phase2_duration_ms += rep.rep_complete_ms - rep.active_start_ms[0];
+					}
+
+					if (day_str.empty()) {
+						// day_str = utils::format_elapse_hm_or_ms((rep.active_start_ms[0] - workout.range_ms.min) / 1000, true, time_sep, false);
+						day_str = utils::format_elapse_hm_or_ms((rep.active_start_ms[0] - workout.range_ms.min) / 1000, true, time_sep2, false);
+					}
+
+					if (!number_msgstr.str().empty()) {
+						number_msgstr << metrics.dunhao_msgstr_;
+					}
+					number_msgstr << rep_at + 1;
+				}
+
+				const bool short_name = true;
+				std::string fake_state_name;
+				if (short_name) {
+					fake_state_name.append("#").append(number_msgstr.str());
+
+				} else {
+					symbols["number"] = number_msgstr.str();
+					fake_state_name = vgettext2("$number|-th", symbols);
+				}
+
+				push_col2_to_bar_4labels(to_col2, fields, metrics.posture_small_font_size_, flow_state, workout,
+					state2_cfg, max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
+					day_label_use_2line, last_state_name_label_width, column_width, day_str, fake_state_name);
+
+				col_at ++;
+            } // for (..., rep_at < flow_state.rep_count, ...)
+
+			int reason_count2 = join_unsatisfied_reason_str(state_name, reasons, unsatisfied_legend_names, chart2_width, small_font_size,
+				unsatisfied_one_line_msg, unsatisfied_reason_str_ss);
+
+			VALIDATE(reason_count == reason_count2, null_str);
+			
+			// ---if (flow_state.rep_count != 0) ---
+        }
+
+		if (flow_state.seg_count != 0) {
+			fields.has_seg = true;
+			int reason_count = 0;
+			std::map<int, SDL_Point> reasons;
+			std::stringstream number_msgstr;
+            for (int seg_at = 0; seg_at < flow_state.seg_count; seg_at ++) {
+				cairo::tworkout_fields::tcol2_C& to_col2 = fields.cols[col_at];
+				to_col2.type = cairo::coltype_seg;
+
+				const aplt::tsegment_C& seg = flow_state.segs[seg_at];
+
+				// to_col2.state_start_ms = seg.start_ms;
+				to_col2.state_duration_ms = seg.duration_ms;
+				to_col2.satisfied_duration_ms = seg.satisfied_duration_ms;
+				to_col2.unsatisfied_duration_ms = seg.unsatisfied_duration_ms;
+				to_col2.improper_alert = SDL_Point{seg.unsatisfied_reason_count, nposm};
+				to_col2.rep_duration_ms = nposm;
+				// to_col2.phase2_duration_ms = nposm;
+
+				for (int r_at = 0; r_at < seg.unsatisfied_reason_count; r_at ++) {						
+					int r = seg.unsatisfied_reasons[r_at].r;
+					SDL_Point* reason_to = nullptr;
+					if (reasons.count(r) == 0) {
+						reason_to = &reasons.insert(std::make_pair(r, SDL_Point{0, nposm})).first->second;
+					} else {
+						reason_to = &reasons.find(r)->second;
+					}
+					reason_to->x ++;
+					reason_count ++;
+				}
+
+				// std::string day_str = utils::format_elapse_hm_or_ms((seg.start_ms - workout.range_ms.min) / 1000, true, time_sep, false);
+				std::string day_str = utils::format_elapse_hm_or_ms((seg.start_ms - workout.range_ms.min) / 1000, true, time_sep2, false);
+
+				std::string fake_state_name = std::string("#") + str_cast(seg_at + 1);
+				push_col2_to_bar_4labels(to_col2, fields, metrics.posture_small_font_size_, flow_state, workout,
+					state2_cfg, max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
+					day_label_use_2line, last_state_name_label_width, column_width, day_str, fake_state_name);
+
+				col_at ++;
+			}
+
+			int reason_count2 = join_unsatisfied_reason_str(state_name, reasons, unsatisfied_legend_names, chart2_width, small_font_size,
+				unsatisfied_one_line_msg, unsatisfied_reason_str_ss);
+
+			VALIDATE(reason_count == reason_count2, null_str);
+
+		} // --- if (flow_state.seg_count != 0) ---
+	} // --- for (... state_at < fields.flow_state_count; ...) {
+
+	VALIDATE((int)fields.bar_4labels.size() == fields.col_count, null_str);
+	if (!unsatisfied_one_line_msg.empty()) {
+		if (!unsatisfied_reason_str_ss.str().empty()) {
+			unsatisfied_reason_str_ss << "\n";
+		}
+		unsatisfied_reason_str_ss << unsatisfied_one_line_msg;
+	}
+
+	// fill 'fields.fid_chart_remark', require known below data.
+	for (int at = 0; at < fields.fid_count; at ++) {
+		cairo::tsdl_field* field = fields.arrays[at];
+		std::string icon;
+		std::string name;
+		int name_font_size = 0;
+		SDL_DColor cairo_color{0.0, 0.0, 0.0, 0.0};
+		if (at == fields.fid_title) {
+			icon = "misc/workout48.png";
+			name = wkoscript_cfg["name"].str();
+			std::string author = wkoscript_cfg["author"].str();
+			if (!author.empty()) {
+				name.append("@" + author);
+			}
+			name_font_size = metrics.chart_title_font_size_;
+
+		} else if (at == fields.fid_this_days) {
+			std::stringstream ss;
+			ss << utils::format_elapse_hms((workout.range_ms.max - workout.range_ms.min) / 1000);
+			ss << "(";
+			// if (to_image) {
+				ss << utils::format_time_ymd4(result2.start_of_today, true, true, true);
+				ss << " ";
+			// }
+			ss << utils::format_elapse_hms2(workout.range_ms.min / 1000);
+			ss << "-";
+			ss << utils::format_elapse_hms2(workout.range_ms.max / 1000);
+			ss << ")";
+			name = ss.str();
+			name_font_size = font::SIZE_DEFAULT;
+			cairo_color = SDL_DColor{232 / 255.0, 241 / 255.0, 250 / 255.0, 1.0};
+
+		} else if (at == fields.fid_history) {
+			if (workout_mat2.script->states.size() == workout.flow_states2.size()) {
+				// SDL_Log("#%i {dbg-history}workout.start_of_today: %s, history.days: %i", 
+				//	at, utils::format_time_ymdhms(workout.start_of_today + workout.start_s).c_str(), workout.history.days);
+				aplt::twko_tlv_history_C history = workout.history_add_me(result2.start_of_today, *workout_mat2.script, result2.start_of_today + ONE_DAY_SECONDS);
+				symbols["days"] = str_cast(history.days);
+				symbols["workouts"] = str_cast(history.workouts);
+				if (history.reps == 0) {
+					symbols["duration_s"] = utils::format_elapse_hms(history.duration_s, utils::timesep_i18n, true);
+				} else {
+					symbols["reps"] = str_cast(history.reps);
+				}
+
+				if (workout.history.start_of_lastday != 0) {
+					int64_t ts = workout.history.start_of_lastday + workout.history.last_range_ms.min / 1000;
+					symbols["last_ts"] = utils::format_time_ymdhms(ts);
+
+					int duration_s = (workout.history.last_range_ms.max - workout.history.last_range_ms.min) / 1000;
+					symbols["last_duration"] = utils::format_elapse_hms(duration_s, utils::timesep_i18n, true);
+				}
+
+				if (history.reps == 0) {
+					if (workout.history.start_of_lastday != 0) {
+						name = vgettext2("wko^history, time_counter, has last, $days, $workouts, $duration_s, $last_ts, $last_duration", symbols);
+					} else {
+						name = vgettext2("wko^history, time_counter, has last, $days, $workouts, $duration_s", symbols);
+					}
+				} else {
+					if (workout.history.start_of_lastday != 0) {
+						name = vgettext2("wko^history, rep_counter, has last, $days, $workouts, $reps, $last_ts, $last_duration", symbols);
+					} else {
+						name = vgettext2("wko^history, rep_counter, has last, $days, $workouts, $reps", symbols);
+					}
+				}
+
+			} else {
+				name = _("wko^history, not completed");
+			}
+			name_font_size = small_font_size;
+
+		} else if (at == fields.fid_left_y_axis) {
+			name = _("workout^left_y_axis title");
+			name_font_size = small_font_size;
+
+		} else if (at == fields.fid_right_y_axis) {
+			bool always_unnsatisfied_count = true;
+			if (fields.has_rep || always_unnsatisfied_count) {
+				name = _("workout^Unsatisfied count");
+			} else {
+				name = std::string(_("workout^Change to unsatisfied count")) + "/" + _("workout^Unsatisfied count");
+			}
+			name_font_size = small_font_size;
+
+		} else if (at == fields.fid_legend_nonpose_state_duration) {
+			name = _("workout^Nonpose state duration");
+			name_font_size = small_font_size;
+			// cairo_color = SDL_DColor{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+			cairo_color = metrics.nonpose_state_duration_color_;
+
+			// const SDL_DColor sit_duration_color{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+
+		} else if (at == fields.fid_legend_pose_state_duration) {
+			name = _("workout^Pose state duration");
+			name_font_size = small_font_size;
+			// cairo_color = SDL_DColor{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+			cairo_color = metrics.pose_state_duration_color_;
+
+			// const SDL_DColor sit_duration_color{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+
+		} else if (at == fields.fid_legend_satisfied_duration) {
+			name = _("workout^Satisfied duration");
+			name_font_size = small_font_size;
+
+			// cairo_color = SDL_DColor{1.0, 0.0, 0.0, 1.0};
+			cairo_color = metrics.satisfied_duration_color_;
+
+			// const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+			const SDL_DColor improper_duration_color{1.0, 0.0, 0.0, 1.0};
+
+		} else if (at == fields.fid_legend_unsatisfied_duration) {
+			name = _("workout^Unsatisfied duration");
+			name_font_size = small_font_size;
+
+			// cairo_color = SDL_DColor{1.0, 0.0, 0.0, 1.0};
+			cairo_color = metrics.unsatisfied_duration_color_;
+
+			// const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+			const SDL_DColor improper_duration_color{1.0, 0.0, 0.0, 1.0};
+
+		} else if (at == fields.fid_legend_improper_alert) {
+			if (fields.has_seg || fields.has_rep) {
+				name = _("workout^Unsatisfied count");
+			} else {
+				name = _("workout^Change to unsatisfied count");
+			}
+			name_font_size = small_font_size;
+			// cairo_color = SDL_DColor{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+			// cairo_color = SDL_DColor{1.0, 195 / 255.0, 0 / 255.0, 1.0};
+
+			// cairo_color = SDL_DColor{1.0, 165 / 255.0, 0 / 255.0, 1.0};
+			cairo_color = metrics.improper_alert_color_;
+
+		} else if (at == fields.fid_legend_seg_duration) {
+			name = _("wko^Time segment");
+			cairo_color = SDL_DColor{59 / 255.0, 130 / 255.0, 246 / 255.0, 1.0};
+			name_font_size = small_font_size;
+			
+			// cairo_color = SDL_DColor{45 / 255.0, 212 / 255.0, 191 / 255.0, 1.0};
+
+		} else if (at == fields.fid_legend_rep_duration) {
+			name = _("workout^Rep duration");
+			name_font_size = small_font_size;
+			cairo_color = SDL_DColor{65 / 255.0, 105 / 255.0, 225 / 255.0, 1.0};
+			// cairo_color = SDL_DColor{45 / 255.0, 212 / 255.0, 191 / 255.0, 1.0};
+
+		} else if (at == fields.fid_legend_active_period) {
+			name = _("workout^Active period");
+			name_font_size = small_font_size;
+			cairo_color = SDL_DColor{154 / 255.0, 205 / 255.0, 0 / 255.0, 1.0};
+			// cairo_color = SDL_DColor{45 / 255.0, 212 / 255.0, 191 / 255.0, 1.0};
+
+		} else if (at == fields.fid_legend_cooldown_period) {
+			name = _("workout^Cooldown period");
+			name_font_size = small_font_size;
+			cairo_color = SDL_DColor{192 / 255.0, 192 / 255.0, 192 / 255.0, 1.0};
+			// cairo_color = SDL_DColor{249 / 115.0, 192 / 255.0, 22 / 255.0, 1.0};
+
+		} else if (at == fields.fid_unsatisfied_msg) {
+			if (!unsatisfied_reason_str_ss.str().empty()) {
+				name = unsatisfied_reason_str_ss.str();
+			}
+			if (name.empty()) {
+				continue;
+			}
+			name_font_size = small_font_size;
+
+		} else if (at == fields.fid_chart_remark) {
+			std::stringstream name_ss;
+			name_ss << _("wko^chart remark");
+			if (fields.has_rep) {
+				name_ss << "\n";
+				name_ss << _("workout^rep duration remark");
+			}
+			name = name_ss.str();
+			name_font_size = small_font_size;
+
+		} else {
+			VALIDATE(false, null_str);
+		}
+		field->set(icon, name, name_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+		field->cairo_color = cairo_color;
+		field->desire_size.x = field->name_text_size.x;
+		field->desire_size.y = field->margin.y * 2 + field->name_text_size.y + field->gap.y + field->val_text_size.y;
+	}
+
+	// tpoint one_time_label_size = font::get_rendered_text_size("23:20 - 23:59", INT_MAX, posture_small_font_size_);
+	// const bool day_label_use_2line = max_state_name_labels_size.w + 0 > column_width;
+
+	//
+	// calculate misc 'height'
+	//
+	fields.title_height = chart_margin.y + fields.title.name_text_size.y - 5;
+	fields.title_height += fields.history.name_text_size.y;
+	fields.legend_height = fields.legend_improper_alert.name_text_size.y * 2 
+		+ 12 + fields.y_axis_title_gap_y;
+	fields.day_labels_height = max_day_labels_height;
+	if (day_label_use_2line) {
+		fields.day_labels_height += max_state_name_labels_size.h;
+	}
+	if (fields.unsatisfied_msg.name_text_size.y != 0) {
+		fields.day_labels_height += fields.unsatisfied_msg.name_text_size.y;
+		fields.day_labels_height += fields.unsatisfied_msg_to_chart_remark_gap_y;
+	}
+	fields.day_labels_height += fields.chart_remark.name_text_size.y;
+
+	const int chart_height = metrics.chart_height_;
+	const int mat_height = metrics.chart_margin_.y + fields.title_height + fields.legend_height +
+		chart_height + fields.day_labels_height + metrics.chart_margin_.y;
+
+	fields.cairo_draw_start_btn = workout_mat2.zip_workout.len != 0;
+
+	fields.share = hide_cairo_share? bool_set_none: workout_mat2.share;
+	SDL_Rect btn_rects_tmp[pl_btn_count];
+	fields.pl_btn_rects = btn_rects_tmp;
+
+	SDL_Rect* tip_rects_tmp = (SDL_Rect*)malloc(sizeof(SDL_Rect) * fields.col_count);
+	fields.tip_rects = tip_rects_tmp;
+
+	const SDL_Size result{mat_width, mat_height};
+	if (result_mat == nullptr) {
+		return result;
+	}
+	*result_mat = cairo::draw_workout_bar_chart(mat_type, mat_width, mat_height, radius, chart_margin, fields);
+	VALIDATE(result.w == result_mat->cols && result.h == result_mat->rows, null_str);
+	if (btn_rects_result != nullptr) {
+		memcpy(btn_rects_result, btn_rects_tmp, sizeof(btn_rects_tmp));
+	}
+	if (tip_rects_result != nullptr) {
+		if (tip_rects_result->count >= fields.col_count) {
+			VALIDATE(tip_rects_result->ptr != nullptr, null_str);
+		} else {
+			if (tip_rects_result->ptr != nullptr) {
+				free(tip_rects_result->ptr);
+			}
+			tip_rects_result->ptr = (SDL_Rect*)malloc(sizeof(SDL_Rect) * fields.col_count);
+		}
+		memcpy(tip_rects_result->ptr, tip_rects_tmp, sizeof(SDL_Rect) * fields.col_count);
+		tip_rects_result->count = fields.col_count;
+	}
+	free(tip_rects_tmp);
+/*
+	if (workout_mat2.zip_workout.len == 0) {
+		workout_mat2.btn_rects[pl_btn_play] = empty_rect;
+	}
+*/
+	surface text_surf;
+	SDL_Rect dst_rect;
+	{
+		surface surf(*result_mat);
+		for (int at = 0; at < fields.fid_count; at ++) {
+			const cairo::tsdl_field& field = *fields.arrays[at];
+
+			SDL_Color font_color = font::GRAY_COLOR;
+			int x_start = field.offset.x;
+			if (at == fields.fid_title) {
+				surface img_surf = image::get_image(field.icon);
+				VALIDATE(img_surf.get() != nullptr, null_str);
+				img_surf = scale_surface(img_surf, field.name_text_size.y, field.name_text_size.y);
+				dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+				sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+				x_start += img_surf->w;
+				if (!wkoscript_cfg["reference"].str().empty()) {
+					font_color = font::BLACK_COLOR;
+				}
+
+			} else if (at == fields.fid_history) {
+				font_color = font::BLACK_COLOR;
+
+			} else if (at == fields.fid_left_y_axis) {
+				font_color = font::BLACK_COLOR;
+
+			} else if (at == fields.fid_right_y_axis) {
+				const SDL_DColor& dcolor = fields.legend_improper_alert.cairo_color;
+				font_color = SDL_Color{(uint8_t)(int)(dcolor.r * 255), (uint8_t)(int)(dcolor.g * 255), (uint8_t)(int)(dcolor.b * 255), 255};
+
+			} else if (at == fields.fid_unsatisfied_msg) {
+				font_color = font::BLACK_COLOR;
+			}
+
+			if (!fields.has_seg) {
+				if (at == fields.fid_legend_seg_duration || at == fields.fid_legend_satisfied_duration || at == fields.fid_legend_unsatisfied_duration) {
+					continue;
+				}
+			}
+
+			if (!fields.has_rep) {
+				if (at == fields.fid_legend_rep_duration || at == fields.fid_legend_active_period || at == fields.fid_legend_cooldown_period) {
+					continue;
+				}
+			}
+
+			if (field.name.empty()) {
+				continue;
+			}
+
+			if (field.offset.x == 0 && field.offset.y == 0) {
+				SDL_Log("workout_at: %i, field.name: %s", workout_at, field.name.c_str());
+			}
+
+			text_surf = font::get_rendered_text(field.name, INT_MAX, field.name_font_size, font_color);
+			dst_rect = ::create_rect(x_start, field.offset.y, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+		}
+
+		const SDL_Color period_color[] = {
+			font::SDL_DColor_to_SDL_Color(fields.legend_pose_state_duration.cairo_color),
+			{100, 149, 237, 255},
+		};
+
+		int col_at = 0;
+		for (std::vector<cairo::tworkout_fields::tbar_4label>::const_iterator it = fields.bar_4labels.begin(); it != fields.bar_4labels.end(); ++ it, col_at ++) {
+			const cairo::tworkout_fields::tbar_4label& bar_3label = *it;
+			const cairo::tworkout_fields::tcol2_C& col2 = fields.cols[col_at];
+
+			int x_start;
+			int y_start;
+			// state duration
+			const bool is_pose_state = fields.cols[col_at].type == cairo::coltype_pose_state;
+			const SDL_DColor& state_color = is_pose_state? fields.legend_pose_state_duration.cairo_color: fields.legend_nonpose_state_duration.cairo_color;
+			SDL_Color font_color = font::SDL_DColor_to_SDL_Color(state_color);
+			if (fields.cols[col_at].type == cairo::coltype_seg) {
+				font_color = font::SDL_DColor_to_SDL_Color(fields.legend_seg_duration.cairo_color);
+			}
+			const cairo::tsdl_field* field = &bar_3label.state;
+			// if (col2.is_state && !field->name.empty()) {
+			if (!field->name.empty()) {
+				if (field->offset.x == 0 && field->offset.y == 0) {
+					int ii = 0;
+				}
+				text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+				x_start = field->offset.x;
+				y_start = field->offset.y;
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+
+			// satisfied duration
+			font_color = font::SDL_DColor_to_SDL_Color(fields.legend_satisfied_duration.cairo_color);
+			field = &bar_3label.satisfied;
+			if (!field->name.empty()) {
+				if (field->offset.x == 0 && field->offset.y == 0) {
+					int ii = 0;
+				}
+				text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+				x_start = field->offset.x;
+				y_start = field->offset.y;
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+
+			// unsatisfied duration
+			font_color = font::SDL_DColor_to_SDL_Color(fields.legend_unsatisfied_duration.cairo_color);
+			field = &bar_3label.unsatisfied;
+			if (!field->name.empty()) {
+				if (field->offset.x == 0 && field->offset.y == 0) {
+					int ii = 0;
+				}
+				text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+				x_start = field->offset.x;
+				y_start = field->offset.y;
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+
+			// improper alert
+			// font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_alert.cairo_color);
+			// font_color = font::GRAY_COLOR;
+			font_color = font::BLACK_COLOR;
+			field = &bar_3label.improper_alert;
+			if (!field->name.empty()) {
+				if (field->offset.x == 0 && field->offset.y == 0) {
+					int ii = 0;
+				}
+				text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+				x_start = field->offset.x;
+				y_start = field->offset.y;
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+
+			// rep duration
+			font_color = font::SDL_DColor_to_SDL_Color(fields.legend_rep_duration.cairo_color);
+			field = &bar_3label.rep_duration;
+			if (!field->name.empty()) {
+				if (field->offset.x == 0 && field->offset.y == 0) {
+					int ii = 0;
+				}
+				text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+				x_start = field->offset.x;
+				y_start = field->offset.y;
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+
+			// day label
+			bool odd = col_at & 1;
+			const SDL_Color& color = period_color[odd? 1: 0];
+
+			field = &bar_3label.day;
+			// font_color = font::GRAY_COLOR;
+			font_color = !field->val.empty() && odd? color: font::GRAY_COLOR;
+			text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+			x_start = field->offset.x - field->name_text_size.x / 2;
+			y_start = field->offset.y + field->margin.y;
+			dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+			sdl_blit(text_surf, nullptr, surf, &dst_rect);
+
+			if (!field->val.empty()) {
+				if (field->offset.x == 0 && field->offset.y == 0) {
+					int ii = 0;
+				}
+				text_surf = font::get_rendered_text(field->val, INT_MAX, field->val_font_size, font_color);
+				x_start = field->offset.x - field->val_text_size.x / 2;
+				y_start += text_surf->h + field->gap.y;
+				if (odd && day_label_use_2line) {
+					y_start += max_state_name_labels_size.h;
+				}
+				dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+				sdl_blit(text_surf, nullptr, surf, &dst_rect);
+			}
+		}
+/*
+		if (workout_mat2.zip_workout.len != 0 && !fields.cairo_draw_start_btn) {
+			surface img_surf = image::get_image("misc/start.png");
+			VALIDATE(img_surf.get() != nullptr, null_str);
+			img_surf = scale_surface(img_surf, fields.play_icon_rect.w, fields.play_icon_rect.h);
+			dst_rect = fields.play_icon_rect;
+			sdl_blit(img_surf, nullptr, surf, &dst_rect);
+		}
+*/
+	}
+
+	return result;
+}
+
+SDL_Size draw_workout_mat2(const tchart_metrics& metrics, int mat_type, int mat_width,
+	bool hide_cairo_share, const aplt::thealth::thealth_result2& result2, int workout_at, health_controller::tworkout_mat2_C& workout_mat2, cv::Mat* mat_result)
+{
+	VALIDATE(IS_MULTIPLE_OF_4(mat_width), null_str);
+
+	VALIDATE(workout_at >= 0 && workout_at < (int)result2.workouts.size(), null_str);
+	const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at];
+
+	std::string wkoscript_cfg_str;
+
+	if (result2.workout_cfgs.count(workout.wkoscript_index) != 0) {
+		wkoscript_cfg_str = result2.workout_cfgs.find(workout.wkoscript_index)->second;
+	}
+	VALIDATE(workout_mat2.wkon32_event_items == nullptr, null_str);
+
+	tuint8cdata_C zip_workout = result2.find_zip_workout(workout.start_s);
+	health_controller::set_workout_mat2_data(workout_mat2, zip_workout.ptr, zip_workout.len, 
+		wkoscript_cfg_str.c_str(), wkoscript_cfg_str.size(), workout.wkon32_event_items, workout.wkon32_event_item_count());
+	workout_mat2.range_ms = workout.range_ms;
+
+	// cv::Mat mat;
+	SDL_Size mat_size = draw_workout_mat(metrics, mat_type, mat_width, hide_cairo_share, 
+		result2, workout_at, workout_mat2, workout_mat2.btn_rects, 
+		&workout_mat2.tip_rects, workout_mat2.rep_steps, &workout_mat2.chart_margin_lr, mat_result);
+
+	if (workout_mat2.zip_workout.len == 0) {
+		VALIDATE(workout_mat2.btn_rects[pl_btn_play] == empty_rect, null_str);
+	}
+
+	return mat_size;
+}
+
+SDL_Size draw_workout_mat3(const tchart_metrics& metrics, int mat_type, int mat_width,
+	const aplt::thealth::thealth_result2& result2, int workout_at, cv::Mat* mat_result)
+{
+	mat_width = posix_align_ceil(mat_width, 4);
+
+	// draw_workout_mat() require @mat_width is align by 4.
+	VALIDATE(IS_MULTIPLE_OF_4(mat_width), null_str);
+
+	bool hide_cairo_share = false;
+	health_controller::tworkout_mat2_C mat2;
+	memset(&mat2, 0, sizeof(mat2));
+
+	SDL_Size mat_size = draw_workout_mat2(metrics, mat_type, mat_width, hide_cairo_share, result2, workout_at, mat2, mat_result);
+	
+	health_controller::free_mat2_data(mat2);
+
+	return mat_size;
+}
+
+void health_controller::draw_workout_mat_from_cache(int item_at)
+{
+	VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+
+	const int sel = curr_chartsel_;
+	const tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+	int workout_at_in_page = item_at - dyn_chartsel.draw_items_before_workout;
+
+	VALIDATE(dyn_chartsel.workout_at2s.vsize == workout_mat2s_.vsize, null_str);
+	VALIDATE(workout_at_in_page >= 0 && dyn_chartsel.workout_at2s.vsize, null_str);
+
+	const cv::Mat& cached_mat = lru_cache_.get(workout_at_in_page);
+	// cached_mat[at], workout_mat2s_[at].mat2, draw_items[at].mat must be nullptr.
+	VALIDATE(cached_mat.empty(), null_str);
+
+	const tdyn_chartsel::tworkout_at2* at2s = (tdyn_chartsel::tworkout_at2*)dyn_chartsel.workout_at2s.data;
+	const tdyn_chartsel::tworkout_at2& at2 = at2s[workout_at_in_page];
+
+	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	tworkout_mat2_C& mat2 = mat2s[workout_at_in_page];
+	VALIDATE(mat2.workout_mat == nullptr, null_str);
+	VALIDATE(mat2.cache_mat_size.w > 0 && mat2.cache_mat_size.h > 0, null_str);
+
+	const int small_font_size = posture_small_font_size_;
+
+	VALIDATE(dyn_chartsel.result2s[at2.day_at] != nullptr, null_str);
+	const aplt::thealth::thealth_result2& result2 = *dyn_chartsel.result2s[at2.day_at];
+	cv::Mat mat;
+	SDL_Size mat_size = draw_workout_mat(*this, cairo::wkomattype_health, mat2.cache_mat_size.w, hide_cairo_share_,
+		result2, at2.workout_at, mat2, mat2.btn_rects, &mat2.tip_rects, mat2.rep_steps, &mat2.chart_margin_lr, &mat);
+	VALIDATE(mat_size.w == mat.cols && mat_size.h == mat.rows, null_str);
+
+	// 1. evaludate to mat2.workout_mat
+	mat2.workout_mat = new cv::Mat(lru_cache_.put(workout_at_in_page, mat));
+
+	VALIDATE(mat2.offset_for_adjust.x == map_margin_.x, null_str);
+	adjust_rects_after_draw_workout_mat(mat2.offset_for_adjust, mat2);
+
+	mat2.play_1th_rect = mat2.btn_rects[pl_btn_play];
+
+	// 2. make draw_item[at].mat point to it.
+	tdraw_item* items = (tdraw_item*)draw_items_.data;
+	tdraw_item& item = items[item_at];
+	VALIDATE(item.mat == nullptr, null_str);
+	item.mat = mat2.workout_mat;
+	VALIDATE(item.mat->cols == item.mat_size.w && item.mat->rows == item.mat_size.h, null_str);
+}
+
+void health_controller::did_mat_evicted(int key)
+{
+	if (testing_lru_cache_) {
+		return;
+	}
+
+	// SDL_Log("%u {dbg-lru}did_mat_evicted(key: %i)", SDL_GetTicks(), key);
+
+	VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+
+	const int sel = curr_chartsel_;
+	const tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+	int workout_at_in_page = key;
+	
+	// 1. set draw_item[at].mat nullptr
+	int item_at = dyn_chartsel.draw_items_before_workout + workout_at_in_page;
+	tdraw_item* items = (tdraw_item*)draw_items_.data;
+	tdraw_item& item = items[item_at];
+	VALIDATE(item.mat != nullptr, null_str);
+
+	// 2. set mat2.workout_mat to nullptr
+	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	tworkout_mat2_C& mat2 = mat2s[workout_at_in_page];
+	VALIDATE(mat2.workout_mat != nullptr, null_str);
+
+	if (player_.is_ing() && player_.workout_at_in_page() == workout_at_in_page) {
+		VALIDATE(item.mat == mat2.landmarks_mat, null_str);
+	} else {
+		VALIDATE(item.mat == mat2.workout_mat, null_str);
+	}
+
+	VALIDATE(item.mat_size.w == item.mat->cols && item.mat_size.h == item.mat->rows, null_str);
+	
+	if (player_.is_ing() && player_.workout_at_in_page() == workout_at_in_page) {
+		// if in play, don't modify item.mat.
+	} else {
+		item.mat = nullptr;
+	}
+
+	VALIDATE(mat2.cache_mat_size.w == mat2.workout_mat->cols && mat2.cache_mat_size.h == mat2.workout_mat->rows, null_str);
+	delete mat2.workout_mat;
+
+	mat2.workout_mat = nullptr;
+
+	// validate
+	int valid_mats = 0;
+	for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+		int item_at = dyn_chartsel.draw_items_before_workout + at;
+		tdraw_item& item = items[item_at];
+
+		tworkout_mat2_C& mat2 = mat2s[at];
+		if (player_.is_ing() && player_.workout_at_in_page() == at) {
+			VALIDATE(item.mat == mat2.landmarks_mat, null_str);
+		} else {
+			VALIDATE(item.mat == mat2.workout_mat, null_str);
+		}
+		VALIDATE(item.mat_size.w == mat2.cache_mat_size.w && item.mat_size.h == mat2.cache_mat_size.h, null_str);
+
+		if (mat2.workout_mat != nullptr) {
+			valid_mats ++;
+		}
+	}
+	VALIDATE(valid_mats == lru_cache_.size(), null_str);
+}
+
+void health_controller::adjust_rects_after_draw_fake_workout_mats()
+{
+	SDL_Rect* adjust_rects[pl_btn_count];
+	memset(adjust_rects, 0, sizeof(adjust_rects));
+
+	cv::Scalar color(0, 255, 0, 255);
+
+	const bool overlay_frame = false;
+	const tdraw_item* items = (tdraw_item*)draw_items_.data;
+	for (int fake_at = 0; fake_at < fake_workout_count; fake_at ++) {
+		tsingle_mat& fake = *fake_workouts_[fake_at];
+		if (fake.draw_item_at == nposm) {
+			continue;
+		}
+
+		// const tdraw_item& item = find_draw_item(fake.mat_type, 0);
+		const tdraw_item& item = items[fake.draw_item_at];
+		VALIDATE(item.type == fake.mat_type && item.at == 0, null_str);
+
+		const SDL_Point& offset = item.offset;
+
+		for (int btn = 0; btn < pl_btn_count; btn ++) {
+			SDL_Rect& rect = fake.btn_rects[btn];
+			if (rect.w == 0) {
+				continue;
+			}
+
+			rect.x += offset.x;
+			rect.y += offset.y;
+
+			if (overlay_frame) {
+				cv::Rect rect2(rect.x - offset.x, rect.y - offset.y, rect.w, rect.h);
+				cv::rectangle(fake.mat, rect2, color);
+			}
+		}
+
+		for (int tip_at = 0; tip_at < fake.tip_rects.vsize; tip_at ++) {
+			SDL_Rect& rect = fake.tip_rects.ptr[tip_at];
+			if (rect.w == 0) {
+				continue;
+			}
+
+			rect.x += offset.x;
+			rect.y += offset.y;
+
+			if (overlay_frame) {
+				cv::Rect rect2(rect.x - offset.x, rect.y - offset.y, rect.w, rect.h);
+				cv::rectangle(fake.mat, rect2, color);
+			}
+		}
+	}
+}
+
+void health_controller::adjust_rects_after_draw_workout_mat(const SDL_Point& offset, tworkout_mat2_C& mat2)
+{
+	SDL_Rect* adjust_rects[pl_btn_count];
+	memset(adjust_rects, 0, sizeof(adjust_rects));
+
+	int count = 0;
+	adjust_rects[count ++] = mat2.btn_rects + pl_btn_play;
+	adjust_rects[count ++] = mat2.btn_rects + misc_btn_open_url;
+	if (is_sharing_) {
+		adjust_rects[count ++] = mat2.btn_rects + pl_btn_share;
+	}
+
+	const bool overlay_frame = false;
+
+	cv::Mat& mat = *mat2.workout_mat;
+	// cv::Scalar color(119, 119, 119, 255);
+	cv::Scalar color(0, 255, 0, 255);
+
+	for (int at = 0; at < count; at ++) {
+		SDL_Rect& rect = *adjust_rects[at];
+		rect.x += offset.x;
+		rect.y += offset.y;
+
+		if (overlay_frame) {
+			// draw_rectangle(rect.x - offset.x, rect.y - offset.y, rect.w, rect.h, 0xffff0000, bg);
+			cv::Rect rect2(rect.x - offset.x, rect.y - offset.y, rect.w, rect.h);
+			cv::rectangle(mat, rect2, color);
+		}
+	}
+
+	for (int at = 0; at < mat2.tip_rects.count; at ++) {
+		SDL_Rect& rect = mat2.tip_rects.ptr[at];
+		if (rect.w == 0) {
+			continue;
+		}
+
+		rect.x += offset.x;
+		rect.y += offset.y;
+
+		if (overlay_frame) {
+			cv::Rect rect2(rect.x - offset.x, rect.y - offset.y, rect.w, rect.h);
+			cv::rectangle(mat, rect2, color);
+		}
+	}
+}
+
+void health_controller::refresh_day_chart(time_t t, bool redraw_only, const SDL_Point& redraw_which_chart)
+{
+	aplt::thealth::thealth_result2& result2 = curr_day_result2_;
+	if (!redraw_only) {
+		bool retbool = health_.load_health_data_4_report(t, result2);
+	} else {
+	}
+
+	int zoom = gui_->zoom();
+	const int width = calc_should_map_w() * zoom;
+
+	if (!redraw_only) {
+		draw_items_.clear();
+		VALIDATE(draw_items_.vsize == 0, null_str);
+		lru_cache_.clear();
+
+	} else {
+		VALIDATE(workout_mat2s_.vsize == (int)result2.workouts.size(), null_str);
+		VALIDATE(1 + 1 + workout_mat2s_.vsize + 1 == draw_items_.vsize, null_str);
+	}
+
+	std::vector<bool_set_t> workout_shares;
+
+	if (!redraw_only) {
+		if (is_sharing_) {
+			// for example: change screen size.
+			VALIDATE(workout_mat2s_.vsize == (int)result2.workouts.size(), null_str);
+			tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+			for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+				tworkout_mat2_C& mat2 = mat2s[at];
+				workout_shares.push_back(mat2.share);
+			}
+		}
+
+		// clear_fake_workouts_rects();
+		clear_workout_mat2s();
+	}
+
+	tdraw_item* item = nullptr;
+	cv::Mat tmp_mat = header_mat_.mat;
+	header_mat_.mat = draw_header_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, result2);
+	if (!redraw_only) {
+		item = (tdraw_item*)draw_items_.append_1();
+		item->type = mattype_day_header;
+		item->at = 0;
+		item->offset.x = map_margin_.x;
+		item->offset.y = map_margin_.y;
+		item->mat = &header_mat_.mat;
+		item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+		header_mat_.draw_item_at = draw_items_.vsize - 1;
+
+	} else {
+		VALIDATE(header_mat_.mat.cols == tmp_mat.cols && header_mat_.mat.rows == tmp_mat.rows, null_str);
+	}
+
+	int offset_y = map_margin_.y + header_mat_.mat.rows + charts_gap_y_;
+
+	const int small_font_size = posture_small_font_size_;
+	//
+	// sit chart
+	//
+	tmp_mat = sit_mat_.mat;
+	sit_mat_.mat = draw_sit_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, small_font_size, result2);
+	if (!redraw_only) {
+		item = (tdraw_item*)draw_items_.append_1();
+		item->type = mattype_day_sit;
+		item->at = 0;
+		item->offset.x = map_margin_.x;
+		item->offset.y = offset_y;
+		item->mat = &sit_mat_.mat;
+		item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+		sit_mat_.draw_item_at = draw_items_.vsize - 1;
+	} else {
+		VALIDATE(sit_mat_.mat.cols == tmp_mat.cols && sit_mat_.mat.rows == tmp_mat.rows, null_str);
+	}
+
+	adjust_rects_after_draw_fake_workout_mats();
+
+	offset_y += sit_mat_.mat.rows + charts_gap_y_;
+	//
+	// workout chart
+	//
+	int workout_count = result2.workouts.size();
+	int workout_at = 0;
+	for (; workout_at < workout_count; workout_at ++) {
+		tworkout_mat2_C* mat2 = nullptr;
+		bool is_workout_mat = false;
+		if (!redraw_only) {
+			mat2 = (tworkout_mat2_C*)workout_mat2s_.append_1();
+			memset(mat2, 0, sizeof(tworkout_mat2_C));
+			is_workout_mat = true;
+
+		} else {
+			tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+			mat2 = mat2s + workout_at;
+			if (redraw_which_chart.x != nposm && (redraw_which_chart.x != mattype_day_workout || redraw_which_chart.y != workout_at)) {
+				offset_y += mat2->workout_mat->rows + charts_gap_y_;
+				continue;
+			}
+
+			is_workout_mat = !player_.is_ing() || player_.workout_at_in_page() != workout_at;
+
+			if (is_workout_mat) {
+				tmp_mat = *mat2->workout_mat;
+				// free_mat2_data(*mat2);
+			}
+		}
+
+		if (is_workout_mat) {
+			cv::Mat mat;
+
+			if (!redraw_only) {
+				if (is_sharing_) {
+					mat2->share = workout_shares[workout_at];
+				}
+				draw_workout_mat2(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+					result2, workout_at, *mat2, &mat);
+				VALIDATE(!mat.empty(), null_str);
+
+				mat2->workout_mat = new cv::Mat(mat);
+
+			} else {
+				draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+					result2, workout_at, *mat2, mat2->btn_rects, &mat2->tip_rects, mat2->rep_steps, &mat2->chart_margin_lr, &mat);
+				VALIDATE(!mat.empty(), null_str);
+
+				*mat2->workout_mat = mat;
+			}
+
+			// Regardless of the case, the following rectangles will be changed.
+			adjust_rects_after_draw_workout_mat(SDL_Point{map_margin_.x, offset_y}, *mat2);
+
+			if (!redraw_only) {
+				mat2->play_1th_rect = mat2->btn_rects[pl_btn_play];
+
+			} else {
+				VALIDATE(memcmp(&mat2->play_1th_rect, mat2->btn_rects + pl_btn_play, sizeof(SDL_Rect)) == 0, null_str);
+			}
+		}
+
+		if (!redraw_only) {
+			item = (tdraw_item*)draw_items_.append_1();
+			item->type = mattype_day_workout;
+			item->at = workout_at;
+			item->offset.x = map_margin_.x;
+			item->offset.y = offset_y;
+			item->mat = mat2->workout_mat;
+			item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+			VALIDATE(!player_.is_ing(), null_str);
+
+		} else {
+			if (player_.is_ing() && player_.workout_at_in_page() == workout_at) {
+				player_.update_landmarks_mat_for_redraw();
+
+			} else {
+				VALIDATE(tmp_mat.cols == mat2->workout_mat->cols && tmp_mat.rows == mat2->workout_mat->rows, null_str);
+
+				tdraw_item& item = find_draw_item(mattype_day_workout, workout_at);
+				// item.mat = mat2->workout_mat;
+				VALIDATE(item.mat == mat2->workout_mat, null_str);
+			}
+			if (mat2->landmarks_mat != nullptr) {
+				VALIDATE(mat2->workout_mat->cols == mat2->landmarks_mat->cols && mat2->workout_mat->rows == mat2->landmarks_mat->rows, null_str);
+			}
+		}
+
+		offset_y += mat2->workout_mat->rows + charts_gap_y_;
+	}
+	VALIDATE(workout_at == workout_mat2s_.vsize, null_str);
+
+	tmp_mat = tip_mat_;
+	if (!redraw_only) {
+		item = (tdraw_item*)draw_items_.append_1();
+		item->type = mattype_tip;
+		item->at = 0;
+		item->offset.x = 0; // workout_item.offset.x + offset_x;
+		item->offset.y = 0; // workout_item.offset.y;
+		item->mat = &tip_mat_;
+		item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+
+		bool clear_always = true;
+		if (clear_always) {
+			if (!tip_mat_.empty()) {
+				clear_tip_mat();
+			}
+
+		} else {
+			// In the current code, when scaling down from a larger size, the position becomes incorrect.
+			if (!tip_mat_.empty()) {
+				VALIDATE(curr_tip6_.col_at != nposm, null_str);
+				draw_tip_mat2(false, curr_tip6_, result2, curr_tip6_.workout_at_in_page, nullptr);
+
+			} else {
+				VALIDATE(curr_tip6_.col_at == nposm, null_str);
+			}
+		}
+
+	} else {
+		// VALIDATE(tip_mat_.cols == tmp_mat.cols && tip_mat_.rows == tmp_mat.rows, null_str);
+	}
+	VALIDATE(2 + workout_mat2s_.vsize + 1 == draw_items_.vsize, null_str);
+}
+
+void health_controller::refresh_days_chart(int days)
+{
+	VALIDATE_POSTURE_DAYS(days);
+
+	int zoom = gui_->zoom();
+	const int width = calc_should_map_w() * zoom;
+
+	lru_cache_.clear();
+	// clear_fake_workouts_rects();
+
+	// const int header_height = chart_margin.y * 2 + max_size.y;
+	// header_mat_ = cairo::draw_header_mat(width - map_margin.x * 2, header_height, radius, chart_margin, header_fileds);
+
+	header_mat_.mat = cv::Mat();
+	draw_items_.clear();
+	VALIDATE(draw_items_.vsize == 0, null_str);
+	tdraw_item* item = (tdraw_item*)draw_items_.append_1();
+	item->type = mattype_days_header;
+	item->offset.x = map_margin_.x;
+	item->offset.y = map_margin_.y;
+	item->mat = &header_mat_.mat;
+	item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+
+	// int offset_y = map_margin_.y + header_mat_.rows + charts_gap_y_;
+	int offset_y = map_margin_.y + header_mat_.mat.rows;
+
+	const int small_font_size = posture_small_font_size_;
+	//
+	// sit chart
+	//
+	days_sit_mat_ = draw_days_sit_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, small_font_size, days);
+
+	item = (tdraw_item*)draw_items_.append_1();
+	item->type = mattype_days_sit;
+	item->offset.x = map_margin_.x;
+	item->offset.y = offset_y;
+	item->mat = &days_sit_mat_;
+	item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+
+	offset_y += days_sit_mat_.rows + charts_gap_y_;
+
+	//
+	// workout chart
+	//
+	days_workout_mat_ = draw_days_workout_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, small_font_size, days);
+
+	item = (tdraw_item*)draw_items_.append_1();
+	item->type = mattype_days_workout;
+	item->offset.x = map_margin_.x;
+	item->offset.y = offset_y;
+	item->mat = &days_workout_mat_;
+	item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+}
+
+void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, bool redraw_only, const SDL_Point& redraw_which_chart)
+{
+	VALIDATE(dyn_chartsel.type == dyncharttype_idcontain, null_str);
+	const std::string& key_id = dyn_chartsel.key;
+	VALIDATE(!key_id.empty(), null_str);
+
+	int zoom = gui_->zoom();
+	const int width = calc_should_map_w() * zoom;
+
+	if (!redraw_only) {
+		draw_items_.clear();
+		VALIDATE(draw_items_.vsize == 0, null_str);
+
+		lru_cache_.clear();
+
+	} else {
+		VALIDATE(workout_mat2s_.vsize == dyn_chartsel.workout_at2s.vsize, null_str);
+		VALIDATE(1 + workout_mat2s_.vsize + 1 == draw_items_.vsize, null_str);
+	}
+
+	tdraw_item* item = nullptr;
+	int offset_y = map_margin_.y + 0;
+
+	const int small_font_size = posture_small_font_size_;
+	const int days = MAX_HEALTH_DAYS;
+
+	std::vector<bool_set_t> workout_shares;
+
+	int share_workout_count[MAX_HEALTH_DAYS];
+	if (!redraw_only) {
+		if (is_sharing_) {
+			// for example: change screen size.
+			VALIDATE(workout_mat2s_.vsize == dyn_chartsel.workout_at2s.vsize, null_str);
+			tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+			for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+				tworkout_mat2_C& mat2 = mat2s[at];
+				workout_shares.push_back(mat2.share);
+			}
+
+			calculate_share_workout_count(dyn_chartsel);
+			memcpy(share_workout_count, dyn_chartsel.share_workout_count, sizeof(share_workout_count));
+		}
+
+		dyn_chartsel.clear();
+		// clear_fake_workouts_rects();
+		clear_workout_mat2s();
+	}
+
+	//
+	// day summary chart
+	//
+	cv::Mat tmp_mat = summary_mat_.mat;
+	if (!redraw_only) {
+		if (is_sharing_) {
+			memcpy(dyn_chartsel.share_workout_count, share_workout_count, sizeof(share_workout_count));
+		}
+
+	} else {
+		calculate_share_workout_count(dyn_chartsel);
+	}
+	summary_mat_.mat = draw_days_summary_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
+		dyn_chartsel.chart_title(), is_sharing_, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
+		dyn_chartsel);
+	if (!redraw_only) {
+		item = (tdraw_item*)draw_items_.append_1();
+		item->type = mattype_summary;
+		item->at = 0;
+		item->offset.x = map_margin_.x;
+		item->offset.y = offset_y;
+		item->mat = &summary_mat_.mat;
+		item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+
+		summary_mat_.draw_item_at = draw_items_.vsize - 1;
+		dyn_chartsel.draw_items_before_workout = draw_items_.vsize;
+
+	} else {
+		VALIDATE(summary_mat_.mat.cols == tmp_mat.cols && summary_mat_.mat.rows == tmp_mat.rows, null_str);
+
+		VALIDATE(dyn_chartsel.draw_items_before_workout == 1, null_str);
+	}
+
+	adjust_rects_after_draw_fake_workout_mats();
+
+	offset_y += summary_mat_.mat.rows + charts_gap_y_;
+
+	//
+	// workout chart
+	//
+	const time_t t = time(nullptr); // + ONE_DAY_SECONDS * 15
+	const int64_t desire_start_of_today = utils::calculate_0h0m0s_ts(t);
+	// struct tm first_day_tm;
+	// struct tm this_day_tm;
+	int workout_at_in_page = 0;
+	aplt::thealth::thealth_result2 result2_for_not_last;
+	const tdyn_chartsel::tworkout_at2* at2s = (tdyn_chartsel::tworkout_at2*)dyn_chartsel.workout_at2s.data;
+	for (int day = 0; day < days; day ++) {
+		// Today's 'result2' uses fixed data(curr_day_result2_) to prevent users from appending additional data to it during look.
+		bool is_last_day = day == days - 1;
+		if (!redraw_only && summary_mat_.draw_item_at == nposm) {
+			VALIDATE(dyn_chartsel.result2s[day] == nullptr, null_str);
+			dyn_chartsel.result2s[day] = new aplt::thealth::thealth_result2;
+			const time_t this_t = t - (days - 1 - day) * ONE_DAY_SECONDS;
+			health_.load_health_data_4_report(this_t, *dyn_chartsel.result2s[day]);
+
+		} else {
+			VALIDATE(dyn_chartsel.result2s[day] != nullptr, null_str);
+		}
+		aplt::thealth::thealth_result2& result2 = *dyn_chartsel.result2s[day];
+		bool retbool = result2.valid();
+
+		const int64_t desire_start_of_this_day = desire_start_of_today - (days - 1 - day) * ONE_DAY_SECONDS;
+		if (!redraw_only) {
+			dyn_chartsel.time_s[day] = desire_start_of_this_day;
+			dyn_chartsel.day_offset_ys[day] = offset_y;
+
+		} else {
+			VALIDATE(dyn_chartsel.time_s[day] == desire_start_of_this_day, null_str);
+			VALIDATE(dyn_chartsel.day_offset_ys[day] == offset_y, null_str);
+		}
+		if (retbool) {
+			retbool = result2.start_of_today == desire_start_of_this_day;
+			if (!retbool) {
+				result2.clear();
+			}
+		}
+		if (!retbool) {
+			continue;
+		}
+
+		int workout_at = 0;
+		for (std::vector<aplt::thealth::tworkout_result2>::const_iterator it = result2.workouts.begin(); it != result2.workouts.end(); ++ it, workout_at ++) {
+			const aplt::thealth::tworkout_result2& workout_result2 = *it;
+			VALIDATE(workout_result2.start_of_today == result2.start_of_today, null_str);
+
+			bool skip = true;
+			if (result2.workout_cfgs.count(workout_result2.wkoscript_index) != 0) {
+				const std::string& wkoscript_cfg_str = result2.workout_cfgs.find(workout_result2.wkoscript_index)->second;
+				std::string id = aplt::wkoscript_extract_id(wkoscript_cfg_str);
+				skip = id.find(dyn_chartsel.key) == std::string::npos;
+			}
+			
+			if (skip) {
+				continue;
+			}
+
+			// if idcontain
+			if (!redraw_only) {
+				tdyn_chartsel::tworkout_at2* at2 = (tdyn_chartsel::tworkout_at2*)dyn_chartsel.workout_at2s.append_1();
+				at2->day_at = day;
+				at2->workout_at = workout_at;
+
+				// dyn_chartsel.workout_durations[day] += workout_result2.range_ms.max - workout_result2.range_ms.min;
+
+			} else {
+				VALIDATE(at2s[workout_at_in_page].day_at == day, null_str);
+				VALIDATE(at2s[workout_at_in_page].workout_at == workout_at, null_str);
+			}
+
+			tworkout_mat2_C* mat2 = nullptr;
+			bool is_workout_mat = false;
+			if (!redraw_only) {
+				mat2 = (tworkout_mat2_C*)workout_mat2s_.append_1();
+				memset(mat2, 0, sizeof(tworkout_mat2_C));
+				is_workout_mat = true;
+
+			} else {
+				tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+				mat2 = mat2s + workout_at_in_page;
+
+				if (redraw_which_chart.x != nposm && (redraw_which_chart.x != mattype_day_workout || redraw_which_chart.y != workout_at_in_page)) {
+					// offset_y += mat2->workout_mat->rows + charts_gap_y_;
+					offset_y += mat2->cache_mat_size.h + charts_gap_y_;
+					workout_at_in_page ++;
+					continue;
+				}
+
+				is_workout_mat = !player_.is_ing() || player_.workout_at_in_page() != workout_at_in_page;
+
+				if (is_workout_mat) {
+					// tmp_mat = *mat2->workout_mat;
+				}
+			}
+
+			if (is_workout_mat) {
+				// cv::Mat mat;
+				SDL_Size mat_size{nposm, nposm};
+
+				if (!redraw_only) {
+					if (is_sharing_) {
+						mat2->share = workout_shares[workout_at_in_page];
+					}
+					mat_size = draw_workout_mat2(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+						result2, workout_at, *mat2, nullptr);
+					// VALIDATE(!mat.empty(), null_str);
+					VALIDATE(mat_size.w > 0 && mat_size.h > 0, null_str);
+
+					// mat2->workout_mat = new cv::Mat(mat);
+					mat2->workout_mat = nullptr;
+					mat2->cache_mat_size = mat_size;
+
+				} else {
+					mat_size = draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+						result2, workout_at, *mat2, mat2->btn_rects, &mat2->tip_rects, mat2->rep_steps, &mat2->chart_margin_lr, nullptr);
+					// VALIDATE(!mat.empty(), null_str);
+					VALIDATE(mat_size.w == mat2->cache_mat_size.w && mat_size.h == mat2->cache_mat_size.h, null_str);
+
+					lru_cache_.remove(workout_at_in_page);
+					// *mat2->workout_mat = mat;
+					// mat2->workout_mat = nullptr;
+					// mat2->cache_mat_size = mat_size;
+				}
+				VALIDATE(mat2->workout_mat == nullptr, null_str);
+				VALIDATE(mat_size.w == mat2->cache_mat_size.w && mat_size.h == mat2->cache_mat_size.h, null_str);
+
+				// Regardless of the case, the following rectangles will be changed.
+				// adjust_rects_after_draw_workout_mat(SDL_Point{map_margin_.x, offset_y}, *mat2);
+				mat2->offset_for_adjust = SDL_Point{map_margin_.x, offset_y};
+
+				if (!redraw_only) {
+					// mat2->play_1th_rect = mat2->btn_rects[pl_btn_play];
+
+				} else {
+					// VALIDATE(memcmp(&mat2->play_1th_rect, mat2->btn_rects + pl_btn_play, sizeof(SDL_Rect)) == 0, null_str);
+				}
+			}
+
+			if (!redraw_only) {
+				item = (tdraw_item*)draw_items_.append_1();
+				item->type = mattype_day_workout;
+				item->at = workout_at_in_page; // workout_at;
+				item->offset.x = map_margin_.x;
+				item->offset.y = offset_y;
+				item->mat = mat2->workout_mat;
+				item->mat_size = mat2->cache_mat_size;
+				VALIDATE(!player_.is_ing(), null_str);
+
+			} else {
+				if (player_.is_ing() && player_.workout_at_in_page() == workout_at_in_page) {
+					player_.update_landmarks_mat_for_redraw();
+
+				} else {
+					// VALIDATE(tmp_mat.cols == mat2->workout_mat->cols && tmp_mat.rows == mat2->workout_mat->rows, null_str);
+
+					tdraw_item& item = find_draw_item(mattype_day_workout, workout_at_in_page);
+					// item.mat = mat2->workout_mat;
+					VALIDATE(item.mat == mat2->workout_mat, null_str);
+				}
+				if (mat2->landmarks_mat != nullptr) {
+					// VALIDATE(mat2->workout_mat->cols == mat2->landmarks_mat->cols && mat2->workout_mat->rows == mat2->landmarks_mat->rows, null_str);
+					VALIDATE(mat2->cache_mat_size.w == mat2->landmarks_mat->cols && mat2->cache_mat_size.h == mat2->landmarks_mat->rows, null_str);
+				}
+			}
+
+			// offset_y += mat2->workout_mat->rows + charts_gap_y_;
+			// VALIDATE(mat2->workout_mat == nullptr, null_str);
+			offset_y += mat2->cache_mat_size.h + charts_gap_y_;
+
+			// workout_at ++;
+			workout_at_in_page ++;
+		}
+		// dyn_chartsel.rule.workout_count += workout_at;
+	}
+
+	if (!redraw_only) {
+		dyn_chartsel.snapshot_size = SDL_Size{width - map_margin_.x * 2, offset_y};
+
+	} else {
+		VALIDATE(dyn_chartsel.snapshot_size.w == width - map_margin_.x * 2, null_str);
+		VALIDATE(dyn_chartsel.snapshot_size.h == offset_y, null_str);
+	}
+	VALIDATE(dyn_chartsel.workout_at2s.vsize == workout_at_in_page, null_str);
+	VALIDATE(dyn_chartsel.workout_at2s.vsize == workout_mat2s_.vsize, null_str);
+/*
+	{
+		tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+		mat2 = mat2s + workout_at;
+	}
+*/
+	tmp_mat = tip_mat_;
+	if (!redraw_only) {
+		item = (tdraw_item*)draw_items_.append_1();
+		item->type = mattype_tip;
+		item->at = 0;
+		item->offset.x = 0; // workout_item.offset.x + offset_x;
+		item->offset.y = 0; // workout_item.offset.y;
+		item->mat = &tip_mat_;
+		item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
+
+		bool clear_always = true;
+		if (clear_always) {
+			if (!tip_mat_.empty()) {
+				clear_tip_mat();
+			}
+
+		} else {
+			VALIDATE(false, null_str);
+/*
+			// In the current code, when scaling down from a larger size, the position becomes incorrect.
+			if (!tip_mat_.empty()) {
+				VALIDATE(curr_tip6_.col_at != nposm, null_str);
+				draw_tip_mat2(false, curr_tip6_, result2, curr_tip6_.workout_at, nullptr);
+
+			} else {
+				VALIDATE(curr_tip6_.col_at == nposm, null_str);
+			}
+*/
+		}
+
+	} else {
+		// VALIDATE(tip_mat_.cols == tmp_mat.cols && tip_mat_.rows == tmp_mat.rows, null_str);
+	}
+	VALIDATE(1 + workout_mat2s_.vsize + 1 == draw_items_.vsize, null_str);
+
+	if (!redraw_only) {
+		if (is_sharing_) {
+			update_which_charts_label();
+		}
+
+		utils::string_map symbols;
+		symbols["count"] = str_cast(workout_mat2s_.vsize);
+		dlg_->set_status_label(vgettext2("$count workout records found.", symbols));
+	}
+}
+
+int64_t health_controller::day_chartsel_2_t(int64_t sel)
+{
+	time_t desire_time = time(nullptr);
+
+	if (sel == chartsel_today) {
+			
+	} else if (sel == chartsel_yesterday) {
+		desire_time = desire_time - ONE_DAY_SECONDS;
+
+	} else if (sel == chartsel_2daysago) {
+		desire_time = desire_time - 2 * ONE_DAY_SECONDS;
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+	return desire_time;
+}
+
+void health_controller::refresh_chart_by_sel(int64_t sel)
+{
+	player_.make_sure_stop();
+
+	curr_chartsel_ = sel;
+	if (!allow_draw_) {
+		undarw_chart_sel_ = sel;
+		return;
+	}
+
+	curr_day_result2_.clear();
+	clear_fake_workouts_rects();
+	empty_all_mat2_rects();
+	dlg_->flt_erase_widget().set_visible(sel >= chartsel_dyn_min);
+	dlg_->set_status_label(default_status_msg());
+
+	SDL_Log("{dbg-vsize}refresh_chart_by_sel, pre fresh_xxx_chart, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
+
+	if (is_day_chartsel(sel)) {
+		time_t desire_time = day_chartsel_2_t(sel);
+		refresh_day_chart(desire_time, false);
+
+	} else if (is_days_chartsel(sel)) {
+		int days = days_from_days_chartsel(sel);
+		refresh_days_chart(days);
+
+	} else {
+		VALIDATE(sel >= chartsel_dyn_min, null_str);
+		VALIDATE(sel - chartsel_dyn_min < (int)dyn_chartsels_.size(), null_str);
+		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+
+		refresh_idcontain_chart(dyn_chartsel, false);
+	}
+
+	SDL_Log("{dbg-vsize}refresh_chart_by_sel, pose fresh_xxx_chart, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
+
+	make_sure_map();
+}
+
+void health_controller::do_save_workout_mat2s_and_tip(int bg_width, const tdyn_chartsel* dyn_chartsel, int header_hide_height, int cvt_code, surface& bg_surf, int& y_offset)
+{
+	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+
+	//
+	// draw workout_mat2s
+	//
+	const bool use_lru = dyn_chartsel != nullptr;
+
+	tdyn_chartsel::tworkout_at2* at2s = nullptr;
+	if (dyn_chartsel == nullptr) {
+		VALIDATE(is_day_chartsel(curr_chartsel_), null_str);
+
+	} else {
+		VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+		VALIDATE(dyn_chartsel->workout_at2s.vsize == workout_mat2s_.vsize, null_str);
+		at2s = (tdyn_chartsel::tworkout_at2*)dyn_chartsel->workout_at2s.data;
+	}
+	SDL_Rect dst_rect;
+	cv::Mat rgb_mat;
+	for (int mat2_at = 0; mat2_at < workout_mat2s_.vsize; mat2_at ++) {
+		tdyn_chartsel::tworkout_at2 at2 = {nposm, mat2_at};
+		if (dyn_chartsel != nullptr) {
+			at2 = at2s[mat2_at];
+		}
+		const aplt::thealth::thealth_result2& result2 = dyn_chartsel == nullptr? curr_day_result2_: 
+			*dyn_chartsel->result2s[at2.day_at];
+		if (mat2_at == max_workout_charts_) {
+			break;
+		}
+		const tworkout_mat2_C& mat2 = mat2s[mat2_at];
+		if (mat2.share == bool_set_false) {
+			continue;
+		}
+		bool this_playing = player_.is_ing() && player_.workout_at_in_page() == mat2_at;
+		cv::Mat mat;
+		if (this_playing) {
+			player_.update_landmarks_mat_for_redraw();
+
+			VALIDATE(mat2.landmarks_mat != nullptr, null_str);
+			mat = *mat2.landmarks_mat;
+
+		} else {
+			draw_workout_mat(*this, cairo::wkomattype_image, bg_width, hide_cairo_share_,
+					result2, at2.workout_at, mat2, nullptr, nullptr, nullptr, nullptr, &mat);
+			VALIDATE(!mat.empty(), null_str);
+		}
+
+		// const cv::Mat& mat = this_playing && mat2.landmarks_mat != nullptr? *mat2.landmarks_mat: *mat2.workout_mat; 
+		dst_rect = create_rect(0, y_offset, mat.cols, mat.rows);
+		if (cvt_code != nposm) {
+			cv::cvtColor(mat, rgb_mat, cvt_code);
+			sdl_blit(rgb_mat, nullptr, bg_surf, &dst_rect);
+
+		} else {
+			sdl_blit(mat, nullptr, bg_surf, &dst_rect);
+		}
+
+		if (use_lru) {
+			y_offset += mat2.cache_mat_size.h + charts_gap_y_;
+		} else {
+			y_offset += mat2.workout_mat->rows + charts_gap_y_;
+		}
+	}
+
+	//
+	// draw tip_mat
+	//
+	bool show_tip_mat = !tip_mat_.empty();
+	if (show_tip_mat) {
+		show_tip_mat = mat2s[curr_tip6_.workout_at_in_page].share != bool_set_false;
+	}
+	if (show_tip_mat) {
+		tdyn_chartsel::tworkout_at2 at2 = {nposm, curr_tip6_.workout_at_in_page};
+		if (dyn_chartsel != nullptr) {
+			at2 = at2s[curr_tip6_.workout_at_in_page];
+		}
+		const aplt::thealth::thealth_result2& result2 = dyn_chartsel == nullptr? curr_day_result2_: 
+			*dyn_chartsel->result2s[at2.day_at];
+
+		SDL_Point top_left;
+		cv::Mat mat = draw_tip_mat2(true, curr_tip6_, result2, at2.workout_at, &top_left);
+
+		int hide_height = header_hide_height;
+
+		// if (summary_mat_.share == bool_set_false) {
+		//	hide_height += summary_mat_.mat.rows;
+		// }
+
+		for (int mat2_at = 0; mat2_at < curr_tip6_.workout_at_in_page; mat2_at ++) {
+			const tworkout_mat2_C& mat2 = mat2s[mat2_at];
+			if (mat2.share == bool_set_false) {
+				if (use_lru) {
+					hide_height += charts_gap_y_ + mat2.cache_mat_size.h;
+				} else {
+					hide_height += charts_gap_y_ + mat2.workout_mat->rows;
+				}
+			}
+		}
+		top_left.y -= hide_height;
+
+		dst_rect = create_rect(top_left.x, top_left.y, mat.cols, mat.rows);
+		if (cvt_code != nposm) {
+			cv::cvtColor(mat, rgb_mat, cvt_code);
+			sdl_blit(rgb_mat, nullptr, bg_surf, &dst_rect);
+
+		} else {
+			sdl_blit(mat, nullptr, bg_surf, &dst_rect);
+		}
+	}
+}
+
+const SDL_PixelFormat& get_rgb24_pixel_format()
+{
+	static bool first_time = true;
+	static SDL_PixelFormat format;
+
+	if (first_time) {
+		first_time = false;
+		
+		// 清空结构体
+		std::memset(&format, 0, sizeof(format));
+		
+		// 手动填充标准小端序的 24-bit RGB 掩码
+		// 如果你最终的 PNG 颜色反了（蓝红互换），将 Rmask 和 Bmask 的值对调即可
+		format.format = SDL_PIXELFORMAT_RGB24;
+		format.BitsPerPixel = 24;
+		format.BytesPerPixel = 3;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+		format.Rmask = 0x00FF0000; // 低位字节是 Blue
+		format.Gmask = 0x0000FF00; // 中间字节是 Green
+		format.Bmask = 0x000000FF; // 高位字节是 Red
+		format.Amask = 0x00000000; // 无 Alpha
+#else
+		format.Rmask = 0x000000FF; // 低位字节是 Red
+		format.Gmask = 0x0000FF00; // 中间字节是 Green
+		format.Bmask = 0x00FF0000; // 高位字节是 Blue
+		format.Amask = 0x00000000; // 无 Alpha
+#endif
+		format.palette = NULL;
+	}
+
+	return format;
+}
+
+surface create_rgb24_surface(int w, int h, bool use_rle, void** pixel_data_result)
+{
+	VALIDATE(pixel_data_result != nullptr, null_str);
+	*pixel_data_result = nullptr;
+
+	if (w <= 0 || h <= 0) {
+		return nullptr;
+	}
+
+	const SDL_PixelFormat& fmt = get_rgb24_pixel_format();
+	
+	// 每行 3 个字节
+	// 特别提醒：某些 ARM (如苹果 M1/M2/iOS) 要求内存行宽必须是 4 的倍数。
+	// 为了避免奇葩花屏问题，建议使用 (w * 3 + 3) & ~3 做 4字节对齐补全。
+	int pitch = (w * 3 + 3) & ~3;
+
+	// 手动分配 24位 (3字节) 的像素堆内存
+	void* pixel_data = malloc(h * pitch);
+	if (!pixel_data) {
+		return nullptr;
+	}
+
+	// 使用 'SDL_CreateRGBSurfaceFrom' 挂载我们的内存
+	SDL_Surface* result = SDL_CreateRGBSurfaceFrom(
+		pixel_data, 
+		w, 
+		h, 
+		24,            // 位深 
+		pitch,         // 行字节数
+		fmt.Rmask,     // 0x000000FF
+		fmt.Gmask,     // 0x0000FF00
+		fmt.Bmask,     // 0x00FF0000
+		fmt.Amask      // 0x00000000
+	);
+
+	if (result == nullptr) {
+		free(pixel_data);
+		return nullptr;
+	}
+
+	// Point the user data pointer to pixel_data so that we can find it when freeing it from outside.
+	result->userdata = pixel_data; 
+
+	// 24-bit does not support transparent blending; disable BlendMode to prevent potential crashes or automatic conversions.
+	SDL_SetSurfaceBlendMode(result, SDL_BLENDMODE_NONE);
+
+	if (!use_rle) {
+		SDL_SetSurfaceRLE(result, 0);
+	}
+	
+	*pixel_data_result = pixel_data;
+	return result;
+}
+
+void fill_rgb24_surface(surface& surf, uint32_t argb_color)
+{
+	VALIDATE(surf.get() != nullptr, null_str);
+
+	uint8_t r = posix_lo8(posix_hi16(argb_color));
+	uint8_t g = posix_hi8(posix_lo16(argb_color));
+	uint8_t b = posix_lo8(posix_lo16(argb_color));
+	{
+		surface_lock lock(surf);
+
+		uint8_t* beg = (uint8_t*)lock.pixels();
+		uint8_t* end = beg + surf->w * surf->h * 3;
+
+		while (beg != end) {
+			beg[0] = b;
+			beg[1] = g;
+			beg[2] = r;
+			beg += 3;
+		}
+	}
+}
+
+void health_controller::do_save_image(const std::string& watermark_msg)
+{
+	VALIDATE(curr_chartsel_ != nposm, null_str);
+
+	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	std::string filename_prfix;
+	int days = nposm;
+	SDL_Size snapshot_size = calculate_snapshot_size(true);
+	int bg_width = snapshot_size.w;
+	// int bg_width = (snapshot_size.w + 3) & ~3;
+	VALIDATE(IS_MULTIPLE_OF_4(bg_width), null_str);
+	int bg_height = snapshot_size.h;
+	if (is_day_chartsel(curr_chartsel_)) {
+		filename_prfix = "share_day_";
+
+	} else if (is_days_chartsel(curr_chartsel_)) {
+		if (curr_chartsel_ == chartsel_15days) {
+			filename_prfix = "share_15days-";
+			days = 15;
+
+		} else {
+			VALIDATE(curr_chartsel_ == chartsel_30days, null_str);
+			filename_prfix = "share_30days-";
+			days = 30;
+		}
+	} else {
+		filename_prfix = "share_idcontain_";
+		days = MAX_HEALTH_DAYS;
+	}
+	VALIDATE(bg_width > 0 && bg_height > 0, null_str);
+
+	void* pixel_data = nullptr;
+	const int cvt_code = cv::COLOR_BGRA2BGR;
+	// const int cvt_code = nposm;
+
+	surface bg_surf;
+	if (cvt_code == nposm) {
+		bg_surf = create_neutral_surface(bg_width, bg_height);
+
+	} else {
+		bg_surf = create_rgb24_surface(bg_width, bg_height, true, &pixel_data);
+	}
+
+	// SDL_Color almost_white{240, 245, 249, 255};
+	uint32_t bg_color = 0xfff0f5f9; // {240, 245, 249, 255}
+	// uint32_t bg_color = 0xffff0000;
+	if (cvt_code == nposm) {
+		fill_surface(bg_surf, bg_color);
+
+	} else {
+		fill_rgb24_surface(bg_surf, bg_color);
+	}
+
+	SDL_Rect dst_rect;
+	const int small_font_size = posture_small_font_size_;
+
+	int y_offset = 0;
+	thide_cairo_share_lock lock(*this);
+	const int sel = curr_chartsel_;
+	if (is_day_chartsel(sel)) {
+		time_t desire_time = day_chartsel_2_t(sel);
+		filename_prfix = filename_prfix + utils::format_time_ymd2(desire_time, '\0', true) + "-";
+
+		const aplt::thealth::thealth_result2& result2 = curr_day_result2_;
+		// bool retbool = health_.load_health_data_4_report(desire_time, result2);
+
+		if (header_mat_.share != bool_set_false) {
+			cv::Mat header_mat = draw_header_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, result2);
+			dst_rect = create_rect(0, y_offset, header_mat.cols, header_mat.rows);
+			if (cvt_code != nposm) {
+				cv::cvtColor(header_mat, header_mat, cvt_code);
+			}
+			sdl_blit(header_mat, nullptr, bg_surf, &dst_rect);
+
+			y_offset += dst_rect.h + charts_gap_y_;
+		}
+
+		//
+		// sit chart
+		//
+		if (sit_mat_.share != bool_set_false) {
+			cv::Mat sit_mat = draw_sit_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, result2);
+
+			dst_rect = create_rect(0, y_offset, sit_mat.cols, sit_mat.rows);
+			if (cvt_code != nposm) {
+				cv::cvtColor(sit_mat, sit_mat, cvt_code);
+			}
+			sdl_blit(sit_mat, nullptr, bg_surf, &dst_rect);
+
+			y_offset += dst_rect.h + charts_gap_y_;
+		}
+
+		int header_hide_height = 0;
+		if (header_mat_.share == bool_set_false) {
+			header_hide_height += header_mat_.mat.rows;
+		}
+		if (sit_mat_.share == bool_set_false) {
+			header_hide_height += charts_gap_y_ + sit_mat_.mat.rows;
+		}
+
+		do_save_workout_mat2s_and_tip(bg_width, nullptr, header_hide_height, cvt_code, bg_surf, y_offset);
+
+	} else if (is_days_chartsel(sel)) {
+		cv::Mat days_posture_mat = draw_days_sit_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days);
+		dst_rect = create_rect(0, 0, days_posture_mat.cols, days_posture_mat.rows);
+		if (cvt_code != nposm) {
+			cv::cvtColor(days_posture_mat, days_posture_mat, cvt_code);
+		}
+		sdl_blit(days_posture_mat, nullptr, bg_surf, &dst_rect);
+
+		y_offset = dst_rect.y + dst_rect.h;
+		cv::Mat days_workout_mat = draw_days_workout_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days);
+		dst_rect = create_rect(0, y_offset + charts_gap_y_, days_workout_mat.cols, days_workout_mat.rows);
+
+		if (cvt_code != nposm) {
+			cv::cvtColor(days_workout_mat, days_workout_mat, cvt_code);
+		}
+		sdl_blit(days_workout_mat, nullptr, bg_surf, &dst_rect);
+
+	} else {
+		VALIDATE(sel >= chartsel_dyn_min, null_str);
+		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+
+		filename_prfix = filename_prfix + dyn_chartsel.key + "-";
+
+		if (summary_mat_.share != bool_set_false) {
+			bool is_sharing = true; // is_sharing_
+			// bool_set_t mat_sharing = bool_set_none; // summary_mat_.share
+			calculate_share_workout_count(dyn_chartsel);
+			cv::Mat summary_mat = draw_days_summary_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
+				dyn_chartsel.chart_title(), is_sharing, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
+				dyn_chartsel);
+			
+			dst_rect = create_rect(0, y_offset, summary_mat.cols, summary_mat.rows);
+			if (cvt_code != nposm) {
+				cv::cvtColor(summary_mat, summary_mat, cvt_code);
+			}
+			sdl_blit(summary_mat, nullptr, bg_surf, &dst_rect);
+
+			y_offset += dst_rect.h + charts_gap_y_;
+		}
+
+		int header_hide_height = 0;
+		if (summary_mat_.share == bool_set_false) {
+			header_hide_height += summary_mat_.mat.rows;
+		}
+
+		do_save_workout_mat2s_and_tip(bg_width, &dyn_chartsel, header_hide_height, cvt_code, bg_surf, y_offset);
+	}
+
+	if (!watermark_msg.empty()) {
+		surface surf = font::get_rendered_text(watermark_msg, INT_MAX, watermark_font_size_, watermark_font_color_);
+
+		int x = bg_width - surf->w - chart_margin_.x;
+		int y = bg_height - chart_margin_.y + (chart_margin_.y - surf->h) / 2;
+		dst_rect = create_rect(x, y, surf->w, surf->h);
+
+		// SDL_BlitSurface support argb blit to arg24
+		sdl_blit(surf, nullptr, bg_surf, &dst_rect);
+	}
+
+	const std::string filename = filename_prfix + utils::format_time_ymdhms2(time(nullptr)) + ".png";
+	std::string full_filename;
+
+	utils::string_map symbols;
+	bool save_album_ok = false;
+    bool no_album_dir = false;
+	std::string fail_reason = _("Please check permissions");
+	// Why do both if branches have 'game_config::os == os_windows'? 
+	// This is to allow debugging of SDL_xxx APIs in both entry points.
+	if (game_config::os == os_windows || game_config::os == os_android) {
+	// if (game_config::os == os_android) {
+		char path_buf[256];
+		int len = SDL_GetPublicDirectory(SDL_PDirPictures, path_buf, sizeof(path_buf));
+		if (path_buf[0] != '\0') {
+			full_filename = path_buf;
+			if (game_config::os == os_windows || game_config::os == os_android) {
+				full_filename.append("/Screenshots");
+				SDL_MakeDirectory(full_filename.c_str());
+			}
+			full_filename.append("/" + filename);
+			SDL_Log("{do_save_image[android]}save 1th filename: %s", full_filename.c_str());
+			imwrite(bg_surf, full_filename);
+			save_album_ok = SDL_IsFile(full_filename.c_str());
+			if (save_album_ok) {
+				SDL_NotifyMediaFileAdded(full_filename.c_str());
+
+			} else {
+				symbols["dir"] = utils::extract_file(path_buf);
+				fail_reason = vgettext2("Failed to save to \"$dir\"", symbols);
+			}
+		} else if (game_config::os == os_windows) {
+			no_album_dir = true;
+		}
+	
+		if (!save_album_ok) {
+			full_filename = game_config::preferences_dir + "/saves/" + filename;
+			SDL_Log("{do_save_image[android]}save 2th filename: %s", full_filename.c_str());
+			imwrite(bg_surf, full_filename);
+		}
+
+	} else if (game_config::os == os_windows || game_config::os == os_ios) {
+		full_filename = game_config::preferences_dir + "/saves/" + filename;
+		SDL_Log("{do_save_image[ios]}save tmp filename: %s", full_filename.c_str());
+		imwrite(bg_surf, full_filename);
+		if (SDL_NotifyMediaFileAdded(full_filename.c_str())) {
+			SDL_Log("{do_save_image[ios]}to album ok, delete tmp filename: %s", full_filename.c_str());
+			SDL_DeleteFiles(full_filename.c_str());
+			save_album_ok = true;
+
+		} else {
+			SDL_Log("{do_save_image[ios]}to album fail, keep tmp filename: %s", full_filename.c_str());
+		}
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+
+	if (pixel_data != nullptr) {
+		VALIDATE(cvt_code != nposm, null_str);
+		free(pixel_data);
+	}
+
+	std::string msg = _("Saved to Photos");
+	if (!save_album_ok) {
+		symbols["file"] = full_filename;
+		if (no_album_dir) {
+			VALIDATE(game_config::os == os_windows, null_str);
+			symbols["type"] = _("Image");
+			msg = vgettext2("$type file has been generated.\nPath: $file", symbols);
+
+		} else {
+			symbols["reason"] = fail_reason;
+			msg = vgettext2("Failed to save to Photos. $reason. The image is saved in the app's private directory.\nPath: $file", symbols);
+		}
+	}
+	gui2::show_message(null_str, msg);
+}
+
+/*
+void health_controller::do_save_image(const std::string& watermark_msg)
+{
+	VALIDATE(curr_chartsel_ != nposm, null_str);
+
+	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	std::string filename_prfix;
+	int days = nposm;
+	SDL_Size snapshot_size = calculate_snapshot_size(true);
+	int bg_width = snapshot_size.w;
+	int bg_height = snapshot_size.h;
+	if (is_day_chartsel(curr_chartsel_)) {
+		filename_prfix = "share_day_";
+
+	} else if (is_days_chartsel(curr_chartsel_)) {
+		if (curr_chartsel_ == chartsel_15days) {
+			filename_prfix = "share_15days-";
+			days = 15;
+
+		} else {
+			VALIDATE(curr_chartsel_ == chartsel_30days, null_str);
+			filename_prfix = "share_30days-";
+			days = 30;
+		}
+	} else {
+		filename_prfix = "share_idcontain_";
+		days = MAX_HEALTH_DAYS;
+	}
+	VALIDATE(bg_width > 0 && bg_height > 0, null_str);
+
+	surface bg_surf = create_neutral_surface(bg_width, bg_height);
+	// SDL_Color almost_white{240, 245, 249, 255};
+	uint32_t bg_color = 0xfff0f5f9; // {240, 245, 249, 255}
+	// uint32_t bg_color = 0xffff0000;
+	fill_surface(bg_surf, bg_color);
+
+	SDL_Rect dst_rect;
+	const int small_font_size = posture_small_font_size_;
+
+	int y_offset = 0;
+	thide_cairo_share_lock lock(*this);
+	const int sel = curr_chartsel_;
+	if (is_day_chartsel(sel)) {
+		time_t desire_time = day_chartsel_2_t(sel);
+		filename_prfix = filename_prfix + utils::format_time_ymd2(desire_time, '\0', true) + "-";
+
+		const aplt::thealth::thealth_result2& result2 = curr_day_result2_;
+		// bool retbool = health_.load_health_data_4_report(desire_time, result2);
+
+		if (header_mat_.share != bool_set_false) {
+			cv::Mat header_mat = draw_header_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, result2);
+			dst_rect = create_rect(0, y_offset, header_mat.cols, header_mat.rows);
+			sdl_blit(header_mat, nullptr, bg_surf, &dst_rect);
+
+			y_offset += dst_rect.h + charts_gap_y_;
+		}
+
+		//
+		// sit chart
+		//
+		if (sit_mat_.share != bool_set_false) {
+			cv::Mat sit_mat = draw_sit_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, result2);
+
+			dst_rect = create_rect(0, y_offset, sit_mat.cols, sit_mat.rows);
+			sdl_blit(sit_mat, nullptr, bg_surf, &dst_rect);
+
+			y_offset += dst_rect.h + charts_gap_y_;
+		}
+
+		int header_hide_height = 0;
+		if (header_mat_.share == bool_set_false) {
+			header_hide_height += header_mat_.mat.rows;
+		}
+		if (sit_mat_.share == bool_set_false) {
+			header_hide_height += charts_gap_y_ + sit_mat_.mat.rows;
+		}
+
+		do_save_workout_mat2s_and_tip(bg_width, nullptr, header_hide_height, bg_surf, y_offset);
+
+	} else if (is_days_chartsel(sel)) {
+		cv::Mat days_posture_mat = draw_days_sit_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days);
+		dst_rect = create_rect(0, 0, days_posture_mat.cols, days_posture_mat.rows);
+		sdl_blit(days_posture_mat, nullptr, bg_surf, &dst_rect);
+
+		y_offset = dst_rect.y + dst_rect.h;
+		cv::Mat* tmp_mat = &days_workout_mat_;
+		dst_rect = create_rect(0, y_offset + charts_gap_y_, tmp_mat->cols, tmp_mat->rows);
+		sdl_blit(*tmp_mat, nullptr, bg_surf, &dst_rect);
+
+	} else {
+		VALIDATE(sel >= chartsel_dyn_min, null_str);
+		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+
+		filename_prfix = filename_prfix + dyn_chartsel.key + "-";
+
+		if (summary_mat_.share != bool_set_false) {
+			bool is_sharing = true; // is_sharing_
+			// bool_set_t mat_sharing = bool_set_none; // summary_mat_.share
+			calculate_share_workout_count(dyn_chartsel);
+			cv::Mat summary_mat = draw_days_summary_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
+				dyn_chartsel.chart_title(), is_sharing, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
+				dyn_chartsel);
+
+			dst_rect = create_rect(0, y_offset, summary_mat.cols, summary_mat.rows);
+			sdl_blit(summary_mat, nullptr, bg_surf, &dst_rect);
+
+			y_offset += dst_rect.h + charts_gap_y_;
+		}
+
+		int header_hide_height = 0;
+		if (summary_mat_.share == bool_set_false) {
+			header_hide_height += summary_mat_.mat.rows;
+		}
+
+		do_save_workout_mat2s_and_tip(bg_width, &dyn_chartsel, header_hide_height, bg_surf, y_offset);
+	}
+
+	if (!watermark_msg.empty()) {
+		surface surf = font::get_rendered_text(watermark_msg, INT_MAX, watermark_font_size_, watermark_font_color_);
+
+		int x = bg_width - surf->w - chart_margin_.x;
+		int y = bg_height - chart_margin_.y + (chart_margin_.y - surf->h) / 2;
+		dst_rect = create_rect(x, y, surf->w, surf->h);
+		sdl_blit(surf, nullptr, bg_surf, &dst_rect);
+	}
+
+	const std::string filename = filename_prfix + utils::format_time_ymdhms2(time(nullptr)) + ".png";
+	std::string full_filename;
+
+	utils::string_map symbols;
+	bool save_album_ok = false;
+    bool no_album_dir = false;
+	std::string fail_reason = _("Please check permissions");
+	// Why do both if branches have 'game_config::os == os_windows'? 
+	// This is to allow debugging of SDL_xxx APIs in both entry points.
+	if (game_config::os == os_windows || game_config::os == os_android) {
+	// if (game_config::os == os_android) {
+		char path_buf[256];
+		int len = SDL_GetPublicDirectory(SDL_PDirPictures, path_buf, sizeof(path_buf));
+		if (path_buf[0] != '\0') {
+			full_filename = path_buf;
+			if (game_config::os == os_windows || game_config::os == os_android) {
+				full_filename.append("/Screenshots");
+				SDL_MakeDirectory(full_filename.c_str());
+			}
+			full_filename.append("/" + filename);
+			SDL_Log("{do_save_image[android]}save 1th filename: %s", full_filename.c_str());
+			imwrite(bg_surf, full_filename);
+			save_album_ok = SDL_IsFile(full_filename.c_str());
+			if (save_album_ok) {
+				SDL_NotifyMediaFileAdded(full_filename.c_str());
+
+			} else {
+				symbols["dir"] = utils::extract_file(path_buf);
+				fail_reason = vgettext2("Failed to save to \"$dir\"", symbols);
+			}
+		} else if (game_config::os == os_windows) {
+			no_album_dir = true;
+		}
+	
+		if (!save_album_ok) {
+			full_filename = game_config::preferences_dir + "/saves/" + filename;
+			SDL_Log("{do_save_image[android]}save 2th filename: %s", full_filename.c_str());
+			imwrite(bg_surf, full_filename);
+		}
+
+	} else if (game_config::os == os_windows || game_config::os == os_ios) {
+		full_filename = game_config::preferences_dir + "/saves/" + filename;
+		SDL_Log("{do_save_image[ios]}save tmp filename: %s", full_filename.c_str());
+		imwrite(bg_surf, full_filename);
+		if (SDL_NotifyMediaFileAdded(full_filename.c_str())) {
+			SDL_Log("{do_save_image[ios]}to album ok, delete tmp filename: %s", full_filename.c_str());
+			SDL_DeleteFiles(full_filename.c_str());
+			save_album_ok = true;
+
+		} else {
+			SDL_Log("{do_save_image[ios]}to album fail, keep tmp filename: %s", full_filename.c_str());
+		}
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+
+	std::string msg = _("Saved to Photos");
+	if (!save_album_ok) {
+		symbols["file"] = full_filename;
+		if (no_album_dir) {
+			VALIDATE(game_config::os == os_windows, null_str);
+			symbols["type"] = _("Image");
+			msg = vgettext2("$type file has been generated.\nPath: $file", symbols);
+
+		} else {
+			symbols["reason"] = fail_reason;
+			msg = vgettext2("Failed to save to Photos. $reason. The image is saved in the app's private directory.\nPath: $file", symbols);
+		}
+	}
+	gui2::show_message(null_str, msg);
+}
+*/
+#define WKO_MIN_ID_CHARS		5
+
+bool health_controller::verify_dyn_chart_inc_id(const std::string& label) const
+{
+	int s = label.size();
+	if (s < WKO_MIN_ID_CHARS) {
+		return false;
+	}
+	if (!isvalid_normal_id_or_var_name224(label)) {
+		return false;
+	}
+	return true;
+}
+
+void health_controller::click_insert_dyn_chart(gui2::tbutton& widget)
+{
+	utils::string_map symbols;
+	std::string title = _("wko^Add ID filter");
+	std::string prefix;
+	symbols["chars"] = str_cast(WKO_MIN_ID_CHARS);
+    std::string placeholder = vgettext2("Enter ID keyword (min. $chars chars)", symbols);
+    const std::string initial;
+
+	int max_chars = MAX_NORMAL_ID_OR_VAR_NAME_BYTES;
+	symbols["days"] = str_cast(MAX_HEALTH_DAYS);
+    std::string remark = vgettext2("Insert dyn_chart remark, idcontain, $days", symbols);
+
+	aplt::tb_api& b_api_ = aplt::get_b_api();
+
+	std::vector<std::pair<std::string, std::string> > freq_vals;
+	const std::vector<aplt::tbase_scene>& scenes = b_api_.aplt_base_scenes();
+	const int scene_count = scenes.size();
+
+	for (int at = 0; at < scene_count; at ++) {
+		const aplt::tbase_scene& scene = scenes[at];
+
+		std::string file = scene.file_var_val();
+		if (file.size() < 4 && file.rfind(".cfg") != 0) {
+			continue;
+		}
+		freq_vals.push_back(std::make_pair(utils::file_stem_name(file), scene.name()));
+	}
+
+	std::string id_key;
+	{
+		gui2::tedit_box_param param(title, prefix, placeholder, initial, remark, null_str, _("OK"), max_chars, gui2::tedit_box_param::show_cancel);
+		param.freq_vals = freq_vals;
+		param.did_text_changed = std::bind(&health_controller::verify_dyn_chart_inc_id, this, _1);
+		{
+			gui2::tedit_box dlg(param);
+			// it is in landscape, on android/ios, soft-keyboard is almost height.
+			dlg.show(nposm, window_->get_height() / 30); // / 5
+			if (dlg.get_retval() != gui2::twindow::OK) {
+				return;
+			}
+		}
+		id_key = param.result;
+	}
+
+	VALIDATE(isvalid_normal_id_or_var_name224(id_key), null_str);
+	tdyn_chartsel* new_chart = new tdyn_chartsel();
+	dyn_chartsels_.push_back(new_chart);
+	tdyn_chartsel& new_charsel = *dyn_chartsels_.back();
+	new_charsel.set_idcontain_rule(id_key);
+
+	gui2::treport& report = dlg_->main_report();
+	report.insert_item(null_str, new_charsel.title());
+	report.select_item(report.items() - 1);
+
+	dyn_charts_to_pref(dyn_chartsels_);
+}
+
+void health_controller::click_flt_to_top(gui2::tbutton& widget)
+{
+	int screen_x = 0;
+	int screen_y = 0;
+	gui_->map_2_screen(screen_x, screen_y);
+
+	gui_->scroll_to_xy(screen_x, screen_y, display::ONSCREEN);
+}
+
+void health_controller::click_test_lrn_cache()
+{
+	return;
+	{
+		int max_days = 30;
+		std::set<std::string> filenames;
+		collect_health_files(health_.health_dir(), max_days, true, filenames);
+
+		for (std::set<std::string>::const_iterator it = filenames.begin(); it != filenames.end(); ++ it) {
+			const std::string& filename = *it;
+			health_.migrate_health_dat_for_history(filename);
+		}
+		return;
+	}
+
+/*
+	{
+		// const std::string filename = health_.health_dir() + "/health20260730.dat";
+		// const std::string new_filename = health_.health_dir() + "/health20260730_.dat";
+
+		const std::string filename = health_.health_dir() + "/health20260731.dat";
+		health_.migrate_health_dat_for_history(filename);
+		return;
+	}
+*/
+	{
+		const std::string filename = health_.health_dir() + "/health20260703.dat"; 
+		health_.upgrade_health_file(filename);
+		return;
+	}
+/*
+	ttest_lru_cache_lock lock(*this);
+
+	cv::Mat mat = cv::Mat(576, 1200, CV_8UC4);
+	for (int at = 0; at < 32; at ++) {
+		const cv::Mat& cached_mat = lru_cache_.put(at, mat);
+		cv::Mat* mat2 = new cv::Mat(cached_mat);
+		delete mat2;
+	}
+
+	SDL_Log("%u SDL_Delay(5000)...", SDL_GetTicks());
+	SDL_Delay(5000);
+
+	SDL_Log("%u lru_cache_.clear()", SDL_GetTicks());
+	lru_cache_.clear();
+*/
+
+	VALIDATE(use_lru_chartsel(curr_chartsel_), null_str);
+	{
+		int ii = 0;
+		const int sel = curr_chartsel_;
+		const tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+		tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+
+		tdraw_item* items = (tdraw_item*)draw_items_.data;
+		for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+			int item_at = dyn_chartsel.draw_items_before_workout + at;
+
+			tdraw_item& item = items[item_at];
+			if (item.mat == nullptr) {
+				draw_workout_mat_from_cache(item_at);
+			}
+		}
+	}
+}
+
+void health_controller::click_flt_erase(gui2::tbutton& widget)
+{
+	VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+
+	int sel = curr_chartsel_;
+	gui2::treport& report = dlg_->main_report();
+
+	const std::string& page_title = report.item(sel).label();
+	const std::string msg = i18n::freq_msgstr_2str(i18n::msgid_confirm_delete_2str, _("Report page"), page_title);
+	if (gui2::show_message2(null_str, msg, gui2::tmessage::yes_no_buttons) != gui2::twindow::OK) {
+		return;
+	}
+
+	std::vector<tdyn_chartsel*>::iterator hit_it = dyn_chartsels_.begin();
+	int dyn_sel = sel - chartsel_dyn_min;
+	if (dyn_sel > 0) {
+		std::advance(hit_it, dyn_sel);
+	}
+	delete dyn_chartsels_[dyn_sel];
+	dyn_chartsels_.erase(hit_it);
+
+	// save new dyn_chartsels to pref.
+	dyn_charts_to_pref(dyn_chartsels_);
+
+	report.erase_item(sel);
+
+	// swith report
+	if (dyn_sel > (int)dyn_chartsels_.size() - 1) {
+		sel --;
+	}
+	SDL_Log("{dbg-vsize}click_flt_erase, pre report.select_item, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
+	// report.select_item(sel);
+
+	SDL_Log("{dbg-vsize}click_flt_erase, pose report.select_item, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
+}
+
+SDL_Size health_controller::calculate_snapshot_size(bool conside_share) const
+{
+	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	int bg_width = nposm;
+	int bg_height = nposm;
+	if (is_day_chartsel(curr_chartsel_)) {
+		bg_width = sit_mat_.mat.cols;
+		
+		if (conside_share && header_mat_.share == bool_set_false) {
+			bg_height = 0;
+		} else {
+			bg_height = header_mat_.mat.rows;
+		}
+		if (conside_share && sit_mat_.share == bool_set_false) {
+		} else {
+			bg_height += charts_gap_y_ + sit_mat_.mat.rows;
+		}
+		
+		for (int mat2_at = 0; mat2_at < workout_mat2s_.vsize; mat2_at ++) {
+			if (mat2_at == max_workout_charts_) {
+				break;
+			}
+			const tworkout_mat2_C& mat2 = mat2s[mat2_at];
+			if (conside_share && mat2.share == bool_set_false) {
+				continue;
+			}
+
+			bg_height += charts_gap_y_ + mat2.workout_mat->rows;
+		}
+
+	} else if (is_days_chartsel(curr_chartsel_)) {
+		bg_width = days_sit_mat_.cols;
+		bg_height = days_sit_mat_.rows + charts_gap_y_ + days_workout_mat_.rows;
+
+	} else {
+		VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+		const tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[curr_chartsel_ - chartsel_dyn_min];
+
+		bg_width = summary_mat_.mat.cols;
+
+		if (conside_share && summary_mat_.share == bool_set_false) {
+			bg_height = 0;
+		} else {
+			bg_height = summary_mat_.mat.rows;
+		}
+		
+		for (int mat2_at = 0; mat2_at < workout_mat2s_.vsize; mat2_at ++) {
+			if (mat2_at == max_workout_charts_) {
+				break;
+			}
+			const tworkout_mat2_C& mat2 = mat2s[mat2_at];
+			if (conside_share && mat2.share == bool_set_false) {
+				continue;
+			}
+
+			// bg_height += charts_gap_y_ + mat2.workout_mat->rows;
+			bg_height += charts_gap_y_ + mat2.cache_mat_size.h;
+		}
+	}
+
+	VALIDATE(bg_width != nposm && bg_height != nposm, null_str);
+	VALIDATE(IS_MULTIPLE_OF_4(bg_width), null_str);
+	return SDL_Size{bg_width, bg_height};
+}
+
+void health_controller::did_watermark_text_changed(gui2::ttext_box& widget)
+{
+	VALIDATE(curr_chartsel_ != nposm, null_str);
+
+	const std::string& label = widget.label();
+
+	if (watermark_halo_ != halo::NO_HALO) {
+		halo::remove(watermark_halo_);
+		watermark_halo_ = halo::NO_HALO;
+	}
+	if (label.empty()) {
+		return;
+	}
+
+	VALIDATE(curr_chartsel_ != nposm, null_str);
+	
+	surface surf = font::get_rendered_text(label, INT_MAX, watermark_font_size_, watermark_font_color_);
+
+	image::tblit blit = image::tblit(surf, 0, 0, 0, 0);
+
+	SDL_Size snapshot_size = calculate_snapshot_size(false);
+
+	int width_with_map_margin = snapshot_size.w + map_margin_.x;
+	int height_with_map_margin = snapshot_size.h + map_margin_.y;
+
+	int x = width_with_map_margin - surf->w - chart_margin_.x;
+	int y = height_with_map_margin - chart_margin_.y + (chart_margin_.y - surf->h) / 2;
+	watermark_halo_ = halo::add(x, y, false, blit);
+}
+
+void health_controller::enter_share()
+{
+	VALIDATE(watermark_halo_ == halo::NO_HALO, null_str);
+	VALIDATE(!is_sharing_, null_str);
+	is_sharing_ = true;
+
+	// dlg_->watermark_widget().text_box()->set_label(preferences::share_watermark());
+	did_watermark_text_changed(*dlg_->watermark_widget().text_box());
+
+	const int sel = curr_chartsel_;
+	if (is_day_chartsel(sel)) {
+		set_day_mats_share(bool_set_true);
+		refresh_day_chart(day_chartsel_2_t(sel), true);
+
+	} else if (is_days_chartsel(sel)) {
+
+	} else {
+		VALIDATE(sel >= chartsel_dyn_min, null_str);
+		VALIDATE(sel - chartsel_dyn_min < (int)dyn_chartsels_.size(), null_str);
+		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+
+		set_idcontain_mats_share(bool_set_true);
+		refresh_idcontain_chart(dyn_chartsel, true);
+	}
+	update_which_charts_label();
+}
+
+void health_controller::exit_share(bool finish)
+{
+	VALIDATE(is_sharing_, null_str);
+	is_sharing_ = false;
+
+	if (watermark_halo_ != halo::NO_HALO) {
+		halo::remove(watermark_halo_);
+		watermark_halo_ = halo::NO_HALO;
+	}
+
+	const std::string& watermark_msg = dlg_->watermark_widget().text_box()->label();
+	preferences::set_share_watermark(watermark_msg);
+
+	if (finish) {
+		do_save_image(watermark_msg);
+	}
+
+	const int sel = curr_chartsel_;
+	if (is_day_chartsel(curr_chartsel_)) {
+		set_day_mats_share(bool_set_none);
+		refresh_day_chart(day_chartsel_2_t(curr_chartsel_), true);
+
+	} else if (is_days_chartsel(sel)) {
+
+	} else {
+		VALIDATE(sel >= chartsel_dyn_min, null_str);
+		VALIDATE(sel - chartsel_dyn_min < (int)dyn_chartsels_.size(), null_str);
+		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
+
+		set_idcontain_mats_share(bool_set_none);
+		refresh_idcontain_chart(dyn_chartsel, true);
+	}
+}
+
+void health_controller::update_which_charts_label()
+{
+	VALIDATE(is_sharing_, null_str);
+
+	gui2::tcontrol* widget = gui2::find_widget<gui2::tcontrol>(window_, "which_charts", false, true);
+
+	int share_workouts = 0; // 9
+	const tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+	for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+		const tworkout_mat2_C& mat2 = mat2s[at];
+		if (mat2.share == bool_set_true) {
+			share_workouts ++;
+		}
+	}
+
+	char buf[32] = {0};
+	const int sel = curr_chartsel_;
+	int total = 0;
+	if (is_day_chartsel(sel)) {
+		int count0 = header_mat_.share == bool_set_false? 0: 1;
+		int count1 = sit_mat_.share == bool_set_false? 0: 1;
+		SDL_snprintf(buf, sizeof(buf), "%i + %i + %i", count0, count1, share_workouts);
+
+		total = count0 + count1 + share_workouts;
+
+	} else if (is_days_chartsel(sel)) {
+		total = 1 + 1;
+
+	} else {
+		VALIDATE(sel >= chartsel_dyn_min, null_str);
+		VALIDATE(sel - chartsel_dyn_min < (int)dyn_chartsels_.size(), null_str);
+
+		int count0 = summary_mat_.share == bool_set_false? 0: 1;
+		SDL_snprintf(buf, sizeof(buf), "%i + %i", count0, share_workouts);
+		total = count0 + share_workouts;
+	}
+	dlg_->ok2_widget().set_active(total != 0);
+	widget->set_label(buf);
+}
+
+health_controller::tdraw_item& health_controller::find_draw_item(int type, int index) const
+{
+	// enum {mattype_day_header, mattype_day_sit, mattype_day_workout, mattype_days_sit, mattype_count};
+	tdraw_item* items = (tdraw_item*)draw_items_.data;
+	for (int at = 0; at < draw_items_.vsize; at ++) {
+		const tdraw_item& item = items[at];
+		if (index != nposm && item.at != index) {
+			continue;
+		}
+		if (item.type == type) {
+			return items[at];
+		}
+	}
+	VALIDATE(false, null_str);
+	return items[0];
+}
+
+void health_controller::calculate_share_workout_count(tdyn_chartsel& dyn_chartsel) const
+{
+	VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+	memset(dyn_chartsel.share_workout_count, 0, sizeof(dyn_chartsel.share_workout_count));
+
+	VALIDATE(dyn_chartsel.workout_at2s.vsize == workout_mat2s_.vsize, null_str);
+
+	const tdyn_chartsel::tworkout_at2* at2s = (tdyn_chartsel::tworkout_at2*)dyn_chartsel.workout_at2s.data;
+	const tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
+
+	for (int at = 0; at < workout_mat2s_.vsize; at ++) {
+		const tworkout_mat2_C& mat2 = mat2s[at];
+		const tdyn_chartsel::tworkout_at2& at2 = at2s[at];
+
+		if (mat2.share != bool_set_false) {
+			dyn_chartsel.share_workout_count[at2.day_at] ++;
+		}
+	}
+}
+
+std::string health_controller::consecutive_checkin_rule_msg() const
+{
+	utils::string_map symbols;
+	symbols["max_gap_days"] = str_cast(WKO_MAX_CHECKIN_GAP_DAYS);
+	return vgettext2("wko^consecutive check-in rules, $max_gap_days", symbols);
+}
+
+std::string health_controller::default_status_msg() const
+{
+	utils::string_map symbols;
+	symbols["min_duration"] = utils::format_elapse_hms(WKO_MIN_REPORT_GENERATION_DURATION_S);
+	return vgettext2("wko^report generation, $min_duration", symbols);
+}
+
+void health_controller::dyn_charts_to_pref(const std::vector<tdyn_chartsel*>& dyn_chartsels)
+{
+	std::stringstream out;
+	if (!dyn_chartsels_.empty()) {
+		config top_cfg;
+		for (std::vector<tdyn_chartsel*>::const_iterator it = dyn_chartsels_.begin(); it != dyn_chartsels_.end(); ++ it) {
+			const tdyn_chartsel& chartsel = **it;
+			config& subcfg = top_cfg.add_child("dynchart");
+			chartsel.to_pref(subcfg);
+		}
+
+		aplt::write_config(out, top_cfg);
+	}
+	preferences::set_dyn_charts(out.str());
+}
+
+void health_controller::dyn_charts_from_pref(std::vector<tdyn_chartsel*>& dyn_chartsels)
+{
+	std::string dyn_charts_str = preferences::dyn_charts();
+
+	config top_cfg2;
+	bool ret = aplt::read_config_ex(dyn_charts_str, true, top_cfg2);
+	VALIDATE(ret, null_str);
+
+	dyn_chartsels.clear();
+	BOOST_FOREACH (const config &dynchart_cfg, top_cfg2.child_range("dynchart")) {
+		const std::string type_str = dynchart_cfg["type"].str();
+		int type = dynchart_type_from_str(type_str);
+		if (type == nposm) {
+			break;
+		}
+
+		const std::string key = dynchart_cfg["key"];
+		if (key.empty()) {
+			break;
+		}
+		// dyn_chartsels.push_back(tdyn_chartsel());
+		tdyn_chartsel* new_chart = new tdyn_chartsel();
+		dyn_chartsels.push_back(new_chart);
+		dyn_chartsels.back()->set_idcontain_rule(key);
+	}
+}
+
+void health_controller::reload_map(int w, int h)
+{
+	// VALIDATE(filled_units_ == 0, null_str);
+
+    const int original_w = map_.w();
+    const int original_h = map_.h();
+
+	map_ = tmap(generate_map_data2(w, h, false));
+	gui_->reload_map();
+	units_.create_coor_map(map_.w(), map_.h());
+
+    VALIDATE(w * h == units_.size() * HEAL_UNIT_LOCS * HEAL_UNIT_LOCS, null_str);
+
+    // std::stringstream ss;
+    // ss << "reload_map(" << w << ", " << h << ")";
+    // units_.dump(ss.str());
+}
+
+int health_controller::calc_should_map_w() const
+{
+	SDL_Rect widget_rect = gui_->main_map_widget_rect();
+	int zoom = gui_->zoom();
+	// int desire_map_w = (widget_rect.w - 64) / zoom;
+	int desire_map_w = (widget_rect.w - 0) / zoom;
+
+    const int divisor = HEAL_UNIT_LOCS;
+    return posix_align_ceil2(desire_map_w, divisor);
+}
+
+void health_controller::make_sure_map()
+{
+	int zoom = gui_->zoom();
+	const int cols = calc_should_map_w();
+
+	SDL_Size snapshot_size = calculate_snapshot_size(false);
+	VALIDATE(snapshot_size.w == cols * zoom - map_margin_.x * 2, null_str);
+
+	int desire_rows = posix_align_ceil2(snapshot_size.h + map_margin_.y * 2, zoom * HEAL_UNIT_LOCS);
+	int rows = desire_rows / zoom;
+
+    int map_w = map_.w();
+    int map_h = map_.h();
+
+	if (cols != map_w || rows != map_h) {
+		reload_map(cols, rows);
+    }
+}

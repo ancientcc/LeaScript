@@ -1,0 +1,191 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: aplt_nlsd_basic-lib\n"
+"Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
+"POT-Creation-Date: 2026-02-26 11:26+0800\n"
+"PO-Revision-Date: 2026-02-26 11:44+0800\n"
+"Last-Translator: \n"
+"Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.8\n"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:27
+msgid "name^base_lamp_v1"
+msgstr "台灯(V1)"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:52
+msgid "Basic"
+msgstr "纽兰斯顿"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:62
+msgid "Driver"
+msgstr "驱动"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:63
+msgid "More"
+msgstr "更多"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:123
+msgid "driver^remark"
+msgstr "串口选/dev/ttyS10，波特率选9600。"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:158
+msgid "Copyright"
+msgstr "浙江临海市纽兰斯顿工艺品有限公司"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:389
+msgid ""
+"It has been set. To confirm whether the set was successful, you can exit the "
+"applet and then enter it again to check whether the thresholds displayed for "
+"the two buttons here match what was previously set."
+msgstr ""
+"已设置。要确认是否设置成功，可退出小程序，然后再次进入，看这里显示的两个按钮"
+"阈值是否和之间设置的一样。"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:398
+msgid "$threshold seconds"
+msgstr "$threshold秒"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:430
+msgid "Value cannot be empty"
+msgstr "值不是能空"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:435
+msgid "Value type must be $type"
+msgstr "值类型须要是$type"
+
+#: apps-res/aplt_nlsd_basic/lua/home.lua:438
+msgid "The value needs to be in the range of [$min, $max]"
+msgstr "值须要在范围[$min, $max]"
+
+#: apps-res/aplt_nlsd_basic/lua/main.lua:37
+msgid "task^turn_off"
+msgstr "关灯"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:1
+msgid "Baudrate"
+msgstr "波特率"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:3
+msgid "Button press threshold"
+msgstr "按钮按下阈值"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:5
+msgid "Longpress threshold"
+msgstr "长按阈值"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:7
+msgid "Non power"
+msgstr "非电源"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:9
+msgid "Power"
+msgstr "电源"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:11
+msgid "Product"
+msgstr "产品"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:13
+msgid "Serial"
+msgstr "串口"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:15
+msgid "Set threshold"
+msgstr "设置阈值"
+
+#: apps-res/aplt_nlsd_basic/po/cfg-cpp/aplt_nlsd_basic-lib/aplt.cpp:17
+msgid "module^base"
+msgstr "底盘"
+
+#: apps-src/apps/libnlsd_basic/block_task.cpp:45
+#: apps-src/apps/libnlsd_basic/block_task.cpp:62
+#: apps-src/apps/libnlsd_basic/block_task.cpp:70
+msgid "It is not current base driver."
+msgstr "不是当前驱动。"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:346
+msgid "manufacturer code"
+msgstr "厂家编码"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:347
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:360
+msgid "According to the $field, the control board is not a Nulandston product."
+msgstr "根据$field，控制板不是纽兰斯顿产品。"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:359
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:365
+msgid "product code"
+msgstr "产品编码"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:366
+msgid ""
+"A fatal error has occurred. During operation, the product code in the "
+"control board has changed."
+msgstr "发生致命错误。运行过程中，控制板中的$field发生变化。"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:436
+msgid "Automatic light off has been canceled"
+msgstr "已取消自动关灯"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:473
+msgid "suspended the current scene '$scene'"
+msgstr "已挂起当前场景“$scene”"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:476
+msgid "Resumed the current scene '$scene'"
+msgstr "已恢复运行当前场景“$scene”"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:480
+msgid "Switched to the scene '$scene'"
+msgstr "已切换到场景“$scene”"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:486
+msgid "Switch scene failed: $err_msg"
+msgstr "切换场景失败：$err_msg"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:519
+msgid "Privacy protection is disabled."
+msgstr "已关闭隐私保护。"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:522
+msgid "Privacy protection is enabled."
+msgstr "已开启隐私保护。"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:530
+msgid ""
+"Failed to enter the lecture listening state. There must be at least one "
+"valid courseware in the courselist."
+msgstr "进入听课状态失败。课单中至少须要存在一个有效课件。"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:537
+msgid "Exited the lecture listening state."
+msgstr "已退出听课状态。"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:558
+msgid "Lamp(V1)"
+msgstr "台灯(V1)"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:562
+msgid "Doll(V1)"
+msgstr "玩偶(V1)"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:567
+msgid "Control board(V$ver)"
+msgstr "控制板(V$ver)"
+
+#: apps-src/apps/libnlsd_basic/nlsd_base.cpp:707
+msgid "[NLSD]Unsupport SN: $sn"
+msgstr "[纽兰斯顿]不支持的序列号：$sn"
+
+#~ msgid "Entered the lecture listening state."
+#~ msgstr "已进入听课状态。"
+
+#~ msgid "Create base slot fail. Unsupport SN: $sn"
+#~ msgstr "不支持的序列号：$sn"

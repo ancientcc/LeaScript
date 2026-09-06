@@ -1,0 +1,23 @@
+/**
+ * @file miktex/GitInfo.h
+ * @author Christian Schenk
+ * @brief MiKTeX Git information
+ *
+ * @copyright Copyright © 2020-2022 Christian Schenk
+ *
+ * This file is free software; the copyright holder gives
+ * unlimited permission to copy and/or distribute it, with or
+ * without modifications, as long as this notice is preserved.
+ */
+
+#pragma once
+
+#include <miktex/First.h>
+#include <miktex/Definitions.h>
+
+#define MIKTEX_HAVE_GIT_INFO @MIKTEX_HAVE_GIT_INFO@
+#if MIKTEX_HAVE_GIT_INFO
+#   define MIKTEX_GIT_COMMIT_STR "@MIKTEX_GIT_COMMIT@"
+#   define MIKTEX_GIT_COMMIT_ABBREV_STR "@MIKTEX_GIT_COMMIT_ABBREV@"
+#   define MIKTEX_GIT_AUTHOR_DATE @MIKTEX_GIT_AUTHOR_DATE@
+#endif

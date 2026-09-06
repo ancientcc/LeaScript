@@ -1,0 +1,2 @@
+#define GIT_COMMIT_HASH "cafebabe"
+#define GIT_COMMIT_DATE "2006-01-02 15:04:05 -0700"

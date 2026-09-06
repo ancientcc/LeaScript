@@ -1,0 +1,21 @@
+/**
+ * @file touch.rc
+ * @author Christian Schenk
+ * @brief Windows resources
+ *
+ * @copyright Copyright © 2008-2022 Christian Schenk
+ *
+ * This file is part of MiKTeX Touch.
+ *
+ * MiKTeX Touch is licensed under GNU General Public License version 2 or any
+ * later version.
+ */
+
+#include "touch-version.h"
+
+#define VER_INTERNALNAME_STR "miktex-touch"
+#define VER_ORIGINALFILENAME_STR "miktex-touch.exe"
+
+#define VER_FILEDESCRIPTION_STR "MiKTeX Touch Utility"
+
+#include "miktex/win/version.rc"

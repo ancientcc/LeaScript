@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<section id="texfeatures">
+
+<title>Unique &TeX; features</title>
+
+<para>This section describes features that are unique to &MiKTeX;'s &TeX; implementation.</para>
+
+<section id="autoinstalloptions">
+
+<title>Automatic Package Installation</title>
+
+<para>&MiKTeX; can be configured in such a way that missing packages
+<indexterm>
+<primary>automatic package installation</primary>
+</indexterm>
+are automatically installed (see <xref linkend="autoinstall"/>).</para>
+
+<para>It is possible to override the global configuration setting with
+these command line options:</para>
+
+<variablelist>
+<varlistentry>
+<term><option>--disable-installer</option></term>
+<listitem><para>Missing packages
+<indexterm significance="preferred">
+<primary>--disable-installer</primary>
+</indexterm>
+will not be installed.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--enable-installer</option></term>
+<listitem><para>Missing packages will
+<indexterm significance="preferred">
+<primary>--enable-installer</primary>
+</indexterm>
+be installed.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</section>
+
+<section id="recpkgusg">
+
+<title>Finding out Package Usages</title>
+
+<para>The command line option <option>--record-package-usages</option>
+can be used to
+<indexterm>
+<primary>packages</primary>
+<secondary>finding out usages</secondary>
+</indexterm>
+<indexterm significance="preferred">
+<primary>--record-package-usages=file</primary>
+</indexterm>
+find out which packages are used in a job.</para>
+
+<para>For example, you would say</para>
+<programlisting>latex -record-package-usages=packages.txt test</programlisting>
+<para>to create the file <filename>packages.txt</filename>, which contains the
+names of the packages used by <filename>test.tex</filename>.</para>
+
+<para>If <filename>test.tex</filename> looks like this:</para>
+<programlisting>\documentclass{scrartcl}
+\begin{document}
+Hello, world!
+\end{document}</programlisting>
+<para>Then the resulting <filename>packages.txt</filename>
+would contain these lines:</para>
+<programlisting>cm
+koma-script
+ltxbase</programlisting>
+
+<para>The package list can be handed over to the package manager
+(see <xref linkend="mpm"/>), e.g.</para>
+
+<programlisting>mpm --update-some=packages.txt</programlisting>
+
+<para>would ensure that you have the latest versions installed.</para>
+
+</section>
+
+<section id="includedirectory">
+
+<title>Specifying Additional Input Directories</title>
+
+<indexterm significance="preferred">
+<primary>--include-directory=dir</primary>
+</indexterm>
+
+<para>The command-line option
+<option>--include-directory=<replaceable>dir</replaceable></option>
+causes the program to include <replaceable>dir</replaceable> into
+the list of input directories.</para>
+
+<para>For example:</para>
+
+<programlisting>latex --include-directory="C:\My Styles" foo.tex</programlisting>
+
+<para>This prepends <filename>C:\My Styles</filename> to the input search
+path, i.e., <filename>C:\My Styles</filename> will be searched first,
+when &TeX; tries to find an input file.</para>
+
+</section>
+
+<section id="auxdirectory">
+
+<title>Specifying the Directory for Auxiliary Files</title>
+
+<indexterm significance="preferred">
+<primary>--aux-directory=dir</primary>
+</indexterm>
+
+<indexterm>
+<primary>auxiliary files</primary>
+<secondary>specifying the directory for</secondary>
+</indexterm>
+
+<para>The option <option>--aux-directory=<replaceable>dir</replaceable></option>
+causes &TeX; to create auxiliary files in another directory. For example:</para>
+
+<informalexample><screen><prompt>&prompt;</prompt><userinput>mkdir C:\texoutput</userinput>
+<prompt>&prompt;</prompt><userinput>mkdir C:\tobedeleted</userinput>
+<prompt>&prompt;</prompt><userinput>latex -output-directory=C:\texoutput -aux-directory=C:\tobedeleted foo.tex</userinput>
+...
+<prompt>&prompt;</prompt></screen>
+</informalexample>
+
+<para>This ensures that 1)&nbsp;<filename>foo.dvi</filename> will be
+created in <filename>C:\texoutput</filename> and 2)&nbsp;all other
+files (<filename>foo.log</filename>, &hellip;) will be created in
+<filename>C:\tobedeleted</filename>.</para>
+
+</section>
+
+</section>

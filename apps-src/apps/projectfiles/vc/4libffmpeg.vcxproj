@@ -1,0 +1,673 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4F345112-D63B-4E27-A062-ED3C55E2B28B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ffmpeg</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>ClangCL</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\4libffmpeg\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\4libffmpeg\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FFMPEG_EXPORTS;HAVE_AV_CONFIG_H;PIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../external/3rdparty/third_party/ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>../../external/3rdparty/third_party/ffmpeg/ffmpeg.def</ModuleDefinitionFile>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;FFMPEG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../external/3rdparty/third_party/ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <AdditionalOptions>/experimental:c11atomics %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>../../external/3rdparty/third_party/ffmpeg/ffmpeg.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\dct32.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)dct32.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)dct32.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)dct32.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)dct32.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fft.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)fft.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)fft.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)fft.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fft.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fpel.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)fpel.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)fpel.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)fpel.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fpel.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_chromamc.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_chromamc.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_chromamc.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_chromamc.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_chromamc.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_chromamc_10bit.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_chromamc_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_chromamc_10bit.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_chromamc_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_chromamc_10bit.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_deblock.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_deblock.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_deblock.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_deblock.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_deblock.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_deblock_10bit.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_deblock_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_deblock_10bit.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_deblock_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_deblock_10bit.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_idct.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_idct.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_idct.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_idct.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_idct.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_idct_10bit.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_idct_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_idct_10bit.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_idct_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_idct_10bit.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_intrapred.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_intrapred.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_intrapred.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_intrapred.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_intrapred.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_intrapred_10bit.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_intrapred_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_intrapred_10bit.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_intrapred_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_intrapred_10bit.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_qpel_10bit.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_qpel_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_qpel_10bit.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_qpel_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_qpel_10bit.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_qpel_8bit.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_qpel_8bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_qpel_8bit.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_qpel_8bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_qpel_8bit.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_weight.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_weight.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_weight.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_weight.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_weight.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_weight_10bit.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_weight_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)h264_weight_10bit.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)h264_weight_10bit.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)h264_weight_10bit.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\hpeldsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)hpeldsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)hpeldsp.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)hpeldsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)hpeldsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\imdct36.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)imdct36.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imdct36.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)imdct36.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)imdct36.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\qpel.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)qpel.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)qpel.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)qpel.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)qpel.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\sbrdsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)sbrdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)sbrdsp.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)sbrdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)sbrdsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\vorbisdsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)vorbisdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)vorbisdsp.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)vorbisdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)vorbisdsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\cpuid.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)cpuid.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)cpuid.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)cpuid.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)cpuid.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\fixed_dsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)fixed_dsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)fixed_dsp.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)fixed_dsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)fixed_dsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\float_dsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)float_dsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)float_dsp.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)float_dsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)float_dsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\lls.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)lls.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)lls.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)lls.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)lls.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\flacdsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)flacdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)flacdsp.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)flacdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)flacdsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\aacpsdsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win32  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)aacpsdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)aacpsdsp.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)aacpsdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)aacpsdsp.obj</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\dummy_funcs.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacadtsdec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacpsdsp_float.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacps_float.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aacsbr.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aactab.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aac_ac3_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aac_adtstoasc_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\aac_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\ac3tab.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\allcodecs.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\avdct.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\avfft.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\avpacket.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bitstream.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bitstream_filter.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bitstream_filters.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\cabac.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\cbrt_data.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\chomp_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\codec_desc.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\d3d11va.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dca_core_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dct.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dct32_fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dct32_float.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\decode.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dirac.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dump_extradata_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\dv_profile.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\encode.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\error_resilience.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\extract_extradata_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\faandct.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\faanidct.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fdctdsp.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_fixed_32.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_float.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\fft_init_table.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\flac.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\flacdata.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\flac_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\golomb.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h2645_parse.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264chroma.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264data.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264dec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264dsp.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264idct.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264pred.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264qpel.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_cabac.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_cavlc.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_direct.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_loopfilter.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_mb.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_mp4toannexb_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_parse.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_picture.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_ps.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_refs.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_sei.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\h264_slice.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\hevc_mp4toannexb_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\hpeldsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\idctdsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\imgconvert.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\imx_dump_header_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jfdctfst.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jfdctint.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jni.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\jrevdct.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\kbdwin.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mathtables.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mdct_fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mdct_fixed_32.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mdct_float.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mediacodec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\me_cmp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mjpeg2jpeg_bsf.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mjpega_dump_header_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\movsub_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mp3_header_decompress_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg12data.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg12framerate.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg4audio.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpeg4_unpack_bframes_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudio.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodata.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodecheader.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodec_fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp_data.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp_fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudiodsp_float.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\mpegaudio_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\noise_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\null_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\options.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\opus.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\opus_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pcm.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pixblockdsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\profiles.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pthread.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pthread_frame.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\pthread_slice.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\qsv_api.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\raw.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\rdft.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\remove_extradata_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sbrdsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sbrdsp_fixed.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\simple_idct.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sinewin.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\sinewin_fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\snow.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\snow_dwt.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\startcode.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\utils.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\videodsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbis.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbisdec.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbis_data.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vorbis_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp3.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp3_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp56rac.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp8.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp8_parser.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp9_raw_reorder_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp9_superframe_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\vp9_superframe_split_bsf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\aacpsdsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\constants.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\dct_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fdctdsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\fft_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\flacdsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264chroma_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264dsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_intrapred_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\h264_qpel.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\hpeldsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\idctdsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\me_cmp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\mpegaudiodsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\pixblockdsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\sbrdsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\snowdsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\videodsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\xvididct_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\xiph.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\xvididct.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavcodec\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\aacdec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\allformats.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\apetag.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\avio.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\aviobuf.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\cutils.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\dump.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\dv.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\flacdec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\flac_picture.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\format.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\id3v1.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\id3v2.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\img2.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\isom.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\matroska.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\matroskadec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\metadata.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mov.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mov_chan.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mp3dec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\mux.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggdec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsecelt.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsedaala.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsedirac.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseflac.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseogm.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseopus.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparseskeleton.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsespeex.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsetheora.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsevorbis.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\oggparsevp8.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\options.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavformat\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\os_support.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\protocols.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\qtpalette.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\rawdec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\replaygain.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\riff.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\riffdec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\rmsipr.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\url.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\utils.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavformat\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\vorbiscomment.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavformat\wavdec.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\aes.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\aes_ctr.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\avstring.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\base64.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\bprint.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\buffer.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\camellia.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\channel_layout.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\color_utils.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\cpu.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\crc.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\dict.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\display.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\downmix_info.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\error.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\eval.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\fifo.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\file_open.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\fixed_dsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\float_dsp.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\frame.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\hwcontext.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\hwcontext_d3d11va.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\hwcontext_dxva2.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\imgutils.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\integer.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\intmath.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\lfg.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\log.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\log2_tab.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\lzo.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\mastering_display_metadata.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\mathematics.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\md5.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\mem.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\opt.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\parseutils.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\pixdesc.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\pixelutils.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\random_seed.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\rational.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\reverse.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\samplefmt.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\sha.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\slicethread.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\spherical.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\stereo3d.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\tea.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\threadmessage.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\time.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\timecode.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\twofish.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\utils.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\cpu.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libavutil\x86\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\fixed_dsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\float_dsp_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\imgutils_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\lls_init.c" />
+    <ClCompile Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\pixelutils_init.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\external\3rdparty\third_party\ffmpeg\ffmpeg.def" />
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\emms.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)emms.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)emms.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\idctdsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)idctdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)idctdsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\simple_idct.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)simple_idct.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)simple_idct.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\simple_idct10.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)simple_idct10.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)simple_idct10.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\me_cmp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)me_cmp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)me_cmp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\pixblockdsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)pixblockdsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pixblockdsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\videodsp.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)videodsp.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)videodsp.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavcodec\x86\xvididct.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)xvididct.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)xvididct.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\imgutils.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)imgutils.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)imgutils.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\3rdparty\third_party\ffmpeg\libavutil\x86\pixelutils.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -DPIC -DPREFIX="_" -Pconfig.asm -g cv8 -f win64  -I"." -I"$(SolutionDir)../../external/3rdparty/third_party/ffmpeg" "%(FullPath)" -o $(IntDir)pixelutils.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pixelutils.obj</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

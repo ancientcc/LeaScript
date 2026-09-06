@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE varlistentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                              "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+<varlistentry><term><option>--admin</option></term>
+<listitem><para>Run in administrator mode:</para>
+<itemizedlist>
+<listitem><para>Operate on the system-wide &MiKTeXconfigurationdatastore;.</para></listitem>
+<listitem><para>Install packages for all users.</para></listitem>
+</itemizedlist>
+<para>Using this option requires a shared &MiKTeX; setup, i.e.,
+&MiKTeX; must have been set up for all users.  The program must be run
+with administrator privileges.</para>
+<indexterm>
+<primary>--admin</primary>
+</indexterm>
+</listitem>
+</varlistentry>

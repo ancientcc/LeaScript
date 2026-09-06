@@ -1,0 +1,650 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: kdesktop-lib\n"
+"POT-Creation-Date: 2026-08-22 13:57+0800\n"
+"PO-Revision-Date: 2016-01-03 20:34+0800\n"
+"Last-Translator: service <service@leagor.com>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-KeywordsList: _;vgettext2\n"
+"X-Poedit-Basepath: ../../../..\n"
+"X-Poedit-SearchPath-0: apps-src/apps/kdesktop\n"
+"X-Poedit-SearchPath-1: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib\n"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/_bonus.cpp:1
+msgid "kdesktop"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:1
+msgid "(Video)User guide"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:3
+msgid "(Video)Vlog example"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:5
+msgid "Action name"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:7
+msgid "Cancel"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:9
+msgid "Date"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:11
+msgid "Dbg"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:13
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:167
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:425
+msgid "Enter desktop"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:15
+msgid "Face cover"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:17
+msgid "Finish caption"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:19
+msgid "Gateway"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:21
+msgid "History data"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:23
+msgid "IP addr"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:25
+msgid "Landmarks"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:27
+msgid "On top"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:29
+msgid "Poses"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:31
+msgid "Progress"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:33
+msgid "Repetition SFX"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:35
+msgid "Start caption"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:37
+msgid "Subnet mask"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:39
+msgid "Timer"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:41
+msgid "Update"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:43
+msgid "Upgrade"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:45
+msgid "Video on center"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:47
+msgid "View"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:49
+msgid "Workout chart"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:51
+msgid "Workout items"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:53
+msgid "Workout name"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:55
+msgid "Workout settings"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:57
+msgid "Workout summary"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:59
+msgid "camera^Snapshot"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:61
+msgid "page^active"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:63
+msgid "page^finish"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:65
+msgid "page^start"
+msgstr ""
+
+#: apps-src/apps/kdesktop/game_config.cpp:26
+msgid "caption_msg^start1"
+msgstr ""
+
+#: apps-src/apps/kdesktop/game_config.cpp:26
+msgid "caption_msg^finish1"
+msgstr ""
+
+#: apps-src/apps/kdesktop/game_config.cpp:27
+msgid "caption_msg^start2"
+msgstr ""
+
+#: apps-src/apps/kdesktop/game_config.cpp:27
+msgid "caption_msg^finish2"
+msgstr ""
+
+#: apps-src/apps/kdesktop/game_config.cpp:28
+msgid "caption_msg^start3"
+msgstr ""
+
+#: apps-src/apps/kdesktop/game_config.cpp:28
+msgid "caption_msg^finish3"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:232
+msgid "Start decoder"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:241
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1510
+msgid "Local"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:571
+msgid "Fail"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:571
+msgid "Success"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:572
+msgid "Start decoder $result"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:574
+msgid "Decoder is ready"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:917
+msgid "Visible area display $percent%"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1509
+msgid "Remote"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1511
+msgid "$src ---> $dst"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1563
+msgid "Delete"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/ethernetip.cpp:53
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:113
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:573
+msgid "Update IP"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:89
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:175
+msgid "home^rdp_layer"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:92
+msgid "Remote IP"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:95
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:176
+msgid "home^apps_layer"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:98
+msgid "Event"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:101
+msgid "Me"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:147
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:420
+msgid "Landscape"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:147
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:420
+msgid "Portrait"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:162
+msgid "When switching mode, can select '$item'"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:168
+msgid "Applet"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:171
+msgid "If '$desktop', and connect fails, you may enter the '$store' in '$applet' and let connect to network. Then come back to this interface."
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:180
+msgid "scene_list remark $rdp_layer, $apps_layer, $import_cfg"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:206
+msgid "When workout starts, it will automatically enter the '$dcamera'."
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:231
+msgid "Install"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:243
+msgid "A maximum of $days days of logs can be stored, and no more than $max_logs logs can be stored"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:397
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:483
+msgid "$driver not installed."
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:480
+msgid "$driver installed: $aplt"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:502
+msgid "Please go to the store and download '$name' first."
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:52
+msgid "At least $count more."
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:58
+msgid "Will keepalive automatically after $elapse"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:66
+msgid "Device is not logged on to the server, will login automatically after $elapse"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:68
+msgid "Device is not logged on to the server"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:143
+msgid "Keepalive"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:153
+msgid "Get event"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/klink.cpp:66
+msgid "Base scene"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/klink.cpp:67
+msgid "Env var"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:405
+msgid "Initialize mediapipe graph fail"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:473
+msgid "dcamera^warning"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:718
+msgid "Stop"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:734
+msgid "Snapshot"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1735
+msgid "Starting Camera"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2158
+msgid "$count days"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2158
+msgid "Total check-ins"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2160
+msgid "$count times"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2160
+msgid "Total workouts"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2163
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2356
+msgid "$count reps"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2163
+msgid "Total reps"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1990
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2165
+msgid "Total duration"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1994
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2171
+msgid "Last check-in"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2108
+msgid "Duration $time"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2274
+msgid "vlog rec toast"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2350
+msgid "time^s"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:114
+msgid "scan help $updateip"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:207
+msgid "Scan again"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:214
+msgid "Query IP"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:220
+msgid "Connecting"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:223
+msgid "Send request"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:226
+msgid "Waiting response"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:235
+msgid "Version dismatch"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:242
+msgid "Unsupport af: "
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:249
+msgid "Connect fail"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:252
+msgid "Get serviceDB fail"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:255
+msgid "ServiceDB error"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:258
+msgid "Unknown error"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:262
+msgid "Unknown device, don't query"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:425
+msgid "Wifi is enabled"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:425
+msgid "Wifi is disabled"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:429
+msgid "Using IP: $ip"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:454
+msgid "BLE password error"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:465
+msgid "BLE was connectioned, received error: $error"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:551
+msgid "Invalid SN"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:582
+msgid "Remote desktop"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:609
+msgid "Connected"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:739
+msgid "Password"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:739
+msgid "Connect"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:792
+msgid "The device does not enable Wifi, update IP will automatically enable Wifi on the device, do you want to continue?"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:793
+msgid "Continue"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:802
+msgid "Enter BLE password for $sn"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:803
+msgid "Digit or alpha"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:805
+msgid "If not modified, the password is $password"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:806
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:230
+msgid "OK"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:846
+msgid "Scan will stop after $elapse"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:858
+msgid "BLE was connectioned, $time received Wifi List"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:863
+msgid "BLE connection was disconnected, and for $elapse"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:962
+msgid "Can not get IP within limited time"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:964
+msgid "Can not update IP within limited time"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:998
+msgid "Do you want to delete SSID: $ssid? Once deleted, the password needs to be re-entered when connecting again"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:41
+msgid "Vlog"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:42
+msgid "wko_settings^Misc"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:64
+msgid "vlog_settings^remark"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:173
+msgid "<Not set>"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:212
+msgid "Edit $name text"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:523
+msgid "Scale to screen"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:524
+msgid "Keep aspect ratio"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:525
+msgid "Partial"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:713
+msgid "A base task is running. Do you want to stop the task and enter '$module'?"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:715
+msgid "To enter $module, stop the base task"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:902
+msgid "$driver failed to create slot. Navigate to '$center' to check the cause."
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:1055
+msgid "Base node not started"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:1059
+msgid "Base is in moveable mode"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:1064
+msgid "A background task using the camera is currently running"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:1090
+msgid "No scenes available to suspend"
+msgstr ""
+
+#: apps-src/apps/kdesktop/main.cpp:1103
+msgid "Unable to start scene"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:293
+msgid "Connect to $ip"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:301
+msgid "Cannot create local socket"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:309
+msgid "Connect fail. errcode: $errcode"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:373
+msgid "Start SSL handshake"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:421
+msgid "SSL handshake success"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:438
+msgid "Send MCS Connect Initial PDU"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:551
+msgid "Finish connection sequence"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:630
+msgid "Close connect because error. errcode: $errcode"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:632
+msgid "Close connect"
+msgstr ""
+
+#: apps-src/apps/kdesktop/rdp_client.cc:960
+msgid "Hasn't received RTT Measure Request over $time, think as disconnect"
+msgstr ""

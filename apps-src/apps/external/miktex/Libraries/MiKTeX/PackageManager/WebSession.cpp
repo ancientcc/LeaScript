@@ -1,0 +1,95 @@
+/* WebSession.cpp:
+
+   Copyright (C) 2001-2018 Christian Schenk
+
+   This file is part of MiKTeX Package Manager.
+
+   MiKTeX Package Manager is free software; you can redistribute it
+   and/or modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2, or
+   (at your option) any later version.
+
+   MiKTeX Package Manager is distributed in the hope that it will be
+   useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with MiKTeX Package Manager; if not, write to the Free
+   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+   02111-1307, USA. */
+
+#include "miktex_PackageManager_config.h"
+
+#if defined(HAVE_LIBCURL)
+#  include "CurlWebSession.h"
+#else
+#include "WebSession.h"
+#endif
+
+using namespace std;
+
+using namespace MiKTeX::Core;
+using namespace MiKTeX::Packages;
+
+using namespace MiKTeX::Packages::D6AAD62216146D44B580E92711724B78;
+
+WebSession::~WebSession()
+{
+}
+
+WebFile::~WebFile()
+{
+}
+
+class FakeWebSession :
+  public WebSession
+{
+public:
+    FakeWebSession(IProgressNotify_* callback) {}
+
+public:
+    ~FakeWebSession() override {}
+
+public:
+    class FakeWebFile: public WebFile
+    {
+    public:
+        FakeWebFile() {}
+        virtual ~FakeWebFile() {}
+
+    public:
+        std::size_t Read(void* buffer, std::size_t n) override { return 0; }
+
+    public:
+        void Close() override {}
+    };
+
+  std::unique_ptr<WebFile> OpenUrl(const std::string& url) override
+  {
+    return std::unique_ptr<FakeWebFile>(new FakeWebFile);
+  }
+
+public:
+    std::unique_ptr<WebFile> OpenUrl(const std::string& url, const std::unordered_map<std::string, std::string>& formData) override
+    {
+        return OpenUrl(url);
+    }
+
+public:
+    void Dispose() override {}
+
+public:
+    void SetCustomHeaders(const std::unordered_map<std::string, std::string>& headers) override {}
+};
+
+shared_ptr<WebSession> WebSession::Create(IProgressNotify_* pIProgressNotify)
+{
+#if defined(HAVE_LIBCURL)
+  return make_shared<CurlWebSession>(pIProgressNotify);
+#else
+  // #  warning Unimplemented : WebSession::Create()
+  //  MIKTEX_FATAL_ERROR(T_("libCURL does not seem to be available."));
+  return make_shared<FakeWebSession>(nullptr);
+#endif
+}

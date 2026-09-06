@@ -1,0 +1,1198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{c87375bd-9b34-4f2d-a277-8d7483ec71e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp">
+      <UniqueIdentifier>{14c5882a-cce7-4ff9-86a5-7c30601a767c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\base">
+      <UniqueIdentifier>{e7a76fdf-27c5-4e0d-a7ca-dd9d4c410e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\container">
+      <UniqueIdentifier>{8070c72d-d896-4cb9-aa6a-ecad579b1d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\debugging">
+      <UniqueIdentifier>{960bd55c-76f8-4533-8a2b-e15d98125cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\flags">
+      <UniqueIdentifier>{671b5297-361d-4bd4-a4b4-7c9eb83b1916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\hash">
+      <UniqueIdentifier>{eb988585-dbe0-4b07-a60c-46196366a312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\numeric">
+      <UniqueIdentifier>{8cc1d0fb-1ee2-4187-8c2d-d0fd8c2aa83a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\random">
+      <UniqueIdentifier>{62997337-e8aa-435c-9a89-2583a0148f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\status">
+      <UniqueIdentifier>{6952e3fe-db8d-4aaf-b500-3f3bc892f1f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\strings">
+      <UniqueIdentifier>{d212c7d9-d1d3-4f4c-8dc4-9e62cf84c06a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\synchronization">
+      <UniqueIdentifier>{99652c3e-6aaf-4ce8-9530-4e77c27792b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\time">
+      <UniqueIdentifier>{8c3b084f-4d2e-4d2f-9a69-979aae98f543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\types">
+      <UniqueIdentifier>{98377bab-c2f8-4a3a-85b3-85cb0f9de016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\base\internal">
+      <UniqueIdentifier>{f68b23fc-8eab-45b0-b32b-22213bc8c518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\container\internal">
+      <UniqueIdentifier>{38567145-8f78-4571-a377-618cd250a073}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\debugging\internal">
+      <UniqueIdentifier>{edc59a13-363e-4c17-ac56-1dde02003153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\flags\internal">
+      <UniqueIdentifier>{88693813-abff-4fa7-8d50-e3ddcb673323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\hash\internal">
+      <UniqueIdentifier>{08c00eea-0b33-4c39-ae67-03645a8dedc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\random\internal">
+      <UniqueIdentifier>{8e825932-5d2d-4dd7-8452-adfc14fc1f44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\strings\internal">
+      <UniqueIdentifier>{6803757d-7b7c-4697-8275-bf96611cd55c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\synchronization\internal">
+      <UniqueIdentifier>{4f14ae31-2391-497e-ae3c-0c3638410dbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\time\internal">
+      <UniqueIdentifier>{44a46a7d-9a31-4384-ae9e-7523b46e62fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\strings\internal\str_format">
+      <UniqueIdentifier>{f6d1fbef-7902-4c2a-91ed-d54a10e4e38f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\time\internal\cctz">
+      <UniqueIdentifier>{9c42a41b-eac1-4a3b-9416-d5f5c6f5dff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boost">
+      <UniqueIdentifier>{959cf2c7-59eb-41f6-8ffc-9667cf95ffa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boost\chrono">
+      <UniqueIdentifier>{a84e2c21-ae9c-4e69-829a-de1e6bfb8d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boost\thread">
+      <UniqueIdentifier>{8460da01-80fb-4ca4-96ef-fc058af4a8a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boost\filesystem">
+      <UniqueIdentifier>{601b5a44-ac31-4ffa-98cf-e499211680f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boost\serialization">
+      <UniqueIdentifier>{a8a34425-345f-4067-bc40-a66dbd243837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libb64">
+      <UniqueIdentifier>{38b86b09-3ce1-4f5c-8780-b7ea1d0d01e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bzip2">
+      <UniqueIdentifier>{90eec952-f2b6-4059-a363-275eb38c88bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lz4">
+      <UniqueIdentifier>{8fed9bbd-280a-4cbd-8a65-7127d51f45b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boost\program_options">
+      <UniqueIdentifier>{a040c6ef-8932-4f26-9365-5ada4423e70d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\crc">
+      <UniqueIdentifier>{606cbf40-6c80-4780-8226-67deddb881a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\crc\internal">
+      <UniqueIdentifier>{7bbfb7ed-294a-4e11-86d4-570b380ed5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\status\internal">
+      <UniqueIdentifier>{8f397bba-8be8-465c-b0d4-84bea45aaa16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\log">
+      <UniqueIdentifier>{1012c8cd-21e1-4ae8-a8c6-0e2905dd3425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="abseil-cpp\log\internal">
+      <UniqueIdentifier>{24e44491-29eb-473a-9885-bbf9ce9d5623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cairo">
+      <UniqueIdentifier>{0fc5c454-8e48-48a1-8d0b-0d802294eb68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pixman">
+      <UniqueIdentifier>{19c7639c-4c2c-4068-a614-97830667d0c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\cycleclock.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\low_level_alloc.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\raw_logging.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\spinlock.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\spinlock_wait.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\sysinfo.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\thread_identity.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\throw_delegate.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\unscaledcycleclock.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\container\internal\hashtablez_sampler.cc">
+      <Filter>abseil-cpp\container\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\container\internal\hashtablez_sampler_force_weak_definition.cc">
+      <Filter>abseil-cpp\container\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\container\internal\raw_hash_set.cc">
+      <Filter>abseil-cpp\container\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\address_is_readable.cc">
+      <Filter>abseil-cpp\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\demangle.cc">
+      <Filter>abseil-cpp\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\elf_mem_image.cc">
+      <Filter>abseil-cpp\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\examine_stack.cc">
+      <Filter>abseil-cpp\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\vdso_support.cc">
+      <Filter>abseil-cpp\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\failure_signal_handler.cc">
+      <Filter>abseil-cpp\debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\leak_check.cc">
+      <Filter>abseil-cpp\debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\stacktrace.cc">
+      <Filter>abseil-cpp\debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\symbolize.cc">
+      <Filter>abseil-cpp\debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\commandlineflag.cc">
+      <Filter>abseil-cpp\flags\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\flag.cc">
+      <Filter>abseil-cpp\flags\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\private_handle_accessor.cc">
+      <Filter>abseil-cpp\flags\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\program_name.cc">
+      <Filter>abseil-cpp\flags\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\usage.cc">
+      <Filter>abseil-cpp\flags\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\commandlineflag.cc">
+      <Filter>abseil-cpp\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\marshalling.cc">
+      <Filter>abseil-cpp\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\parse.cc">
+      <Filter>abseil-cpp\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\usage.cc">
+      <Filter>abseil-cpp\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\usage_config.cc">
+      <Filter>abseil-cpp\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\hash\internal\city.cc">
+      <Filter>abseil-cpp\hash\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\hash\internal\hash.cc">
+      <Filter>abseil-cpp\hash\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\numeric\int128.cc">
+      <Filter>abseil-cpp\numeric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\chi_square.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\distribution_test_util.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\pool_urbg.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_detect.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_hwaes.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_slow.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\seed_material.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\discrete_distribution.cc">
+      <Filter>abseil-cpp\random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\gaussian_distribution.cc">
+      <Filter>abseil-cpp\random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\seed_gen_exception.cc">
+      <Filter>abseil-cpp\random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\seed_sequences.cc">
+      <Filter>abseil-cpp\random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\status.cc">
+      <Filter>abseil-cpp\status</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\status_payload_printer.cc">
+      <Filter>abseil-cpp\status</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\statusor.cc">
+      <Filter>abseil-cpp\status</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\arg.cc">
+      <Filter>abseil-cpp\strings\internal\str_format</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\bind.cc">
+      <Filter>abseil-cpp\strings\internal\str_format</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\extension.cc">
+      <Filter>abseil-cpp\strings\internal\str_format</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\float_conversion.cc">
+      <Filter>abseil-cpp\strings\internal\str_format</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\output.cc">
+      <Filter>abseil-cpp\strings\internal\str_format</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\parser.cc">
+      <Filter>abseil-cpp\strings\internal\str_format</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\charconv_bigint.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\charconv_parse.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\escaping.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\memutil.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\ostringstream.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\utf8.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\ascii.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\charconv.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\cord.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\escaping.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\match.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\numbers.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\str_cat.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\str_replace.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\str_split.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\string_view.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\substitute.cc">
+      <Filter>abseil-cpp\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\create_thread_identity.cc">
+      <Filter>abseil-cpp\synchronization\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\graphcycles.cc">
+      <Filter>abseil-cpp\synchronization\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\per_thread_sem.cc">
+      <Filter>abseil-cpp\synchronization\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\barrier.cc">
+      <Filter>abseil-cpp\synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\blocking_counter.cc">
+      <Filter>abseil-cpp\synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\mutex.cc">
+      <Filter>abseil-cpp\synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\notification.cc">
+      <Filter>abseil-cpp\synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\civil_time_detail.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_fixed.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_format.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_if.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_impl.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_info.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_libc.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_lookup.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_posix.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\zone_info_source.cc">
+      <Filter>abseil-cpp\time\internal\cctz</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\civil_time.cc">
+      <Filter>abseil-cpp\time\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\clock.cc">
+      <Filter>abseil-cpp\time\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\duration.cc">
+      <Filter>abseil-cpp\time\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\format.cc">
+      <Filter>abseil-cpp\time\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\time.cc">
+      <Filter>abseil-cpp\time\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\types\bad_any_cast.cc">
+      <Filter>abseil-cpp\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\types\bad_optional_access.cc">
+      <Filter>abseil-cpp\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\types\bad_variant_access.cc">
+      <Filter>abseil-cpp\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_round_keys.cc">
+      <Filter>abseil-cpp\random\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\reflection.cc">
+      <Filter>abseil-cpp\flags</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\rose_string_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\rose_filesystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\chrono\src\chrono.cpp">
+      <Filter>boost\chrono</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\chrono\src\process_cpu_clocks.cpp">
+      <Filter>boost\chrono</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\chrono\src\thread_clock.cpp">
+      <Filter>boost\chrono</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\thread\src\win32\thread.cpp">
+      <Filter>boost\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\thread\src\tss_null.cpp">
+      <Filter>boost\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\codecvt_error_category.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\directory.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\exception.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\operations.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\path.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\path_traits.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\portability.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\unique_path.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\utf8_codecvt_facet.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\windows_file_codecvt.cpp">
+      <Filter>boost\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\archive_exception.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_iarchive.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\extended_type_info.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\extended_type_info_no_rtti.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\extended_type_info_typeid.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_iserializer.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\codecvt_null.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_archive.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_oarchive.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_oserializer.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_pointer_iserializer.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_pointer_oserializer.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_serializer_map.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\binary_iarchive.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\binary_oarchive.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\stl_port.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\utf8_codecvt_facet.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\void_cast.cpp">
+      <Filter>boost\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\libb64\src\cdecode.c">
+      <Filter>libb64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\libb64\src\cencode.c">
+      <Filter>libb64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\mtrand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\rose_qr_code.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\blocksort.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\bzlib.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\compress.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\crctable.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\decompress.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\huffman.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\randtable.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\lz4\lib\lz4.c">
+      <Filter>lz4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\value_semantic.cpp">
+      <Filter>boost\program_options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\options_description.cpp">
+      <Filter>boost\program_options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\positional_options.cpp">
+      <Filter>boost\program_options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\cmdline.cpp">
+      <Filter>boost\program_options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\convert.cpp">
+      <Filter>boost\program_options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\variables_map.cpp">
+      <Filter>boost\program_options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\utf8_codecvt_facet.cpp">
+      <Filter>boost\program_options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\win32_waiter.cc">
+      <Filter>abseil-cpp\synchronization\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\kernel_timeout.cc">
+      <Filter>abseil-cpp\synchronization\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\hash\internal\low_level_hash.cc">
+      <Filter>abseil-cpp\hash\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\waiter_base.cc">
+      <Filter>abseil-cpp\synchronization\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\stringify_sink.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cordz_info.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cordz_handle.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_btree.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_internal.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_crc.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\crc32c.cc">
+      <Filter>abseil-cpp\crc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc_cord_state.cc">
+      <Filter>abseil-cpp\crc\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\internal\status_internal.cc">
+      <Filter>abseil-cpp\status\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\tracing.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_btree_reader.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_consume.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_btree_navigator.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc.cc">
+      <Filter>abseil-cpp\crc\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc_memcpy_fallback.cc">
+      <Filter>abseil-cpp\crc\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc_x86_arm_combined.cc">
+      <Filter>abseil-cpp\crc\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\strerror.cc">
+      <Filter>abseil-cpp\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\nullguard.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\log_message.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\globals.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\check_op.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\conditions.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\fnmatch.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\log_format.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\log_sink_set.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\proto.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\structured_proto.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\vlog_config.cc">
+      <Filter>abseil-cpp\log\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\globals.cc">
+      <Filter>abseil-cpp\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\log_sink.cc">
+      <Filter>abseil-cpp\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\damerau_levenshtein_distance.cc">
+      <Filter>abseil-cpp\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\rose_peripheral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzclose.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzlib.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzread.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzwrite.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\infback.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\uncompr.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\zutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-analysis-surface.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-arc.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-array.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-atomic.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-base64-stream.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-base85-stream.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-bentley-ottmann-rectangular.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-bentley-ottmann-rectilinear.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-bentley-ottmann.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-botor-scan-converter.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-boxes-intersect.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-boxes.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-cache.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-boxes.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-polygon.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-region.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-surface.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-tor-scan-converter.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-color.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-composite-rectangles.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-contour.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-damage.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-debug.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-default-context.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-device.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-error.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-fallback-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-fixed.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-face-twin-data.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-face-twin.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-face.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-options.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-freed-pool.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-freelist.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-gstate.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-hash.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-hull.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-info.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-source.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-surface.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-line.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-lzw.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mask-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-matrix.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mempool.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mesh-pattern-rasterizer.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-misc.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mono-scan-converter.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mutex.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-no-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-observer.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-output-stream.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-paginated-surface.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-bounds.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-fill.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-fixed.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-in-fill.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-boxes.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-polygon.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-traps.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-tristrip.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-pattern.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-pen.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-png.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-polygon-intersect.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-polygon-reduce.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-polygon.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-raster-source-pattern.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-recording-surface.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-rectangle.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-rectangular-scan-converter.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-region.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-rtree.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-scaled-font.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-shape-mask-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-slope.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-spans-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-spans.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-spline.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-stroke-dash.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-stroke-style.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-clipper.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-fallback.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-observer.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-offset.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-snapshot.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-subsurface.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-wrapper.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-time.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-tor-scan-converter.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-tor22-scan-converter.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-toy-font-face.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-traps-compositor.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-traps.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-tristrip.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-unicode.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-user-font.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-version.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-wideint.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo.c">
+      <Filter>cairo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-access-accessors.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-access.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-arm.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-bits-image.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-combine-float.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-combine32.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-conical-gradient.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-edge-accessors.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-edge.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-fast-path.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-filter.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-general.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-glyph.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-gradient-walker.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-image.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-implementation.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-linear-gradient.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-matrix.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-mips.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-noop.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-ppc.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-radial-gradient.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-region16.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-region32.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-region64f.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-riscv.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-solid-fill.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-timer.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-trap.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-utils.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-x86.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman.c">
+      <Filter>pixman</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\3rdparty\rose_string_utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\rose_filesystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\exceptions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\mtrand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\rose_qr_code.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\bzip2\bzlib.h">
+      <Filter>bzip2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\bzip2\bzlib_private.h">
+      <Filter>bzip2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\lz4\lib\lz4.h">
+      <Filter>lz4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\rose_peripheral.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\external\3rdparty\const_clone.tpp">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

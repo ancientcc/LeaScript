@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<chapter id="intro">
+
+<title>Introduction</title>
+
+<section id="aboutmanual">
+
+<title>About this Manual</title>
+
+<para>This manual is about &MiKTeX;, a modern implementation of
+&TeXnFriends;.</para>
+
+<para>If you are not yet familiar with using &TeX; (&LaTeX;), then
+please consider reading one of the tutorials available on the
+Internet.</para>
+
+</section>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="about.xml" />
+
+<section id="howtoget">
+
+<title>How to Get &MiKTeX;</title>
+
+<indexterm>
+<primary>MiKTeX</primary>
+<secondary>getting</secondary>
+</indexterm>
+
+<para>The &MiKTeX; installer for &Windows; and &macOS; can be
+downloaded from the <ulink url="&hqbaseurl;download">&MiKTeX; download
+page</ulink>.</para>
+
+<para>For selected &Linux; distributions, you can install &MiKTeX; via
+the system package manager frontend.  The <ulink
+url="&hqbaseurl;download">&MiKTeX; download page</ulink> has relevant
+information available.</para>
+
+</section>
+
+<section id="registering">
+
+<title>Give Back</title>
+
+<para>If you enjoy &MiKTeX; and want to support the project, then
+please become a known &MiKTeX; user by giving back something.  It
+encourages me to continue, and is the perfect way to say thank
+you!</para>
+
+<para>Visit <ulink
+url="&hqbaseurl;giveback">the &MiKTeX; Give Back page</ulink>,
+for more information.
+<indexterm>
+<primary>MiKTeX project</primary>
+<secondary>how to support the</secondary>
+</indexterm>
+<indexterm>
+<primary>give back</primary>
+</indexterm>
+<indexterm>
+<primary>registration</primary>
+</indexterm>
+<indexterm>
+<primary>MiKTeX</primary>
+<secondary>registering</secondary>
+</indexterm></para>
+
+</section>
+
+<section id="projectpage">
+
+<title>The &MiKTeX; Project Page</title>
+
+<para>The <ulink url="&hqbaseurl;">&MiKTeX; Project Page</ulink>
+is the address to turn to for &MiKTeX; related news &amp; information.
+<indexterm>
+<primary>project page</primary>
+</indexterm>
+<indexterm>
+<primary>MiKTeX Project Page</primary>
+</indexterm></para>
+
+</section>
+
+<section id="otherdoc">
+
+<title>Documentation</title>
+
+<para>Use the &mthelp; utility to quickly access general &TeX; related
+documentation.  For example, run
+<indexterm>
+<primary>mthelp</primary>
+</indexterm>
+<userinput>mthelp memoir</userinput> to view documentation of the
+<filename>memoir</filename> package.</para>
+
+</section>
+
+</chapter>

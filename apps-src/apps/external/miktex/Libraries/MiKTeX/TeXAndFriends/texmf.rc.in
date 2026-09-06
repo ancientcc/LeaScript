@@ -1,0 +1,25 @@
+/**
+ * @file texmf.rc
+ * @author Christian Schenk
+ * @brief Windows resources
+ *
+ * @copyright Copyright © 1996-2022 Christian Schenk
+ *
+ * This file is part of the MiKTeX TeXMF Framework.
+ *
+ * The MiKTeX TeXMF Framework is licensed under GNU General Public License
+ * version 2 or any later version.
+ */
+
+#pragma code_page(65001)
+
+#include "texmf-version.h"
+
+#define VER_INTERNALNAME_STR "${texmf_dll_name}"
+#define VER_ORIGINALFILENAME_STR "${texmf_dll_name}.dll"
+
+#define VER_FILEDESCRIPTION_STR "${MIKTEX_COMP_DESCRIPTION}"
+
+#define VER_FILETYPE VFT_DLL
+
+#include "miktex/win/version.rc"

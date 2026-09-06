@@ -1,0 +1,116 @@
+/* $Id: dialog.hpp 50956 2011-08-30 19:41:22Z mordante $ */
+/*
+   Copyright (C) 2008 - 2011 by Mark de Wever <koraq@xs4all.nl>
+
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY.
+
+   See the COPYING file for more details.
+*/
+
+#ifndef LIBROSE_LEAGOR_CHARGE_HPP_INCLUDED
+#define LIBROSE_LEAGOR_CHARGE_HPP_INCLUDED
+
+#include <rose_ros/base_slot.hpp>
+#include <memory>
+#include "rose_exception.hpp"
+#include "aplt_clazz.hpp"
+#include "rose_ros/aplt.hpp"
+#include "aplt2.hpp"
+
+namespace aplt {
+
+#define MAX_LINE_SAMPLES			4
+#define MAX_VEL_LINE_SAMPLES		4
+#define MAX_FINISHED_LINE_SAMPLES	3
+#define PIXEL_2_METER			200.0
+
+class tleagor_charge_api: public tcharge_api
+{
+public:
+	struct tline_C {
+		SDL_Point start;
+		double start_dist_m;
+		SDL_Point end;
+		double end_dist_m;
+		SDL_DPoint center;
+		double width_m;
+		double theta; // always in (-M_PI, M_PI).
+		double height_m;
+		// if < 0, The part above the origin.y is more than the part below the origin by abs(y_diff) meter.
+		double y_diff_m;
+	};
+
+	tleagor_charge_api();
+	~tleagor_charge_api();
+
+private:
+	std::string app_start_task(ttask_vars& vars) override;
+	void app_task_finished(const tapplet::ttask& cfg_task) override;
+	bool slice() override;
+
+	SDL_2Point did_scan_subscribed(const std::vector<float>& ranges, const SDL_FRange& range_range, 
+		const SDL_FRange& angle_range, float angle_increment) override;
+
+	bool find_line(const cv::Mat& laser_scan, const cv::Mat& dilate, const tapplet& aplt, const SDL_Point& origin, bool verbose_png, tline_C& result);
+	void reset_line_samples();
+	bool is_sample_stable(int type, const tline_C& target_point);
+	void average_sample(tline_C& result) const;
+	void move_public_vel(const tline_C& hit_line);
+
+	void clear()
+	{
+		start_ticks_ = 0;
+		scan_frames_ = 0;
+		finish_state_ = nposm;
+		forword_state_ = true;
+
+		next_public_vel_ticks_ = 0;
+		if (check_2th_data_.ptr != nullptr) {
+			free(check_2th_data_.ptr);
+		}
+		memset(&check_2th_data_, 0, sizeof(check_2th_data_));
+	}
+
+	void validate_nposm() const
+	{
+		VALIDATE(start_ticks_ == 0, null_str);
+		VALIDATE(scan_frames_ == 0, null_str);
+		VALIDATE(finish_state_ == nposm, null_str);
+		VALIDATE(forword_state_, null_str);
+
+		VALIDATE(next_public_vel_ticks_ == 0, null_str);
+		VALIDATE(check_2th_data_.ptr == nullptr, null_str);
+	}
+
+private:
+	tapplet& aplt_;
+	aplt::tros& ros_;
+	const int move_robot_threshold_;
+	const double laser_y_diff_error_;
+	uint32_t start_ticks_;
+	int scan_frames_;
+	enum {finish_theta, finish_finished};
+	int finish_state_;
+
+	// ltype: Line TYPE
+	enum {ltype_vel, ltype_finished, ltype_count};
+	int next_vel_sample_index_;
+	int next_finished_sample_index_;
+	tline_C line_samples_[ltype_count][MAX_LINE_SAMPLES];
+	const int max_line_samples_[ltype_count];
+
+	uint32_t next_public_vel_ticks_;
+	tuint8data2_C check_2th_data_;
+	bool forword_state_;
+};
+
+}
+
+#endif
+

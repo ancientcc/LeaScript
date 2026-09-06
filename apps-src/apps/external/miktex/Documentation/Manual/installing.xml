@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<chapter id="installing">
+
+<title>Installing &MiKTeX;</title>
+
+<section id="installwin">
+
+<title>&Windows;</title>
+  
+<para>You use the &BasicMiKTeXInstaller; to install &MiKTeX; on your
+&Windows; computer Please read the <ulink
+url="&hqbaseurl;howto/install-miktex">installation
+tutorial</ulink>, for step-by-step guidance.</para>
+
+<para>The installer is available on the <ulink
+url="&hqbaseurl;download">download page</ulink>.</para>
+
+</section>
+
+<section id="installmac">
+
+<title>&macOS;</title>
+
+<para>&MiKTeX; for &macOS; is distributed as a disk image
+(<filename>.dmg</filename>) file.  To set up &MiKTeX;, download and
+open the disk image. Then drag the &MiKTeX; icon onto the Applications
+folder. Please read the <ulink
+url="&hqbaseurl;howto/install-miktex-mac">installation
+tutorial</ulink>, for step-by-step guidance.</para>
+
+<para>The disk image is available on the <ulink
+url="&hqbaseurl;download">download page</ulink>.</para>
+
+</section>
+
+<section id="installunx">
+
+<title>&Linux;</title>
+
+<para>&MiKTeX; is available for selected &Linux; distributions.</para>
+
+<para>Installing &MiKTeX; on &Linux; involves these steps:</para>
+
+<orderedlist>
+<listitem><para>Register the &GPG; key with which &MiKTeX;
+installation packages and metadata is signed.</para></listitem>
+<listitem><para>Register the installation source which contains the
+&MiKTeX; installation package. The installation source depends on the
+&Linux; distribution version.</para></listitem>
+<listitem><para>Use the package management system to install
+&MiKTeX;.</para></listitem>
+</orderedlist>
+
+<para>Please read the <ulink
+url="&hqbaseurl;howto/install-miktex-unx">installation
+tutorial</ulink>, for step-by-step guidance.</para>
+
+</section>
+
+</chapter>

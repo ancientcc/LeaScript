@@ -1,0 +1,20 @@
+/**
+ * @file mpc.rc
+ * @author Christian Schenk
+ * @brief Windows resources
+ *
+ * @copyright Copyright © 2006-2022 Christian Schenk
+ *
+ * This file is part of MPC.
+ *
+ * MPC is licensed under GNU General Public License version 2 or any later
+ * version.
+ */
+
+#include "mpc-version.h"
+
+#define VER_FILEDESCRIPTION_STR "@MIKTEX_COMP_DESCRIPTION@"
+#define VER_INTERNALNAME_STR "mpc"
+#define VER_ORIGINALFILENAME_STR "mpc.exe"
+
+#include "miktex/win/version.rc"

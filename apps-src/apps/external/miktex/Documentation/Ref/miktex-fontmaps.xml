@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<refentry id="miktex-fontmaps">
+
+<?dbhh topicname="MIKTEXHELP_MIKTEX_FONTMAPS" topicid="0"?>
+
+<refmeta>
+<refentrytitle>miktex-fontmaps</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">&PACKAGE_NAME;</refmiscinfo>
+<refmiscinfo class="version">&miktexrev;</refmiscinfo>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>miktex-fontmaps</refname>
+<refpurpose>manage &PDF;/&PostScript; font maps</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+
+<cmdsynopsis>
+&miktex;
+<arg choice="opt" rep="repeat"><replaceable>common-option</replaceable></arg>
+<arg choice="plain">fontmaps</arg>
+<arg choice="plain"><replaceable>command</replaceable></arg>
+<arg choice="opt" rep="repeat"><replaceable>command-option-or-parameter</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+
+<title>Description</title>
+
+<para>Commands for managing &PDF;/&PostScript; font maps.</para>
+
+</refsect1>
+
+<refsect1>
+
+<title>Commands</title>
+
+<variablelist>
+<varlistentry>
+<term><command>configure</command></term>
+<listitem>
+<indexterm>
+<primary>&PDF;/&PostScript; font map files</primary>
+<secondary>configuring</secondary>
+</indexterm>
+<para>Configure font map files for &PDF;/&PostScript; output drivers.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><command>set-option</command> <replaceable>name</replaceable> <optional><replaceable>value</replaceable></optional></term>
+<listitem>
+<para>Set a configuration option.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><command>show-option</command> <optional><option>--template <replaceable>template</replaceable></option></optional> <replaceable>name</replaceable></term>
+<listitem>
+<para>Show a configuration option.</para>
+<para><replaceable>template</replaceable> controls the output.
+It can contain the following placeholders:</para>
+<para><simplelist type='inline'>
+<member><code>{name}</code></member>
+<member><code>{value}</code></member>
+</simplelist></para></listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>See also</title>
+
+<simplelist type="inline">
+<member><citerefentry><refentrytitle>miktex</refentrytitle><manvolnum>1</manvolnum></citerefentry></member>
+</simplelist>
+
+</refsect1>
+
+</refentry>

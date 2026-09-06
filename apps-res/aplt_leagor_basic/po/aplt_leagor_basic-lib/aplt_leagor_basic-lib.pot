@@ -1,0 +1,587 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: aplt_leagor_basic-lib\n"
+"POT-Creation-Date: 2026-03-02 09:42+0800\n"
+"PO-Revision-Date: 2016-01-03 20:34+0800\n"
+"Last-Translator: service <service@leagor.com>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-KeywordsList: _;vgettext2\n"
+"X-Poedit-Basepath: ../../../..\n"
+"X-Poedit-SearchPath-0: apps-res/aplt_leagor_basic/lua\n"
+"X-Poedit-SearchPath-1: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib\n"
+"X-Poedit-SearchPath-2: apps-src/apps/libleagor_basic\n"
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:56
+msgid "name^base_doll"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:57
+msgid "name^base_wheeltec_box"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:58
+msgid "name^base_wheeltec_open"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:59
+msgid "name^base_wheeltec_open_m"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:60
+msgid "name^base_rosserial"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:61
+msgid "name^base_yahboom"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:85
+msgid "Basic"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:98
+msgid "Driver"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:99
+msgid "Navigation"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:100
+msgid "Speech"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:101
+msgid "IoT"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:102
+msgid "AI"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:205
+msgid "driver^remark"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:215
+msgid "rosserial base help"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:226
+msgid "wheeltec_open base help"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:229
+msgid "wheeltec_open_m base help"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:234
+msgid "wheeltec_box base help"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:262
+msgid "yahboom base help"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:272
+msgid "doll base help"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:282
+msgid "unknown base help"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:294
+msgid "Test navigation"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:295
+msgid "navigation^note $ble"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:323
+msgid "spark help $min_maxtoken"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:379
+msgid ">= $maxtoken or -1"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:395
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:7
+msgid "Device ID"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:394
+msgid "iot help $device_id"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:457
+msgid "IoT Device ID"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:475
+msgid "Deepseek"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:474
+msgid "ai help $deepseek"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:800
+msgid "Need to set the current map, or have at least one position on the map"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:840
+msgid "Set the position you want to navigate to"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/home.lua:954
+msgid "No supported iot source"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:65
+msgid "task^grasp"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:66
+msgid "task^press_top"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:67
+msgid "task^press_middle"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:68
+msgid "task^move2_task"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:69
+msgid "task^exe_task_only"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:70
+msgid "task^speak_var"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:71
+msgid "task^modify_env_var"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:72
+msgid "task^alert"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:73
+msgid "task^privacy"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:74
+msgid "task^base_scene"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:75
+msgid "task^timed_task"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:76
+msgid "task^charge"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:77
+msgid "task^add_timed_reminder"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/lua/main.lua:78
+msgid "task^exam"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:1
+msgid "Baudrate"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:3
+msgid "Client ID"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:5
+msgid "Client Secret"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:9
+msgid "Millisecond"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:11
+msgid "Motor threshold"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:13
+msgid "Position"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:15
+msgid "Product"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:17
+msgid "Serial"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:19
+msgid "Version"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:21
+msgid "Voice Threshold"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:23
+msgid "disable_question label"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:25
+msgid "disable_recognition label"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:27
+msgid "goaling_enable label"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:29
+msgid "module^base"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:31
+msgid "module^laser"
+msgstr ""
+
+#: apps-res/aplt_leagor_basic/po/cfg-cpp/aplt_leagor_basic-lib/aplt.cpp:33
+msgid "module^moveit"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:40
+msgid "revise_essay^start_question"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:40
+msgid "revise_essay^start_tip"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:41
+msgid "revise_essay^main_problem_question"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:41
+msgid "revise_essay^main_problem_tip"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:42
+msgid "revise_essay^method_example_question"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:42
+msgid "revise_essay^method_example_tip"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:43
+msgid "revise_essay^make_better_question"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:43
+msgid "revise_essay^make_better_tip"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:46
+msgid "revise essay's reference"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:103
+msgid "revise_essay^storyboards_question"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:103
+msgid "revise_essay^storyboards_tip"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:104
+msgid "revise_essay^painting_prompts_question"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:104
+msgid "revise_essay^painting_prompts_tip"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:107
+msgid "Make poem video's reference"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:172
+msgid "Revise essay"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/leagor_ai.cpp:175
+msgid "Make poem video"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:78
+msgid "User canceled the question."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:81
+msgid "reply error: $err"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:83
+msgid "generate summary fail: $err"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:163
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:263
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:396
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:476
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:665
+#: apps-src/apps/libleagor_basic/iot/leagor_iot.cpp:214
+msgid "Invalid json request"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:721
+msgid "'API key' cannot be empty."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:828
+msgid "deepseek^conversation summary, $summary"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:934
+msgid "deepseek^conversation summary prompt, $history"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/ai/qianfan.cpp:938
+msgid "deepseek^conversation summary role"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/base/leagor_base.cpp:231
+msgid "[Leagor]Unsupport SN: $sn"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/dcamera/leagor_dcamera.cpp:92
+msgid "[Leagor]because load OrbbecSDK.dll, don't support dcamera remark"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:175
+msgid "Voice is to long"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:219
+msgid "$hour hour $min min $sec sec"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:255
+msgid "$time, go to $position $timing."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:266
+msgid "recently $max_speak_tasks are,"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:268
+msgid "There are $tasks timing tasks today. $recently"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:271
+msgid "There are no timing tasks today."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:336
+msgid "Maximum times of speech recognition SDK can be used per day has been reached"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:338
+msgid "Please check if the APPID used to access iFlytek is correct"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/speech/leagor_speech.cpp:502
+msgid "[Leagor]load xfyun's $so(libmsc) fail"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/aiagent_task.cpp:223
+msgid "An AI agent task is currently running."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/aiagent_task.cpp:227
+msgid "'question' cannot be empty"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:30
+msgid "add_timed_reminder prompt^study #0"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:30
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:31
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:32
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:33
+msgid "add_timed_reminder prompt's note^3 columns"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:31
+msgid "add_timed_reminder prompt^study #1"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:32
+msgid "add_timed_reminder prompt^rehabilitation #0"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:33
+msgid "add_timed_reminder prompt^rehabilitation #1"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:45
+msgid "No questions are available."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:52
+msgid "exam prompt^math, full exam"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:53
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:61
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:66
+msgid "exam note^math"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:56
+msgid "exam prompt^math, choice only"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:57
+msgid "exam note^math, choice only"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:60
+msgid "exam prompt^math, solving only"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/leagor_aiagent.cpp:65
+msgid "exam prompt^other, full exam"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:51
+msgid "This applet is not set to current AI driver."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:72
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:388
+msgid "Missing input var: $var"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:80
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:393
+msgid "Input var($var) must be single var"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:86
+msgid "Input var($var)'s type must be $type"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:93
+msgid "Input var($var)'s cannot be empty"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/nonblock_task.cpp:115
+msgid "$file isn't a valid image file"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:74
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:118
+msgid "No var: $var"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:84
+msgid "var($var) must be single var"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:87
+msgid "var($var)'s type must be string"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:94
+msgid "var($var)'s value is $val, but curmap isn't existed"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:110
+msgid "var($var)'s value is $val, but this task isn't existed"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:139
+msgid "Executing task, and please wait"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:140
+msgid "Task finished"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:178
+msgid "val^true"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:178
+msgid "val^false"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:200
+msgid "The $index variable, Type: $type, Value: $val."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:206
+msgid "$count variables. $vars"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:241
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:669
+msgid "Unknonw task: $task"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:399
+msgid "Input var($var)'s type must be string"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:406
+msgid "var($var) isn't environment variable."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:416
+msgid "var($var) is an environment variable, but it is automatically updated by the system and cannot be modified by the user."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:553
+msgid "Unsupported action: $action."
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:556
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:570
+msgid "Switch scene failed. $err_msg"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:582
+msgid "$tag. $reason"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:629
+msgid "Add timed task failed"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:631
+msgid "'task_cfg' cannot be empty"
+msgstr ""
+
+#: apps-src/apps/libleagor_basic/task/task_api.cpp:638
+msgid "'task_cfg' is invalid"
+msgstr ""

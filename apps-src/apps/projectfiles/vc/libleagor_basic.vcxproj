@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\libleagor_basic\ai\leagor_ai.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\ai\qianfan.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\aplt_main.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\base\im948.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\base\leagor_base.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\base\wheeltec.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\base\wheeltecserial.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\base\yahboom.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\base\yahboomserial.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\dcamera\leagor_dcamera.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\iot\leagor_iot.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\laser\leagor_laser.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\lsx10\lslidar_driver\src\lslidar_driver.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\lsx10\lslidar_driver\src\lslidar_driver_node.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\moveit\leagor_moveit.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\orbbec_ros.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\ob_camera_node.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\ob_camera_node_driver.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\ros_sensor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\utils.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\rose\rose_serial.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\net_serial.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\timer.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\rplidar_driver.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\src\node.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\sc_mini\src\sc_mini.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\speech\leagor_speech.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\speech\xfyun.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\task\aiagent_task.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\task\charge.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\task\leagor_aiagent.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\task\leagor_nonblock.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\task\task_api.cpp" />
+    <ClCompile Include="..\..\libleagor_basic\task\nonblock_task.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\libleagor_basic\ai\leagor_ai.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\ai\qianfan.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\base\im948.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\base\leagor_base.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\base\wheeltec.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\base\wheeltecserial.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\base\yahboom.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\base\yahboomserial.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\common.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\dcamera\dcamera_device.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\dcamera\leagor_dcamera.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\constants.h" />
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\json.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\ob_camera_node.h" />
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\ob_camera_node_driver.h" />
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\ros_sensor.h" />
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\types.h" />
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\utils.h" />
+    <ClInclude Include="..\..\libleagor_basic\iot\leagor_iot.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\laser\leagor_laser.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\lsx10\lslidar_driver\include\lslidar_driver\lslidar_driver.h" />
+    <ClInclude Include="..\..\libleagor_basic\moveit\leagor_moveit.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar_cmd.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar_driver.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar_protocol.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rptypes.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\rose\rose_serial.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\arch_win32.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\net_serial.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\timer.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\abs_rxtx.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\assert.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\byteops.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\types.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\util.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\rplidar_driver_impl.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\rplidar_driver_serial.h" />
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\sdkcommon.h" />
+    <ClInclude Include="..\..\libleagor_basic\speech\leagor_speech.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\speech\xfyun.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\task\aiagent_task.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\task\charge.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\task\common.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\task\leagor_aiagent.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\task\leagor_nonblock.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\task\task_api.hpp" />
+    <ClInclude Include="..\..\libleagor_basic\task\nonblock_task.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d602631b-b294-4c24-9065-0d62fe481702}</ProjectGuid>
+    <RootNamespace>main1</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>libleagor_basic</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\libleagor_basic\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\libleagor_basic\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MAIN1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../../linker/include/SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>../../../linker/windows/lib/SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;NOMINMAX;_CRT_SECURE_NO_DEPRECATE;BOOST_ALL_NO_LIB;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/boost;../../external/boringssl/include;../../external/libros/include;../../external/opencv;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../../linker/include/SDL2;../../../linker/include/SDL2_ttf;../../libleagor_basic/lsx10/lslidar_driver/include;../../libleagor_basic/include</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>ws2_32.lib;3rdparty.lib;3rdparty2.lib;4libchromium.lib;4libros.lib;../../../linker/windows/lib/SDL2.lib;../../../linker/windows/lib/libaikit.lib;../../../linker/windows/lib/OrbbecSDK.lib;shlwapi.lib;dbghelp.lib;propsys.lib;powrprof.lib;delayimp.lib;wbemuuid.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetDir)\$(TargetName).dll ..\..\..\..\apps-res\aplt_leagor_basic\libs\windows\libroseaplt.dll</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;MAIN1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_CRT_SECURE_NO_DEPRECATE;BOOST_ALL_NO_LIB;WIN32_LEAN_AND_MEAN;_ITERATOR_DEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/boost;../../external/boringssl/include;../../external/libros/include;../../external/opencv;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../../linker/include/SDL2;../../../linker/include/SDL2_ttf;../../libleagor_basic/lsx10/lslidar_driver/include;../../libleagor_basic/include</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4251;4267;4275</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;3rdparty.lib;3rdparty2.lib;4libchromium.lib;4libros.lib;../../../linker/windows/lib/x64/SDL2.lib;shlwapi.lib;dbghelp.lib;propsys.lib;powrprof.lib;delayimp.lib;wbemuuid.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetDir)\$(TargetName).dll ..\..\..\..\apps-res\aplt_leagor_basic\libs\windows\libroseaplt.dll</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

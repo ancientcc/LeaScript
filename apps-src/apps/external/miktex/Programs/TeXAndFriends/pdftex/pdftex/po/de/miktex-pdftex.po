@@ -1,0 +1,30 @@
+# German translations for MiKTeX package.
+# Copyright (C) 2021 THE MiKTeX'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the work package.
+# Christian Schenk <cs@miktex.org>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: work 3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-02 19:34+0200\n"
+"PO-Revision-Date: 2021-01-06 11:46+0100\n"
+"Last-Translator: Christian Schenk <cs@miktex.org>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: miktex-pdftex.h:219 miktex-pdftex.h:221
+msgid "Switch on draft mode (generates no output)."
+msgstr "Aktiviere Entwurfsmodus (erzeugt keine Ausgabe)."
+
+#: miktex-pdftex.h:220 miktex-pdftex.h:222
+msgid "Set the output format."
+msgstr "Setze das Ausgabeformat."
+
+#: miktex-pdftex.h:245 miktex-pdftex.h:247
+msgid "Unknown output format value."
+msgstr "Unbekannter Ausgabeformat-Wert."

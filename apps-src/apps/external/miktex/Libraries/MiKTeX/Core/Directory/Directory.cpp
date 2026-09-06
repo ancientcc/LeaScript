@@ -1,0 +1,164 @@
+/* Directory.cpp: directory operations
+
+   Copyright (C) 1996-2024 Christian Schenk
+
+   This file is part of the MiKTeX Core Library.
+
+   The MiKTeX Core Library is free software; you can redistribute it
+   and/or modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2, or
+   (at your option) any later version.
+
+   The MiKTeX Core Library is distributed in the hope that it will be
+   useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with the MiKTeX Core Library; if not, write to the Free
+   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+   02111-1307, USA. */
+
+#include "../miktex_Core_config.h"
+
+#include <miktex/Core/Directory>
+#include <miktex/Core/DirectoryLister>
+
+#include "../miktex_Core_internal.h"
+
+using namespace std;
+
+using namespace MiKTeX::Core;
+using namespace MiKTeX::Util;
+
+void Directory::Create(const PathName& path)
+{
+  CreateDirectoryPath(path);
+}
+
+void Directory::Delete(const PathName& path, bool recursive)
+{
+  if (recursive)
+  {
+    vector<PathName> filesToBeDeleted;
+    filesToBeDeleted.reserve(10);
+
+    vector<PathName> directoriesToBeDeleted;
+    directoriesToBeDeleted.reserve(10);
+
+    unique_ptr<DirectoryLister> dirLister = DirectoryLister::Open(path);
+    DirectoryEntry entry;
+    while (dirLister->GetNext(entry))
+    {
+      if (entry.isDirectory)
+      {
+        directoriesToBeDeleted.push_back(PathName(path) / entry.name);
+      }
+      else
+      {
+        filesToBeDeleted.push_back(PathName(path) / entry.name);
+      }
+    }
+    dirLister->Close();
+
+    // remove files
+    // TODO: async?
+    // TODO: range-based for loop
+    for (const PathName& f : filesToBeDeleted)
+    {
+      File::Delete(f, { FileDeleteOption::TryHard });
+    }
+
+    // remove directories recursively
+    // TODO: async?
+    // TODO: range-based for loop
+    for (const PathName& d : directoriesToBeDeleted)
+    {
+      // RECURSION
+      Delete(d, true);
+    }
+  }
+
+  // remove this directory
+  Directory::Delete(path);
+}
+
+void Directory::Copy(const PathName& source, const PathName& dest, DirectoryCopyOptionSet options)
+{
+  vector<PathName> files;
+  files.reserve(10);
+
+  vector<PathName> subDirectories;
+  subDirectories.reserve(10);
+
+  unique_ptr<DirectoryLister> dirLister = DirectoryLister::Open(source);
+  DirectoryEntry entry;
+  while (dirLister->GetNext(entry))
+  {
+    if (entry.isDirectory)
+    {
+      subDirectories.push_back(PathName(entry.name));
+    }
+    else
+    {
+      files.push_back(PathName(entry.name));
+    }
+  }
+  dirLister->Close();
+
+  Directory::Create(dest);
+
+  for (const PathName& file : files)
+  {
+    PathName sourceFile;
+    sourceFile = source;
+    sourceFile /= file.ToString();
+    PathName destFile;
+    destFile = dest;
+    destFile /= file.ToString();
+    File::Copy(sourceFile, destFile);
+  }
+
+  if (options[DirectoryCopyOption::CopySubDirectories])
+  {
+    for (const PathName& dir : subDirectories)
+    {
+      PathName sourceDir;
+      sourceDir = source;
+      sourceDir /= dir.ToString();
+      PathName destDir;
+      destDir = dest;
+      destDir /= dir.ToString();
+      // RECURSION
+      Directory::Copy(sourceDir, destDir, options);
+    }
+  }
+}
+
+void Directory::RemoveEmptyDirectoryChain(const PathName& path)
+{
+  unique_ptr<DirectoryLister> lister = DirectoryLister::Open(path);
+  DirectoryEntry dirEntry;
+  bool empty = !lister->GetNext(dirEntry);
+  lister->Close();
+  if (!empty)
+  {
+    return;
+  }
+  FileAttributeSet attributes = File::GetAttributes(path);
+  if (attributes[FileAttribute::ReadOnly])
+  {
+    attributes -= FileAttribute::ReadOnly;
+    File::SetAttributes(path, attributes);
+  }
+  Directory::Delete(path);
+  PathName parentDir(path);
+  parentDir.CutOffLastComponent();
+  if (parentDir == path)
+  {
+    return;
+  }
+  // RECURSION
+  RemoveEmptyDirectoryChain(parentDir);
+}
+

@@ -1,0 +1,32 @@
+# Chinese translations for MiKTeX package.
+# Copyright (C) 2021 THE MiKTeX'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the MiKTeX package.
+# Christian Schenk <cs@miktex.org>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MiKTeX 21.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-02 19:35+0200\n"
+"PO-Revision-Date: 2021-01-28 12:18+0100\n"
+"Last-Translator: Christian Schenk <cs@miktex.org>\n"
+"Language-Team: Chinese (simplified)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: miktex-pdftex.h:219 miktex-pdftex.h:221
+#, fuzzy
+msgid "Switch on draft mode (generates no output)."
+msgstr "切换到草稿模式(不生成输出)。"
+
+#: miktex-pdftex.h:220 miktex-pdftex.h:222
+#, fuzzy
+msgid "Set the output format."
+msgstr "设置输出格式。"
+
+#: miktex-pdftex.h:245 miktex-pdftex.h:247
+#, fuzzy
+msgid "Unknown output format value."
+msgstr "未知的输出格式值。"

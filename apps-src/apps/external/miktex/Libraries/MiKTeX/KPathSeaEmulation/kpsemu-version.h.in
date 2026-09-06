@@ -1,0 +1,20 @@
+/**
+ * @file kpsemu-version.h
+ * @author Christian Schenk
+ * @brief Version number
+ *
+ * @copyright Copyright © 2000-2024 Christian Schenk
+ *
+ * This file is part of the MiKTeX KPSEMU Library.
+ *
+ * MiKTeX KPSEMU Library is licensed under GNU General Public License version 2
+ * or any later version.
+ */
+
+#define MIKTEX_COMP_MAJOR_VERSION @MIKTEX_COMP_MAJOR_VERSION@
+#define MIKTEX_COMP_MINOR_VERSION @MIKTEX_COMP_MINOR_VERSION@
+#define MIKTEX_COMP_PATCH_VERSION @MIKTEX_COMP_PATCH_VERSION@
+#define MIKTEX_COMP_INTERFACE_VERSION @MIKTEX_COMP_INTERFACE_VERSION@
+#define MIKTEX_COMP_DESCRIPTION "@MIKTEX_COMP_DESCRIPTION@"
+
+#include <miktex/Version>

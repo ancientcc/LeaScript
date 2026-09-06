@@ -1,0 +1,21 @@
+/**
+ * @file pdftosrc.rc
+ * @author Christian Schenk
+ * @brief Windows resources
+ *
+ * @copyright Copyright © 2000-2022 Christian Schenk
+ *
+ * This file is free software; the copyright holder gives unlimited permission
+ * to copy and/or distribute it, with or without modifications, as long as this
+ * notice is preserved.
+ */
+
+#pragma code_page(65001)
+
+#include "pdftosrc-version.h"
+
+#define VER_FILEDESCRIPTION_STR "PDF Source Extractor"
+#define VER_INTERNALNAME_STR "pdftosrc"
+#define VER_ORIGINALFILENAME_STR "pdftosrc.exe"
+
+#include "miktex/win/version.rc"

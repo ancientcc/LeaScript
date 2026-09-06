@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE varlistentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                              "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+<varlistentry>
+<term><option>--src-specials</option></term>
+<listitem><para>Embed source file information (source specials) in the
+<indexterm>
+<primary>--src-specials</primary>
+</indexterm>
+<indexterm>
+<primary>-src</primary>
+</indexterm>
+&DVI; file.</para></listitem>
+</varlistentry>

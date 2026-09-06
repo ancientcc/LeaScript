@@ -1,0 +1,102 @@
+/* miktex/Core/Fndb.h:                                  -*- C++ -*-
+
+   Copyright (C) 1996-2021 Christian Schenk
+
+   This file is part of the MiKTeX Core Library.
+
+   The MiKTeX Core Library is free software; you can redistribute it
+   and/or modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2, or
+   (at your option) any later version.
+
+   The MiKTeX Core Library is distributed in the hope that it will be
+   useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with the MiKTeX Core Library; if not, write to the Free
+   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+   02111-1307, USA. */
+
+#pragma once
+
+#if !defined(BFCDDE5CC44547308426241D426A676E)
+#define BFCDDE5CC44547308426241D426A676E
+
+#include <miktex/Core/config.h>
+
+#include <string>
+#include <vector>
+
+#include <miktex/Util/PathName>
+
+MIKTEX_CORE_BEGIN_NAMESPACE;
+
+class MIKTEXNOVTABLE ICreateFndbCallback
+{
+public:
+  virtual bool MIKTEXTHISCALL ReadDirectory(const MiKTeX::Util::PathName& path, std::vector<std::string>& subDirNames, std::vector<std::string>& fileNames, std::vector<std::string>& fileNameInfos) = 0;
+
+public:
+  virtual bool MIKTEXTHISCALL OnProgress(unsigned level, const MiKTeX::Util::PathName& directory) = 0;
+};
+
+class MIKTEXNOVTABLE Fndb
+{
+public:
+  Fndb() = delete;
+
+public:
+  Fndb(const Fndb& other) = delete;
+
+public:
+  Fndb& operator=(const Fndb& other) = delete;
+
+public:
+  Fndb(Fndb&& other) = delete;
+
+public:
+  Fndb& operator= (Fndb&& other) = delete;
+
+public:
+  ~Fndb() = delete;
+
+public:
+  struct Record
+  {
+    MiKTeX::Util::PathName path;
+    std::string fileNameInfo;
+  };
+
+public:
+  static MIKTEXCORECEEAPI(bool) Create(const MiKTeX::Util::PathName& fndbPath, const MiKTeX::Util::PathName& rootPath, ICreateFndbCallback* callback);
+
+public:
+  static MIKTEXCORECEEAPI(bool) Create(const MiKTeX::Util::PathName& fndbPath, const MiKTeX::Util::PathName& rootPath, ICreateFndbCallback* callback, bool enableStringPooling, bool storeFileNameInfo);
+
+public:
+  static MIKTEXCORECEEAPI(bool) Search(const MiKTeX::Util::PathName& fileName, const std::string& pathPattern, bool all, std::vector<Record>& result);
+
+public:
+  static MIKTEXCORECEEAPI(void) Add(const std::vector<Record>& records);
+
+public:
+  static MIKTEXCORECEEAPI(void) Remove(const std::vector<MiKTeX::Util::PathName>& paths);
+
+public:
+  static MIKTEXCORECEEAPI(bool) FileExists(const MiKTeX::Util::PathName& path);
+
+public:
+  static MIKTEXCORECEEAPI(bool) Refresh(const MiKTeX::Util::PathName& path, ICreateFndbCallback* callback);
+
+public:
+  static MIKTEXCORECEEAPI(bool) Refresh(ICreateFndbCallback* callback);
+
+  static uint8_t* Create_nofile(const MiKTeX::Util::PathName& fndbPath, const MiKTeX::Util::PathName& rootPath, int& len);
+  static MIKTEXCORECEEAPI(void) ensure_file_exists();
+};
+
+MIKTEX_CORE_END_NAMESPACE;
+
+#endif

@@ -1,0 +1,32 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: aplt_leagor_khomelua-lib\n"
+"Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
+"POT-Creation-Date: 2026-07-03 14:28+0800\n"
+"PO-Revision-Date: 2026-07-03 14:29+0800\n"
+"Last-Translator: \n"
+"Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.9\n"
+
+#: lua/home.lua:28 lua/home.lua:82
+msgid "kHome Lua"
+msgstr "kHome Lua"
+
+#: lua/home.lua:38
+msgid "task^wokrout"
+msgstr "跟练"
+
+#: lua/home.lua:39
+msgid "Me"
+msgstr "我"
+
+#: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:1
+msgid "Open demo"
+msgstr "演示视频"

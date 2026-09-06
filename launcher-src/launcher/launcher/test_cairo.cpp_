@@ -1,0 +1,138 @@
+#include <cairo/cairo.h>
+#include <vector>
+#include <math.h>
+#include <stdio.h>
+#include <iomanip>
+#include "sdl_utils.hpp"
+#include <SDL_image.h>
+
+#include <zlib/zlib.h>
+
+// 压缩函数：将未压缩的输入字符串压缩为 std::string
+bool compress_string(const std::string& uncompress_str, std::string& compress_str) {
+    // 初始化zlib压缩流
+    z_stream zs;
+    zs.zalloc = Z_NULL;
+    zs.zfree = Z_NULL;
+    zs.opaque = Z_NULL;
+    
+    // 使用默认压缩级别（Z_DEFAULT_COMPRESSION = -1）
+    if (deflateInit(&zs, Z_DEFAULT_COMPRESSION) != Z_OK) {
+        return false;
+    }
+    
+    // 设置输入数据
+    zs.avail_in = uncompress_str.size();
+    zs.next_in = reinterpret_cast<Bytef*>(const_cast<char*>(uncompress_str.data()));
+    
+    // 预估输出缓冲区大小（压缩后通常不会比输入大太多，这里使用输入大小 + 0.1% + 12）
+    size_t output_size = compress_str.size();
+    if (output_size < uncompress_str.size() + 12) {
+        output_size = uncompress_str.size() + 12;
+    }
+    
+    compress_str.resize(output_size);
+    zs.avail_out = compress_str.size();
+    zs.next_out = reinterpret_cast<Bytef*>(&compress_str[0]);
+    
+    // 执行压缩
+    int ret = deflate(&zs, Z_FINISH);
+    
+    if (ret != Z_STREAM_END) {
+        deflateEnd(&zs);
+        return false;
+    }
+    
+    // 调整输出字符串到实际压缩后的大小
+    compress_str.resize(zs.total_out);
+    
+    // 清理
+    deflateEnd(&zs);
+    return true;
+}
+
+// 解压函数：将压缩的字符串解压为原始字符串
+bool uncompress_string(const std::string& compress_str, std::string& uncompress_str) {
+    // 初始化zlib解压流
+    z_stream zs;
+    zs.zalloc = Z_NULL;
+    zs.zfree = Z_NULL;
+    zs.opaque = Z_NULL;
+    
+    if (inflateInit(&zs) != Z_OK) {
+        return false;
+    }
+    
+    // 设置输入数据（压缩数据）
+    zs.avail_in = compress_str.size();
+    zs.next_in = reinterpret_cast<Bytef*>(const_cast<char*>(compress_str.data()));
+    
+    // 解压缓冲区大小（通常解压后比压缩前大，这里先猜测为输入大小的4倍）
+    const size_t CHUNK_SIZE = 1024 * 64; // 64KB 块大小
+    size_t output_size = compress_str.size() * 4; // 初始猜测
+    if (output_size < CHUNK_SIZE) {
+        output_size = CHUNK_SIZE;
+    }
+    
+    uncompress_str.clear();
+    
+    int ret;
+    do {
+        // 扩展输出缓冲区
+        uncompress_str.resize(uncompress_str.size() + CHUNK_SIZE);
+        zs.avail_out = uncompress_str.size() - zs.total_out;
+        zs.next_out = reinterpret_cast<Bytef*>(&uncompress_str[zs.total_out]);
+        
+        ret = inflate(&zs, Z_NO_FLUSH);
+        
+        if (ret != Z_OK && ret != Z_STREAM_END) {
+            inflateEnd(&zs);
+            return false;
+        }
+    } while (ret != Z_STREAM_END);
+    
+    // 调整到实际大小
+    uncompress_str.resize(zs.total_out);
+    
+    // 清理
+    inflateEnd(&zs);
+    return true;
+}
+
+int test_cairo()
+{
+    // 原始数据
+    std::string original = "Hello, this is a test string that will be compressed. "
+                           "Repeat: Hello, this is a test string that will be compressed. "
+                           "We want to see how well zlib compresses repeated patterns.";
+    
+    SDL_Log("Original size: %i bytes", (int)original.size());
+    SDL_Log("Original: %s", original.c_str());
+    
+    // 压缩
+    std::string compressed;
+    if (compress_string(original, compressed)) {
+        SDL_Log("Compressed size: %i bytes", (int)compressed.size());
+        SDL_Log("Compression ratio: %.2f%%", (double)compressed.size() / original.size() * 100);
+        
+        // 解压
+        std::string decompressed;
+        if (uncompress_string(compressed, decompressed)) {
+            SDL_Log("Decompressed size: %i bytes", (int)decompressed.size());
+            SDL_Log("Decompressed: %s", decompressed.c_str());
+            
+            // 验证
+            if (original == decompressed) {
+                SDL_Log("Success: Original and decompressed strings match!");
+            } else {
+                SDL_Log("Error: Strings do not match!");
+            }
+        } else {
+            SDL_Log("Failed to decompress!");
+        }
+    } else {
+        SDL_Log("Failed to compress!");
+    }
+    
+    return 0;
+}

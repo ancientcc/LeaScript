@@ -1,0 +1,5821 @@
+# This file is distributed under the same license as the Battle for Wesnoth package.
+# Automatically generated, 2005.
+# Dionysus <huang.wei.bhu@gmail.com>, 2007.  (unicon)
+# sylecn <sylecn@yahoo.com.cn>, 2009.
+# CloudiDust <cloudidust@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rose-lib\n"
+"Report-Msgid-Bugs-To: http://bugs.wesnoth.org/\n"
+"POT-Creation-Date: 2026-09-03 13:53+0800\n"
+"PO-Revision-Date: 2026-09-03 13:54+0800\n"
+"Last-Translator: ancientcc <ancientcc@leagor.com>\n"
+"Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Bookmarks: -1,-1,-1,3,-1,-1,-1,-1,-1,-1\n"
+"X-Generator: Poedit 3.9\n"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:1
+msgid ""
+"<italic>text='Castles'</italic> are any sort of permanent fortification.\n"
+"Nearly all units receive a considerable bonus to their defense by being "
+"stationed in a castle, and most units receive full movement in a castle. "
+"Stationing units in a castle represents its defensive capability. Without a "
+"unit in each wall hex, an enemy can simply sneak into the castle "
+"unchallenged, gaining the same defensive bonus as everyone inside.\n"
+"\n"
+"Most units have about 60% defense "
+msgstr "f"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:6
+msgid ""
+"<italic>text='Cave'</italic> terrain represents any underground cavern with "
+"enough room for a unit to pass.\n"
+"Most units are wholly unfamiliar with the terrain, and thus are both slowed "
+"down and hindered in defense. Dwarves and trolls, who make their homes in "
+"caves, both have a relatively easy time navigating this terrain, especially "
+"dwarves, who by dint of their small size can navigate many obstacles that "
+"other races cannot. Occasionally caves are "
+"<ref>dst='terrain_illuminated_cave' text='illuminated'</ref>.\n"
+"\n"
+"Rare patches of the underground world are illuminated by light from the "
+"surface shining down into the gloomy darkness. This provides an attack bonus "
+"for lawful units and removes the attack bonus from chaotic units. In all "
+"other regards this terrain is functionally identical to normal "
+"<ref>dst='terrain_cave' text='cave terrains'</ref>.\n"
+"\n"
+"Most units receive 20 to 40% defense in caves, where"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:13
+msgid ""
+"<italic>text='Coastal reefs'</italic> are shallows formed by stone, coral "
+"and sand.\n"
+"This provides most land units with a more steady footing and defensive "
+"positions than wading in shallow water normally would and also grants most "
+"water-dwelling races an exceptionally high defense.\n"
+"\n"
+"Mermen and Naga both receive 70% defense on co"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:18
+msgid ""
+"<italic>text='Deserts'</italic> have a somewhat different composition than "
+"small sand pits or beaches, however for gameplay purposes they are "
+"identical. See <ref>dst='terrain_sand' text='sand'</ref>."
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:20
+msgid ""
+"<italic>text='Forests'</italic> represent any woodland with significant "
+"undergrowth, enough to hinder passage. Though they slow nearly everyone "
+"down, forests do offer better defense to most units than open ground. "
+"Cavalry, however, have so much trouble navigating them that any benefit "
+"gained by stealth is negated. Elves are an exception to this general rule "
+"for forests. Not only do they possess full movement in forests, but they "
+"also gain a considerable defensive bonus. Dwarves are another exception to "
+"this rule; though they are able to plow through the forests without much "
+"loss of speed, their utter unfamiliarity with the terrain causes them to "
+"receive no defensive bonus.\n"
+"\n"
+"Most units have 50% defense in forests, but cavalry are limited to 30%. "
+"Elves, on the other hand, enjoy 60 to 70% defense, even their mounted units. "
+"Dwarves generally receive only 30% defense in "
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:24
+msgid ""
+"<italic>text='Frozen'</italic> terrain represents any flat area that is "
+"covered by snow or ice.\n"
+"Most units are slowed down on it, and have a harder time defending "
+"themselves. Note that swimming units, even those who can breathe underwater, "
+"cannot swim underneath ice.\n"
+"\n"
+"Most units have 20 to 40% defense in fro"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:29
+msgid ""
+"<italic>text='Grassland'</italic> represents open plains, whether "
+"cultivated, cut back for grazing, or wild.\n"
+"Being open ground, grassland is both very easy to move across, but is also "
+"difficult to defend oneself in. Typically, those units that perform best on "
+"grassland are either cavalry, or very agile units which take advantage of "
+"the open space.\n"
+"\n"
+"Most units have defense of 30 to 40% o"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:34
+msgid ""
+"<italic>text='Hills'</italic> represent any reasonably rough terrain,\n"
+"with enough dips and rises in the ground to provide some cover. Hills are "
+"difficult for most troops to navigate. Dwarves, trolls, and orcs have enough "
+"familiarity with the terrain that they can pass through it without being "
+"slowed down. Cavalry have enough trouble navigating the terrain that any "
+"defensive aid lent by cover is negated.\n"
+"\n"
+"Most units have about 50% defense in hills, whereas cavalry are limited to "
+"40%. Dwarves enjoy 60% defen"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:39
+msgid ""
+"<italic>text='Mountains'</italic> are steep enough that units often have to "
+"climb over obstacles to move. By this nature, they provide a considerable "
+"defensive bonus for most troops, but they also severely impede any passage "
+"through them. Most cavalary simply cannot enter mountainous terrain; "
+"however, elvish cavalry is an exception to this, as are the goblin wolf "
+"riders. Both dwarves and trolls re native to mountainous terrain, and have a "
+"very easiy time getting around.\n"
+"\n"
+"Most units receive about 60% defense in mountains, whereas Dwarves en"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:43
+msgid ""
+"<italic>text='Mushroom groves'</italic> are vast underground forests of "
+"giant mushrooms,\n"
+"which thrive in the damp darkness. Most units have trouble negotiating the "
+"spongy floor of smaller fungi, but they have plenty of cover behind the "
+"larger stalks. Mounted units, however, become completely mired and lack "
+"proper freedom of movement in combat. Undead units have a natural affinity "
+"for decay and function quite well in mushroom forests.\n"
+"\n"
+"Most units receive 50% to 60% defense in mushroom groves, whereas cavalry "
+"recei"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:48
+msgid ""
+"<italic>text='Rails'</italic> are used to transport ore. By Dwarfs. Mostly."
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:50
+msgid ""
+"<italic>text='Roads'</italic> are beaten paths of dirt, formed by many "
+"travelers passing over them. As far as gameplay is concerned, roads behave "
+"as flat terrain."
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:52
+msgid ""
+"<italic>text='Rockbound cave'</italic> terrain is formed by the action of "
+"water and wind, carrying erosive particles that carve the rock. It resembles "
+"a scraggy underground cavern which reduces efficiency of most units, but "
+"shoulders defense. Dwarves and trolls, who are main settlers of caves, have "
+"a relatively easy time navigating this terrain. Dwarves, who by dint of "
+"their small size have the full advantage of navigation in such topography. "
+"Occasionally caves are <ref>dst='terrain_illuminated_cave' "
+"text='illuminated'</ref>\n"
+"\n"
+"Most units have about 50% defense in rocky caves, whereas cavalry are "
+"limited to 40%. Dwarves enjoy 60% defense in rockboun"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:56
+msgid ""
+"<italic>text='Submerged villages'</italic> are the homes of merfolk and "
+"nagas. While water-dwelling creatures are at home here, land-dwellers have a "
+"hard time navigating and defending these villages. However, like any "
+"village, the facilites are available to all creatures which allow units to "
+"tend to their wounds. Any unit stationed in a village can heal eight "
+"hitpoints each turn, or be cured of poison.\n"
+"\n"
+"Merfolk and nagas have 60% defense in submerged villages, whereas land based "
+"units usually have a low "
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:60
+msgid ""
+"<italic>text='Swamps'</italic> represent any sort of wetlands.\n"
+"Swamps slow down nearly everyone, and inhibit their ability to defend "
+"themselves. An exception to this is any race bodily skilled in navigating "
+"water; these receive both full movement and a defensive bonus. Those that "
+"make their living in the wetlands are also adept at using this terrain for "
+"cover.\n"
+"\n"
+"Most units make do with 30% defense in swamps. Mermen, naga, and saurians "
+"all generall"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:65
+msgid ""
+"<italic>text='Unwalkable terrain'</italic> covers any chasm or gorge which, "
+"as the name implies, cannot be crossed simply by walking. Chasms are noted "
+"for sheer walls which would take days to traverse. As far as gameplay is "
+"concerned, only units capable of flying can cross this terrain."
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:67
+msgid ""
+"<italic>text='Villages'</italic> represent any group of buildings, human or "
+"otherwise.\n"
+"Almost all units, even cavalry, have an easy time navigating villages, and "
+"most units gain a defensive bonus from being stationed in a village. "
+"Villages allow units the resources to clean and tend to their wounds, which "
+"allows any unit stationed therein to heal eight hitpoints each turn, or to "
+"be cured of poison.\n"
+"\n"
+"Most units have 50 to 60% defense in villages, whereas cavalry recei"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:72
+msgid "Abandoned Mine"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:74
+msgid "Adobe Village"
+msgstr "泥砖村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:76
+msgid "Altar"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:78
+msgid "Ankh Necklace"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:80
+msgid "Anvil"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:82
+msgid "Archery Target"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:84
+msgid "Armor"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:86
+msgid "Axe"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:88
+msgid "Bale of Straw"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:90
+msgid "Barrel"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:92
+msgid "Basic Stone Bridge"
+msgstr "基本的石桥"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:94
+msgid "Basic Wooden Floor"
+msgstr "基本的木地面"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:96
+msgid "Beach Sands"
+msgstr "海滩沙砾"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:98
+msgid "Beam of Light"
+msgstr "光束"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:100
+msgid "Blue Ball"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:102
+msgid "Blue Potion"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:104
+msgid "Bomb"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:106
+msgid "Bones"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:108
+msgid "Bonestack"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:110
+msgid "Book"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:112
+msgid "Bow"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:114
+msgid "Box"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:116
+msgid "Brazier"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:118
+msgid "Bridge"
+msgstr "桥梁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:120
+msgid "Brown Ring"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:122
+msgid "Buckler"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:124
+msgid "Burial"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:126
+msgid "Burned Human Village"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:128
+msgid "Cage"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:130
+msgid "Campfire"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:132
+msgid "Castle"
+msgstr "城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:134
+msgid "Castle Overlay"
+msgstr "主楼覆盖层"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:136
+msgid "Castle Ruins"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:138
+msgid "Cave"
+msgstr "洞穴"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:140
+msgid "Cave Chasm Bridge"
+msgstr "洞穴裂缝上的桥"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:142
+msgid "Cave Floor"
+msgstr "洞穴地面"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:144
+msgid "Cave Path"
+msgstr "洞穴小径"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:146
+msgid "Cave Village"
+msgstr "洞穴村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:148
+msgid "Cave Wall"
+msgstr "洞穴墙壁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:150
+msgid "Chasm"
+msgstr "裂隙"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:152
+msgid "Chest"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:154
+msgid "Clean Gray Cobbles"
+msgstr "干净的灰色卵石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:156
+msgid "Closed Coffin"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:158
+msgid "Closed Dwarven Doors"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:160
+msgid "Closed Plain Chest"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:162
+msgid "Closed Trapdoor"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:164
+msgid "Coastal Reef"
+msgstr "礁石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:166
+msgid "Cottage"
+msgstr "小农舍"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:168
+msgid "Crater"
+msgstr "火山口"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:170
+msgid "Crystal Bow"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:172
+msgid "Dark Dirt"
+msgstr "暗色尘土"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:174
+msgid "Dark Flagstones"
+msgstr "暗色石子路"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:176
+msgid "Dead Great Tree"
+msgstr "已死的参天大树"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:178
+msgid "Deep Water"
+msgstr "深水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:180
+#, fuzzy
+msgid "Dense Palm Forest"
+msgstr "松林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:182
+msgid "Desert"
+msgstr "沙漠"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:184
+msgid "Desert Castle"
+msgstr "沙漠城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:186
+msgid "Desert Impassable Mountains"
+msgstr "沙漠中的高不可攀的山脉"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:188
+msgid "Desert Keep"
+msgstr "沙漠主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:190
+msgid "Desert Plants"
+msgstr "沙漠植物"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:192
+msgid "Desert Plants without Bones"
+msgstr "没有茎干的沙漠植物"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:194
+msgid "Desert Sands"
+msgstr "沙漠沙砾"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:196
+msgid "Desert Tent Village"
+msgstr "沙漠中的帐篷村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:198
+msgid "Dirt"
+msgstr "尘土"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:200
+msgid "Dragon Statue"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:202
+msgid "Drake Village"
+msgstr "龙人村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:204
+msgid "Dry Dirt"
+msgstr "干燥尘土"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:206
+msgid "Dry Grass"
+msgstr "干草"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:208
+msgid "Dry Hills"
+msgstr "干燥丘陵"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:210
+msgid "Dry Mountains"
+msgstr "干燥山脉"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:212
+msgid "Dunes"
+msgstr "沙丘"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:214
+msgid "Dwarven Castle"
+msgstr "矮人城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:216
+msgid "Dwarven Castle Keep"
+msgstr "矮人的城堡主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:218
+msgid "Dwarven Village"
+msgstr "矮人村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:220
+msgid "Earthy Cave Floor"
+msgstr "泥土洞穴地面"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:222
+msgid "Earthy Chasm"
+msgstr "泥土裂隙"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:224
+msgid "Economy area"
+msgstr "经济区"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:226
+msgid "Elven Bow"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:228
+msgid "Elven Castle Keep"
+msgstr "精灵城堡主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:230
+msgid "Elven Village"
+msgstr "精灵村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:232
+msgid "Elvish Castle"
+msgstr "精灵城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:234
+msgid "Empty Nest"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:236
+msgid "Encampment"
+msgstr "营地"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:238
+msgid "Encampment Keep"
+msgstr "营地主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:240
+msgid "Ethereal Abyss"
+msgstr "无底深渊"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:242
+msgid "Evil Altar"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:244
+msgid "Experimental Fake Map Edge"
+msgstr "试验性的伪地图边缘"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:246
+msgid "Fall Deciduous Forest"
+msgstr "秋季落叶林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:248
+msgid "Fall Mixed Forest"
+msgstr "秋季混交林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:250
+msgid "Fancy Red Tent"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:252
+msgid "Fancy Spear"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:254
+msgid "Farmland"
+msgstr "农场"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:256
+msgid "Fence"
+msgstr "篱笆"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:258
+msgid "Flames"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:260
+msgid "Flaming Sword"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:262
+msgid "Flat"
+msgstr "平原"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:264
+msgid "Flower"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:266
+msgid "Flowering Water Lilies"
+msgstr "盛开的睡莲"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:268
+msgid "Fog"
+msgstr "战争迷雾"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:270
+msgid "Ford"
+msgstr "浅滩"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:272
+msgid "Forest"
+msgstr "森林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:274
+msgid "Frozen"
+msgstr "雪地"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:276
+msgid "Full Nest"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:278
+msgid "Fungus"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:280
+msgid "Glowing Magic Circle"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:282
+msgid "Glowing Rune"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:284
+msgid "Go Here Overlay"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:286
+msgid "Golden Armor"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:288
+msgid "Golden Ring"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:290
+msgid "Grain Sheaf"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:292
+msgid "Grassland"
+msgstr "草原"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:294
+msgid "Gray Coastal Reef"
+msgstr "灰色礁石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:296
+msgid "Gray Deep Water"
+msgstr "灰色深水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:298
+msgid "Gray Potion"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:300
+msgid "Gray Shallow Water"
+msgstr "灰色浅水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:302
+msgid "Great Tree"
+msgstr "参天大树"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:304
+msgid "Green Ball"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:306
+msgid "Green Cloak"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:308
+msgid "Green Grass"
+msgstr "绿草"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:310
+msgid "Green Potion"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:312
+msgid "Hanging Bridge"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:314
+msgid "Hewn Cave Wall"
+msgstr "粗糙的洞穴墙壁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:316
+msgid "Hex Line NW-SE"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:318
+msgid "Hex Line SE-NW"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:320
+msgid "Hill Stone Village"
+msgstr "山石村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:322
+msgid "Hills"
+msgstr "丘陵"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:324
+msgid "Holy Water"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:326
+msgid "Human Castle"
+msgstr "人类城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:328
+msgid "Human Castle Keep"
+msgstr "人类城堡主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:330
+msgid "Human City"
+msgstr "人类城市"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:332
+msgid "Hut"
+msgstr "小屋"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:334
+msgid "Ice"
+msgstr "冰面"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:336
+msgid "Ice Pack"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:338
+msgid "Igloo"
+msgstr "圆顶屋"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:340
+msgid "Impassable"
+msgstr "不可通过地形"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:342
+msgid "Impassable Overlay"
+msgstr "不可通过地形覆盖层"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:344
+msgid "Items"
+msgstr ""
+
+# i'd like to translate it as城堡主楼
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:346
+msgid "Keep"
+msgstr "主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:348
+msgid "Keep Overlay"
+msgstr "主楼覆盖层"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:350
+msgid "Key"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:352
+msgid "Large Pile of Gold Coins"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:354
+msgid "Lava"
+msgstr "熔岩"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:356
+msgid "Lava Chasm"
+msgstr "熔岩裂口"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:358
+msgid "Leaf Litter"
+msgstr "残败的落叶"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:360
+msgid "Lean-to"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:362
+msgid "Leaning Oak"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:364
+msgid "Leather Pack"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:366
+msgid "Lighthouse"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:368
+msgid "Lit"
+msgstr "光照"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:370
+msgid "Lit Mushroom Grove"
+msgstr "被照亮的蘑菇林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:372
+msgid "Lit Stone Wall"
+msgstr "被照亮的石墙"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:374
+msgid "Log Cabin"
+msgstr "小木屋"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:376
+msgid "Magenta Ball"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:378
+msgid "Magic Circle"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:380
+msgid "Magic Staff"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:382
+msgid "Mausoleum"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:384
+msgid "Medium Coastal Reef"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:386
+msgid "Medium Deep Water"
+msgstr "中等深水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:388
+msgid "Medium Shallow Water"
+msgstr "中等浅水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:390
+msgid "Merfolk Village"
+msgstr "人鱼村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:392
+msgid "Mine Rail"
+msgstr "矿中铁轨"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:394
+msgid "Mixed Flowers"
+msgstr "多种鲜花"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:396
+msgid "Monolith"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:398
+msgid "Mountains"
+msgstr "山岭"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:400
+msgid "Muddy Quagmire"
+msgstr "泥泞的沼泽"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:402
+msgid "Mushroom Farm"
+msgstr "蘑菇林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:404
+msgid "Mushroom Grove"
+msgstr "蘑菇林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:406
+msgid "Natural Cave Wall"
+msgstr "普通的洞穴墙壁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:408
+msgid "Natural Earthy Cave Wall"
+msgstr "天然的泥土洞穴墙壁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:410
+msgid "Oasis"
+msgstr "绿洲"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:412
+msgid ""
+"Obstacles that not even the most determined traveler may overcome include "
+"solid walls of stone and mountains so tall and steep that they are "
+"constantly wreathed in cloud. Even flying creatures cannot navigate the "
+"jagged peaks at such rarified heights, and not even the fiercest troll can "
+"smash through thick walls of stone."
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:414
+msgid "Off Map"
+msgstr "地图之外"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:416
+msgid "Open Plain Chest"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:418
+msgid "Open Trapdoor"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:420
+msgid "Orcish Castle"
+msgstr "兽人城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:422
+msgid "Orcish Flag"
+msgstr ""
+
+# i'd like to translate it as城堡主楼
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:424
+msgid "Orcish Keep"
+msgstr "兽人主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:426
+msgid "Orcish Village"
+msgstr "兽人村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:428
+msgid "Ornate"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:430
+msgid "Overgrown Cobbles"
+msgstr "杂草丛生的卵石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:432
+#, fuzzy
+msgid "Palm Forest"
+msgstr "松林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:434
+msgid "Pile of Gold Coins"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:436
+msgid "Piles of Snow"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:438
+msgid "Pine Forest"
+msgstr "松林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:440
+msgid "Pine Tree"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:442
+#, fuzzy
+msgid "Plank Bridge"
+msgstr "桥梁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:444
+msgid "Poison"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:446
+msgid "Radius 1 Hex"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:448
+msgid "Radius 2 Hex"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:450
+msgid "Rails"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:452
+#, fuzzy
+msgid "Rainforest"
+msgstr "松林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:454
+msgid "Red Potion"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:456
+msgid "Red Ring"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:458
+msgid "Regular Chasm"
+msgstr "普通裂隙"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:460
+msgid "Regular Cobbles"
+msgstr "普通卵石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:462
+msgid "Regular Dirt"
+msgstr "普通尘土"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:464
+msgid "Regular Hills"
+msgstr "普通丘陵"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:466
+msgid "Regular Impassable Mountains"
+msgstr "普通的高不可攀的山脉"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:468
+msgid "Regular Mountains"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:470
+msgid "Reinforced Earthy Cave Wall"
+msgstr "加固的泥土洞穴墙壁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:472
+msgid "Road"
+msgstr "道路"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:474
+msgid "Rock"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:476
+msgid "Rock Cairn"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:478
+msgid "Rockbound Cave"
+msgstr "岩石洞穴"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:480
+msgid "Rotting Bridge"
+msgstr "腐坏中的桥梁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:482
+msgid "Rubble"
+msgstr "碎石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:484
+msgid "Ruined Castle"
+msgstr "荒废的城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:486
+msgid "Ruined Cottage"
+msgstr "荒废的小农舍"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:488
+msgid "Ruined Desert Castle"
+msgstr "荒废的沙漠城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:490
+msgid "Ruined Desert Keep"
+msgstr "荒废的沙漠主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:492
+msgid "Ruined Hill Stone Village"
+msgstr "荒废的山石村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:494
+msgid "Ruined Human Castle"
+msgstr "荒废的人类城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:496
+msgid "Ruined Human Castle Keep"
+msgstr "荒废的人类城堡主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:498
+msgid "Ruined Human City"
+msgstr "荒废的人类城市"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:500
+msgid "Ruined Keep"
+msgstr "荒废的主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:502
+msgid "Ruined Tent"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:504
+msgid "Rune"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:506
+msgid "Runic Hammer"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:508
+msgid "Rusty Gate South East"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:510
+msgid "Rusty Gate South West"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:512
+msgid "Sand"
+msgstr "沙地"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:514
+msgid "Sands"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:516
+msgid "Savanna"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:518
+msgid "Scarecrow"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:520
+msgid "Scenery"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:522
+msgid "Sceptre of Fire"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:524
+msgid "Semi-dry Grass"
+msgstr "半干的草"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:526
+msgid "Shallow Water"
+msgstr "浅水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:528
+msgid "Shipwreck"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:530
+msgid "Shroud"
+msgstr "战场黑幕"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:532
+msgid "Signpost"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:534
+msgid "Silver Ring"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:536
+msgid "Single Hex"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:538
+msgid "Slab"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:540
+msgid "Small Mushrooms"
+msgstr "小蘑菇"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:542
+msgid "Small Pile of Gold Coins"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:544
+msgid "Snow"
+msgstr "雪地"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:546
+msgid "Snow Hills"
+msgstr "雪丘"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:548
+msgid "Snowy Cottage"
+msgstr "雪中小农舍"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:550
+msgid "Snowy Deciduous Forest"
+msgstr "雪地落叶林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:552
+msgid "Snowy Elven Village"
+msgstr "雪中的精灵村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:554
+msgid "Snowy Encampment"
+msgstr "雪中营地"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:556
+msgid "Snowy Encampment Keep"
+msgstr "雪中的营地主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:558
+msgid "Snowy Hill Stone Village"
+msgstr "雪中的山石村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:560
+msgid "Snowy Human Castle"
+msgstr "雪中的人类城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:562
+msgid "Snowy Human Castle Keep"
+msgstr "雪中的人类城堡主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:564
+msgid "Snowy Human City"
+msgstr "雪中的人类城市"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:566
+msgid "Snowy Hut"
+msgstr "雪中的小屋"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:568
+msgid "Snowy Impassable Mountains"
+msgstr "雪中的高不可攀的山脉"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:570
+msgid "Snowy Log Cabin"
+msgstr "雪中的小木屋"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:572
+msgid "Snowy Mixed Forest"
+msgstr "雪地混交林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:574
+msgid "Snowy Mountains"
+msgstr "积雪覆盖的山脉"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:576
+msgid "Snowy Orcish Castle"
+msgstr "雪中的兽人城堡"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:578
+msgid "Snowy Orcish Keep"
+msgstr "雪中的兽人主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:580
+msgid "Snowy Orcish Village"
+msgstr "雪中的兽人村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:582
+msgid "Snowy Pine Forest"
+msgstr "雪松林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:584
+msgid "Staff"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:586
+#, fuzzy
+msgid "Stone Chasm Bridge"
+msgstr "桥梁"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:588
+msgid "Stone Tablet"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:590
+msgid "Stone Wall"
+msgstr "石墙"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:592
+msgid "Stones"
+msgstr "石头"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:594
+msgid "Stones with Sand Drifts"
+msgstr "积沙岩石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:596
+msgid "Storm Trident"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:598
+msgid "Summer Deciduous Forest"
+msgstr "夏季落叶林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:600
+msgid "Summer Mixed Forest"
+msgstr "夏季混交林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:602
+msgid "Summoning Center"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:604
+msgid "Summoning Circle"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:606
+msgid "Sunken Human Castle Keep"
+msgstr "沉陷的人类城堡主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:608
+msgid "Sunken Human Ruin"
+msgstr "沉陷的人类废墟"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:610
+msgid "Swamp"
+msgstr "沼泽"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:612
+msgid "Swamp Human Castle Keep"
+msgstr "沼泽中的人类城堡主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:614
+msgid "Swamp Human Ruin"
+msgstr "沼泽中的人类废墟"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:616
+msgid "Swamp Village"
+msgstr "沼泽村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:618
+msgid "Swamp Water Reed"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:620
+msgid "Sword"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:622
+msgid "Tall Encampment Keep"
+msgstr "高耸的营地主楼"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:624
+msgid "Temple"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:626
+msgid "Tent Village"
+msgstr "帐篷村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:628
+msgid ""
+"The dangers inherent in trying to walk on <italic>text='lava'</italic> are "
+"fairly obvious. As far as movement is concerned, lava is equivalent to "
+"<ref>dst='terrain_unwalkable' text='unwalkable'</ref> terrain, and can only "
+"be crossed by those units capable of flying a considerable distance above "
+"it. The molten magma also produces a substantial glow, illuminating the area "
+"immediately above it. This provides an attack bonus for lawful units and "
+"removes the attack bonus from chaotic units."
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:630
+msgid ""
+"The instability of <italic>text='sand'</italic> makes it harder for most "
+"units to cross, and leaves them wide open to attack. In contrast, the wide "
+"feet or snakelike bodies of the reptilian races make sand much easier for "
+"them to navigate.\n"
+"\n"
+"Most units receive 20 to 40% defense "
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:634
+msgid "Trash Pile"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:636
+msgid "Tropical Coastal Reef"
+msgstr "热带礁石"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:638
+msgid "Tropical Deep Water"
+msgstr "热带深水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:640
+msgid "Tropical Forest"
+msgstr "热带森林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:642
+msgid "Tropical Shallow Water"
+msgstr "热带浅水"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:644
+msgid "Tropical Village"
+msgstr "热带村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:646
+msgid "Unwalkable"
+msgstr "不可步行地形"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:648
+#, fuzzy
+msgid "Unwalkable Overlay"
+msgstr "不可通过地形"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:650
+#: apps-src/apps/librose/terrain.cpp:154
+msgid "Village"
+msgstr "村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:652
+msgid "Village Overlay"
+msgstr "村庄覆盖层"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:654
+msgid "Void"
+msgstr "空"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:656
+msgid "Volcano"
+msgstr "火山"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:658
+msgid "Water Lilies"
+msgstr "睡莲"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:660
+msgid "Weapons Shop Tent"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:662
+msgid "Well"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:664
+msgid ""
+"When a river happens to be extremely shallow, passing over it is a trivial "
+"matter for land based units. Moreover, any creature best adapted to swimming "
+"has full mobility even at such places in the river. As far as gameplay is "
+"concerned, a river ford is treated as either grassland or shallow water, "
+"choosing whichever one offers the best defensive and movement bonuses for "
+"the unit on it."
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:666
+msgid "Whirlpool"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:668
+msgid "White Ring"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:670
+msgid "Windmill"
+msgstr "风车"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:672
+msgid "Windmill Village"
+msgstr "风车村庄"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:674
+msgid "Winter Deciduous Forest"
+msgstr "冬季落叶林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:676
+msgid "Winter Mixed Forest"
+msgstr "东季混交林"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:678
+msgid "Wooden Bridge"
+msgstr "木桥"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:680
+msgid "Wooden Floor"
+msgstr "木质地面"
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:682
+msgid "Yellow Potion"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:684
+msgid "all"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:686
+msgid "bridge"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:688
+msgid "castle"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:690
+msgid "cave"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:692
+msgid "desert"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:694
+msgid "embellishments"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:696
+msgid "fall"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:698
+msgid "flat"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:700
+msgid "forest"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:702
+msgid "frozen"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:704
+msgid "obstacle"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:706
+msgid "restriction summary of editing siege map"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:708
+msgid "rough"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:710
+msgid "special"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:712
+msgid "village"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/data.cpp:714
+msgid "water"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:1
+msgid "Actions"
+msgstr "行动"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:3
+msgid "Attack"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:5
+msgid "Call stack"
+msgstr "调用栈"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:7
+msgid "Callee"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:9
+msgid "Caller"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:11
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1948
+#: apps-src/apps/librose/gui/dialogs/edit_box.cpp:44
+#: apps-src/apps/librose/gui/dialogs/messagefs.cpp:36
+msgid "Cancel"
+msgstr "取消"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:13
+msgid "Change language"
+msgstr "改变语言"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:15
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:402
+#: apps-src/apps/librose/lobby.cpp:978
+msgid "Chat"
+msgstr "聊天"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:17
+msgid "Choose your preferred language:"
+msgstr "选择你偏好的语言："
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:19
+msgid "City"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:21
+msgid "Clear"
+msgstr "清空"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:23
+#: apps-src/apps/librose/base_instance.cpp:1434
+msgid "Close"
+msgstr "关闭"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:25
+#, fuzzy
+#| msgid "Recommend"
+msgid "Comment"
+msgstr "推荐"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:27
+msgid "Connect"
+msgstr "连接"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:29
+msgid "Continue"
+msgstr "继续"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:31
+msgid "Crusage for subcontinent"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:33
+msgid "DNN"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:35
+msgid "Date"
+msgstr "日期"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:37
+msgid "Device ID"
+msgstr "设备ID"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:39
+msgid "Discard"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:41
+msgid "Done"
+msgstr "完成"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:43
+msgid "Download"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:45
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:213
+msgid "Edit"
+msgstr "编辑"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:47
+msgid "Edit amp"
+msgstr "编辑放大"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:49
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:643
+msgid "Edit id"
+msgstr "编辑id"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:51
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:645
+msgid "Edit input vars"
+msgstr "编辑输入变量"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:53
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:644
+msgid "Edit name"
+msgstr "编辑名称"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:55
+msgid "Endurance"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:57
+msgid "Erase"
+msgstr "删除"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:59
+msgid "Execution trace"
+msgstr "执行轨迹"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:61
+msgid "File name"
+msgstr "文件名"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:63
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1991
+msgid "Find"
+msgstr "查找"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:65
+msgid "Follow"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:67
+msgid "Formula debugger"
+msgstr "公式调试器"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:69
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:408
+msgid "Help"
+msgstr "帮助"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:71
+msgid "Hero"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:73
+msgid "I have read and agreed to agreement"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:75
+msgid "Install development"
+msgstr "安装内测版"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:77
+msgid "Join"
+msgstr "加入"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:79
+#: apps-src/apps/librose/base_instance.cpp:1391
+#: apps-src/apps/librose/base_instance.cpp:1400
+msgid "Language"
+msgstr "语言"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:81
+msgid "Left1"
+msgstr "左移1"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:83
+msgid "Limit followed"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:85
+msgid "Locate block"
+msgstr "定位区块"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:87
+#: apps-src/apps/librose/aplt_net.cpp:1312
+msgid "Login"
+msgstr "登录"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:89
+msgid "Login:"
+msgstr "账号："
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:91
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:433
+msgid "Logout"
+msgstr "退出登录"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:93
+msgid "Look over"
+msgstr "查看"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:95
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1780
+msgid "Maximum value"
+msgstr "最大值"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:97
+msgid "Min users"
+msgstr "最小成员数"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:99
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1778
+msgid "Minimum value"
+msgstr "最小值"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:101
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:105
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:815
+msgid "Model"
+msgstr "模型"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:103
+msgid "Multi select"
+msgstr "多选"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:105
+msgid "NPC"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:107
+msgid "Netowork diagnosis"
+msgstr "网络诊断"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:109
+msgid "New folder"
+msgstr "新建文件夹"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:111
+msgid "Next"
+msgstr "下一步"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:113
+msgid "Next operation"
+msgstr "下一个操作"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:115
+msgid "Nick when chat"
+msgstr "聊天时昵称"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:117
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:298
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:821
+#: apps-src/apps/librose/gui/dialogs/message.cpp:251
+#: apps-src/apps/librose/gui/dialogs/messagefs.cpp:35
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:705
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:1130
+#: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:192
+#: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:334
+#: apps-src/apps/librose/health_controller.cpp:5869
+msgid "OK"
+msgstr "确定"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:119
+msgid "Open"
+msgstr "打开"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:121
+msgid "Ownership"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:123
+msgid "Password:"
+msgstr "密码："
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:125
+#, fuzzy
+#| msgid "Player"
+msgid "Players"
+msgstr "玩家"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:127
+msgid "Quit"
+msgstr "退出"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:129
+#: apps-src/apps/librose/gui/dialogs/ocr_scene.cpp:33
+msgid "Recognize"
+msgstr "识别"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:131
+msgid "Register"
+msgstr "注册"
+
+#
+# register, config account
+#
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:133
+#: apps-src/apps/librose/lobby.cpp:1458
+msgid "Register, config account"
+msgstr "注册、设置账号"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:135
+msgid "Relay"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:137
+msgid "Repair"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:139
+msgid "Require test"
+msgstr "设为测试"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:141
+msgid "Return"
+msgstr "返回"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:143
+msgid "Right1"
+msgstr "右移1"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:145
+msgid "Save"
+msgstr "保存"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:147
+msgid "Save password to preferences (clear text)"
+msgstr "保存密码（明文）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:149
+msgid "Select item"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:151
+msgid "Send"
+msgstr "发送"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:153
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:685
+msgid "Space"
+msgstr "空格"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:155
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:239
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:612
+msgid "Start"
+msgstr "开始"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:157
+msgid "Step operation"
+msgstr "步进操作"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:159
+msgid "Step out"
+msgstr "步出"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:161
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:107
+msgid "Test"
+msgstr "测试"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:163
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:181
+msgid "Upgrade"
+msgstr "升级"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:165
+msgid "Upload"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:167
+msgid "Validate password"
+msgstr "确认密码"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:169
+msgid "Welcome"
+msgstr "欢迎"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:171
+msgid "file^Size"
+msgstr "大小"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:173
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:669
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:671
+msgid "ime^fullwidth"
+msgstr "全角"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:175
+msgid "misc/arrow_left.png"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:177
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1697
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1706
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1768
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:306
+msgid "object^Name"
+msgstr "名称"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:179
+msgid "rose__aplt template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:181
+msgid "rose__chat template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:183
+msgid "rose__chat_list template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:185
+msgid "rose__cswamp_login template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:187
+msgid "rose__input_view template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:189
+msgid "rose__keyboard template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:191
+msgid "rose__klink_base_scene template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:193
+msgid "rose__klink_env_var template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:195
+msgid "rose__progress_bar template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:197
+msgid "rose__statusbar template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:199
+msgid "rose__text_box2 template"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:201
+msgid "state"
+msgstr "状态"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:203
+msgid "text^Reset"
+msgstr "重置"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:205
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1752
+msgid "wko^phase, action_msg label"
+msgstr "动作提示"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:207
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1756
+msgid "wko^phase, cooldowned_ms label"
+msgstr "冷却时长（毫秒）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:209
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1754
+msgid "wko^phase, min_duration_ms label"
+msgstr "最小满足时长（毫秒）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:211
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1786
+msgid "wko^pose_legend label"
+msgstr "图例"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:213
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1742
+msgid "wko^rep_counter, max_count label"
+msgstr "最大计数（次）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:215
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1728
+msgid "wko^satisfied_threshold_s label"
+msgstr "满足提醒延迟（秒）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:217
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1749
+msgid "wko^task_speak, min_state_duration_s label"
+msgstr "最小状态时长（秒）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:219
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1745
+msgid "wko^task_speak, msgstr label"
+msgstr "语音提示"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:221
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1747
+msgid "wko^task_speak, repeat_s label"
+msgstr "重复间隔（秒）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:223
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1739
+msgid "wko^time_counter, max_count label"
+msgstr "最大计时（秒）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:225
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1714
+msgid "wko^unsatisfied_2th_threshold_s label"
+msgstr "不满足再次提醒延迟（秒）"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:227
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1712
+msgid "wko^unsatisfied_threshold_ms label"
+msgstr "满足到不满足延迟（毫秒）"
+
+#: apps-src/apps/external/3rdparty/aplt2.cpp:169
+msgid "Non-preemptive"
+msgstr "不可抢占"
+
+#: apps-src/apps/external/3rdparty/aplt2.cpp:172
+msgid "Recoverable"
+msgstr "可恢复"
+
+#: apps-src/apps/external/3rdparty/aplt2.cpp:478
+msgid "[Task absent]"
+msgstr "[任务不存在]"
+
+#: apps-src/apps/external/3rdparty/aplt2.cpp:482
+#: apps-src/apps/librose/base_instance.cpp:2490
+msgid "[Unloaded]"
+msgstr "[已卸载]"
+
+#: apps-src/apps/external/3rdparty/aplt_api.cpp:54
+msgid "Scene not created."
+msgstr "没有创建场景。"
+
+#: apps-src/apps/external/3rdparty/aplt_api.cpp:88
+msgid "Scene not found: $scene."
+msgstr "没找到场景：$scene"
+
+#: apps-src/apps/external/3rdparty/aplt_api.cpp:124
+msgid "No scenes available to suspend."
+msgstr "没有可挂起场景。"
+
+#: apps-src/apps/external/3rdparty/aplt_api.cpp:134
+msgid "No scenes available to resume."
+msgstr "没有可恢复运行场景。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1563
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1672
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1696
+msgid "%b %d %y"
+msgstr "%Y年%m月%d日"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1624
+msgid "$yearY$monM$dayD"
+msgstr "$year年$mon月$day日"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1627
+msgid "$monM$dayD"
+msgstr "$mon月$day日"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1630
+msgid "$dayD"
+msgstr "$day日"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1639
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1679
+msgid "%H:%M:%S"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1649
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1682
+msgid "YDAY %H:%M"
+msgstr "昨天 %H:%M"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1685
+msgid "DBY %H:%M"
+msgstr "前天 %H:%M"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1688
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1692
+msgid "%A, %H:%M"
+msgstr "%m月%d日 %H:%M"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1706
+msgid "%a %b %d %H:%M %Y"
+msgstr "%Y年%m月%d日，%H时%M分"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1760
+msgid "number $mday hour $hour min $min"
+msgstr "$mday日$hour时$min分"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1799
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2039
+msgid "$d days"
+msgstr "$d天"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1813
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1912
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2052
+msgid "time^h"
+msgstr "小时"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1829
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2067
+msgid "time^m2"
+msgstr "分钟"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1832
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1913
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2070
+msgid "time^m"
+msgstr "分"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1849
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1977
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2106
+msgid "time^s"
+msgstr "秒"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2128
+msgid "week^Mon"
+msgstr "周一"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2128
+msgid "Monday"
+msgstr "星期一"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2131
+msgid "week^Tues"
+msgstr "周二"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2131
+msgid "Tuesday"
+msgstr "星期二"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2134
+msgid "week^Wed"
+msgstr "周三"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2134
+msgid "Wednesday"
+msgstr "星期三"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2137
+msgid "week^Thurs"
+msgstr "周四"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2137
+msgid "Thursday"
+msgstr "星期四"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2140
+msgid "week^Fri"
+msgstr "周五"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2140
+msgid "Friday"
+msgstr "星期五"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2143
+msgid "week^Sat"
+msgstr "周六"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2143
+msgid "Saturday"
+msgstr "星期六"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2145
+msgid "week^Sun"
+msgstr "周日"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2145
+msgid "Sunday"
+msgstr "星期日"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2628
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:428
+msgid "Untitle"
+msgstr "未命名"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2654
+msgid "lmk^nose"
+msgstr "鼻子"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2655
+msgid "lmk^left_eye_inner"
+msgstr "左眼内侧"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2656
+msgid "lmk^left_eye"
+msgstr "左眼"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2657
+msgid "lmk^left_eye_outer"
+msgstr "左眼外侧"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2658
+msgid "lmk^right_eye_inner"
+msgstr "右眼内侧"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2659
+msgid "lmk^right_eye"
+msgstr "右眼"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2660
+msgid "lmk^right_eye_outer"
+msgstr "右眼外侧"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2661
+msgid "lmk^left_ear"
+msgstr "左耳"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2662
+msgid "lmk^right_ear"
+msgstr "右耳"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2663
+msgid "lmk^mouth_left"
+msgstr "嘴角左侧"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2664
+msgid "lmk^mouth_right"
+msgstr "嘴角右侧"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2665
+msgid "lmk^left_shoulder"
+msgstr "左肩"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2666
+msgid "lmk^right_shoulder"
+msgstr "右肩"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2667
+msgid "lmk^left_elbow"
+msgstr "左肘"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2668
+msgid "lmk^right_elbow"
+msgstr "右肘"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2669
+msgid "lmk^left_wrist"
+msgstr "左腕"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2670
+msgid "lmk^right_wrist"
+msgstr "右腕"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2671
+msgid "lmk^left_pinky"
+msgstr "左手小指"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2672
+msgid "lmk^right_pinky"
+msgstr "右手小指"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2673
+msgid "lmk^left_index"
+msgstr "左食指"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2674
+msgid "lmk^right_index"
+msgstr "右食指"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2675
+msgid "lmk^left_thumb"
+msgstr "左拇指"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2676
+msgid "lmk^right_thumb"
+msgstr "右拇指"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2677
+msgid "lmk^left_hip"
+msgstr "左髋"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2678
+msgid "lmk^right_hip"
+msgstr "右髋"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2679
+msgid "lmk^left_knee"
+msgstr "左膝"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2680
+msgid "lmk^right_knee"
+msgstr "右膝"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2681
+msgid "lmk^left_ankle"
+msgstr "左踝"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2682
+msgid "lmk^right_ankle"
+msgstr "右踝"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2683
+msgid "lmk^left_heel"
+msgstr "左脚跟"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2684
+msgid "lmk^right_heel"
+msgstr "右脚跟"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2685
+msgid "lmk^left_foot_index"
+msgstr "左脚趾"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2686
+msgid "lmk^right_foot_index"
+msgstr "右脚趾"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2689
+msgid "lmk^fake_center"
+msgstr "中心"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2690
+msgid "lmk^fake_tl"
+msgstr "左上角"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2691
+msgid "lmk^fake_tr"
+msgstr "右上角"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2692
+msgid "lmk^fake_br"
+msgstr "右下角"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2693
+msgid "lmk^fake_bl"
+msgstr "左下角"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2859
+msgid "Can not empty!"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2866
+msgid "At least $min characters!"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2871
+msgid "Can not be larger than $max characters!"
+msgstr "不能够超过$max个字符！"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2877
+msgid "First character can not empty!"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2881
+msgid "First character must be alpha!"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2886
+msgid "$str is reserved string!"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2893
+#: apps-src/apps/librose/serialization/string_utils.cpp:1281
+msgid "Contains invalid characters!"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2937
+msgid "Value must not be empty, and utf-8 format string."
+msgstr "值不能为空，且必须为UTF-8格式的字符串。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2939
+msgid "Value is empty, or utf-8 format string."
+msgstr "值或为空，或UTF-8格式字符串。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2941
+msgid "Value must be greater than 0."
+msgstr "值需要大于0。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2943
+msgid "Value must be greater than or equal to 0."
+msgstr "值需要大于等于0。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2945
+msgid "Value is empty, or greater than 0."
+msgstr "值或为空，或大于0。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2947
+msgid ""
+"Cannot be empty. Can only contain letters, numbers, and underscores, and "
+"must start with a letter."
+msgstr "不能为空。只能包含英文字母、数字和下划线，且必须以英文字母开头。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2949
+msgid "Open File"
+msgstr "打开文件"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2951
+msgid "from_no^Save File As"
+msgstr "将文件保存为"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2953
+msgid "Save File As"
+msgstr "将文件另存为"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2969
+msgid "Are you sure you want to delete $type '$name'?"
+msgstr "确定要删除$type|“$name”吗？"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2998
+msgid "The file format is invalid or corrupted."
+msgstr "该文件格式无效或已损坏。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3005
+msgid "load file fail. $type, $filename, $reason"
+msgstr ""
+"无法加载$type：$filename\n"
+"\n"
+"$reason"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3011
+msgid "load file fail. $type, $short_filename, $reason, $full_filename"
+msgstr ""
+"无法加载$type：$short_filename\n"
+"\n"
+"$reason路径：$full_filename"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3029
+msgid "$val range is [$min, $max]."
+msgstr "$val的取值范围为[$min, $max]。"
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:489
+msgid "tflite.source must not empty."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:503
+msgid "if tflite.source is image, it's first must not be '/'."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:507
+msgid "if tflite.source is image, must not contain '\\'."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:516
+msgid "Unknown tflite.source: "
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:526
+msgid "tflite.scenario must not empty."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:533
+msgid "tflite.scenario doesn't support object detect."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:546
+msgid "Unknown tflite.scenario: "
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:556
+msgid "tflite.color must not empty."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:572
+msgid "Unknown tflite.color: "
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:584
+msgid "tflite.tflite must be set."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:599
+msgid "tflite.width must be > 0."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:605
+msgid "tflite.height must be > 0."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_tflite.cpp:615
+msgid "tflite.kthreshold must be (0, 1)."
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/rose_var.cpp:1454
+msgid "The if block must have at least one branch."
+msgstr "if块至少得有一条分支。"
+
+#: apps-src/apps/external/3rdparty/rose_var.cpp:1466
+msgid ""
+"For $branch_index branch, it is not the last, and its judgment condition "
+"cannot be empty."
+msgstr "对第$branch_index条分支，它不是最后一条，它的判断条件不能是空。"
+
+#: apps-src/apps/external/3rdparty/rose_var.cpp:1471
+msgid "The last branch's judgment condition must be empty."
+msgstr "最后一条分支的判断条件必须是空。"
+
+#: apps-src/apps/external/3rdparty/rose_var.cpp:1482
+msgid ""
+"In $branch_index branch, for the first judgment on the condition, its "
+"logical operation must be empty."
+msgstr "在第$branch_index条分支，对条件的第一个判断，它的逻辑操作必须是空。"
+
+#: apps-src/apps/external/3rdparty/rose_var.cpp:1486
+msgid ""
+"In $branch_index branch, the $judge_index judgment of the condition, its "
+"logical operation cannot be empty."
+msgstr ""
+"在第$branch_index条分支，对条件的第$judge_index个判断，它的逻辑操作不能是空。"
+
+#: apps-src/apps/external/3rdparty/so_aplt_task_helper.cpp:77
+#: apps-src/apps/external/3rdparty/so_aplt_task_helper.cpp:189
+#: apps-src/apps/external/3rdparty/so_aplt_task_helper.cpp:277
+#: apps-src/apps/external/3rdparty/so_aplt_task_helper.cpp:391
+msgid "Unknonw task: $task"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkocamera_task.cpp:99
+#, fuzzy
+#| msgid "Invalid '$key' value, not accept empty"
+msgid "Input var($var)'s value cannot be empty"
+msgstr "无效“$key”值，不能是空"
+
+#: apps-src/apps/external/3rdparty/wkocamera_task.cpp:107
+msgid "Initialize mediapipe graph fail"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkocamera_task.cpp:306
+msgid "Use landscape mode, perpendicular to ground, rear camera on top."
+msgstr "设备横屏放置，垂直地面，并让后置摄像头朝上。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:235
+msgid "$number seconds remaining"
+msgstr "还有$number秒"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:566
+msgid "$time remaining"
+msgstr "还有$time"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1492
+msgid "Have the camera capture $landmark"
+msgstr "让摄像头拍到$landmark"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1699
+#, fuzzy
+#| msgid "state"
+msgid "State"
+msgstr "状态"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1708
+msgid "wko^is_setup label"
+msgstr "定位"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1710
+msgid "wko^debug_skip label"
+msgstr "调试跳过"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1716
+msgid "wko^unsatisfied_2th_msgstr label"
+msgstr "不满足再次提示语音"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1723
+msgid "Task"
+msgstr "任务"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1725
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1772
+msgid "Type"
+msgstr "类型"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1730
+msgid "wko^satisfied_msgstr label"
+msgstr "满足提示语音"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1733
+msgid "wko^time_counter, rule"
+msgstr "规则"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1736
+msgid "wko^time_counter, tone"
+msgstr "播报节奏"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1764
+msgid "wko^track_pose label"
+msgstr "姿态判断"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1770
+msgid "wko^phase_mask label"
+msgstr "阶段"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1774
+msgid "wko^operand_type label"
+msgstr "运算单元类型"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1776
+msgid "wko^landmarks label"
+msgstr "姿态点"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1782
+msgid "wko^pose_unsatisfied_msgstr label"
+msgstr "通用提示"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1784
+msgid "wko^pose_unsatisfied_rmax_msgstr label"
+msgstr "不满足最大值时的提示"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1827
+msgid "Value must be greater than '$that'"
+msgstr "值需要大于“$that”"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1923
+msgid "Invalid '$field'"
+msgstr "“$field”不符合要求"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1927
+msgid "Invalid '$field'. $note"
+msgstr "“$field”不符合要求。$note"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1959
+msgid "At least one of the minimum or maximum values must be set."
+msgstr "最小值或最大值，至少得设置一个。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1964
+msgid "The maximum value must be greater than the minimum value."
+msgstr "最大值必须大于最小值。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1992
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1999
+msgid "For $field, both min and max must be set simultaneously."
+msgstr "对$field，必须同时设置最小值、最大值。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2021
+msgid "For non-pose state, must not exist pose."
+msgstr "对非姿态状态，不能含有姿态判断。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2028
+msgid "For pose state, at least one pose must exist."
+msgstr "对姿态状态，至少存在一个姿态判断。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2033
+msgid "Setup can only be the first pose state."
+msgstr "定位只能是第一个姿态状态。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2120
+msgid "Each operand needs to be set with at least one landmark."
+msgstr "每个运算单元都需要设置至少一个姿态点。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2125
+msgid "For the selected type, each operand needs to have two landmark set."
+msgstr "对选择的类型，每个运算单元都需要设置两个姿态点。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2146
+msgid ""
+"When only one voice is required, just set the '$generic', no need to "
+"configure the '$max'."
+msgstr "当仅需一种提示时，只需配置“$generic”，无需设置“$max”。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2177
+msgid "In $number phase, $msg"
+msgstr "在计次任务的第$number个阶段，$msg"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2184
+msgid "In $number pose, $msg"
+msgstr "在第$number个姿态判断，$msg"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2431
+msgid "Satisfied"
+msgstr "满足"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2432
+msgid "Unsatisfied"
+msgstr "不满足"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2442
+msgid "wko^tasktype_speak"
+msgstr "语音"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2443
+msgid "wko^tasktype_time_counter"
+msgstr "计时"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2444
+msgid "wko^tasktype_rep_counter"
+msgstr "计次"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2471
+msgid "wko^timerule_total"
+msgstr "固定总时长"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2472
+msgid "wko^timerule_satisfied"
+msgstr "纯满足时长"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2473
+msgid "wko^timerule_strict"
+msgstr "严格满足时长"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2478
+msgid "wko^timetone_full"
+msgstr "逐秒全报"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2479
+msgid "wko^timetone_split"
+msgstr "首尾密集报时"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2480
+msgid "wko^timetone_silent"
+msgstr "静默计时"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2485
+#: apps-src/apps/librose/cairo2.cpp:3260
+msgid "Left"
+msgstr "左侧"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2486
+#: apps-src/apps/librose/cairo2.cpp:3265
+msgid "Right"
+msgstr "右侧"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2487
+msgid "Other"
+msgstr "其它"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2493
+msgid "wko^posemetric_body_tilt_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2495
+msgid "wko^posemetric_header_tilt_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2497
+msgid "wko^posemetric_left_upper_arm_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2499
+msgid "wko^posemetric_right_upper_arm_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2501
+msgid "wko^posemetric_left_elbow_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2503
+msgid "wko^posemetric_right_elbow_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2505
+msgid "wko^posemetric_left_forearm_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2507
+msgid "wko^posemetric_right_forearm_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2509
+msgid "wko^posemetric_left_wrist_on_right_shoulder"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2511
+msgid "wko^posemetric_right_wrist_on_left_shoulder"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2513
+msgid "wko^posemetric_left_thigh_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2515
+msgid "wko^posemetric_right_thigh_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2517
+msgid "wko^posemetric_left_knee_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2519
+msgid "wko^posemetric_right_knee_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2521
+msgid "wko^posemetric_left_lower_leg_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2523
+msgid "wko^posemetric_right_lower_leg_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2525
+#, fuzzy
+#| msgid "wko^pose_legend label"
+msgid "wko^posemetric_left_leg_angle"
+msgstr "图例"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2527
+msgid "wko^posemetric_right_leg_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2529
+msgid "wko^posemetric_right_hip_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2531
+msgid "wko^posemetric_right_torso_angle"
+msgstr ""
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2763
+msgid "At least one state is required."
+msgstr "至少得有一个状态。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2782
+msgid "State names cannot be duplicated."
+msgstr "状态名必须全局唯一。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2794
+msgid "The last state cannot enable '$field'."
+msgstr "最后一个状态不能开启“$field”。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3247
+msgid "Action script"
+msgstr "动作脚本"
+
+#: apps-src/apps/external/chromium/net/server/tcp_client_rose.cc:671
+msgid "Connect to $host"
+msgstr "连接$host"
+
+#: apps-src/apps/external/chromium/net/server/tcp_client_rose.cc:680
+msgid "In processing command"
+msgstr "正在处理"
+
+#: apps-src/apps/external/chromium/net/server/tcp_client_rose.cc:694
+#: apps-src/apps/external/chromium/net/url_request/url_request_http_job_rose.cc:144
+#: apps-src/apps/librose/gui/dialogs/message.cpp:275
+msgid "Error"
+msgstr "错误"
+
+#: apps-src/apps/external/chromium/net/server/tcp_client_rose.cc:695
+#: apps-src/apps/external/chromium/net/url_request/url_request_http_job_rose.cc:147
+msgid "[$err] $desc"
+msgstr "[$err] $desc"
+
+#: apps-src/apps/external/chromium/net/url_request/url_request_http_job_rose.cc:127
+msgid ""
+"Pending. Server did not response within specified time. Check that the port "
+"number or server address is spelled correctly."
+msgstr "指定时间内服务器没应答。请检查服务器地址和端口号是否拼写正确。"
+
+#: apps-src/apps/external/chromium/net/url_request/url_request_http_job_rose.cc:130
+msgid "Timed out"
+msgstr ""
+
+#: apps-src/apps/external/chromium/net/url_request/url_request_http_job_rose.cc:133
+#: apps-src/apps/external/chromium/net/url_request/url_request_http_job_rose.cc:137
+msgid "Can not connect to network. Please check if the Internet is connected."
+msgstr "无法连接到网络。请检查网络是否已连接。"
+
+#: apps-src/apps/external/chromium/net/url_request/url_request_http_job_rose.cc:141
+msgid ""
+"The IP address is unreachable. This usually means that there is no route to "
+"the specified host or network."
+msgstr "无法访问IP地址。这通常意味着没有通往指定主机或网络的路由。"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1122
+msgid "Paste $file fail, Cancel paste"
+msgstr "粘贴$file文件时失败，中止粘贴"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1126
+msgid "Create $directory fail, Cancel paste"
+msgstr "无法创建$directory目录，中止粘贴"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1129
+msgid "Get remote format fail, Cancel paste"
+msgstr "无法获取远程文件源信息，中止粘贴"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1133
+msgid "Paste $file fail, remote clipboard's content was changed. Cancel paste"
+msgstr "粘贴$file文件时失败，极可能是客户端的剪贴板内容发生改变。中止粘贴"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1137
+msgid "Paste $file fail, write fail, may be not enough space. Cancel paste"
+msgstr "粘贴$file文件时失败，极可能是没有足够存储空间。中止粘贴"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1150
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:122
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:405
+#: apps-src/apps/librose/gui/widgets/text_box.cpp:1947
+#: apps-src/apps/librose/gui/widgets/window.cpp:1523
+msgid "Copy"
+msgstr "复制"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1153
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:407
+#: apps-src/apps/librose/gui/widgets/text_box.cpp:1952
+#: apps-src/apps/librose/gui/widgets/window.cpp:1532
+msgid "Paste"
+msgstr "粘贴"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1158
+msgid ""
+"When pasting, please Must not switch $app to background, otherwise will "
+"cause $app to exit illegally"
+msgstr "粘贴时，请不要把$app切到后台，否则会导致$app非法退出"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1161
+msgid "Copy require select item. Paste require client copy item"
+msgstr "复制需要至少远择一项。粘贴需要Client先执行复制"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1164
+msgid "No client, cannot copy or paste"
+msgstr "没有Client，不能复制或粘贴"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/impl_cliprdr_kos.cpp:258
+msgid "Get clipboard format data"
+msgstr "获取剪贴板信息"
+
+#: apps-src/apps/external/freerdp/channels/cliprdr/impl_cliprdr_kos.cpp:426
+msgid "About remaining $time"
+msgstr "大约剩余$time"
+
+#: apps-src/apps/librose/aplt.cpp:151
+msgid "fakeid^Store"
+msgstr "商店"
+
+#: apps-src/apps/librose/aplt.cpp:153
+msgid "fakeid^Settings"
+msgstr "设置"
+
+#: apps-src/apps/librose/aplt.cpp:155
+msgid "fakeid^kLink"
+msgstr "kLink"
+
+#: apps-src/apps/librose/aplt.cpp:157
+msgid "fakeid^Speech"
+msgstr "语音命令"
+
+#: apps-src/apps/librose/aplt.cpp:159
+msgid "fakeid^Task"
+msgstr "任务"
+
+#: apps-src/apps/librose/aplt.cpp:161
+msgid "fakeid^Courseware"
+msgstr "课件"
+
+#: apps-src/apps/librose/aplt.cpp:163
+msgid "fakeid^Make script"
+msgstr "动作脚本"
+
+#: apps-src/apps/librose/aplt.cpp:165
+msgid "fakeid^Health"
+msgstr "健康"
+
+#: apps-src/apps/librose/aplt.cpp:167
+msgid "fakeid^Map"
+msgstr "地图"
+
+#: apps-src/apps/librose/aplt.cpp:169
+msgid "fakeid^Moveit"
+msgstr "机械臂"
+
+#: apps-src/apps/librose/aplt.cpp:171
+msgid "fakeid^DNN"
+msgstr "DNN"
+
+#: apps-src/apps/librose/aplt.cpp:173
+msgid "fakeid^Center"
+msgstr "中心"
+
+#: apps-src/apps/librose/aplt.cpp:175
+msgid "fakeid^Mic"
+msgstr "录音"
+
+#: apps-src/apps/librose/aplt.cpp:177
+msgid "fakeid^Explorer"
+msgstr "资源管理器"
+
+#: apps-src/apps/librose/aplt.cpp:180
+msgid "fakeid^Depth Camera"
+msgstr "深度相机"
+
+#: apps-src/apps/librose/aplt.cpp:180
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:360
+msgid "Camera"
+msgstr "相机"
+
+#: apps-src/apps/librose/aplt.cpp:189
+msgid "task^workout"
+msgstr "跟练"
+
+#: apps-src/apps/librose/aplt.cpp:198
+msgid "per^ble"
+msgstr "蓝牙"
+
+#: apps-src/apps/librose/aplt.cpp:199
+msgid "per^navigation"
+msgstr "导航"
+
+#: apps-src/apps/librose/aplt.cpp:200
+msgid "per^camera"
+msgstr "相机"
+
+#: apps-src/apps/librose/aplt.cpp:201
+msgid "per^moveit"
+msgstr "机械臂"
+
+#: apps-src/apps/librose/aplt.cpp:204
+msgid "keys^any_one"
+msgstr "任意一个"
+
+#: apps-src/apps/librose/aplt.cpp:205
+msgid "keys^all_match_and_order"
+msgstr "全部且按序"
+
+#: apps-src/apps/librose/aplt.cpp:206
+msgid "keys^all_match_no_order"
+msgstr "全部不按序"
+
+#: apps-src/apps/librose/aplt.cpp:212
+msgid "iotsrc^doorbell"
+msgstr "门铃"
+
+#: apps-src/apps/librose/aplt.cpp:213
+msgid "iotsrc^doorcontact"
+msgstr "门磁"
+
+#: apps-src/apps/librose/aplt.cpp:214
+msgid "iotsrc^ir_motion_sensor"
+msgstr "人体红外探测器"
+
+#: apps-src/apps/librose/aplt.cpp:215
+msgid "iotsrc^smoke_sensor"
+msgstr "烟雾报警器"
+
+#: apps-src/apps/librose/aplt.cpp:216
+msgid "iotsrc^gas_sensor"
+msgstr "燃气传感器"
+
+#: apps-src/apps/librose/aplt.cpp:217
+msgid "iotsrc^co_sensor"
+msgstr "一氧化碳传感器"
+
+#: apps-src/apps/librose/aplt.cpp:218
+msgid "iotsrc^water_leak_sensor"
+msgstr "水浸传感器"
+
+#: apps-src/apps/librose/aplt.cpp:219
+msgid "iotsrc^vibration_sensor"
+msgstr "振动传感器"
+
+#: apps-src/apps/librose/aplt.cpp:220
+msgid "iotsrc^infrated_emission_detector"
+msgstr "红外对射传感器"
+
+#: apps-src/apps/librose/aplt.cpp:221
+msgid "iotsrc^glass_break_detector"
+msgstr "玻璃破碎传感器"
+
+#: apps-src/apps/librose/aplt.cpp:222
+msgid "iotsrc^sos_button"
+msgstr "紧急按钮"
+
+#: apps-src/apps/librose/aplt.cpp:223
+msgid "iotsrc^remote_controller"
+msgstr "摇控器"
+
+#: apps-src/apps/librose/aplt.cpp:224
+msgid "iotsrc^keypad"
+msgstr "安防键盘"
+
+#: apps-src/apps/librose/aplt.cpp:226
+msgid "iotsrc^lamp"
+msgstr "灯"
+
+#: apps-src/apps/librose/aplt.cpp:227
+msgid "iotsrc^curtain"
+msgstr "窗帘"
+
+#: apps-src/apps/librose/aplt.cpp:245
+msgid "iotevt^pressdown"
+msgstr "按下"
+
+#: apps-src/apps/librose/aplt.cpp:247
+msgid "iotevt^pressup"
+msgstr "松开"
+
+#: apps-src/apps/librose/aplt.cpp:249
+msgid "iotevt^trigger"
+msgstr "触发"
+
+#: apps-src/apps/librose/aplt.cpp:251
+msgid "iotevt^open"
+msgstr "开"
+
+#: apps-src/apps/librose/aplt.cpp:253
+msgid "iotevt^close"
+msgstr "关"
+
+#: apps-src/apps/librose/aplt.cpp:263
+msgid "PRI-$priority"
+msgstr "优先级-$priority"
+
+#: apps-src/apps/librose/aplt.cpp:271
+msgid "vartype^bool"
+msgstr "布尔"
+
+#: apps-src/apps/librose/aplt.cpp:272
+msgid "vartype^integer"
+msgstr "整数"
+
+#: apps-src/apps/librose/aplt.cpp:273
+msgid "vartype^double"
+msgstr "浮点数"
+
+#: apps-src/apps/librose/aplt.cpp:274
+msgid "vartype^string"
+msgstr "字符串"
+
+#: apps-src/apps/librose/aplt.cpp:275
+msgid "vartype^tstring"
+msgstr "可翻译串"
+
+#: apps-src/apps/librose/aplt.cpp:276
+msgid "vartype^array"
+msgstr "数组"
+
+#: apps-src/apps/librose/aplt.cpp:284
+#, fuzzy
+#| msgid "function^sum desc"
+msgid "function^add desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:286
+#, fuzzy
+#| msgid "function^sum desc"
+msgid "function^sub desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:288
+#, fuzzy
+#| msgid "function^sum desc"
+msgid "function^mul desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:290
+#, fuzzy
+#| msgid "function^size desc"
+msgid "function^div desc"
+msgstr "计算指定数组的单元数。"
+
+#: apps-src/apps/librose/aplt.cpp:293
+#, fuzzy
+#| msgid "function^size desc"
+msgid "function^inv_bool desc"
+msgstr "计算指定数组的单元数。"
+
+#: apps-src/apps/librose/aplt.cpp:296
+msgid "function^size desc"
+msgstr "计算指定数组的单元数。"
+
+#: apps-src/apps/librose/aplt.cpp:298
+msgid "function^sum desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:300
+msgid "function^element desc"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:302
+msgid "function^join_element desc"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:304
+msgid "function^join_index desc"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:306
+msgid "function^join2_2element desc"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:309
+#, fuzzy
+#| msgid "function^sum desc"
+msgid "function^res_path desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:311
+#, fuzzy
+#| msgid "function^size desc"
+msgid "function^preferences_dir desc"
+msgstr "计算指定数组的单元数。"
+
+#: apps-src/apps/librose/aplt.cpp:314
+#, fuzzy
+#| msgid "function^sum desc"
+msgid "function^format_time_date desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:316
+msgid "function^format_elapse_hms desc"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:318
+#, fuzzy
+#| msgid "function^sum desc"
+msgid "function^is_speaking desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:320
+#, fuzzy
+#| msgid "function^sum desc"
+msgid "function^is_wko_task_finished desc"
+msgstr ""
+"计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
+"果是浮点类型，否则是整型。"
+
+#: apps-src/apps/librose/aplt.cpp:333
+msgid "bool^set_none"
+msgstr "不修改"
+
+#: apps-src/apps/librose/aplt.cpp:335
+msgid "bool^set_false"
+msgstr "改为false"
+
+#: apps-src/apps/librose/aplt.cpp:337
+msgid "bool^set_true"
+msgstr "改为true"
+
+#: apps-src/apps/librose/aplt.cpp:341
+msgid "op^var_exist"
+msgstr "存在变量"
+
+#: apps-src/apps/librose/aplt.cpp:343
+msgid "op^var_not_exist"
+msgstr "不存在变量"
+
+#: apps-src/apps/librose/aplt.cpp:346
+msgid "op^string_equal"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:349
+msgid "op^bool_equal"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:351
+msgid "op^bool_not_equal"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:354
+msgid "op^numerical_equal"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:356
+msgid "op^numerical_not_equal"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:358
+msgid "op^greater_than"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:360
+msgid "op^less_than"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:362
+msgid "op^greater_than_equal_to"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:364
+msgid "op^less_than_equal_to"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:369
+msgid "logic^and"
+msgstr "与"
+
+#: apps-src/apps/librose/aplt.cpp:371
+msgid "logic^or"
+msgstr "或"
+
+#: apps-src/apps/librose/aplt.cpp:374
+msgid "Charge"
+msgstr "充电"
+
+#: apps-src/apps/librose/aplt.cpp:375
+msgid "Currently in privacy protection state"
+msgstr "正处于隐私保护状态"
+
+#: apps-src/apps/librose/aplt.cpp:378
+msgid "Base driver"
+msgstr "底盘驱动"
+
+#: apps-src/apps/librose/aplt.cpp:380
+msgid "Laser driver"
+msgstr "雷达驱动"
+
+#: apps-src/apps/librose/aplt.cpp:382
+msgid "Moveit driver"
+msgstr "机械臂驱动"
+
+#: apps-src/apps/librose/aplt.cpp:384
+msgid "DCamera driver"
+msgstr "深度相机驱动"
+
+#: apps-src/apps/librose/aplt.cpp:386
+msgid "IoT driver"
+msgstr "IoT驱动"
+
+#: apps-src/apps/librose/aplt.cpp:388
+msgid "Speech driver"
+msgstr "语音驱动"
+
+#: apps-src/apps/librose/aplt.cpp:390
+msgid "AI driver"
+msgstr "AI驱动"
+
+#: apps-src/apps/librose/aplt.cpp:392
+msgid "Foreground applet"
+msgstr "前台小程序"
+
+#: apps-src/apps/librose/aplt.cpp:394
+msgid "Base2th applet"
+msgstr "底盘子任务小程序"
+
+#: apps-src/apps/librose/aplt.cpp:396
+msgid "Aiagent task applet"
+msgstr "AI代理小程序"
+
+#: apps-src/apps/librose/aplt.cpp:400
+msgid "Ing"
+msgstr "执行中"
+
+#: apps-src/apps/librose/aplt.cpp:401
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:615
+msgid "sts^Idle"
+msgstr "挂起"
+
+#: apps-src/apps/librose/aplt.cpp:402
+msgid "Preempted"
+msgstr "被抢占"
+
+#: apps-src/apps/librose/aplt.cpp:579
+msgid "No valid $field in $file"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:628
+msgid "The $app version is too low, can not run $aplt."
+msgstr ""
+"$app版本过低，无法运行小程序$aplt。\n"
+"解决办法：把App升级到最新版本。"
+
+#: apps-src/apps/librose/aplt.cpp:632
+msgid "The $aplt version is too low, can not run."
+msgstr ""
+"小程序$aplt版本过低，无法运行。\n"
+"解决办法：去商店，把小程序升级到最新版本。"
+
+#: apps-src/apps/librose/aplt.cpp:678
+msgid "'Map' window is displayed"
+msgstr "”地图“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:679
+msgid "'Settings' window is displayed"
+msgstr "”设置“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:680
+#, fuzzy
+#| msgid "'Map' window is displayed"
+msgid "'Trigger' window is displayed"
+msgstr "”地图“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:681
+msgid "'Task' window is displayed"
+msgstr "”任务“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:682
+msgid "'DNN' window is displayed"
+msgstr "”DNN“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:683
+msgid "'Moveit' window is displayed"
+msgstr "”机械臂“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:684
+#, fuzzy
+#| msgid "'Map' window is displayed"
+msgid "'Explorer' window is displayed"
+msgstr "”地图“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:685
+msgid "'Camera' window is displayed"
+msgstr "”相机“窗口正显示着"
+
+#: apps-src/apps/librose/aplt.cpp:687
+msgid "Network task is being performed"
+msgstr "正在执行网络任务"
+
+#: apps-src/apps/librose/aplt.cpp:693
+msgid "$reason, don't execute"
+msgstr "$reason，不执行"
+
+#: apps-src/apps/librose/aplt.cpp:788
+msgid "Built-in"
+msgstr "内置"
+
+#: apps-src/apps/librose/aplt.cpp:796
+msgid "Empty/Move"
+msgstr "空/用于只移动"
+
+#: apps-src/apps/librose/aplt.cpp:816
+msgid "desc^var_env_time"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:818
+msgid "desc^var_env_hour24_time"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:820
+msgid "desc^var_env_temperature"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:822
+msgid "desc^var_env_light"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:824
+msgid "desc^var_env_humidity"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:826
+msgid "desc^var_env_integer"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:828
+msgid "desc^var_env_bool"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:830
+msgid "desc^var_env_basesubtask_code"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:832
+msgid "desc^var_env_basesubtask_str"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:834
+msgid "desc^var_env_button_code"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:836
+msgid "desc^var_env_ocr_pen_code"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:838
+msgid "desc^var_env_ocr_pen_text"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:841
+msgid "desc^var_env_time_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:843
+msgid "desc^var_env_hour24_time1_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:845
+msgid "desc^var_env_temperature_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:847
+msgid "desc^var_env_light_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:849
+msgid "desc^var_env_humidity_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:851
+msgid "desc^var_env_integer_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:853
+msgid "desc^var_env_bool_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:855
+msgid "desc^var_env_hour24_time2_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:857
+msgid "desc^var_env_hour24_time3_last"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:860
+#, fuzzy
+#| msgid "keys^all_match_no_order"
+msgid "desc^var_last_matched_index"
+msgstr "全部不按序"
+
+#: apps-src/apps/librose/aplt.cpp:862
+msgid "desc^var_iot_device_id"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:864
+msgid "desc^var_iot_alias"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:868
+msgid "desc^ble_device_id"
+msgstr ""
+
+#: apps-src/apps/librose/aplt.cpp:893
+msgid "amp^1x"
+msgstr "不放大(1x)"
+
+#: apps-src/apps/librose/aplt.cpp:895
+msgid "amp^1_25x"
+msgstr "3米(1.25x)"
+
+#: apps-src/apps/librose/aplt.cpp:897
+msgid "amp^1_6x"
+msgstr "5米(1.6x)"
+
+#: apps-src/apps/librose/aplt.cpp:899
+msgid "amp^2x"
+msgstr "户外(2x)"
+
+#: apps-src/apps/librose/aplt.cpp:1040
+msgid "The applet to run requires $per permission, stop the task"
+msgstr "正运行的小程序需要$per权限，结束任务"
+
+#: apps-src/apps/librose/aplt.cpp:1051
+msgid ""
+"A bg task is running and it needs to be stopped first. Do you want to "
+"continue?"
+msgstr "有后台任务在运行，须要先停掉，要继续吗？"
+
+#: apps-src/apps/librose/aplt.cpp:1224
+msgid "timing^state_fresh"
+msgstr "等待执行"
+
+#: apps-src/apps/librose/aplt.cpp:1225
+msgid "timing^state_running"
+msgstr "执行中"
+
+#: apps-src/apps/librose/aplt.cpp:1226
+msgid "timing^state_finished_ok"
+msgstr "已结束，执行成功"
+
+#: apps-src/apps/librose/aplt.cpp:1227
+msgid "timing^state_finished_fail"
+msgstr "已结束，执行失败"
+
+#: apps-src/apps/librose/aplt.cpp:1228
+msgid "timing^state_finished_expired"
+msgstr "已结束，未执行"
+
+#: apps-src/apps/librose/aplt.cpp:1229
+msgid "timing^state_apltnotfound"
+msgstr "缺少小程序"
+
+#: apps-src/apps/librose/aplt.cpp:1230
+msgid "timing^state_verdismatch"
+msgstr "版本不匹配"
+
+#: apps-src/apps/librose/aplt.cpp:1984
+msgid "The execution takes too long and force to stop"
+msgstr "执行时间过长，强制结束。"
+
+#: apps-src/apps/librose/aplt.cpp:2228
+msgid "A apllet is running in the foreground"
+msgstr "有小程序正在前台运行"
+
+#: apps-src/apps/librose/aplt.cpp:2230
+#: apps-src/apps/librose/gui/dialogs/photo_selector.cpp:50
+msgid "Unknown"
+msgstr "未知"
+
+#: apps-src/apps/librose/aplt.cpp:2235
+msgid "Time has expired and cannot be executed. Possible reason: $reason"
+msgstr "时间过期，无法执行。可能原因：$reason"
+
+#: apps-src/apps/librose/aplt.cpp:2298
+#, fuzzy
+#| msgid "To enter $aplt, stop the task"
+msgid "To run a IoT or speech aplt task, stop the current one"
+msgstr "要进入“$aplt”，结束任务"
+
+#: apps-src/apps/librose/aplt.cpp:2518
+msgid "Second or later, don't navigation"
+msgstr "第二次或更多次执行，不导航"
+
+#: apps-src/apps/librose/aplt.cpp:2573
+msgid ""
+"Is running the same task, and it is the same priority, non-preemptive, and "
+"can not run this task."
+msgstr "正运行着一样任务，且是同优先级不可抢占，不能运行新任务。"
+
+#: apps-src/apps/librose/aplt.cpp:2587
+msgid ""
+"There is a task with a higher priority running, and can not run this task."
+msgstr "有更高优先级的任务在运行，不能运行新任务。"
+
+#: apps-src/apps/librose/aplt.cpp:2833
+msgid "The $times|th execution failed, wait for the next time"
+msgstr "第$times次执行失败，等待下一次"
+
+#: apps-src/apps/librose/aplt.cpp:3154
+msgid "Household"
+msgstr "家用"
+
+#: apps-src/apps/librose/aplt_net.cpp:95
+#, fuzzy
+#| msgid "Password"
+msgid "Password error"
+msgstr "密码"
+
+#: apps-src/apps/librose/aplt_net.cpp:100
+msgid "The version is too low, please upgrade $app."
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:238
+#: apps-src/apps/librose/aplt_net.cpp:325
+msgid "$url   Response is invalid json foramt"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:261
+msgid ""
+"method: $method\n"
+"$msg"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:306
+#: apps-src/apps/librose/aplt_net.cpp:314
+msgid "Unknown error."
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:352
+msgid "SHA1 fail. not enoth bytes for SHA1 verify"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:359
+msgid "SHA1 fail. verify data fail"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:475
+msgid "binary data length error"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:478
+msgid "rsp data length is too short"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:490
+msgid "Verify rsp data error"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:511
+msgid "Applet's settings.cfg is invalid"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:522
+msgid "Applet's rose version is invalid"
+msgstr "无效rose_version"
+
+#: apps-src/apps/librose/aplt_net.cpp:924
+#: apps-src/apps/librose/aplt_net.cpp:1071
+msgid "received data length is too short"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:927
+#: apps-src/apps/librose/aplt_net.cpp:1074
+msgid "received data length is too large"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:1614
+msgid "received data length isn't same as length that is written json-object"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:1845
+#, fuzzy
+#| msgid "Upgrade App"
+msgid "Upload App"
+msgstr "升级App"
+
+#: apps-src/apps/librose/aplt_net.cpp:1848
+#, fuzzy
+#| msgid "Upgrade pinyin pack"
+msgid "Upload pinyin pack"
+msgstr "升级拼音包"
+
+#: apps-src/apps/librose/aplt_net.cpp:1851
+msgid "Upload material pack"
+msgstr ""
+
+#: apps-src/apps/librose/aplt_net.cpp:1904
+msgid "Upgrade App"
+msgstr "升级App"
+
+#: apps-src/apps/librose/aplt_net.cpp:1907
+msgid "Upgrade pinyin pack"
+msgstr "升级拼音包"
+
+#: apps-src/apps/librose/aplt_net.cpp:1910
+#, fuzzy
+#| msgid "Upgrade pinyin pack"
+msgid "Upgrade material pack"
+msgstr "升级拼音包"
+
+#: apps-src/apps/librose/aplt_net.cpp:1914
+#, fuzzy
+#| msgid "Upgrade pinyin pack"
+msgid "Upgrade latex pack"
+msgstr "升级拼音包"
+
+#: apps-src/apps/librose/aplt_net.cpp:1936
+msgid "Version error. The version on the server is too low"
+msgstr "版本错误。服务器上版本过低"
+
+#: apps-src/apps/librose/aplt_net.cpp:1939
+msgid "Already the latest version"
+msgstr "已经是最新版本"
+
+#: apps-src/apps/librose/aplt_net.cpp:2005
+msgid "Failed to open the file to be written"
+msgstr "无法创建要写入的文件"
+
+#: apps-src/apps/librose/area_anim.cpp:216
+msgid "[$child] child, $child must has id attribute!"
+msgstr ""
+
+#: apps-src/apps/librose/area_anim.cpp:221
+msgid "[$child] child, $child must has [anim] child!"
+msgstr ""
+
+#: apps-src/apps/librose/area_anim.cpp:229
+msgid "[$child] child, WML defined $id, but cannot find corresponding code id!"
+msgstr ""
+
+#: apps-src/apps/librose/area_anim.cpp:230
+msgid "[$child] child, $id is defined repeatly!"
+msgstr ""
+
+#: apps-src/apps/librose/base_driver_core.cpp:102
+msgid "privacy^automatic enter protection $threshold"
+msgstr "如果持续$threshold没有远程桌面连着，自动进入隐私保护状态。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:109
+msgid "privacy^protect"
+msgstr "阻止蓝牙发现、远程桌面、以及小程序上传拍到图像。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:241
+msgid "Start base's subtask fail. $reason"
+msgstr "不能启动底盘子任务。$reason"
+
+#: apps-src/apps/librose/base_driver_core.cpp:282
+msgid ""
+"The applet cannot be '$aplt', because it would not provide 'camera' type "
+"tasks."
+msgstr "小程序不能是“$aplt”，因为它没有提供“相机”类型任务。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:284
+msgid "It requires the use of applet '$aplt', but the it is not installed."
+msgstr "不能启动任务“$task”。它需要用到小程序“$aplt”，可没有安装。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:290
+msgid ""
+"It needs to use task '$aplt_task' of applet '$aplt', which is installed, but "
+"does not have this task."
+msgstr ""
+"不能启动任务“$task”。它需要用到小程序“$aplt”的任务“$aplt_task”，此小程序是安"
+"装了，可没有该任务。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:295
+msgid "Desire task '$aplt_task' of applet '$aplt' isn't 'camera' type."
+msgstr "要执行小程序“$aplt”中任务“$aplt_task”，不是相机类型。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:310
+msgid "Cannot load applet '$aplt_task' located in *. so."
+msgstr "不能加载小程序任务“$aplt_task”所在的*.so"
+
+#: apps-src/apps/librose/base_driver_core.cpp:326
+msgid "Not implete 'aplt_create_task_api' method."
+msgstr "小程序没实现“aplt_create_task_api”方法。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:372
+msgid "Not implete aplt::tcamera_api object."
+msgstr "小程序没实现“aplt::tcamera_api”对象。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:630
+msgid "Don't start base's subtask. pref's base_scene_id is empty."
+msgstr "不启动底盘子任务，配置中的base_scene_id为空。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:638
+msgid "Start base's subtask fail. No available scenarios."
+msgstr "不能启动底盘子任务。没有可用场景。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:646
+msgid "Start base's subtask fail. No scene that id is $id."
+msgstr "不能启动底盘子任务。找不到id是“$id”的场景。"
+
+#: apps-src/apps/librose/base_driver_core.cpp:872
+msgid "The battery voltage is $level volts, please charge"
+msgstr "电池电压$level伏，请充电"
+
+#: apps-src/apps/librose/base_driver_core.cpp:889
+msgid ""
+"The battery voltage has not been received for a long time, check the base "
+"serial's connection"
+msgstr "已较长时间没收到电池电压，检查下底盘串口连接"
+
+#: apps-src/apps/librose/base_driver_core.cpp:914
+msgid "Base subtask has ended early, and the camera will enter a no task state"
+msgstr "底盘子任务提前结束，相机将进入无任务状态"
+
+#: apps-src/apps/librose/base_instance.cpp:325
+msgid "Can not find valid hero.dat in <data>/xwml"
+msgstr ""
+
+#: apps-src/apps/librose/base_instance.cpp:426
+msgid "$path contains illegal characters. Please use a pure english path."
+msgstr "$path这个目录名包含非法字符，请使用纯英文目录名。"
+
+#: apps-src/apps/librose/base_instance.cpp:786
+msgid "tokens^New"
+msgstr "新"
+
+#: apps-src/apps/librose/base_instance.cpp:1310
+msgid "Must set game_config::app"
+msgstr ""
+
+#: apps-src/apps/librose/base_instance.cpp:1311
+msgid "Must set game_config::app_channel"
+msgstr ""
+
+#: apps-src/apps/librose/base_instance.cpp:1340
+#: apps-src/apps/librose/config_cache.cpp:707
+msgid "Error loading game configuration files: '"
+msgstr ""
+
+#: apps-src/apps/librose/base_instance.cpp:1341
+#: apps-src/apps/librose/config_cache.cpp:707
+msgid "' (The game will now exit)"
+msgstr ""
+
+#: apps-src/apps/librose/base_instance.cpp:1427
+msgid "Exit fullscreen"
+msgstr "退出全屏"
+
+#: apps-src/apps/librose/base_instance.cpp:1427
+msgid "Enter fullscreen"
+msgstr "进入全屏"
+
+#: apps-src/apps/librose/base_instance.cpp:1431
+msgid "Change Resolution"
+msgstr "改变分辨率"
+
+#: apps-src/apps/librose/base_instance.cpp:1527
+msgid "Player"
+msgstr "玩家"
+
+#: apps-src/apps/librose/base_instance.cpp:1793
+msgid ""
+"A timing task is running. Do you want to stop the task and enter '$aplt'?"
+msgstr "有后台任务正在运行。要停止任务，从而进入“$aplt”吗？"
+
+#: apps-src/apps/librose/base_instance.cpp:1795
+msgid "To enter $aplt, stop the task"
+msgstr "要进入“$aplt”，结束任务"
+
+#: apps-src/apps/librose/base_instance.cpp:2099
+msgid "timing^It is time to execute"
+msgstr "开始执行"
+
+#: apps-src/apps/librose/base_instance.cpp:2128
+msgid "cpp task is finished"
+msgstr "cpp任务结束"
+
+#: apps-src/apps/librose/base_instance.cpp:2958
+msgid "The camera has not received an image for more than $duration"
+msgstr "相机已超过$duration没收到图像"
+
+#: apps-src/apps/librose/cairo2.cpp:3198
+msgid "Left+Right"
+msgstr "左 + 右"
+
+#: apps-src/apps/librose/cairo2.cpp:3199
+msgid "Left only"
+msgstr "只左侧"
+
+#: apps-src/apps/librose/cairo2.cpp:3200
+msgid "Right only"
+msgstr "只右侧"
+
+#: apps-src/apps/librose/cairo2.cpp:3255
+msgid "Phase $number"
+msgstr "阶段$number"
+
+#: apps-src/apps/librose/cairo2.cpp:3273
+msgid "Open image"
+msgstr "打开图像"
+
+#: apps-src/apps/librose/cairo2.cpp:3281
+msgid "Fake landmark"
+msgstr "伪姿态点"
+
+#: apps-src/apps/librose/cairo2.cpp:3298
+msgid "Clear selected"
+msgstr "清除选中"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2101
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2348
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2399
+msgid "Cann't find $file, or size must be <= 512K bytes"
+msgstr "找不到文件“$file”，或文件长度必须不超过512K字节。"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2106
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2353
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2404
+msgid "$file isn't utf-8 format"
+msgstr "$file内容不是utf-8格式"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2113
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2360
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2411
+msgid "Import failed. Not a valid WML format file"
+msgstr "导入失败。不是个有效WML格式式件"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2119
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2366
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2417
+msgid "Import failed. for $type_cfg, 'type' value must be $type"
+msgstr "导入失败。对$type_cfg，“type”值必须是$type"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2126
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1439
+#: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:217
+msgid "Empty"
+msgstr "空"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2127
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2151
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2171
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2177
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2183
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2194
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2205
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2211
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2222
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2228
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2234
+msgid "Import failed. In '$aplt_task', '$key' cannot be $value"
+msgstr "导入失败。在\"$aplt_task\"，“$key”值不是能“$value”"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2256
+msgid ""
+"Import failed. The number($task_count) of var_task is different from the "
+"number($sensor_count) of var_sensor."
+msgstr ""
+"导入失败。变量任务个数($task_count)，和变量定义个数($sensor_count)不一样。"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2272
+msgid ""
+"Import failed. The number($speech_count) of $speech type tasks is different "
+"from the number($sensor_count) of var_densor tasks"
+msgstr ""
+"导入失败。speech类型任务数目($speech_count)，和var_sensor数目($sensor_count)"
+"不一样"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2373
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2423
+msgid "Parse $file error"
+msgstr "解析文件“$file”失败"
+
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2377
+#: apps-src/apps/librose/cfg_cpp_api_core.cpp:2427
+msgid "There is no task in $file."
+msgstr "“$file”中没有任务"
+
+#: apps-src/apps/librose/display.cpp:63
+msgid "border_size should be between 0.0 and 0.5."
+msgstr ""
+
+#: apps-src/apps/librose/drivers_core.cpp:289
+msgid "Chosen '$drivervalue' as $drivername, but $ver_err"
+msgstr "选择了小程序“$drivervalue”作为$drivername，但是“$ver_err”"
+
+#: apps-src/apps/librose/drivers_core.cpp:293
+msgid "Chosen '$drivervalue' as $drivername, but can not open $libroseaplt"
+msgstr "选择了小程序“$drivervalue”作为$drivername，但不能打开“$libroseaplt”"
+
+#: apps-src/apps/librose/drivers_core.cpp:296
+msgid ""
+"Chosen '$drivervalue' as $drivername, but the driver did not implement "
+"method: $absence"
+msgstr ""
+"选择了小程序“$drivervalue”作为$drivername，但该驱动没有实现方法：$absence"
+
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:687
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:692
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:697
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:703
+msgid "Circle doesn't fit on canvas."
+msgstr ""
+
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:876
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:883
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:894
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:901
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:1297
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:1303
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:1323
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:1329
+msgid "Image doesn't fit on canvas."
+msgstr ""
+
+#: apps-src/apps/librose/gui/auxiliary/canvas.cpp:1148
+msgid "Text has a font size of 0."
+msgstr "字体大小是0。"
+
+#: apps-src/apps/librose/gui/auxiliary/event/distributor.cpp:277
+msgid ""
+"Must not popup new window during MOUSE_LEAVE. replace with app_OnMessage."
+msgstr ""
+"禁止在MOUSE_LEAVE处理例程新建窗口。若要创建，请用app_OnMessage机制去实现。"
+
+#: apps-src/apps/librose/gui/auxiliary/widget_definition.cpp:189
+#: apps-src/apps/librose/gui/auxiliary/window_builder.cpp:431
+msgid "No resolution defined."
+msgstr "分辨率未定义。"
+
+#: apps-src/apps/librose/gui/auxiliary/widget_definition/listbox.cpp:113
+#: apps-src/apps/librose/gui/auxiliary/widget_definition/report.cpp:113
+#: apps-src/apps/librose/gui/auxiliary/widget_definition/scroll_panel.cpp:74
+#: apps-src/apps/librose/gui/auxiliary/widget_definition/scroll_text_box.cpp:78
+#: apps-src/apps/librose/gui/auxiliary/widget_definition/tree.cpp:66
+#: apps-src/apps/librose/gui/auxiliary/window_builder.cpp:560
+#: apps-src/apps/librose/gui/auxiliary/window_builder/panel.cpp:52
+#: apps-src/apps/librose/gui/auxiliary/window_builder/toggle_panel.cpp:55
+msgid "No grid defined."
+msgstr "网格未定义。"
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder.cpp:92
+#: apps-src/apps/librose/gui/widgets/listbox.cpp:67
+msgid "Linked '$id' group has multiple definitions."
+msgstr "连接的“$id”组有重复定义。"
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder.cpp:585
+#: apps-src/apps/librose/gui/auxiliary/window_builder/listbox.cpp:53
+msgid "Linked '$id' group needs a 'fixed_width' or 'fixed_height' key."
+msgstr "连接的“$id”组需要“fixed_width”或“fixed_height”主键。"
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder.cpp:708
+msgid "A row must have a column."
+msgstr "每行至少要有一列。"
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder.cpp:709
+msgid "Number of columns differ."
+msgstr "列数不一致。"
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder/listbox.cpp:71
+#: apps-src/apps/librose/gui/auxiliary/window_builder/scroll_panel.cpp:59
+msgid "No list defined."
+msgstr "列表未定义。"
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder/listbox.cpp:74
+msgid "A 'list_definition' should contain one or tow row."
+msgstr ""
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder/slider.cpp:64
+msgid "The number of value_labels and values don't match."
+msgstr "value_labels （值标签）与 values (值) 数量不匹配。"
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder/stack.cpp:43
+msgid "No layer defined."
+msgstr ""
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder/tree.cpp:47
+msgid "No nodes defined for a tree view."
+msgstr ""
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder/tree.cpp:84
+msgid "[node]id 'root' is reserved for the implementation."
+msgstr ""
+
+#: apps-src/apps/librose/gui/auxiliary/window_builder/tree.cpp:88
+msgid "No node defined."
+msgstr "页面未定义"
+
+#: apps-src/apps/librose/gui/dialogs/browse.cpp:141
+msgid "My Document"
+msgstr "我的文档"
+
+#: apps-src/apps/librose/gui/dialogs/browse.cpp:143
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:190
+msgid "C:"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/browse.cpp:145
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:192
+msgid "Device"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/browse.cpp:147
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:195
+msgid "Sandbox"
+msgstr "沙盒"
+
+#: apps-src/apps/librose/gui/dialogs/browse.cpp:294
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:337
+#: apps-src/apps/librose/gui/widgets/window.cpp:1514
+msgid "Select"
+msgstr "选择"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:117
+msgid "Network"
+msgstr "网络"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:127
+msgid "Reply"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:132
+msgid "Face"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:137
+msgid "Part channel"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:142
+msgid "Part friend"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:147
+msgid "Explore"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:302
+msgid "Character encoding must be UTF-8!"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:413
+msgid "Invalid my nick"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:420
+msgid "Invalid peer nick"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:551
+msgid "You set $nick into $channel successfully!"
+msgstr "您已成功把$nick加入$channel！"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1313
+msgid "Remote video"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1346
+msgid "Local video"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1558
+msgid "Content is copied to clipboard"
+msgstr "内容已复到剪贴板"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1579
+msgid "Part"
+msgstr "退出"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1581
+msgid ""
+"After $part, you can not receive message from $channel. Do you want to $part?"
+msgstr "$part后，将不再接收从$channel发来的消息。确定要$part吗？"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:1598
+msgid "Do you want remove $nick from $channel?"
+msgstr "您真的要把$nick从$channel中移除吗？"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:2296
+msgid "Calling"
+msgstr "正在呼叫"
+
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:2303
+#: apps-src/apps/librose/gui/dialogs/chat.cpp:2371
+msgid "Call fail."
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:278
+msgid "$reason, trigger window: $id"
+msgstr "$reason。触发窗口：$id"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:397
+msgid "Zoom In"
+msgstr "放大"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:398
+msgid "Zoom Out"
+msgstr "缩小"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:399
+msgid "Default Zoom"
+msgstr "默认缩放比例"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:400
+msgid "Screenshot"
+msgstr "屏幕截图"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:401
+msgid "Map Screenshot"
+msgstr "地图屏幕截图"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:403
+msgid "Undo"
+msgstr "撤销"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:404
+msgid "Redo"
+msgstr "恢复"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:406
+#: apps-src/apps/librose/gui/widgets/text_box.cpp:1948
+msgid "Cut"
+msgstr "剪切"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:409
+msgid "System"
+msgstr "系统"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:511
+msgid "Defined $id conext menu, but not define same id report widget!"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:623
+msgid "Do you want to delete: $file"
+msgstr "确定要删除“$file”"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:627
+msgid "Do you want to delete these $count items"
+msgstr "确定要删除这$count个项目吗"
+
+#: apps-src/apps/librose/gui/dialogs/dialog.cpp:631
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:921
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:940
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:957
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:727
+msgid "Delete"
+msgstr "删除"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:161
+msgid "task^Workout"
+msgstr "跟练"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:162
+msgid "For '$workout' task, use auto-modify when editing ID and name."
+msgstr "对“$workout”任务，编辑ID、编辑名称时，使用自动修改。"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:239
+msgid "For variable name, the prefix '$prefix' is omitted when displayed here"
+msgstr "对变量名，这里显示时省去了前缀“$prefix”"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:284
+msgid "Scene name"
+msgstr "场景名称"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:291
+msgid "Lamp"
+msgstr "台灯"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:294
+msgid "scene_name remark, $scene_name, $filename"
+msgstr ""
+"场景名称将作为kLink配置文件名的一部分。举个例子，场景名称是“$scene_name”，那"
+"kLink配置文件名是“$filename”。"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:377
+msgid "Background task is running, and cannot be modified."
+msgstr "有后台任务正在运行，不能修改"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:414
+msgid "Supports up to $max base scenes"
+msgstr "最多支持$max种底盘场景"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:506
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:565
+msgid "Start fail"
+msgstr "启动失败"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:618
+msgid "Resume"
+msgstr "恢复"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:731
+msgid "Edit failed. Please set the input variable: 'file' first."
+msgstr "不能修改，需要先设置输入变量：file。"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:795
+msgid "Edit scene ID"
+msgstr "编辑场景ID"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:802
+msgid ""
+"Scene ID. Must be unique. Up to $max_chars characters, cannot contain "
+"Chinese."
+msgstr "场景ID。必须唯一。最多$max_chars个字符，不可以含中文。"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:805
+msgid "Edit scene name"
+msgstr "编辑场景名称"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:806
+msgid ""
+"Scene name. Must be unique. Up to $max_chars characters, including Chinese."
+msgstr "场景名称。必须唯一。最多$max_chars个字符，可以含中文。"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1003
+msgid "Variable"
+msgstr "变量"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1006
+msgid "remark^edit scene's input vars, $prefix"
+msgstr ""
+"一旦任务要开始执行，这些输入变量会自动赋给以下值。这里只须要输入短变量名，使"
+"用时会固定加上“$prefix”。"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1098
+msgid "Do you want scene '$name' to be idle?"
+msgstr "要让场景“$name”进入到挂起状态吗？"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1101
+msgid "Do you want to restore scene '$name' to working state?"
+msgstr "要把场景“$name”恢复到工作状态吗？"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1104
+msgid "Do you want to switch to scene '$name'?"
+msgstr "要切换到场景“$name”吗？"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1146
+msgid "Do you want to delete scene '$name'?"
+msgstr "要删除场景“$name”吗？"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1230
+msgid ""
+"In $dir, there are no $klink_cfg files that conform to the file name format"
+msgstr "在$dir下，没有符合文件名格式的$klink_cfg文件"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1243
+msgid "Buildin"
+msgstr "内置"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1263
+msgid "Import"
+msgstr "导入"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1267
+msgid ""
+"A bg task is running and it needs to be stopped first. Do you want to "
+"continue $action?"
+msgstr "有后台任务在运行，须要先停掉，要继续$action？"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1268
+msgid "To $action, stop the task"
+msgstr "要进入“$aplt”，结束任务"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1301
+msgid "$filename, do you want to overwrite a file with the same name?"
+msgstr "$filename，存在同名文件，要覆盖吗？"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1382
+msgid "Export finished. file: $file"
+msgstr "已导出到文件：$file"
+
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1417
+msgid "Not created"
+msgstr "未创建"
+
+#: apps-src/apps/librose/gui/dialogs/edit_box.cpp:97
+#: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:244
+msgid "Freq value"
+msgstr "常用值"
+
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:93
+#: apps-src/apps/librose/health_controller.cpp:2042
+msgid "Today"
+msgstr "今天"
+
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:94
+#: apps-src/apps/librose/health_controller.cpp:2044
+msgid "Yesterday"
+msgstr "昨天"
+
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:95
+msgid "The day before yesterday"
+msgstr "前天"
+
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:97
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:99
+msgid "$count days"
+msgstr "$count天"
+
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:166
+msgid "Watermark added to the bottom right corner of image"
+msgstr "添加在图片右下角的水印"
+
+#: apps-src/apps/librose/gui/dialogs/menu.cpp:355
+msgid "Total $items, display $list_rows"
+msgstr "总计$items项，列表显示$list_rows项"
+
+#: apps-src/apps/librose/gui/dialogs/message.cpp:256
+msgid "Yes"
+msgstr "是"
+
+#: apps-src/apps/librose/gui/dialogs/message.cpp:258
+msgid "No"
+msgstr "否"
+
+#: apps-src/apps/librose/gui/dialogs/ocr_scene.cpp:32
+msgid "Return to title"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/photo_selector.cpp:49
+msgid "Loading..."
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/progress.cpp:688
+msgid "Delete $file fail"
+msgstr "无法删除“$file”"
+
+#: apps-src/apps/librose/gui/dialogs/progress.cpp:695
+msgid "Deleting $file"
+msgstr "正在删除 $file"
+
+#: apps-src/apps/librose/gui/dialogs/rcamera.cpp:66
+msgid "Starting Camera"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:233
+#, fuzzy
+#| msgid "$items items"
+msgid "$count items"
+msgstr "$items个项目"
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:235
+msgid "space^Available"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:326
+msgid "Script"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:348
+msgid "$file (Abscent)"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:350
+msgid "$file (Invalid)"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:355
+msgid "tflits"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:366
+msgid "$png (Abscent)"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:375
+msgid "classifier"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:378
+msgid "obejct detect"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:381
+msgid "OCR"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:384
+msgid "plate recognition"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:399
+msgid "$width x $height x $color"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:400
+msgid "Model input"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:413
+msgid "kthreshold"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:921
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:940
+#: apps-src/apps/librose/gui/dialogs/rdnn.cpp:957
+#, fuzzy
+#| msgid "Do you want to delete these $count items"
+msgid "Do you want to delete $item from Documents?"
+msgstr "确定要删除这$count个项目吗"
+
+#: apps-src/apps/librose/gui/dialogs/rdnn_tflite_schema.cpp:134
+#: apps-src/apps/librose/gui/dialogs/rdnn_tflite_schema.cpp:321
+msgid "Builtin Operator"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:187
+#, fuzzy
+#| msgid "Username"
+msgid "UserData"
+msgstr "用户名"
+
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:632
+msgid "$items items"
+msgstr "$items个项目"
+
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:696
+msgid "Input floder name"
+msgstr "请输入文件夹名称"
+
+#: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:722
+msgid "Create $folder fail"
+msgstr "新建文件夹“$folder”失败"
+
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:81
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:271
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:293
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:327
+msgid "Username"
+msgstr "用户名"
+
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:93
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:197
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:281
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:304
+msgid "Password"
+msgstr "密码"
+
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:179
+msgid "login remark, $cswamp, launcher"
+msgstr ""
+"请上C洼($cswamp)注册账号。\n"
+"登录后，可上传机器人运行过程中产生的事件，以便客户端app可收到它们，像"
+"kDeskop。\n"
+"下载、升级小程序，可不必登录。 "
+
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:181
+msgid "login remark, $cswamp, kdesktop"
+msgstr ""
+"请上C洼($cswamp)注册账号。\n"
+"登录后，可获得机器人运行过程中产生的事件。\n"
+"下载、升级小程序，可不必登录。 "
+
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:198
+msgid "Cookie"
+msgstr ""
+
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:228
+msgid "logout remark, $cswamp, launcher"
+msgstr ""
+"一旦退出，将不能上传机器人运行过程中产生的事件。\n"
+"退出登录，不影响下载、升级小程序。 "
+
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:230
+msgid "logout remark, $cswamp, kdesktop"
+msgstr ""
+"一旦退出，将不能接收机器人运行过程中产生的事件。\n"
+"退出登录，不影响下载、升级小程序。 "
+
+#: apps-src/apps/librose/gui/dialogs/rqrcode.cpp:54
+msgid "Generate qrcode fail"
+msgstr "生成二维码失败"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:126
+msgid "applet^Delete"
+msgstr "移除"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:179
+msgid "Is using pinyin pack(V$version)"
+msgstr "正使用拼音包(V$version)"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:184
+msgid "No pinyin pack"
+msgstr "没有拼音包"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:185
+msgid "Install"
+msgstr "安装"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:236
+msgid "Store"
+msgstr "商店"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:251
+msgid "Recommend"
+msgstr "推荐"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:252
+msgid "Search"
+msgstr "搜索"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:253
+#: apps-src/apps/librose/lobby.cpp:429
+msgid "Me"
+msgstr "我"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:320
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:1127
+msgid "Install devel version applet"
+msgstr "安装内测版小程序"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:377
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:498
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:1078
+#, fuzzy
+#| msgid "Get applet"
+msgid "Find applet"
+msgstr "下载小程序"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:506
+msgid "The store does not have a applet bundleid is '$bundleid'."
+msgstr "商店没有一个Bundle ID是“$bundleid”的小程序。"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:526
+msgid "$aplt cannot be run in this app."
+msgstr "$aplt不能运行在这个app。"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:531
+msgid "Do you want to install applet: $aplt?"
+msgstr "确定要安装小程序：“$aplt”？"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:546
+msgid "cswamp(cswmap.com)"
+msgstr "C洼(cswmap.com)"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:548
+msgid ""
+"Visit the '$website' website, switch to the 'Applet' page, enter the applet "
+"to be downloaded, move the mouse to the 'Download' button, and the download "
+"QR code will be displayed."
+msgstr ""
+"访问“$website”网站，切到“小程序”页，进入要进下载的小程序，鼠标移动到“下载”按"
+"钮，会显示下载二维码。"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:659
+msgid "Get applet"
+msgstr "下载小程序"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:727
+msgid "Delete $aplt?"
+msgstr "移除“$aplt”？"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:930
+msgid "One driver to be uninstalled"
+msgstr "有驱动被卸载"
+
+#: apps-src/apps/librose/gui/dialogs/rstore.cpp:1106
+msgid ""
+"Installed is devel version, and once upgraded, it will become a "
+"distribution. Want to upgrade?"
+msgstr "已安装的是内测版，一旦升级，要变成发行版。要升级吗？"
+
+#: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:182
+msgid "New variable"
+msgstr "新建变量"
+
+#: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:183
+msgid "Alpha, digit, or '_'"
+msgstr "字母, 数字, 或“_”"
+
+#: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:357
+msgid "Do you want to delete variable($var)?"
+msgstr "要删除变量($var)吗？"
+
+#: apps-src/apps/librose/gui/dialogs/visual_layout.cpp:68
+msgid "If twinkle, it is stack, can click to switch layer."
+msgstr ""
+
+#: apps-src/apps/librose/gui/widgets/effect.cpp:174
+msgid "Refresh successfully"
+msgstr "刷新成功"
+
+#: apps-src/apps/librose/gui/widgets/grid.cpp:731
+msgid ""
+"Place grid($id) fail! It's parent widget: $parent\n"
+"\n"
+"Layout size that calcualted base best size and grow_factor: $layout_size\n"
+"Now recalculated best size: $best_size"
+msgstr ""
+"放置网格($id)失败！该网格的父控件：$parent\n"
+"\n"
+"根据标称尺寸和放大系数计算出的渲染尺寸：$layout_size\n"
+"实时计算出的标称尺寸：$best_size\n"
+"\n"
+"如果放置失败网格是stack控件的某个grid，请确保stack的渲染尺寸>=该grid的标称尺"
+"寸"
+
+#: apps-src/apps/librose/gui/widgets/helper.cpp:64
+msgid "Mandatory widget '$id' hasn't been defined."
+msgstr "必须的构件“$id”未定义。"
+
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:83
+msgid "ime^chinese"
+msgstr "中文"
+
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:86
+msgid "ime^tone all"
+msgstr "不限"
+
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:87
+msgid "ime^tone12"
+msgstr "声调12"
+
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:88
+msgid "ime^tone34"
+msgstr "声调34"
+
+#: apps-src/apps/librose/gui/widgets/keyboard.cpp:687
+msgid "ime^Chinese space"
+msgstr "全角空格"
+
+#: apps-src/apps/librose/gui/widgets/scroll_container.cpp:2190
+msgid "Pull down to refresh"
+msgstr "继续下拉，刷新内容"
+
+#: apps-src/apps/librose/gui/widgets/scroll_container.cpp:2218
+msgid "Stop pull to start refreshing"
+msgstr "该放手了，要刷新啦"
+
+#: apps-src/apps/librose/gui/widgets/settings.cpp:357
+msgid ""
+"Widget definition '$definition' doesn't contain the definition for '$id'."
+msgstr "构件定义“$definition”不包含“$id”的定义。"
+
+#: apps-src/apps/librose/gui/widgets/settings.cpp:470
+msgid "No gui defined."
+msgstr ""
+
+#: apps-src/apps/librose/gui/widgets/settings.cpp:540
+msgid "No state or draw section defined."
+msgstr "状态或绘制区域未定义。"
+
+#: apps-src/apps/librose/gui/widgets/tree_node.cpp:89
+msgid "Unknown builder id for tree view node."
+msgstr ""
+
+#: apps-src/apps/librose/gui/widgets/window.cpp:1132
+msgid "Failed to show a dialog, which doesn't fit on the screen."
+msgstr "无法显示对话框，屏幕大小不够。"
+
+#: apps-src/apps/librose/gui/widgets/window.cpp:1505
+msgid "Select all"
+msgstr "全选"
+
+#: apps-src/apps/librose/gui/widgets/window.cpp:1954
+msgid "twindow::show_keyboard, calculate best size fail"
+msgstr ""
+
+#: apps-src/apps/librose/gui/widgets/window.cpp:2053
+msgid "twindow::input_view_changed, calculate best size fail"
+msgstr ""
+
+#: apps-src/apps/librose/health.cpp:174 apps-src/apps/librose/health.cpp:183
+msgid "$count times"
+msgstr "$count次"
+
+#: apps-src/apps/librose/health_controller.cpp:277
+msgid "ID Inc \"$key\""
+msgstr "ID包含「$key」"
+
+#: apps-src/apps/librose/health_controller.cpp:285
+msgid "Workout records from the last $days days containing \"$key\""
+msgstr "近$days天包含「$key」的做操记录"
+
+#: apps-src/apps/librose/health_controller.cpp:343
+msgid "dunhao"
+msgstr "、"
+
+#: apps-src/apps/librose/health_controller.cpp:383
+msgid "The height of one line of Chinese text"
+msgstr "一行中文高度"
+
+#: apps-src/apps/librose/health_controller.cpp:385
+msgid "improper reason^all captured"
+msgstr "没拍到必须点"
+
+#: apps-src/apps/librose/health_controller.cpp:387
+msgid "improper reason^shoulder x in middle"
+msgstr "胸口没在相机中部"
+
+#: apps-src/apps/librose/health_controller.cpp:388
+msgid "improper reason^not too close"
+msgstr "靠太近"
+
+#: apps-src/apps/librose/health_controller.cpp:389
+msgid "improper reason^face not too crooked"
+msgstr "脸太歪"
+
+#: apps-src/apps/librose/health_controller.cpp:390
+msgid "improper reason^head not too low"
+msgstr "头太低"
+
+#: apps-src/apps/librose/health_controller.cpp:391
+msgid "improper reason^parallel not too crooked"
+msgstr "双肩太歪"
+
+#: apps-src/apps/librose/health_controller.cpp:394
+msgid "improper reason^head not too forward"
+msgstr "头太前倾"
+
+#: apps-src/apps/librose/health_controller.cpp:395
+msgid "improper reason^spine not too bending"
+msgstr "脊柱太弯"
+
+#: apps-src/apps/librose/health_controller.cpp:396
+msgid "improper reason^shoulder width not too broad"
+msgstr "双肩太宽"
+
+#: apps-src/apps/librose/health_controller.cpp:397
+msgid "improper reason^spine not too long"
+msgstr "脊柱太长"
+
+#: apps-src/apps/librose/health_controller.cpp:398
+msgid "improper reason^hip not too high"
+msgstr "腰太高"
+
+#: apps-src/apps/librose/health_controller.cpp:479
+msgid "Absent landmark(nan)"
+msgstr "缺少姿态点(nan)"
+
+#: apps-src/apps/librose/health_controller.cpp:480
+msgid "Absent landmark"
+msgstr "缺少姿态点"
+
+#: apps-src/apps/librose/health_controller.cpp:759
+msgid ""
+"Playback failed. The action script format used by this workout is too old "
+"and is no longer supported."
+msgstr "无法播放。此健身操使用的动作脚本格式过旧，已不再支持。"
+
+#: apps-src/apps/librose/health_controller.cpp:978
+msgid "posture^Sitting period"
+msgstr "就坐时段"
+
+#: apps-src/apps/librose/health_controller.cpp:983
+#: apps-src/apps/librose/health_controller.cpp:1077
+#: apps-src/apps/librose/health_controller.cpp:1260
+msgid "posture^Sitting duration"
+msgstr "就坐时长"
+
+#: apps-src/apps/librose/health_controller.cpp:988
+msgid "posture^Improper alert"
+msgstr "不端正提醒"
+
+#: apps-src/apps/librose/health_controller.cpp:993
+msgid "posture^Sedentary alert"
+msgstr "久坐提醒 "
+
+#: apps-src/apps/librose/health_controller.cpp:998
+msgid "posture^Workout"
+msgstr "做操"
+
+#: apps-src/apps/librose/health_controller.cpp:1060
+#: apps-src/apps/librose/health_display.cpp:70
+msgid "title^posture chart"
+msgstr "坐姿分析"
+
+#: apps-src/apps/librose/health_controller.cpp:1069
+msgid "posture^left_y_axis title"
+msgstr "就坐/不端正时长(分钟)"
+
+#: apps-src/apps/librose/health_controller.cpp:1073
+msgid "posture^right_y_axis title"
+msgstr "不端正各原因时长(分钟)/不端正提醒次数"
+
+#: apps-src/apps/librose/health_controller.cpp:1083
+#: apps-src/apps/librose/health_controller.cpp:1268
+msgid "posture^Improper duration"
+msgstr "不端正时长"
+
+#: apps-src/apps/librose/health_controller.cpp:1091
+#: apps-src/apps/librose/health_controller.cpp:1278
+msgid "posture^Improper alert count"
+msgstr "不端正提醒次数"
+
+#: apps-src/apps/librose/health_controller.cpp:1098
+msgid "posture^chart remak"
+msgstr "一次不端正可能是多个原因同时发生，因而各原因时长之和会超过不端正时长。"
+
+#: apps-src/apps/librose/health_controller.cpp:1239
+msgid "title^posture chart, $days"
+msgstr "近$days天坐姿"
+
+#: apps-src/apps/librose/health_controller.cpp:1252
+msgid "posture^left_y_axis title, days"
+msgstr "就坐/不端正时长"
+
+#: apps-src/apps/librose/health_controller.cpp:1256
+msgid "posture^right_y_axis title, days"
+msgstr "不端正提醒次数"
+
+#: apps-src/apps/librose/health_controller.cpp:1420
+msgid "title^workout chart, $days"
+msgstr "近$days天做操"
+
+#: apps-src/apps/librose/health_controller.cpp:1433
+#: apps-src/apps/librose/health_controller.cpp:1441
+#: apps-src/apps/librose/health_controller.cpp:1650
+#: apps-src/apps/librose/health_controller.cpp:1661
+msgid "workout^Workout duration"
+msgstr "做操时长"
+
+#: apps-src/apps/librose/health_controller.cpp:1437
+#: apps-src/apps/librose/health_controller.cpp:1460
+#: apps-src/apps/librose/health_controller.cpp:1654
+#: apps-src/apps/librose/health_controller.cpp:1681
+msgid "workout^Workout count"
+msgstr "做操次数"
+
+#: apps-src/apps/librose/health_controller.cpp:1656
+#: apps-src/apps/librose/health_controller.cpp:1691
+msgid "wko^Share workout count"
+msgstr "分享做操次数"
+
+#: apps-src/apps/librose/health_controller.cpp:1699
+msgid "wko^days workout summary chart remark"
+msgstr "点击柱子，可跳转到当天的第一组做操。"
+
+#: apps-src/apps/librose/health_controller.cpp:2276
+#: apps-src/apps/librose/health_controller.cpp:3961
+msgid "wko^Time segment"
+msgstr "计时分段"
+
+#: apps-src/apps/librose/health_controller.cpp:2278
+msgid "wko^Tow-phase rep"
+msgstr "计次二阶段"
+
+#: apps-src/apps/librose/health_controller.cpp:3750
+msgid "$number|-th"
+msgstr "第$number|次"
+
+#: apps-src/apps/librose/health_controller.cpp:3881
+msgid ""
+"wko^history, time_counter, has last, $days, $workouts, $duration_s, "
+"$last_ts, $last_duration"
+msgstr ""
+"累计打卡$days天，做操$workouts次，总时长$duration_s。上一次：$last_ts，时长"
+"$last_duration。"
+
+#: apps-src/apps/librose/health_controller.cpp:3883
+msgid "wko^history, time_counter, has last, $days, $workouts, $duration_s"
+msgstr "累计打卡$days天，做操$workouts次，总时长$duration_s。"
+
+#: apps-src/apps/librose/health_controller.cpp:3887
+msgid ""
+"wko^history, rep_counter, has last, $days, $workouts, $reps, $last_ts, "
+"$last_duration"
+msgstr ""
+"累计打卡$days天，做操$workouts次，总共$reps个。上一次：$last_ts，时长"
+"$last_duration。"
+
+#: apps-src/apps/librose/health_controller.cpp:3889
+msgid "wko^history, rep_counter, has last, $days, $workouts, $reps"
+msgstr "累计打卡$days天，做操$workouts次，总共$reps个。"
+
+#: apps-src/apps/librose/health_controller.cpp:3894
+msgid "wko^history, not completed"
+msgstr "未做完，此次不计入打卡。"
+
+#: apps-src/apps/librose/health_controller.cpp:3899
+msgid "workout^left_y_axis title"
+msgstr "状态时长"
+
+#: apps-src/apps/librose/health_controller.cpp:3905
+#: apps-src/apps/librose/health_controller.cpp:3907
+#: apps-src/apps/librose/health_controller.cpp:3949
+msgid "workout^Unsatisfied count"
+msgstr "不满足次数"
+
+#: apps-src/apps/librose/health_controller.cpp:3907
+#: apps-src/apps/librose/health_controller.cpp:3951
+msgid "workout^Change to unsatisfied count"
+msgstr "变成不满足次数"
+
+#: apps-src/apps/librose/health_controller.cpp:3912
+msgid "workout^Nonpose state duration"
+msgstr "非姿态状态时长"
+
+#: apps-src/apps/librose/health_controller.cpp:3920
+msgid "workout^Pose state duration"
+msgstr "姿态状态时长"
+
+#: apps-src/apps/librose/health_controller.cpp:3928
+msgid "workout^Satisfied duration"
+msgstr "满足时长"
+
+#: apps-src/apps/librose/health_controller.cpp:3938
+msgid "workout^Unsatisfied duration"
+msgstr "不满足时长"
+
+#: apps-src/apps/librose/health_controller.cpp:3968
+msgid "workout^Rep duration"
+msgstr "单次耗时"
+
+#: apps-src/apps/librose/health_controller.cpp:3974
+msgid "workout^Active period"
+msgstr "活跃期"
+
+#: apps-src/apps/librose/health_controller.cpp:3980
+msgid "workout^Cooldown period"
+msgstr "冷却期"
+
+#: apps-src/apps/librose/health_controller.cpp:3996
+msgid "wko^chart remark"
+msgstr ""
+"横坐标的“0秒”指系统进入首个姿态状态后，用户姿势首次满足姿态判断的那个时刻。"
+
+#: apps-src/apps/librose/health_controller.cpp:3999
+msgid "workout^rep duration remark"
+msgstr ""
+"单次耗时定义为相邻两次计数的时间间隔，即从上一次计数完成时刻到本次计数完成时"
+"刻。计数完成时刻对应第二阶段冷却期的开始。"
+
+#: apps-src/apps/librose/health_controller.cpp:5104
+msgid "$count workout records found."
+msgstr "共 $count 条做操记录。"
+
+#: apps-src/apps/librose/health_controller.cpp:5553
+msgid "Please check permissions"
+msgstr "请检查是否赋与了权限"
+
+#: apps-src/apps/librose/health_controller.cpp:5575
+msgid "Failed to save to \"$dir\""
+msgstr "向“$dir”目录写入文件失败"
+
+#: apps-src/apps/librose/health_controller.cpp:5609
+msgid "Saved to Photos"
+msgstr "已保存到相册"
+
+#: apps-src/apps/librose/health_controller.cpp:5614
+msgid "Image"
+msgstr "图像"
+
+#: apps-src/apps/librose/health_controller.cpp:5615
+msgid ""
+"$type file has been generated.\n"
+"Path: $file"
+msgstr ""
+"已生成$type文件。\n"
+"路径：$file"
+
+#: apps-src/apps/librose/health_controller.cpp:5619
+msgid ""
+"Failed to save to Photos. $reason. The image is saved in the app's private "
+"directory.\n"
+"Path: $file"
+msgstr ""
+"保存到相册失败，$reason。图像放在私有目录。\n"
+"路径：$file"
+
+#: apps-src/apps/librose/health_controller.cpp:5841
+msgid "wko^Add ID filter"
+msgstr "新建ID筛选页"
+
+#: apps-src/apps/librose/health_controller.cpp:5844
+msgid "Enter ID keyword (min. $chars chars)"
+msgstr "输入ID关键字（至少$chars个字符）"
+
+#: apps-src/apps/librose/health_controller.cpp:5849
+msgid "Insert dyn_chart remark, idcontain, $days"
+msgstr ""
+"ID 为动作脚本文件名去掉末尾 \".cfg\" 的内容。\n"
+"输入关键字即可匹配所有包含该词的 ID，并自动生成近 $days 天的数据图表。（例"
+"如：输入 plank，将同时匹配 leagor_plank 及 leagor_plank90s）\n"
+"点击下方“常用值”可快速选取已配置的脚本。"
+
+#: apps-src/apps/librose/health_controller.cpp:5979
+msgid "Report page"
+msgstr "报表页"
+
+#: apps-src/apps/librose/health_controller.cpp:6244
+msgid "wko^consecutive check-in rules, $max_gap_days"
+msgstr "连续打卡规则：距上次做操超过$max_gap_days天，视为打卡中断。"
+
+#: apps-src/apps/librose/health_controller.cpp:6251
+msgid "wko^report generation, $min_duration"
+msgstr "做操报告生成条件：从“0秒”时刻起，继续做操满30秒。"
+
+#: apps-src/apps/librose/health_display.cpp:73
+msgid "title^routine chart"
+msgstr "作息追踪"
+
+#: apps-src/apps/librose/health_display.cpp:78
+msgid "title^workout chart"
+msgstr "做操记录"
+
+#: apps-src/apps/librose/help.cpp:137
+msgid "corrupted original file"
+msgstr ""
+
+#: apps-src/apps/librose/hero_i.cpp:684
+msgid "Hero that belong to $leader."
+msgstr "$leader麾下武将。"
+
+#. TRANSLATORS: This is the language code which will be used
+#. to store and fetch localized non-textual resources, such as images,
+#. when they exist. Normally it is just the code of the PO file itself,
+#. e.g. "de" of de.po for German. But it can also be a comma-separated
+#. list of language codes by priority, when the localized resource
+#. found for first of those languages will be used. This is useful when
+#. two languages share sufficient commonality, that they can use each
+#. other's resources rather than duplicating them. For example,
+#. Swedish (sv) and Danish (da) are such, so Swedish translator could
+#. translate this message as "sv,da", while Danish as "da,sv".
+#: apps-src/apps/librose/image.cpp:633
+msgid "language code for localized resources^en_US"
+msgstr "zh_CN"
+
+#: apps-src/apps/librose/integrate.cpp:638
+msgid "Deleted: $file"
+msgstr "已删除：$file"
+
+#: apps-src/apps/librose/language.cpp:93
+msgid "System default language"
+msgstr ""
+
+#: apps-src/apps/librose/lobby.cpp:281
+msgid "Have not received data in $threshold sec!"
+msgstr ""
+
+#: apps-src/apps/librose/lobby.cpp:286 apps-src/apps/librose/lobby.cpp:313
+msgid "$error will reconnect after $distance sec."
+msgstr ""
+
+#: apps-src/apps/librose/lobby.cpp:288 apps-src/apps/librose/lobby.cpp:315
+msgid "$error will Reconnect immediately!"
+msgstr ""
+
+#: apps-src/apps/librose/lobby.cpp:431
+msgid "Friend"
+msgstr "好友"
+
+#
+# http server
+#
+#: apps-src/apps/librose/lobby.cpp:1459
+msgid ""
+"$nick is invalid nick when chat! To set up: Press $account in \"Player "
+"profile\" Setting, and set valid nick when chat."
+msgstr ""
+"$nick不是有效的聊天时昵称！解决步骤：在游戏的“玩家武将”窗口按下“$account”，然"
+"后设置有效的聊天时昵称。"
+
+#: apps-src/apps/librose/lobby.cpp:1959
+msgid "Wait"
+msgstr "等待"
+
+#: apps-src/apps/librose/lobby.cpp:1961
+msgid "Created"
+msgstr ""
+
+#: apps-src/apps/librose/lobby.cpp:1963
+msgid "Consult"
+msgstr "协商"
+
+#: apps-src/apps/librose/lobby.cpp:1965
+msgid "Ready"
+msgstr "就绪"
+
+#: apps-src/apps/librose/map.cpp:211 apps-src/apps/librose/map.cpp:691
+msgid "A map without a header is not supported"
+msgstr ""
+
+#: apps-src/apps/librose/ocr/ocr_controller.cpp:347
+msgid "Recognizeing $field"
+msgstr ""
+
+#: apps-src/apps/librose/preferences_display.cpp:147
+msgid "There are no alternative video modes available"
+msgstr "没有其他可用的显示模式"
+
+#: apps-src/apps/librose/preferences_display.cpp:179
+msgid " (widescreen)"
+msgstr ""
+
+#: apps-src/apps/librose/preferences_display.cpp:187
+#: apps-src/apps/librose/preferences_display.cpp:195
+msgid "Choose Resolution"
+msgstr "选择分辨率"
+
+#: apps-src/apps/librose/rose_config.cpp:662
+msgid "Invalid color range: "
+msgstr ""
+
+#: apps-src/apps/librose/rtc_client.cpp:108
+msgid ""
+"Camera#$number start fail. Try to play $url with VLC to see if can succeed."
+msgstr ""
+
+#: apps-src/apps/librose/scripts/gui/widgets/vwidget.cpp:523
+msgid ""
+"The current version does not support navigation execution in the fg applet."
+msgstr "当前版本不支持在前台小程序执行导航。"
+
+#: apps-src/apps/librose/serialization/parser.cpp:131
+msgid "Unexpected characters at line start"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:149
+msgid "Missing closing tag for tag [$tag]"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:150
+msgid "expected at $pos"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:150
+#: apps-src/apps/librose/serialization/parser.cpp:218
+msgid "opened at $pos"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:163
+msgid "Unterminated [element] tag"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:177
+#: apps-src/apps/librose/serialization/parser.cpp:228
+msgid "Invalid tag name"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:180
+msgid "Unterminated [+element] tag"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:204
+msgid "Invalid closing tag name"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:207
+msgid "Unterminated closing tag"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:209
+msgid "Unexpected closing tag"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:217
+msgid "Found invalid closing tag [/$tag2] for tag [$tag1]"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:218
+msgid "closed at $pos"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:248
+#: apps-src/apps/librose/serialization/parser.cpp:260
+msgid "Empty variable name"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:254
+msgid "Unexpected characters after variable name (expected , or =)"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:298
+#: apps-src/apps/librose/serialization/parser.cpp:329
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:395
+msgid "at $pos"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/parser.cpp:409
+msgid "Value: '$value' Previous: '$previous_value'"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:696
+msgid "prefix_milli^m"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:697
+msgid "prefix_micro^u"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:698
+msgid "prefix_nano^n"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:699
+msgid "prefix_pico^p"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:700
+msgid "prefix_femto^f"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:701
+msgid "prefix_atto^a"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:702
+msgid "prefix_zepto^z"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:703
+msgid "prefix_yocto^y"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:715
+msgid "prefix_kibi^K"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:716
+msgid "prefix_kilo^k"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:718
+msgid "prefix_mega^M"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:719
+msgid "prefix_giga^G"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:720
+msgid "prefix_tera^T"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:721
+msgid "prefix_peta^P"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:722
+msgid "prefix_exa^E"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:723
+msgid "prefix_zetta^Z"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:724
+msgid "prefix_yotta^Y"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:738
+msgid "infix_binary^i"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1285
+msgid "Invalid UTF-8 string!"
+msgstr ""
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1918
+msgid "zero"
+msgstr "零"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1920
+msgid "first"
+msgstr "一"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1922
+msgid "second"
+msgstr "二"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1924
+msgid "third"
+msgstr "三"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1926
+msgid "fourth"
+msgstr "四"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1928
+msgid "fifth"
+msgstr "五"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1930
+msgid "sixth"
+msgstr "六"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1932
+msgid "seventh"
+msgstr "七"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1934
+msgid "eighth"
+msgstr "八"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1936
+msgid "ninth"
+msgstr "九"
+
+#: apps-src/apps/librose/serialization/string_utils.cpp:1938
+msgid "tenth"
+msgstr "十"
+
+#: apps-src/apps/librose/task.cpp:35
+msgid "Delete: $name fail!"
+msgstr ""
+
+#: apps-src/apps/librose/task.cpp:57 apps-src/apps/librose/task.cpp:77
+#: apps-src/apps/librose/task.cpp:264 apps-src/apps/librose/task.cpp:426
+#: apps-src/apps/librose/task.cpp:508 apps-src/apps/librose/task.cpp:808
+msgid "Directory"
+msgstr ""
+
+#: apps-src/apps/librose/task.cpp:59 apps-src/apps/librose/task.cpp:266
+#: apps-src/apps/librose/task.cpp:428 apps-src/apps/librose/task.cpp:810
+msgid "Delete $type, from $dst fail!"
+msgstr ""
+
+#: apps-src/apps/librose/task.cpp:75 apps-src/apps/librose/task.cpp:426
+#: apps-src/apps/librose/task.cpp:508
+msgid "File"
+msgstr ""
+
+#: apps-src/apps/librose/task.cpp:79
+msgid "Files"
+msgstr ""
+
+#: apps-src/apps/librose/task.cpp:295
+msgid "Copy $type, from $src to $dst fail!"
+msgstr ""
+
+#: apps-src/apps/librose/task.cpp:511
+msgid "Rename $type, from $src to $dst fail!"
+msgstr ""
+
+#: apps-src/apps/librose/task.cpp:594
+msgid "Replace $file content fail!"
+msgstr ""
+
+#: apps-src/apps/librose/terrain.cpp:159
+msgid "Allied village"
+msgstr ""
+
+#: apps-src/apps/librose/terrain.cpp:164
+msgid "Enemy village"
+msgstr ""
+
+#: apps-src/apps/librose/terrain.cpp:169
+msgid "Owned village"
+msgstr ""
+
+#: apps-src/apps/librose/terrain_translation.cpp:717
+msgid ""
+"A terrain with a string with more than 4 characters has been found, the "
+"affected terrain is :"
+msgstr "找到一个具有超过4个字符的字符串的地形，受影响的地形是："
+
+#: apps-src/apps/librose/tflite.cpp:745
+msgid "CNN"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:746
+msgid "RNN"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:747
+msgid "MobileNets"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:748
+msgid "Inception V3"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:749
+msgid "Inception V5"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:750
+msgid "VGG"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:751
+msgid "LSTM"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:752
+msgid "Smart Replay"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:756
+msgid "Debugging"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:757
+msgid "Training"
+msgstr ""
+
+#: apps-src/apps/librose/tflite.cpp:758
+msgid "Commercially"
+msgstr ""
+
+#: apps-src/apps/librose/theme.cpp:76
+msgid "Default color"
+msgstr ""
+
+#: apps-src/apps/librose/theme.cpp:78
+msgid "Inverse color"
+msgstr ""
+
+#: apps-src/apps/librose/theme.cpp:80
+msgid "Title color"
+msgstr ""
+
+#: apps-src/apps/librose/theme.cpp:82
+msgid "Bonus color"
+msgstr ""
+
+#: apps-src/apps/librose/wml_exception.cpp:64
+msgid "The error message is :"
+msgstr ""
+
+#: apps-src/apps/librose/wml_exception.cpp:95
+msgid ""
+"In section '[$section|]' where '$primary_key| = $primary_value' the "
+"mandatory key '$key|' isn't set."
+msgstr ""
+"在小节“[$section|]”中有“$primary_key| = $primary_value”，其必须设定的键"
+"值“$key|”没有设定。"
+
+#: apps-src/apps/librose/wml_exception.cpp:98
+msgid "In section '[$section|]' the mandatory key '$key|' isn't set."
+msgstr "在小节“[$section|]”中，必须设定的键值“$key|”没有设定。"
+
+#, fuzzy
+#~| msgid "$count workout records found."
+#~ msgid "Add workout records page inc ID"
+#~ msgstr "搜索到$count条做操记录。"
+
+#, fuzzy
+#~| msgid "title^workout chart, $days"
+#~ msgid "title^workout chart-plank, $days"
+#~ msgstr "近$days天做操"
+
+#~ msgid "RIght"
+#~ msgstr "右侧"
+
+#~ msgid "wko^task_time, max_count label"
+#~ msgstr "最大计时（秒）"
+
+#~ msgid "time^max_count label"
+#~ msgstr "最大计时（秒）"
+
+#~ msgid "In $number pose, invalid '$field'. $note"
+#~ msgstr "在第$number个姿态判断，“$field”不符合要求。$note"
+
+#, fuzzy
+#~| msgid "Friend"
+#~ msgid "Fri"
+#~ msgstr "好友"
+
+#~ msgid "No questions are available."
+#~ msgstr "没有可用提问。"
+
+#~ msgid ""
+#~ "This task does not support using the latex_prompts API to fetch prompts."
+#~ msgstr "本任务不支持用latex_prompts API获取提问。"
+
+#~ msgid "User canceled the question."
+#~ msgstr "用户取消提问"
+
+#~ msgid "reply error: $err"
+#~ msgstr "应答错误：$err"
+
+#, fuzzy
+#~| msgid "fakeid^Map"
+#~ msgid "fakeid^AI"
+#~ msgstr "地图"
+
+#~ msgid "fakeid^Exercise"
+#~ msgstr "习题"
+
+#~ msgid "Require param"
+#~ msgstr "需参数"
+
+#~ msgid "fakeid^Trigger"
+#~ msgstr "触发"
+
+#~ msgid "timing^state_disabled"
+#~ msgstr "一直不执行"
+
+#, fuzzy
+#~| msgid "op^var_exist"
+#~ msgid "op^var_unset"
+#~ msgstr "存在变量"
+
+#~ msgid "Temp task"
+#~ msgstr "临时任务"
+
+#~ msgid "To run the applet in which the task resides, stop the task"
+#~ msgstr "要运行任务所在的小程序，结束任务"
+
+#~ msgid "The applet in which the task resides is running, don't execute"
+#~ msgstr "任务属于正运行的小程序，不执行"
+
+#~ msgid "The running applet occupies $per permission, don't execute"
+#~ msgstr "正运行的小程序占用了$per权限，不执行"
+
+#~ msgid "req_task^moveto"
+#~ msgstr "去位置"
+
+#~ msgid "req_task^charge"
+#~ msgstr "充电"
+
+#~ msgid "req_task^aplt_task"
+#~ msgstr "小程序任务"
+
+#~ msgid "Interruptable"
+#~ msgstr "可中断"
+
+#~ msgid "req_task^moveto_recognition"
+#~ msgstr "去位置+识别"
+
+#~ msgid "req_task^recognition"
+#~ msgstr "识别"
+
+#~ msgid "End task_cpp"
+#~ msgstr "结束任务(cpp)"
+
+#~ msgid "$count branches. $branches"
+#~ msgstr "$count条分支。$branches"
+
+#, fuzzy
+#~| msgid "Language"
+#~ msgid "ResourceLanguage"
+#~ msgstr "语言"
+
+#~ msgid "In the case of a robot, it must be landscape"
+#~ msgstr "在机器人时，必须是横屏"
+
+#~ msgid "Transit"
+#~ msgstr "中转"
+
+#~ msgid "Voice is to long"
+#~ msgstr "一次说得太长，记不住"
+
+#, fuzzy
+#~| msgid "timing^It is time to execute"
+#~ msgid "timing^It is time to charge"
+#~ msgstr "开始执行"
+
+#~ msgid ""
+#~ "Must not popup new window during twindow::draw. Possible reason: a "
+#~ "track's did_draw pops up new window"
+#~ msgstr ""
+#~ "twindow::draw禁止弹出新窗口。可能原因：某个track控件的did_draw弹出了新窗口"
+
+#~ msgid "ime^tone"
+#~ msgstr "声调"
+
+#~ msgid "stack^set_radio_layer, validate best size fail"
+#~ msgstr ""
+#~ "radio模式下，stack标称尺寸是当前页的标称尺寸，然后按这标称尺寸放到大渲染尺"
+#~ "寸。切换到另一页时，新页标称尺寸不能大于此时stack渲染尺寸。布局时，注意给"
+#~ "stack留出能容纳所有页标称尺寸的空间。"
+
+#~ msgid "Go back"
+#~ msgstr "返回"
+
+#~ msgid "More"
+#~ msgstr "更多"
+
+#~ msgid "In Chinese, aplha, symbol, and numbers are full-width characters"
+#~ msgstr "中文状态下，输入的字母、标点、数字是全角字符"
+
+#~ msgid "ime^english"
+#~ msgstr "英"
+
+#~ msgid "Will close after $elapse"
+#~ msgstr "$elapse后自动关闭"
+
+#~ msgid "When reporting the bug please include the following error message :"
+#~ msgstr "报告BUG时请包含以下错误信息："
+
+#~ msgid ""
+#~ "An error due to possibly invalid WML occurred\n"
+#~ "The error message is :"
+#~ msgstr ""
+#~ "发现一个错误，可能是由于无效的WML导致的\n"
+#~ "错误信息如下："
+
+#~ msgid ""
+#~ "'list_data' must have the same number of columns as the 'list_definition'."
+#~ msgstr ""
+#~ "“list_data”（列表数据）与“list_definition”（列表定义）中的列数必须一致。"
+
+#~ msgid "Detect block"
+#~ msgstr "检查区块"
+
+#~ msgid "Text doesn't start on canvas."
+#~ msgstr "文字没有从画布上开始。"
+
+#~ msgid "Report widget($id) must use fix rect."
+#~ msgstr "状态报告（$id）必须使用固定坐标。"
+
+#~ msgid "The maximum text width is less than 1."
+#~ msgstr "最大文字宽度小于1。"
+
+#~ msgid "Line doesn't fit on canvas."
+#~ msgstr "线条无法在画布上显示。"
+
+#~ msgid "Rectangle doesn't fit on canvas."
+#~ msgstr "矩形无法在画布上显示。"
+
+#
+# Extract
+#
+#~ msgid "Extract hero"
+#~ msgstr "提取武将"
+
+#~ msgid "No default gui defined."
+#~ msgstr "默认图形界面未定义。"
+
+#~ msgid "Create"
+#~ msgstr "创建"
+
+#~ msgid "Is waiting for the other to answer"
+#~ msgstr "正等待对方接听"
+
+#~ msgid "Message"
+#~ msgstr "消息"
+
+#~ msgid "Multiplayer server login dialog"
+#~ msgstr "多人游戏服务器登录对话框"
+
+#~ msgid "Forum"
+#~ msgstr "论坛"
+
+#~ msgid "account^remark($server, $host, $register, $ok)"
+#~ msgstr ""
+#~ "一、请正确输入$server上的账号/密码\n"
+#~ "二、若没有账号请按以下两种方法之一注册。1）在这里输入账号/密码，然后"
+#~ "按“$register”；2）运行浏览器打开$host，注册个论坛账号\n"
+#~ "三、若希望将来设置或只玩单机，那只要输入非空账号，然后按“$ok”即可"
+
+#~ msgid "'$key' value must combine $min to $max characters"
+#~ msgstr "“$key”必须由$min到$max个字符组成"
+
+#~ msgid "Invalid '$key' value, $username is reserved!"
+#~ msgstr "无效“$key”值，$username是保留字符串！"
+
+#~ msgid "Name"
+#~ msgstr "姓名"
+
+#~ msgid "Nick"
+#~ msgstr "昵称"
+
+#~ msgid ""
+#~ "$username of username is not a valid nick, you require to set a valid "
+#~ "nick separately!\n"
+#~ " Nick can ony use alpha, number and _."
+#~ msgstr ""
+#~ "账号$username不是有效昵称，你需要单独设置一个昵称！\n"
+#~ "昵称只能使用字母、数字和_"
+
+#~ msgid "$validate_password isn't same as $password"
+#~ msgstr "$validate_password和$password不一致"
+
+#~ msgid ""
+#~ "When register, password must be greater than or equal to $min characters"
+#~ msgstr "注册时，密码必须大于等于$min个字符"

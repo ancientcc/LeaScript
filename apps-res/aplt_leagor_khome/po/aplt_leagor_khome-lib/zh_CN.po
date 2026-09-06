@@ -1,0 +1,976 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: aplt_leagor_khome-lib\n"
+"Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
+"POT-Creation-Date: 2026-06-06 15:11+0800\n"
+"PO-Revision-Date: 2026-06-06 15:12+0800\n"
+"Last-Translator: \n"
+"Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.9\n"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:32
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:11
+msgid "Face"
+msgstr "人脸"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:58
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:56
+msgid "restaurant^Table"
+msgstr "餐桌"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:83
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:81
+msgid "Two capital letters"
+msgstr "两个大写字母"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:181
+msgid "$count faces"
+msgstr "$count个人脸"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:207
+msgid "Modify name(faceid: $faceid)"
+msgstr "修改姓名(faceid: $faceid)"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:208
+msgid "OK"
+msgstr "确定"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:218
+msgid "Do you want to erase '$name'(faceid: $faceid)?"
+msgstr "要删除“$name”(faceid: $faceid)吗？"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:242
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:217
+msgid "device remark, $alias_id"
+msgstr ""
+"触发问询上菜进度的传感器别名必须以着这么个格式：初始两个字符是“$alias_id”，后"
+"跟大于零的自然数，然后字符“-”，最后是不为空的餐桌名称。示例：$alias_id|12-大"
+"厅1号桌。\n"
+"别名的数字部分不能相同。数字对应C洼“餐厅”中、餐桌在列表的序号。举个例"
+"子。“$alias_id|12-大厅1号桌”对应C洼餐桌列表中的第12张。对应时用的是数字，不是"
+"后面名称。也就是说，如果C洼上的第12号餐桌不叫“大厅1号桌”，“$alias_id|12-大厅1"
+"号桌”仍然会对上它。"
+
+#: apps-res/aplt_leagor_khome/lua/home.lua:23
+msgid "kHome"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/home.lua:52
+msgid "home^remark"
+msgstr ""
+"问询。通过和机器人语音交互，让机器人带您去问询商品的存放位置。如何使用见“C"
+"洼”(www.cswamp.com)文章“场景：问询商品”。\n"
+"餐厅。用户按下餐桌铃后，机器人得知道要服务的餐桌在哪位置。“餐厅”用于做这个关"
+"联操作。如何使用见“C洼”文章“场景：餐厅”。"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:75
+msgid "task^query"
+msgstr "问询"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:76
+msgid "task^query_cooking"
+msgstr "问询上菜进度"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:77
+msgid "task^parse_time"
+msgstr "解析时间"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:78
+msgid "task^snapshot"
+msgstr "抓拍"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:79
+msgid "task^kpose"
+msgstr "姿势识别"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:80
+msgid "task^workout"
+msgstr "健身操"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:81
+msgid "task^kface"
+msgstr "人脸识别"
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:82
+msgid "task^recognition"
+msgstr "图像识别"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:71
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:27
+msgid "Posture"
+msgstr "姿势"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:103
+msgid "Readme"
+msgstr "自述"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:106
+#: apps-res/aplt_leagor_khome/lua/posture.lua:142
+msgid "Sit(front)"
+msgstr "正坐(前)"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:109
+#: apps-res/aplt_leagor_khome/lua/posture.lua:143
+msgid "Sit(rside)"
+msgstr "正坐(右)"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:112
+#: apps-res/aplt_leagor_khome/lua/posture.lua:144
+msgid "Sit(share)"
+msgstr "正坐(共用)"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:115
+msgid "Shoulder neck"
+msgstr "肩颈操"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:145
+msgid "readme's sit remark, $sit_front, $sit_rside, $sit_share"
+msgstr ""
+"为坐正，几个建议\n"
+"一、坐骨（骨盆）坐实，或叫坐骨承重。只要坐骨坐实，上半身就会在不知不觉中挺"
+"直，而不必刻意去直了。\n"
+"二、腰部放小枕头，让往前推着腰。坐久了，不知不觉开始弯腰，小枕头可推着腰，让"
+"腰有被向前顶住的状态，使正确坐姿支持得久一点。\n"
+"三、工作时，重心微微向前。通过两胳膊枕向桌子、产生后弹等方法，让有个向后的推"
+"力，辅助坐直。\n"
+"四、若看不清，要通过调整视线，像把电脑垫高，不要通过低头。\n"
+"\n"
+"由于每个人数值不一像，像双肩距离，大人、小孩差别还挺大，使用时极可能须要针对"
+"指定人微调参数。修改参数后，要立即查看结果，可打开“深度相机”，通过看左上角文"
+"字提示。\n"
+"\n"
+"“$sit_front”，适用于相机放在正前方。“$sit_rside”，适用于相机放在右"
+"侧。“$sit_share”是相机无论放在哪方向，都要涉及到的参数。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:158
+msgid "sit_front remark"
+msgstr ""
+"视频流分辨率是1280x720。以下值都是百分比，1对应1280像素，0.5对应640像素。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:202
+msgid "sit_side remark"
+msgstr ""
+"视频流分辨率是1280x720。以下非角度值都是百分比，1对应1280像素，0.5对应640像"
+"素。\n"
+"脊柱长度指右肩到右腰长度。脊柱角度是以右肩为起点、右腰为终点，这条直线在以右"
+"肩为原点的直角坐标系中的角度。直坐时，脊柱角度是270度。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:289
+msgid "shoulder_neck_layer remark"
+msgstr "示范视频：https://www.bilibili.com/video/BV1oC4y1r7dh"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:346
+msgid "sit_share remark, $var_name, $improper, $noperson, $sedentary"
+msgstr ""
+"发生事件时，写到“$var_name”环境变量。值“$improper”表示坐姿不端正，"
+"值“$noperson”表示离座，值“$sedentary”表示久坐。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:355
+msgid ""
+"sit_front improper summary, $shoulder_width_max, $ear_diff_threshold, "
+"$head_forward_threshold"
+msgstr ""
+"或两肩中点不在相机中部，或两肩宽度大于$shoulder_width_max，或两耳高度差大于"
+"$ear_diff_threshold，或鼻子距离两肩中点的高度小于$head_forward_threshold，则"
+"视为坐姿不端正。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:365
+msgid "sit_front noperson summary, $ear_width_min, $shoulder_width_min"
+msgstr ""
+"或看到腰部，或鼻子不处在双肩区域，或两耳宽度小于$ear_width_min，或两肩宽度小"
+"于$shoulder_width_min，则视为离座。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:374
+msgid ""
+"sit_side improper summary, $shoulder_nose_angle_threshold, "
+"$improper_spine_angle_min, $improper_spine_angle_max, $shoulder_width_max, "
+"$spine_length_max"
+msgstr ""
+"或肩到鼻角度小于$shoulder_nose_angle_threshold，或脊柱角度不在"
+"[$improper_spine_angle_min, $improper_spine_angle_max]范围，或两肩宽度大于"
+"$shoulder_width_max，或脊柱长度大于$spine_length_max，则视为坐姿不端正。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:384
+msgid "sit_side noperson summary, $spine_length_min"
+msgstr "或嘴不在双肩右侧，或脊柱长度小于$spine_length_min，则视为离座。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:393
+msgid "sit_share improper summary, $improper_time"
+msgstr "如果坐姿不端正持续$improper_time秒，向环境变量写入坐姿不端正事件。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:402
+msgid "sit_share noperson summary, $noperson_time"
+msgstr "如果离座状态持续$noperson_time秒，向环境变量写入离座事件。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:411
+msgid "sit_share sedentary summary, $sedentary_time"
+msgstr ""
+"如果持续$sedentary_time分钟，没发生超过一分钟离座，向环境变量写入久坐事件。"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:430
+msgid "Value cannot be empty"
+msgstr "值不是能空"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:435
+#: apps-res/aplt_leagor_khome/lua/posture.lua:445
+#: apps-res/aplt_leagor_khome/lua/posture.lua:455
+msgid "Value type must be $type"
+msgstr "值类型须要是$type"
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:438
+#: apps-res/aplt_leagor_khome/lua/posture.lua:448
+#: apps-res/aplt_leagor_khome/lua/posture.lua:458
+msgid "The value needs to be in the range of [$min, $max]"
+msgstr "值须要在范围[$min, $max]"
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:27
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:29
+msgid "Query"
+msgstr "问询"
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:53
+msgid "Goods"
+msgstr "商品"
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:56
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:25
+#: apps-src/apps/libleagor_khome/block_task.cpp:581
+msgid "Position"
+msgstr "位置"
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:115
+msgid "Do you want to import goods from file($file)?"
+msgstr "要从“$file”导入商品数据吗？"
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:128
+msgid "Import finished"
+msgstr "导入成功"
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:200
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:174
+msgid "Need to set the current map, or have at least one position on the map"
+msgstr "需要先设置导航地图，或地图中至少得有一个位置。"
+
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:30
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:31
+msgid "Restaurant"
+msgstr "餐厅"
+
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:157
+msgid "$count devices    $positions has position"
+msgstr "$count个设备    $positions个设置了位置"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:1
+#: apps-src/apps/libleagor_khome/block_task.cpp:561
+msgid "Brand"
+msgstr "品牌"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:3
+#: apps-src/apps/libleagor_khome/block_task.cpp:598
+msgid "Description"
+msgstr "描述"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:5
+msgid "Device alias ID"
+msgstr "设备别名标识"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:7
+msgid "Do sit for long time"
+msgstr "是否久坐"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:9
+msgid "Erase"
+msgstr "删除"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:13
+msgid "Good position"
+msgstr "商品位置"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:15
+msgid "Have left your seat"
+msgstr "是否离座"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:17
+#: apps-src/apps/libleagor_khome/block_task.cpp:570
+#: apps-src/apps/libleagor_khome/block_task.cpp:604
+msgid "ID"
+msgstr "标识"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:19
+msgid "Is the sitting posture upright"
+msgstr "坐姿是否端正"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:21
+msgid "Map position"
+msgstr "地图位置"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:23
+msgid "Modify name"
+msgstr "修改姓名"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:33
+msgid "Show image"
+msgstr "显示图像"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:35
+#: apps-src/apps/libleagor_khome/block_task.cpp:543
+#: apps-src/apps/libleagor_khome/block_task.cpp:592
+msgid "object^Name"
+msgstr "名称"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:37
+msgid "sit_front^duration(Min)"
+msgstr "持续时间(分)"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:39
+msgid "sit_front^duration(S)"
+msgstr "持续时间(秒)"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:41
+msgid "sit_front^ear_diff_threshold label"
+msgstr "(脸不要太歪)两耳最大高度差"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:43
+msgid "sit_front^ear_width_min label"
+msgstr "两耳最小宽度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:45
+msgid "sit_front^head_forward_threshold label"
+msgstr "(头不要太低)鼻子距离两肩中点的最小高度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:47
+msgid "sit_front^shoulder_width_max label"
+msgstr "(不要靠太近)两肩最大宽度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:49
+msgid "sit_front^shoulder_width_min label"
+msgstr "两肩最小宽度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:51
+msgid "sit_side^improper_spine_angle_range label"
+msgstr "(脊柱不要太弯曲)脊柱角度范围"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:53
+msgid "sit_side^shoulder_nose_angle_threshold label"
+msgstr "(头不要太前倾)肩到鼻最小角度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:55
+msgid "sit_side^shoulder_width_max label"
+msgstr "(两肩不能太宽)两肩最大宽度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:57
+msgid "sit_side^spin_length_max label"
+msgstr "(脊柱不能太长)脊柱最大长度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:59
+msgid "sit_side^spine_length_min label"
+msgstr "脊柱最小长度"
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:61
+msgid "upright^Sit"
+msgstr "正坐"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:503
+#: apps-src/apps/libleagor_khome/block_task.cpp:1278
+msgid "Cannot open $file"
+msgstr "不能打开文件：$file"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:515
+#: apps-src/apps/libleagor_khome/block_task.cpp:1290
+msgid "import^nonutf8 remark"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:545
+#: apps-src/apps/libleagor_khome/block_task.cpp:563
+msgid "[$item] '$field' should not appear character $char"
+msgstr "[$item] “$field”不能出现字符 $char"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:572
+#: apps-src/apps/libleagor_khome/block_task.cpp:583
+#: apps-src/apps/libleagor_khome/block_task.cpp:593
+#: apps-src/apps/libleagor_khome/block_task.cpp:599
+msgid "[$item] '$field' must not empty."
+msgstr "[$item] “$field”不能是空。"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:575
+#: apps-src/apps/libleagor_khome/block_task.cpp:586
+msgid "[$item] '$field' cannot exceed $max bytes. A chinese is about 3 bytes."
+msgstr "[$item] “$field”不能超过$max字节。一个汉字大概3字节。"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:605
+msgid "[$item] '$field' must not be duplicated."
+msgstr "[$item] “$field”不能重名。"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:619
+msgid "[#$line] At least $count fields per row"
+msgstr "[#$line]一行至少需要$count个字段"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:636
+#: apps-src/apps/libleagor_khome/block_task.cpp:1399
+msgid "There is no valid query item in $csv."
+msgstr "不导入。“$csv”中没有商品。"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:715
+msgid "At least one of $query_id and $query_name cannot be empty."
+msgstr "$query_id或$query_name，至少一个不能是空。"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:978
+#: apps-src/apps/libleagor_khome/block_task.cpp:1109
+msgid "Input var($var)'s value must >= 0"
+msgstr "输入变量($var)值必须>=0"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:999
+msgid "Alias($alias) does not conform to the required format"
+msgstr "别名($alias)不符合要求格式"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1013
+msgid "Cannot find alias($alias), check if it is in IoT device list"
+msgstr "找不到别名($alias)，检查它是否在IoT设备列表"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1041
+#: apps-src/apps/libleagor_khome/camera2.cpp:197
+msgid "Send fail"
+msgstr "发送失败"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1122
+msgid "for elapse, t($t) must >= 0"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1139
+msgid "for UTC-Time, t($t) must >= 0"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1156
+msgid "Before dawn"
+msgstr "凌晨"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1160
+msgid "Morning"
+msgstr "上午"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1164
+msgid "Noon"
+msgstr "中午"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1168
+msgid "Afternoon"
+msgstr "下午"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1172
+msgid "Evening"
+msgstr "晚上"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1176
+msgid "Late night"
+msgstr "深夜"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1222
+#: apps-src/apps/libleagor_khome/block_task.cpp:1231
+msgid "Input var($var)'s value must >= 1"
+msgstr "输入变量($var)值必须>=1"
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1225
+#: apps-src/apps/libleagor_khome/block_task.cpp:1234
+msgid "Missing input var: $var"
+msgstr "缺少输入变量：$var"
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:156
+msgid "Image$number"
+msgstr "图$number"
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:174
+msgid ""
+"Hope to capture $count images. but because there is no IMU, can only capture "
+"one."
+msgstr "希望抓拍$count张图像，但因为没有IMU，只能拍一张。"
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:186
+msgid "The image captured by the task($task)."
+msgstr "“$task”任务拍到的图像。"
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:201
+msgid "Do not send"
+msgstr "不发送"
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:605
+msgid "Not recognized"
+msgstr "无法识别"
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:611
+msgid "Try to place the object in the center of camera's view"
+msgstr "尽量把物体放在摄像头视野的中央"
+
+#: apps-src/apps/libleagor_khome/kface.cpp:224
+msgid "Unknown op value: $op. The behavior will be to only search for faces."
+msgstr "未知op值：$op。此次行为只检测脸。"
+
+#: apps-src/apps/libleagor_khome/kface.cpp:268
+msgid "Untitle"
+msgstr "未命名"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:78
+msgid "Sedentary"
+msgstr "久坐"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:93
+#: apps-src/apps/libleagor_khome/kpose.cpp:95
+msgid "The camera did not capture the shoulders, ears, or nose"
+msgstr "摄像头没有拍到两肩膀、两耳或鼻子"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:97
+msgid "sit^good"
+msgstr "端正"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:99
+msgid "sit^improper"
+msgstr "不端正"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:101
+msgid "sit^noperson"
+msgstr "离座"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:104
+msgid "Shoulders locate in middle of the camera"
+msgstr "让胸口落在相机中部"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:106
+msgid "Shoulder cannot be too crooked"
+msgstr "双肩不要太歪"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:108
+msgid "Shoulder parallel"
+msgstr "肩膀歪曲"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:110
+msgid "Not too close"
+msgstr "不要靠太近"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:112
+msgid "Shoulder width"
+msgstr "两肩宽度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:114
+msgid "Face cannot be too crooked"
+msgstr "脸不要太歪"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:116
+msgid "Height difference between two ears"
+msgstr "两耳高度差"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:118
+msgid "Head cannot be too low"
+msgstr "头不要太低"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:120
+msgid "Height from nose to shoulder midpoint"
+msgstr "鼻子距两肩中点高度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:123
+msgid "Don't capture hip"
+msgstr "不要让拍到腰部"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:125
+msgid "Ear width canot be too narrow"
+msgstr "两耳宽度不能太窄"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:127
+msgid "Shoulder width canot be too narrow"
+msgstr "两肩宽度不能太窄"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:129
+msgid "Nose locates in the shoulder area"
+msgstr "鼻子处在双肩区域"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:135
+#: apps-src/apps/libleagor_khome/kpose.cpp:137
+msgid "The camera did not capture right ear, shoulder, or hip"
+msgstr "摄像头没有拍到右侧耳朵、肩膀或腰"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:140
+msgid "Head cannot be too forward"
+msgstr "头不要太前倾"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:142
+msgid "Shoulder-nose angle"
+msgstr "肩到鼻角度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:144
+msgid "Spine cannot be too bending"
+msgstr "脊柱不要太弯曲"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:146
+msgid "Shoulder-hip angle"
+msgstr "肩到腰角度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:148
+msgid "Shoulder cannot be too broad"
+msgstr "两肩不能太宽"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:150
+msgid "Spine cannot be too long"
+msgstr "脊柱不能太长"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:152
+msgid "Spine length"
+msgstr "脊柱长度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:154
+msgid "Hip cannot be too high"
+msgstr "腰位置不能太高"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:156
+msgid "Hip position"
+msgstr "腰位置"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:160
+msgid "Spine cannot be too short"
+msgstr "脊柱不能太短"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:162
+msgid "Spine angle within a specific range"
+msgstr "脊柱角度(肩到腰)在特定范围"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:164
+msgid "Mouth is to the right of shoulders"
+msgstr "嘴在双肩右侧"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:172
+msgid "sn^0desc"
+msgstr "第一个动作：十指相扣，手臂向上延展。抬头，眼睛看手臂，保持20秒"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:173
+msgid "sn^0unsatisfied"
+msgstr "第一个动作不再规范"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:174
+msgid "sn^0remind"
+msgstr "请检查下动作。十指相扣，手臂向上延展。抬头，眼睛看手臂。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:175
+msgid "sn^0finished"
+msgstr "结束动作，还原。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:177
+msgid "sn^1desc"
+msgstr "第二个动作：双手在体前，交叉相抱，含胸，下颚向下贴胸骨。保持20秒。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:178
+msgid "sn^1unsatisfied"
+msgstr "第二个动作不再规范"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:179
+msgid "sn^1remind"
+msgstr "请检查下动作。双手在体前，交叉相抱，含胸，下颚向下贴胸骨。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:180
+msgid "sn^1finished"
+msgstr "结束动作，还原。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:182
+msgid "sn^2desc"
+msgstr ""
+"第三个动作：抬起右侧手臂，环绕头部，放在对侧太阳穴。把头部向同侧作牵拉，保持"
+"20秒"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:183
+msgid "sn^2unsatisfied"
+msgstr "第三个动作第一拍不再规范"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:184
+msgid "sn^2remind"
+msgstr "抬起右侧手臂，环绕头部，放在对侧太阳穴。把头部向同侧作牵拉"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:185
+msgid "sn^2finished"
+msgstr "结束动作，还原。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:187
+msgid "sn^3desc"
+msgstr "抬起左侧手臂，环绕头部，放在对侧太阳穴。把头部向同侧作牵拉，保持20秒"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:188
+msgid "sn^3unsatisfied"
+msgstr "第三个动作第二拍不再规范"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:189
+msgid "sn^3remind"
+msgstr "抬起左侧手臂，环绕头部，放在对侧太阳穴。把头部向同侧作牵拉"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:190
+msgid "sn^3finished"
+msgstr "结束动作，还原。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:192
+msgid "sn^4desc"
+msgstr ""
+"第四个动作：十指交叉，放在颈部后侧，同时两手肘向两侧展开，看向天花板。保持20"
+"秒。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:193
+msgid "sn^4unsatisfied"
+msgstr "第四个动作不再规范"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:194
+msgid "sn^4remind"
+msgstr ""
+"请检查下动作。十指交叉，放在颈部后侧，同时两手肘向两侧展开，看向天花板。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:195
+msgid "sn^4finished"
+msgstr "肩颈操，已结束。"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:219
+msgid "Unknow type: $type"
+msgstr "未知类型：$type"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:227
+msgid "This version does not support type: $type"
+msgstr "此版本不支持类型：$type"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:233
+#: apps-src/apps/libleagor_khome/kpose2.cpp:124
+msgid "Initialize mediapipe graph fail"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1080
+#: apps-src/apps/libleagor_khome/kpose.cpp:1086
+#: apps-src/apps/libleagor_khome/kpose.cpp:1175
+#: apps-src/apps/libleagor_khome/kpose.cpp:1181
+#: apps-src/apps/libleagor_khome/kpose.cpp:1313
+#: apps-src/apps/libleagor_khome/kpose.cpp:1319
+msgid "Have the camera capture shoulders, elbows, and wrists"
+msgstr "让摄像头拍到两肩膀、两手肘和两手腕"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1131
+#: apps-src/apps/libleagor_khome/kpose.cpp:1145
+#: apps-src/apps/libleagor_khome/kpose.cpp:1233
+#: apps-src/apps/libleagor_khome/kpose.cpp:1354
+#: apps-src/apps/libleagor_khome/kpose.cpp:1359
+msgid "left"
+msgstr "左侧"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1132
+#: apps-src/apps/libleagor_khome/kpose.cpp:1136
+msgid "Raise $lr elbow more straight"
+msgstr "$lr手肘举得更直些"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1135
+#: apps-src/apps/libleagor_khome/kpose.cpp:1149
+#: apps-src/apps/libleagor_khome/kpose.cpp:1233
+#: apps-src/apps/libleagor_khome/kpose.cpp:1364
+#: apps-src/apps/libleagor_khome/kpose.cpp:1369
+msgid "right"
+msgstr "右侧"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1139
+msgid ""
+"Place the centers of both wrists and shoulders on the same vertical line as "
+"much as possible"
+msgstr "两手腕和两肩的中心，尽量落在同一竖线"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1142
+msgid "Cross your fingers and reduce the width formed by your wrists"
+msgstr "十指交叉，减少两手腕形成的宽度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1146
+#: apps-src/apps/libleagor_khome/kpose.cpp:1150
+msgid "The $lr wrist should be inside the $lr shoulder"
+msgstr "$lr手腕应该在$lr肩膀里面"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1206
+msgid "Lower your head a bit"
+msgstr "头更低些"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1209
+msgid "Bring the right wrist closer to the left shoulder"
+msgstr "让右手腕更靠近左肩"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1212
+msgid "Bring the left wrist closer to the right shoulder"
+msgstr "让左手腕更靠近右肩"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1240
+#: apps-src/apps/libleagor_khome/kpose.cpp:1251
+msgid "Have the camera capture $lr shoulder, elbow, and wrist"
+msgstr "让摄像头拍到$lr的肩膀、手肘、手腕"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1279
+#: apps-src/apps/libleagor_khome/kpose.cpp:1374
+msgid "The elbow should be outside the shoulder"
+msgstr "手肘应该在肩膀外面"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1282
+msgid "Make both ears tilt more"
+msgstr "让两耳更加倾斜"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1285
+msgid "Increase elbow angle"
+msgstr "加大手肘角度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1288
+msgid "Reduce elbow angle"
+msgstr "减少手肘角度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1351
+msgid "Tilt your head upwards"
+msgstr "头向上仰些"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1355
+#: apps-src/apps/libleagor_khome/kpose.cpp:1365
+msgid "increase"
+msgstr "加大"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1356
+#: apps-src/apps/libleagor_khome/kpose.cpp:1361
+#: apps-src/apps/libleagor_khome/kpose.cpp:1366
+#: apps-src/apps/libleagor_khome/kpose.cpp:1371
+msgid "Place $lr elbow on the back of neck, unfold it, and $inc_red the angle"
+msgstr "$lr手肘放在颈部后侧，展开，让$inc_red角度"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1360
+#: apps-src/apps/libleagor_khome/kpose.cpp:1370
+msgid "reduce"
+msgstr "减少"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1424
+msgid "sn^remind breath"
+msgstr "请保持缓慢顺畅的呼吸"
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1470
+msgid "sn^prelude"
+msgstr "肩颈操分四个动作。"
+
+#: apps-src/apps/libleagor_khome/kpose2.cpp:110
+msgid "Action script"
+msgstr "动作脚本"
+
+#: apps-src/apps/libleagor_khome/kpose2.cpp:116
+msgid "Input var($var)'s value cannot be empty"
+msgstr "输入变量($var)值不能为空"
+
+#: apps-src/apps/libleagor_khome/task_api.cpp:99
+msgid "Unknonw task: $task"
+msgstr "不支持任务：$task"
+
+#: apps-src/apps/libleagor_khome/task_api.cpp:111
+msgid "Don't use DFACE message"
+msgstr ""
+"1. 确保<apps-res>/aplt_leagor_khome/tflites下存在个叫“model”的子目录，该子目"
+"录下含有运行dface需要的11个模型文件。对v8_small.rknn，这文件较大，默认不使"
+"用。要使用的话，需把它复制到此个“model”子目录，并在faceprint_util.cpp的"
+"copy_model_2_preferences函数，把变量copy_v8_small_rknn改为true。\n"
+"2. 在<android>/launcher/src/main/java/org/libsdl/app/SDLActivity.java，让"
+"getLibraries()返回的数组包含\"dface\"。即启动launcher时，会自动加载dface的"
+"libdface.so。\n"
+"3. 在<android>/libleagor_khome/jni/Android.mk，“LOCAL_LDLIBS”增加“-"
+"ldface”。\n"
+"4. 在libleagor_khome，增加宏：USE_DFACE，然后重编译。\n"
+"5. 在“中心”，任务选kHome的“人脸识别”，应该就能看到相机在识别人脸了。"
+
+#~ msgid "task^kpose2"
+#~ msgstr "陪伴做操(动作脚本文件)"
+
+#~ msgid "task^kface2"
+#~ msgstr "陪伴做操(脚本文件)"
+
+#~ msgid "Input var($var) must be single var"
+#~ msgstr "输入变量($var)必须是单变量"
+
+#~ msgid "Input var($var)'s type must be $type"
+#~ msgstr "输入变量($var)类型须是$type"
+
+#~ msgid "$type1 or $type2"
+#~ msgstr "$type1或$type2"
+
+#~ msgid "Exercise"
+#~ msgstr "习题"
+
+#~ msgid "Also"
+#~ msgstr "相关"
+
+#~ msgid "Keynote"
+#~ msgstr "要点"
+
+#~ msgid "Number"
+#~ msgstr "序号"
+
+#~ msgid "Page"
+#~ msgstr "页"
+
+#~ msgid "Question"
+#~ msgstr "问题"
+
+#~ msgid "User canceled the question."
+#~ msgstr "用户取消提问"
+
+#~ msgid "reply error: $err"
+#~ msgstr "应答错误：$err"
+
+#~ msgid "Spine length within a specific range"
+#~ msgstr "脊柱长度在特定范围"
+
+#~ msgid "sit_front^spine_x_min label"
+#~ msgstr "在水平方向，两肩中点需落在的范围"
+
+#~ msgid "Shoulder width falls certain range"
+#~ msgstr "两肩宽度落在特定范围"
+
+#~ msgid "Have the camera capture shoulders, ears, and nose"
+#~ msgstr "让摄像头拍到两ynh、两耳和鼻子"
+
+#~ msgid "Have the camera capture nose, ears, and shoulders"
+#~ msgstr "让摄像头拍到两ynh、两手肘和两手腕"
+
+#~ msgid "Integer greater than 0"
+#~ msgstr "大于0的整数"
+
+#~ msgid "sn^0adjust back1"
+#~ msgstr "动作不再规范了，这是不再规范时提示的"
+
+#~ msgid "sn^0adjust back"
+#~ msgstr "请检查下动作。十指相扣，手臂向上延展。抬头，眼睛看手臂"
+
+#~ msgid "Homework(front)"
+#~ msgstr "写作业(正面)"
+
+#~ msgid "Homework(side)"
+#~ msgstr "写作业(侧面)"
+
+#~ msgid "Have"
+#~ msgstr "有"
+
+#~ msgid "Image"
+#~ msgstr "图像"
+
+#~ msgid "Input var($var)'s type must be string"
+#~ msgstr "输入变量($var)须是字符串类型"
+
+#~ msgid "Input var($var)'s type must be string or integer"
+#~ msgstr "输入变量($var)须是字符串或整数类型"
+
+#, fuzzy
+#~| msgid "Input var($var)'s type must be string"
+#~ msgid "Input var($var)'s type must be bool"
+#~ msgstr "输入变量($var)须是字符串类型"
+
+#~ msgid "IoT device ID"
+#~ msgstr "IoT设备ID"
+
+#~ msgid "Trigger"
+#~ msgstr "触发"
+
+#~ msgid "table example"
+#~ msgstr "10 大厅10号桌"
+
+#~ msgid "good_field^position"
+#~ msgstr "位置"
+
+#~ msgid "Edit"
+#~ msgstr "编辑"

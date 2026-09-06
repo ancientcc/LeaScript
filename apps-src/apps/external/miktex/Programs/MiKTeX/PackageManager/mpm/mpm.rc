@@ -1,0 +1,23 @@
+/**
+ * @file mpm.rc
+ * @author Christian Schenk
+ * @brief Windows resources
+ *
+ * @copyright Copyright © 2018-2022 Christian Schenk
+ *
+ * This file is part of MpmCon.
+ *
+ * MpmCon is licensed under GNU General Public License version 2 or any later
+ * version.
+ */
+
+#pragma code_page(65001)
+
+#include "mpm-version.h"
+
+#define VER_INTERNALNAME_STR "mpm"
+#define VER_ORIGINALFILENAME_STR "mpm.exe"
+
+#define VER_FILEDESCRIPTION_STR "MiKTeX Package Manager (batch mode)"
+
+#include "miktex/win/version.rc"

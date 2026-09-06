@@ -1,0 +1,12 @@
+#ifndef AIKIT_COMMON_H
+#define AIKIT_COMMON_H
+
+
+typedef enum AIKIT_DATA_PTR_TYPE_E {
+    AIKIT_DATA_PTR_MEM  = 0,  // 
+    AIKIT_DATA_PTR_FILE = 1,  // 
+    AIKIT_DATA_PTR_PATH = 2   // 
+} AIKIT_DATA_PTR_TYPE;
+
+
+#endif  //AIKIT_COMMON_H

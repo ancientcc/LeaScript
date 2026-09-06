@@ -1,0 +1,48 @@
+/**
+ * @file miktex/Util/config.h
+ * @author Christian Schenk
+ * @brief Lib config
+ *
+ * @copyright Copyright © 2008-2024 Christian Schenk
+ *
+ * This file is part of the MiKTeX Util Library.
+ *
+ * The MiKTeX Util Library is licensed under GNU General Public License version
+ * 2 or any later version.
+ */
+
+#pragma once
+
+#include <miktex/First>
+#include <miktex/Definitions>
+
+#if !defined(A7C88F5FBE5C45EB970B3796F331CD89)
+#if defined(MIKTEX_UTIL_SHARED)
+#define MIKTEXUTILEXPORT MIKTEXDLLIMPORT
+#else
+#define MIKTEXUTILEXPORT
+#endif
+#endif
+
+#define MIKTEXUTILTHISAPI(type) MIKTEXUTILEXPORT type MIKTEXTHISCALL
+#define MIKTEXUTILCEEAPI(type) MIKTEXUTILEXPORT type MIKTEXCEECALL
+
+#if defined(__GNUC__)
+#define MIKTEXUTILTYPEAPI(type) MIKTEXUTILEXPORT type
+#else
+#define MIKTEXUTILTYPEAPI(type) type
+#endif
+
+#define MIKTEX_UTIL_BEGIN_NAMESPACE             \
+    namespace MiKTeX {                          \
+      namespace Util {
+
+#define MIKTEX_UTIL_END_NAMESPACE               \
+      }                                         \
+    }
+
+MIKTEX_UTIL_BEGIN_NAMESPACE;
+
+constexpr auto MIKTEX_UTIL_PATHNAME_SIZE = 260;
+
+MIKTEX_UTIL_END_NAMESPACE;

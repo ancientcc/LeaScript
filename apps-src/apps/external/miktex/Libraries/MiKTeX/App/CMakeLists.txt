@@ -1,0 +1,166 @@
+## CMakeLists.txt
+##
+## Copyright (C) 2006-2022 Christian Schenk
+## 
+## This file is free software; the copyright holder gives
+## unlimited permission to copy and/or distribute it, with or
+## without modifications, as long as this notice is preserved.
+
+include(component.cmake)
+
+set(MIKTEX_CURRENT_FOLDER "${MIKTEX_IDE_MIKTEX_LIBRARIES_FOLDER}/app")
+
+include_directories(BEFORE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+set(public_include_directories
+    ${CMAKE_CURRENT_BINARY_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+set(headers_no_ext
+    miktex/App/Application
+    miktex/App/vi/Version
+)
+
+foreach(h ${headers_no_ext})
+    set(_path ${CMAKE_CURRENT_BINARY_DIR}/include/${h})
+    list(APPEND public_headers_no_ext ${_path})
+    if (NOT EXISTS ${_path})
+        file(WRITE ${_path}
+            "#pragma once\n#include <${h}.h>\n"
+        )
+    endif()
+endforeach()
+
+set(public_headers
+    ${CMAKE_CURRENT_BINARY_DIR}/include/miktex/App/vi/Version.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/miktex/App/Application.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/miktex/App/config.h
+    ${public_headers_no_ext}
+)
+
+configure_file(
+    app-version.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/app-version.h
+)
+
+configure_file(
+    config.h.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+)
+
+configure_file(
+    include/miktex/App/vi/Version.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/include/miktex/App/vi/Version.h
+)
+
+set(app_sources
+    ${CMAKE_CURRENT_BINARY_DIR}/app-version.h
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/app.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/internal.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/vi/Runtime.cpp
+    ${public_headers}
+)
+
+if(INSTALL_MIKTEX_HEADERS)
+    install(
+        FILES
+            ${public_headers}
+        DESTINATION
+            ${MIKTEX_HEADER_DESTINATION_DIR}/miktex/App
+    )
+endif()
+
+list(APPEND l_sources app.cpp)
+
+add_custom_target(${MIKTEX_COMP_ID}-pot
+    COMMAND
+        ${XGETTEXT_EXECUTABLE} --join-existing --keyword=T_ --from-code=UTF-8 --add-comments --output=po/${MIKTEX_COMP_ID}.pot ${l_sources}
+    WORKING_DIRECTORY
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+set_property(TARGET ${MIKTEX_COMP_ID}-pot PROPERTY FOLDER ${MIKTEX_CURRENT_FOLDER}/gen)
+
+add_custom_target(gen-${MIKTEX_COMP_ID}-translations)
+set_property(TARGET gen-${MIKTEX_COMP_ID}-translations PROPERTY FOLDER ${MIKTEX_CURRENT_FOLDER}/gen)
+add_dependencies(gen-${MIKTEX_COMP_ID}-translations ${MIKTEX_COMP_ID}-pot)
+
+add_custom_target(${MIKTEX_COMP_ID}-mo ALL)
+set_property(TARGET ${MIKTEX_COMP_ID}-mo PROPERTY FOLDER ${MIKTEX_CURRENT_FOLDER}/gen)
+
+foreach(l ${MIKTEX_TRANSLATION_DONE_LOCALES})
+    add_custom_target(${MIKTEX_COMP_ID}-po-${l}
+        COMMAND
+            ${MSGMERGE_EXECUTABLE} --update --backup=none po/${l}/${MIKTEX_COMP_ID}.po po/${MIKTEX_COMP_ID}.pot
+        WORKING_DIRECTORY
+            ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+    set_property(TARGET ${MIKTEX_COMP_ID}-po-${l} PROPERTY FOLDER ${MIKTEX_CURRENT_FOLDER}/gen)
+    add_dependencies(gen-${MIKTEX_COMP_ID}-translations ${MIKTEX_COMP_ID}-po-${l})
+    add_custom_target(${MIKTEX_COMP_ID}-mo-${l} DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo)
+    set_property(TARGET ${MIKTEX_COMP_ID}-mo-${l} PROPERTY FOLDER ${MIKTEX_CURRENT_FOLDER}/gen)
+    add_dependencies(${MIKTEX_COMP_ID}-mo ${MIKTEX_COMP_ID}-mo-${l})
+    add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo
+        COMMAND
+            ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}
+        COMMAND
+            ${MSGFMT_EXECUTABLE} --output-file=locale/${l}/${MIKTEX_COMP_ID}.mo ${CMAKE_CURRENT_SOURCE_DIR}/po/${l}/${MIKTEX_COMP_ID}.po
+        DEPENDS
+            ${CMAKE_CURRENT_SOURCE_DIR}/po/${l}/${MIKTEX_COMP_ID}.po
+    )
+    add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo.h
+        COMMAND
+            ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}
+        COMMAND
+            bintoc messages_${l}
+                < ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo
+                > ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo.h.tmp
+        COMMAND
+            ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo.h.tmp
+            ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo.h
+        COMMAND
+            ${CMAKE_COMMAND} -E remove ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo.h.tmp
+        DEPENDS
+            ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo
+            bintoc
+        VERBATIM
+    )
+    list(APPEND generated_${MIKTEX_COMP_ID}_sources ${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo.h)
+    set(resource_includes
+        "${resource_includes}#include \"${CMAKE_CURRENT_BINARY_DIR}/locale/${l}/${MIKTEX_COMP_ID}.mo.h\"\n"
+    )
+    set(resource_adders
+        "${resource_adders}R_(\":/${l}/LC_MESSAGES/${MIKTEX_COMP_ID}.mo\", messages_${l});\n"
+    )
+endforeach()
+
+configure_file(
+    AppResources.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/AppResources.h
+)
+
+add_custom_target(gen-${MIKTEX_COMP_ID}-sources DEPENDS
+    ${generated_${MIKTEX_COMP_ID}_sources}
+)
+
+set_property(TARGET gen-${MIKTEX_COMP_ID}-sources PROPERTY FOLDER ${MIKTEX_CURRENT_FOLDER}/gen)
+
+list(APPEND app_sources
+    ${CMAKE_CURRENT_BINARY_DIR}/AppResources.h
+    ${generated_${MIKTEX_COMP_ID}_sources}
+)
+
+set(CMAKE_C_VISIBILITY_PRESET hidden)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN TRUE)
+
+add_subdirectory(shared)

@@ -1,0 +1,361 @@
+/* roseMemoryMappedFile.cpp: memory mapped files
+
+   Copyright (C) 1996-2021 Christian Schenk
+
+   This file is part of the MiKTeX Core Library.
+
+   The MiKTeX Core Library is free software; you can redistribute it
+   and/or modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2, or
+   (at your option) any later version.
+
+   The MiKTeX Core Library is distributed in the hope that it will be
+   useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with the MiKTeX Core Library; if not, write to the Free
+   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+   02111-1307, USA. */
+
+#include "../../miktex_Core_config.h"
+
+#include <fmt/format.h>
+#include <fmt/ostream.h>
+
+#include <miktex/Core/BufferSizes>
+#include <miktex/Trace/Trace>
+#include <miktex/Util/PathNameUtil>
+#include <miktex/Core/Paths.h>
+
+#include "../../miktex_Core_internal.h"
+
+#include "roseMemoryMappedFile.hpp"
+#include "../../Utils/inliners.h"
+
+#include <SDL_log.h>
+#include <SDL_timer.h>
+#include <miktex/Core/Fndb>
+
+using namespace std;
+
+using namespace MiKTeX::Core;
+using namespace MiKTeX::Trace;
+using namespace MiKTeX::Util;
+
+MemoryMappedFile* MemoryMappedFile::Create()
+{
+    return new roseMemoryMappedFile;
+}
+
+roseMemoryMappedFile::roseMemoryMappedFile()
+    : file_data_(nullptr)
+    , file_data_size_(0)
+	, file_data_vsize_(0)
+    , header_(nullptr)
+    , verify_files_(true) // game_config::os == os_windows
+{
+    VALIDATE(sizeof(FileNameDatabaseHeader) == 40, null_str);
+    VALIDATE(sizeof(FileNameDatabaseRecord) == 16, null_str);
+}
+
+roseMemoryMappedFile::~roseMemoryMappedFile()
+{
+    if (file_data_ != nullptr) {
+        VALIDATE(file_data_vsize_ == 0, null_str);
+        free(file_data_);
+    }
+}
+
+void* roseMemoryMappedFile::Open(const PathName& path_, bool readWrite)
+{
+    const std::string norm_path = utils::normalize_path(path_.ToString());
+    VALIDATE(norm_path.find(MIKTEX_PATH_FNDB_DIR) != std::string::npos && norm_path.find(".fndb-") != std::string::npos, null_str);
+    VALIDATE(!readWrite, null_str);
+    size_t pos = norm_path.find("miktex/data/le");
+    VALIDATE(pos != std::string::npos && pos > 1, null_str);
+
+    int len;
+    uint8_t* mem = Fndb::Create2(path_, PathName(norm_path.substr(0, pos - 1)), len);
+    free(mem);
+
+    // SDL_Log("{file}[open]roseMemoryMappedFile::Open, file: %s", path_.ToString().c_str());
+
+    VALIDATE(file_data_ == nullptr, null_str);
+    VALIDATE(file_data_vsize_ == 0, null_str);
+
+    tfile file(path_.ToString(), GENERIC_READ, OPEN_EXISTING);
+    if (file.fp == INVALID_FILE) {
+        return nullptr;
+    }
+    int fsize = posix_fsize(file.fp);
+    if (fsize == 0) {
+        return nullptr;
+    }
+
+    const int MAX_FNDB_FILE_SIZE = 4 * CONSTANT_1M;
+    if (fsize > MAX_FNDB_FILE_SIZE) {
+        SDL_Log("roseMemoryMappedFile::Open, (%s)'s size: %i > %i, The file is too large and is considered invalid.", 
+            path_.ToString().c_str(), fsize, MAX_FNDB_FILE_SIZE);
+        return nullptr;
+    }
+    resize_file_data(fsize);
+    posix_fread(file.fp, file_data_, fsize);
+
+    if (!parse_3area(file_data_, fsize)) {
+        header_ = nullptr;
+        return nullptr;
+    }
+
+    file_name_ = path_.ToString();
+    file_data_vsize_ = fsize;
+    return file_data_;
+}
+
+void roseMemoryMappedFile::Close()
+{
+    VALIDATE(file_data_ != nullptr, null_str);
+    VALIDATE(file_data_vsize_ > 0, null_str);
+
+    free(file_data_);
+    file_data_ = nullptr;
+
+    file_data_size_ = 0;
+    file_data_vsize_ = 0;
+    header_ = nullptr;
+}
+
+void roseMemoryMappedFile::resize_file_data(int size)
+{
+	size = posix_align_ceil(size, 4096);
+	if (size > file_data_size_) {
+		uint8_t* tmp = (uint8_t*)malloc(size);
+		if (file_data_ != nullptr) {
+			if (file_data_vsize_ != 0) {
+				memcpy(tmp, file_data_, file_data_vsize_);
+			}
+			free(file_data_);
+		}
+        if (header_ != nullptr) {
+            VALIDATE((uint8_t*)header_ == file_data_, null_str);
+            header_ = (FileNameDatabaseHeader*)(tmp);
+        }
+		file_data_ = tmp;
+		file_data_size_ = size;
+	}
+}
+
+bool roseMemoryMappedFile::parse_3area(uint8_t* data, int fsize)
+{
+    VALIDATE(data != nullptr, null_str);
+    VALIDATE(fsize > 0, null_str);
+
+    uint32_t start_ticks = SDL_GetTicks();
+
+    if (fsize < sizeof(*header_)) {
+        // Not a file name database file (wrong size).;
+        return false;
+    }
+
+    header_ = reinterpret_cast<FileNameDatabaseHeader*>(data);
+    // foEnd = static_cast<FndbByteOffset>(mmap->GetSize());
+
+    if (header_->signature != FileNameDatabaseHeader::Signature) {
+        // Not a file name database file (wrong signature).
+        return false;
+    }
+    if (header_->version != FileNameDatabaseHeader::Version) {
+        // Unknown file name database file version.
+        return false;
+    }
+
+    FndbByteOffset desire_foStrings = header_->foTable + header_->numFiles * sizeof(FileNameDatabaseRecord);
+    desire_foStrings = posix_align_ceil2(desire_foStrings, FNDB_2AREA_ALIGN);
+
+    if (header_->foTable != sizeof(FileNameDatabaseHeader) || header_->foStrings != desire_foStrings) {
+        return false;
+    }
+
+    int desire_fsize = posix_align_ceil2(header_->size, FNDB_PAGESIZE);
+    if (header_->foStrings > header_->size || fsize != desire_fsize) {
+        return false;
+    }
+
+    std::set<FndbByteOffset> str_offsets;
+
+    std::string tmp_str;
+    const uint8_t* strpool = data + header_->foStrings;
+    const int strpool_size = header_->size - header_->foStrings;
+    int start_pos = 0;
+    bool has_empty_str = false;
+    int spaces = 0;
+    for (int at = 0; at < strpool_size; at ++) {
+        uint8_t ch = strpool[at];
+        if (ch == '\0') {
+            if (at - start_pos > 0) {
+                tmp_str.assign((const char*)strpool + start_pos, at - start_pos);
+            } else {
+                SDL_Log("found empty. 0x%x, times: %i", header_->foStrings + at, spaces ++);
+                if (has_empty_str) {
+                    // return false;
+                    int ii = 0;
+                }
+                has_empty_str = true;
+                tmp_str.clear();
+            }
+            FndbByteOffset fo = header_->foStrings + start_pos;
+            str_map_[tmp_str] = fo;
+            str_offsets.insert(fo);
+
+            start_pos = at + 1;
+        }
+    }
+
+    char filename2[256];
+    std::string filename;
+    std::string directory;
+    std::string info;
+    const FileNameDatabaseRecord* table = (FileNameDatabaseRecord*)(data + header_->foTable);
+    for (size_t idx = 0; idx < header_->numFiles; ++idx) {
+        const FileNameDatabaseRecord& rec = table[idx];
+        if (rec.foFileName < 0 || (int)rec.foFileName >= fsize || 
+            rec.foDirectory < 0 || (int)rec.foDirectory >= fsize ||
+            rec.foInfo < 0 || (int)rec.foInfo >= fsize) {
+            return false;
+        }
+
+        if (str_offsets.count(rec.foFileName) == 0 || str_offsets.count(rec.foDirectory) == 0 || str_offsets.count(rec.foInfo) == 0) {
+            return false;
+        }
+
+        if (verify_files_) {
+            filename.assign((const char*)data + rec.foFileName);
+            directory.assign((const char*)data + rec.foDirectory);
+            info.assign((const char*)data + rec.foInfo);
+
+            // SDL_Log("#%i file: %s, dir: %s, info: %s", (int)idx, filename.c_str(), directory.c_str(), info.c_str());
+
+            SDL_snprintf(filename2, sizeof(filename2), "%s/%s", directory.c_str(), filename.c_str());
+            VALIDATE(files_.count(filename2) == 0, null_str);
+            files_.insert(filename2);
+        }
+    }
+    if (verify_files_) {
+        VALIDATE(files_.size() == header_->numFiles, null_str);
+    }
+
+    SDL_Log("parse_3area cost %u ms", SDL_GetTicks() - start_ticks);
+    return true;
+}
+
+FndbByteOffset roseMemoryMappedFile::PushBack(const std::string& data, uint8_t* to_data, int& to_offset)
+{
+    StringMap::const_iterator it = str_map_.find(data);
+    if (it != str_map_.end()) {
+        return it->second;
+    }
+
+    // return value is same as 'FndbManager::PushBack(const char* data)'
+    // 'ret' value require based on file_data_[0]. 
+    // both to_data and to_offset are based on strpool[0].
+    FndbByteOffset ret = header_->foStrings + to_offset;
+
+    uint8_t* ptr = to_data + to_offset;
+    const int s = data.size();
+    if (s != 0) {
+        memcpy(ptr, data.c_str(), data.size());
+        to_offset += s;
+    }
+    ptr[s] = null_byte;
+    to_offset ++;
+
+    str_map_[data] = ret;
+    return ret;
+}
+
+void roseMemoryMappedFile::AlignMem(uint8_t* to_data, int& to_offset, size_t align)
+{
+    // FndbByteOffset foTop = GetMemTop();
+    while ((to_offset % align) > 0) {
+        to_data[to_offset ++] = null_byte;
+    }
+}
+
+void* roseMemoryMappedFile::fndb_add(const std::vector<trecord>& records)
+{
+    VALIDATE(!records.empty(), null_str);
+    char filename2[256];
+    const int max_string_size = 128;
+
+    // avoie strpoo is too small.
+    resize_file_data(file_data_vsize_ + 1024);
+
+    const int strpool_size = header_->size - header_->foStrings;
+    uint8_t* strpool_data = (uint8_t*)malloc(strpool_size + records.size() * 3 * max_string_size);
+    memcpy(strpool_data, file_data_ + header_->foStrings, strpool_size); 
+
+    int table_to_offset = header_->foTable + header_->numFiles * sizeof(FileNameDatabaseRecord);
+    int sp_to_offset = strpool_size;
+    for (std::vector<trecord>::const_iterator it = records.begin(); it != records.end(); ++ it) {
+        const trecord& record = *it;
+        if (verify_files_) {
+            SDL_snprintf(filename2, sizeof(filename2), "%s/%s", record.directory.c_str(), record.fileName.c_str());
+            VALIDATE(files_.count(filename2) == 0, null_str);
+            files_.insert(filename2);
+        }
+        VALIDATE(record.fileName.size() <= max_string_size, null_str);
+        VALIDATE(record.directory.size() <= max_string_size, null_str);
+        VALIDATE(record.info.size() <= max_string_size, null_str);
+/*
+        if (record.fileName == "pdflatex.fmt") {
+            int ii = 0;
+        }
+*/
+        FileNameDatabaseRecord rec;
+        rec.foFileName = PushBack(record.fileName, strpool_data, sp_to_offset);
+        rec.foDirectory = PushBack(record.directory, strpool_data, sp_to_offset);
+        rec.foInfo = PushBack(record.info, strpool_data, sp_to_offset);
+
+        uint8_t* to = file_data_ + table_to_offset;
+        memcpy(to, &rec, sizeof(rec));
+        table_to_offset += sizeof(rec);
+
+        // SetMem(static_cast<unsigned>(fndb.foTable + idx * sizeof(rec)), &rec, sizeof(rec));
+    }
+
+    // update 'header'
+    header_->numFiles += records.size();
+    AlignMem(file_data_, table_to_offset);
+    // because strpool's offset is changed, update all offset in table area.
+    const int offset_diff = table_to_offset - header_->foStrings;
+    FileNameDatabaseRecord* table = (FileNameDatabaseRecord*)(file_data_ + header_->foTable);
+    for (int at = 0; at < (int)header_->numFiles; at ++) {
+        FileNameDatabaseRecord& rec = table[at];
+        rec.foFileName += offset_diff;
+        rec.foDirectory += offset_diff;
+        rec.foInfo += offset_diff;
+    }
+    for (StringMap::iterator it = str_map_.begin(); it != str_map_.end(); ++ it) {
+        FndbByteOffset& fo = it->second;
+        fo += offset_diff;
+    }
+    header_->foStrings = table_to_offset;
+    header_->size = header_->foStrings + sp_to_offset;
+
+    resize_file_data(posix_align_ceil2(header_->foStrings + sp_to_offset, FNDB_PAGESIZE));
+
+    const uint8_t* strpool_ptr = file_data_ + header_->foStrings;
+    const uint8_t* size_ptr = file_data_ + header_->size;
+
+    memcpy(file_data_ + header_->foStrings, strpool_data, sp_to_offset);
+    int to_offset = header_->size;
+    AlignMem(file_data_, to_offset, FNDB_PAGESIZE);
+
+    file_data_vsize_ = to_offset;
+
+    write_file(file_name_, (const char*)file_data_, to_offset);
+    free(strpool_data);
+
+    return header_;
+}

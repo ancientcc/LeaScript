@@ -1,0 +1,1012 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\3rdparty\pffft\fftpack.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\pffft\pffft.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\com_google_audio_tools\audio\dsp\window_functions.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\demangle.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\logging.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\port.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\raw_logging.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\signalhandler.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\symbolize.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\utilities.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\vlog_is_on.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\audio_decoder_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\basic_time_series_calculators.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\mfcc_mel_calculators.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\mfcc_mel_calculators.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\rational_factor_resample_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\rational_factor_resample_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\spectrogram_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\spectrogram_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\stabilized_log_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\stabilized_log_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\time_series_framer_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\two_tap_fir_filter_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\audio\two_tap_fir_filter_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\add_header_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\begin_item_loop_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\begin_loop_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\bypass_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\bypass_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\clip_vector_size_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\clip_vector_size_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\concatenate_detection_vector_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\concatenate_proto_list_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\concatenate_vector_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\concatenate_vector_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\constant_side_packet_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\constant_side_packet_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\counting_source_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\default_side_packet_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\dequantize_byte_array_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\dequantize_byte_array_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\end_item_loop_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\end_loop_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\flow_limiter_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\flow_limiter_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\gate_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\gate_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\get_vector_item_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\get_vector_item_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\graph_profile_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\graph_profile_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\immediate_mux_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\make_pair_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\matrix_multiply_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\matrix_subtract_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\matrix_to_vector_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\merge_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\merge_to_vector_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\mux_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\non_zero_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_cloner_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_cloner_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_inner_join_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_presence_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_resampler_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_resampler_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_sequencer_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_thinner_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\packet_thinner_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\pass_through_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\previous_loopback_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\quantize_float_vector_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\quantize_float_vector_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\real_time_flow_limiter_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\round_robin_demux_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\sequence_shift_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\sequence_shift_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\side_packet_to_stream_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\split_proto_list_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\split_vector_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\split_vector_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\stream_to_side_packet_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\string_to_int_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\value_or_default_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\vector_indices_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\core\vector_size_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\affine_transformation_runner_gl.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\affine_transformation_runner_opencv.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\bilateral_filter_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\bilateral_filter_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\image_properties_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\opencv_image_encoder_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\recolor_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\recolor_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\rotation_mode.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\segmentation_smoothing_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\segmentation_smoothing_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\warp_affine_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\image\warp_affine_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\internal\callback_packet_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\graph_tensors_packet_generator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\graph_tensors_packet_generator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\image_frame_to_tensor_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\image_frame_to_tensor_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\lapped_tensor_buffer_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\lapped_tensor_buffer_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\matrix_to_tensor_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\matrix_to_tensor_calculator_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\object_detection_tensors_to_detections_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\object_detection_tensors_to_detections_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\pack_media_sequence_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\pack_media_sequence_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\string_to_sequence_example_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_inference_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_inference_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_session_from_frozen_graph_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_session_from_frozen_graph_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_session_from_frozen_graph_generator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_session_from_frozen_graph_generator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_session_from_saved_model_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensorflow_session_from_saved_model_generator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_squeeze_dimensions_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_image_frame_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_image_frame_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_matrix_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_matrix_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_vector_float_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_vector_float_calculator_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_vector_int_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_vector_int_calculator_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_vector_string_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\tensor_to_vector_string_calculator_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\unpack_media_sequence_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\unpack_media_sequence_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\vector_float_to_tensor_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\vector_float_to_tensor_calculator_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\vector_int_to_tensor_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\vector_int_to_tensor_calculator_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\vector_string_to_tensor_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensorflow\vector_string_to_tensor_calculator_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_converter_frame_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_converter_gl_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_converter_gl_texture.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_converter_gl_utils.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_converter_metal.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_converter_opencv.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\image_to_tensor_utils.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_calculator_cpu.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_calculator_gl.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_calculator_gl_advanced.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_calculator_utils.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_calculator_xnnpack.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_feedback_manager.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_interpreter_delegate_runner.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_io_mapper.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\inference_on_disk_cache_helper.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\landmarks_to_tensor_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\landmarks_to_tensor_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\regex_preprocessor_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\regex_preprocessor_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_dequantization_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_readback_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_audio_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_audio_calculator.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_classification_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_classification_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_detections_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_detections_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_floats_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_floats_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_landmarks_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_landmarks_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_segmentation_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_segmentation_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_segmentation_converter_gl_buffer.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_segmentation_converter_gl_texture.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_segmentation_converter_opencv.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensors_to_segmentation_utils.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensor_converter_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensor_converter_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensor_converter_cpu.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensor_span.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensor_to_joints_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tensor\tensor_to_joints_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tflite\ssd_anchors_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tflite\ssd_anchors_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tflite\tflite_inference_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tflite\tflite_inference_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\tflite\tflite_model_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\alignment_points_to_rects_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\align_hand_to_pose_in_world_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\align_hand_to_pose_in_world_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\annotation_overlay_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\annotation_overlay_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detections_deduplicate_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detections_to_rects_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detections_to_rects_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detections_to_render_data_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detections_to_render_data_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detections_to_timed_box_list_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detection_letterbox_removal_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\detection_unique_id_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\from_image_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\inverse_matrix_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_smoothing_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_smoothing_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_smoothing_calculator_utils.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_to_detection_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_to_detection_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_to_floats_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_to_floats_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_to_render_data_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmarks_to_render_data_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmark_letterbox_removal_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmark_projection_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\landmark_projection_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\non_max_suppression_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\non_max_suppression_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\rect_to_render_data_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\rect_to_render_data_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\rect_to_render_scale_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\rect_to_render_scale_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\rect_transformation_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\rect_transformation_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\refine_landmarks_from_heatmap_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\refine_landmarks_from_heatmap_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\resource_provider_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\resource_provider_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\thresholding_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\thresholding_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\to_image_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\visibility_copy_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\visibility_copy_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\visibility_smoothing_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\visibility_smoothing_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\calculators\util\world_landmark_projection_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\examples\desktop\demo_run_graph_main.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\examples\desktop\hello_world\hello_world.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\api2\node.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)framework\api2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\api2\packet.cc">
+      <ProgramDataBaseFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)framework\api2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_base.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_context.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_context_manager.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_contract.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_graph.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_node.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_options.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_profile.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_runner.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\calculator_state.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\collection_item_id.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\counter_factory.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\delegating_executor.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\clock.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\file_helpers.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\file_path.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\mlock_helpers.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\monotonic_clock.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\platform_strings.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\proto_descriptor.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\registration.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\registration_token.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\ret_check.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\status.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\status_builder.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\threadpool_std_thread_impl.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\deps\topologicalsorter.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\executor.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)framework\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\annotation\locus.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\annotation\rasterization.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\body_rig.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\classification.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\deleting_file.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\detection.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\frame_buffer.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\image.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)framework\formats\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\image_format.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\image_frame.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\image_frame_opencv.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)framework\formats\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\image_opencv.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\landmark.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\location.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\location_data.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\matrix_data.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\object_detection\anchor.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\rect.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\tensor.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\tensor_ahwb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\formats\time_series_header.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\graph_output_stream.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\graph_runtime_info.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\graph_service_manager.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\input_side_packet_handler.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\input_stream_handler.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\input_stream_manager.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\input_stream_shard.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\legacy_calculator_support.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\mediapipe_options.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\output_side_packet_impl.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\output_stream_handler.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\output_stream_manager.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\output_stream_shard.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\packet.cc">
+      <ProgramDataBaseFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)framework\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\packet_factory.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\packet_generator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\packet_generator_graph.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\packet_type.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\resources.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\scheduler.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\scheduler_queue.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\status_handler.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\stream_handler.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\stream_handler\default_input_stream_handler.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\stream_handler\default_input_stream_handler.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\stream_handler\immediate_input_stream_handler.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\stream_handler\in_order_output_stream_handler.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\subgraph.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\thread_pool_executor.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\thread_pool_executor.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\timestamp.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\calculator_graph_template.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\container_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\executor_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\field_data.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\fill_packet_set.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\graph_runtime_info_logger.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\graph_runtime_info_utils.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\name_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\options_field_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\options_map.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\options_registry.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\options_syntax_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\options_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\packet_generator_wrapper_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\packet_generator_wrapper_calculator.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\proto_util_lite.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\simulation_clock.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\simulation_clock_executor.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\sink.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\source.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\source.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\status_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\subgraph_expansion.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\switch_container.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\switch_container.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\switch_demux_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\switch_mux_calculator.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\tag_map.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\tag_map_helper.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\template_expander.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\template_parser.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\validate.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\validate_name.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\tool\validate_type.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\validated_graph_config.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\vlog_overrides.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\framework\vlog_utils.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\egl_errors.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\egl_sync.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\egl_sync_point.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_calculator_helper.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_context.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_context_egl.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_context_options.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_simple_calculator.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_simple_shaders.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_texture_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gl_texture_view.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_buffer_format.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_buffer_multi_pool.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_buffer_storage.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_buffer_storage_image_frame.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_origin.pb.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_origin_utils.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_service.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\gpu_shared_data_internal.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\gpu\shader_util.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\rose\mediapipe_api.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\annotation_renderer.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\audio_decoder.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\color.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\cpu_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\filtering\low_pass_filter.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\filtering\one_euro_filter.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\filtering\relative_velocity_filter.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\frame_buffer\buffer_common.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\frame_buffer\float_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\frame_buffer\frame_buffer_util.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\frame_buffer\gray_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\frame_buffer\rgb_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\frame_buffer\yuv_buffer.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\header_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\label_map.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\label_map_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\render_data.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\resource_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\resource_util_rose.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\resource_util_windows.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\str_util.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tflite\tflite_gpu_runner.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tflite\tflite_model_loader.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tflite\tflite_signature_reader.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tflite\utils.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)util\tflite\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\box_tracker.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\box_tracker.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\camera_motion.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\camera_motion.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\flow_packager.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\flow_packager.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\measure_time.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\motion_models.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\motion_models.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\motion_models_cv.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\region_flow.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\region_flow.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\tracking.cc" />
+    <ClCompile Include="..\..\external\mediapipe\mediapipe\util\tracking\tracking.pb.cc" />
+    <ClCompile Include="..\..\external\mediapipe\tools\cpp\runfiles\runfiles.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\cleanup.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pthread_win32\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\create.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pthread_win32\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\dll.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pthread_win32\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\errno.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pthread_win32\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\global.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pthread_win32\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\pthread.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getaffinity_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getdetachstate.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getinheritsched.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getname_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getschedparam.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getschedpolicy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getscope.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getstackaddr.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_getstacksize.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setaffinity_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setdetachstate.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setinheritsched.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setname_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setschedparam.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setschedpolicy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setscope.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setstackaddr.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_attr_setstacksize.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_barrierattr_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_barrierattr_getpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_barrierattr_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_barrierattr_setpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_barrier_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_barrier_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_barrier_wait.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_cancel.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_condattr_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_condattr_getpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_condattr_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_condattr_setpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_cond_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_cond_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_cond_signal.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_cond_wait.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_delay_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_detach.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_equal.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_exit.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_getconcurrency.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_getname_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_getschedparam.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_getspecific.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_getunique_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_getw32threadhandle_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_join.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_key_create.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_key_delete.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_kill.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_getkind_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_getpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_getrobust.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_gettype.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_setkind_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_setpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_setrobust.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutexattr_settype.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutex_consistent.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutex_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutex_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutex_lock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutex_timedlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutex_trylock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_mutex_unlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_num_processors_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_once.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlockattr_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlockattr_getpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlockattr_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlockattr_setpshared.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_rdlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_timedrdlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_timedwrlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_tryrdlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_trywrlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_unlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_rwlock_wrlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_self.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_setaffinity.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_setcancelstate.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_setcanceltype.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_setconcurrency.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_setname_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_setschedparam.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_setspecific.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_spin_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_spin_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_spin_lock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_spin_trylock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_spin_unlock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_testcancel.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_timechange_handler_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_timedjoin_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_tryjoin_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\pthread_win32_attach_detach_np.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_calloc.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_callUserDestroyRoutines.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_cond_check_need_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_getprocessors.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_is_attr.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_MCS_lock.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_mutex_check_need_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_new.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_processInitialize.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_processTerminate.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_relmillisecs.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_reuse.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_rwlock_cancelwrwait.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_rwlock_check_need_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_semwait.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_spinlock_check_need_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_strdup.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_threadDestroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_threadStart.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_throw.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_timespec.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_tkAssocCreate.c" />
+    <ClCompile Include="..\..\external\pthread-win32\ptw32_tkAssocDestroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sched_getscheduler.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sched_get_priority_max.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sched_get_priority_min.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sched_setaffinity.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sched_setscheduler.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sched_yield.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_close.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_destroy.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_getvalue.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_init.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_open.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_post.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_post_multiple.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_timedwait.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_trywait.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_unlink.c" />
+    <ClCompile Include="..\..\external\pthread-win32\sem_wait.c" />
+    <ClCompile Include="..\..\external\pthread-win32\signal.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pthread_win32\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pthread-win32\w32_CancelableWait.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\mediapipe\mediapipe\framework\stream_handler\immediate_input_stream_handler.h" />
+    <ClInclude Include="..\..\external\mediapipe\mediapipe\macros.h" />
+    <ClInclude Include="..\..\external\mediapipe\mediapipe\rose\mediapipe_api.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\external\pthread-win32\version.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ResourceCompile>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d19b6753-bd7b-4369-8abf-fbdc5ff91ab7}</ProjectGuid>
+    <RootNamespace>My4libmediapipe</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Configuration)\$(TargetName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(Configuration)\$(TargetName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;BOOST_ALL_NO_LIB;WIN32_LEAN_AND_MEAN;WEBRTC_WIN;DCHECK_ALWAYS_ON;PROTOBUF_USE_DLLS;MEDIAPIPE_MOBILE;GLOG_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../external/3rdparty/third_party/ffmpeg;../../external/chromium/third_party/abseil-cpp;../../external/com_google_audio_tools;../../external/glog/src;../../external/mediapipe;../../external/opencv;../../external/powervr-graphics/include;../../external/protobuf/src;../../external/pthread-win32;../../external/tensorflow;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../external/tensorflow/tensorflow/lite/downloads/flatbuffers/include;../../external/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>3rdparty.lib;3rdparty2.lib;../../../linker/windows/lib/x64/SDL2.lib;../../../linker/windows/lib/x64/SDL2_image.lib;ws2_32.lib;../../external/powervr-graphics/lib/libEGL.lib;../../external/powervr-graphics/lib/libGLESv2.lib;../../external/pthread-win32/windows/VS2022/bin/Release-Unicode-64bit-x64/pthread.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;BOOST_ALL_NO_LIB;WIN32_LEAN_AND_MEAN;WEBRTC_WIN;DCHECK_ALWAYS_ON;PROTOBUF_USE_DLLS;MEDIAPIPE_MOBILE;MEDIAPIPE_BUILD_SHARED_LIBS;TFL_STATIC_LIBRARY_BUILD;MEDIAPIPE_DISABLE_GPU=1;PTHREAD_WIN32_HAVE_CONFIG_H;_ITERATOR_DEBUG_LEVEL=1;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/3rdparty/FP16/include;../../external/3rdparty/pffft;../../external/3rdparty/third_party/ffmpeg;../../external/boringssl/include;../../external/chromium/third_party/abseil-cpp;../../external/com_google_audio_tools;../../external/mediapipe;../../external/opencv;../../external/powervr-graphics/include;../../external/protobuf/src;../../external/pthread-win32;../../external/tensorflow;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../external/tensorflow/tensorflow/lite/downloads/flatbuffers/include;../../../linker/include/SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4251;4267;4275</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>3rdparty.lib;3rdparty2.lib;4libtensorflowlite.lib;../../../linker/windows/lib/x64/SDL2.lib;../../../linker/windows/lib/x64/SDL2_image.lib;ws2_32.lib;../../external/powervr-graphics/lib/libEGL.lib;../../external/powervr-graphics/lib/libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

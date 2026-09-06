@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="rplidar_ros">
+      <UniqueIdentifier>{7a673b38-8771-4f6a-851c-49ec191f945d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rplidar_ros\sdk">
+      <UniqueIdentifier>{a9dd3bf8-408b-4055-84b2-637f1d821735}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rplidar_ros\sdk\hal">
+      <UniqueIdentifier>{4cfe4f3a-9f5b-4433-bf9c-d8e72bebc1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rplidar_ros\sdk\include">
+      <UniqueIdentifier>{08ab0cae-52f3-44dd-a549-f0b6cfbaa815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rplidar_ros\sdk\rose">
+      <UniqueIdentifier>{609b74ab-803c-4f1b-952d-43cdefb2acd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rplidar_ros\sdk\win32">
+      <UniqueIdentifier>{e5d0432d-2741-4385-8654-20c51c4d6910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sc_mini">
+      <UniqueIdentifier>{f8421a9a-615e-488e-bf35-c4836d512d63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="speech">
+      <UniqueIdentifier>{de0915cf-0c00-4294-9c74-7d25fb9dfe25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{b4985d40-7930-42bb-afc0-8828dd433062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="moveit">
+      <UniqueIdentifier>{0f0fce86-5f50-4e38-b23a-9c16c8570d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="laser">
+      <UniqueIdentifier>{645fc611-14c1-45c5-a349-a03560272d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lsx10">
+      <UniqueIdentifier>{960225aa-7234-4ee3-8c4a-1d55409ecf5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lsx10\lslidar_driver">
+      <UniqueIdentifier>{68ed30f7-5f1f-4ab0-98f5-3abcb7afb9ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dcamera">
+      <UniqueIdentifier>{28ea8aa9-8678-4357-a306-f85de4e5958e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="task">
+      <UniqueIdentifier>{f6db66fb-0a3b-4a1b-b103-8b3dc65a979d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="iot">
+      <UniqueIdentifier>{f854c0ec-69ee-4cf8-8e04-780af9457d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="orbbec">
+      <UniqueIdentifier>{db63f41a-9518-46a0-9804-d745258674cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ai">
+      <UniqueIdentifier>{1af4c266-8929-4647-8669-b1c301b14cd8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\rose\rose_serial.cpp">
+      <Filter>rplidar_ros\sdk\rose</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\net_serial.cpp">
+      <Filter>rplidar_ros\sdk\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\timer.cpp">
+      <Filter>rplidar_ros\sdk\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\sdk\src\rplidar_driver.cpp">
+      <Filter>rplidar_ros\sdk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\rplidar_ros\src\node.cpp">
+      <Filter>rplidar_ros</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\sc_mini\src\sc_mini.cpp">
+      <Filter>sc_mini</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\speech\leagor_speech.cpp">
+      <Filter>speech</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\speech\xfyun.cpp">
+      <Filter>speech</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\base\leagor_base.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\base\im948.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\moveit\leagor_moveit.cpp">
+      <Filter>moveit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\base\wheeltec.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\base\wheeltecserial.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\base\yahboom.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\base\yahboomserial.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\laser\leagor_laser.cpp">
+      <Filter>laser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\lsx10\lslidar_driver\src\lslidar_driver.cpp">
+      <Filter>lsx10\lslidar_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\lsx10\lslidar_driver\src\lslidar_driver_node.cpp">
+      <Filter>lsx10\lslidar_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\dcamera\leagor_dcamera.cpp">
+      <Filter>dcamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\task\task_api.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\iot\leagor_iot.cpp">
+      <Filter>iot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\aplt_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\task\leagor_nonblock.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\ob_camera_node.cpp">
+      <Filter>orbbec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\ob_camera_node_driver.cpp">
+      <Filter>orbbec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\orbbec_ros.cpp">
+      <Filter>orbbec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\ros_sensor.cpp">
+      <Filter>orbbec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\orbbec\src\utils.cpp">
+      <Filter>orbbec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\task\nonblock_task.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\task\charge.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\task\leagor_aiagent.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\task\aiagent_task.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\ai\leagor_ai.cpp">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libleagor_basic\ai\qianfan.cpp">
+      <Filter>ai</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\abs_rxtx.h">
+      <Filter>rplidar_ros\sdk\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\assert.h">
+      <Filter>rplidar_ros\sdk\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\byteops.h">
+      <Filter>rplidar_ros\sdk\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\util.h">
+      <Filter>rplidar_ros\sdk\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\hal\types.h">
+      <Filter>rplidar_ros\sdk\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar.h">
+      <Filter>rplidar_ros\sdk\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar_cmd.h">
+      <Filter>rplidar_ros\sdk\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar_driver.h">
+      <Filter>rplidar_ros\sdk\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rplidar_protocol.h">
+      <Filter>rplidar_ros\sdk\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\include\rptypes.h">
+      <Filter>rplidar_ros\sdk\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\rose\rose_serial.h">
+      <Filter>rplidar_ros\sdk\rose</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\arch_win32.h">
+      <Filter>rplidar_ros\sdk\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\net_serial.h">
+      <Filter>rplidar_ros\sdk\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\arch\win32\timer.h">
+      <Filter>rplidar_ros\sdk\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\rplidar_driver_impl.h">
+      <Filter>rplidar_ros\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\rplidar_driver_serial.h">
+      <Filter>rplidar_ros\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\rplidar_ros\sdk\src\sdkcommon.h">
+      <Filter>rplidar_ros\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\speech\leagor_speech.hpp">
+      <Filter>speech</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\speech\xfyun.hpp">
+      <Filter>speech</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\base\leagor_base.hpp">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\base\im948.hpp">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\moveit\leagor_moveit.hpp">
+      <Filter>moveit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\base\wheeltec.hpp">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\base\wheeltecserial.hpp">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\base\yahboom.hpp">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\base\yahboomserial.hpp">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\laser\leagor_laser.hpp">
+      <Filter>laser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\lsx10\lslidar_driver\include\lslidar_driver\lslidar_driver.h">
+      <Filter>lsx10\lslidar_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\dcamera\leagor_dcamera.hpp">
+      <Filter>dcamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\dcamera\dcamera_device.hpp">
+      <Filter>dcamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\task\task_api.hpp">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\common.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\iot\leagor_iot.hpp">
+      <Filter>iot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\task\leagor_nonblock.hpp">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\constants.h">
+      <Filter>orbbec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\json.hpp">
+      <Filter>orbbec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\ob_camera_node.h">
+      <Filter>orbbec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\ob_camera_node_driver.h">
+      <Filter>orbbec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\ros_sensor.h">
+      <Filter>orbbec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\types.h">
+      <Filter>orbbec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\include\orbbec_camera\utils.h">
+      <Filter>orbbec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\task\nonblock_task.hpp">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\task\common.hpp">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\task\charge.hpp">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\task\leagor_aiagent.hpp">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\task\aiagent_task.hpp">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\ai\leagor_ai.hpp">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libleagor_basic\ai\qianfan.hpp">
+      <Filter>ai</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

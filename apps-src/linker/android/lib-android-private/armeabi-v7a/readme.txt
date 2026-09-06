@@ -1,0 +1,1 @@
+存储用NDK编译、却只针对android的库。目前只有libSDL2.so、libhidapi.so

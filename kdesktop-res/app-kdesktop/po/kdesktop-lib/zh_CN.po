@@ -1,0 +1,840 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kdesktop-lib\n"
+"Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
+"POT-Creation-Date: 2026-08-22 13:57+0800\n"
+"PO-Revision-Date: 2026-08-22 13:58+0800\n"
+"Last-Translator: \n"
+"Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.9\n"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/_bonus.cpp:1
+msgid "kdesktop"
+msgstr "kDesktop"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:1
+msgid "(Video)User guide"
+msgstr "(视频)使用指南"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:3
+msgid "(Video)Vlog example"
+msgstr "(视频)Vlog示例"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:5
+msgid "Action name"
+msgstr "动作名称"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:7
+msgid "Cancel"
+msgstr "取消"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:9
+msgid "Date"
+msgstr "日期"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:11
+msgid "Dbg"
+msgstr ""
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:13
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:167
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:425
+msgid "Enter desktop"
+msgstr "进入桌面"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:15
+msgid "Face cover"
+msgstr "遮脸"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:17
+msgid "Finish caption"
+msgstr "结束语"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:19
+msgid "Gateway"
+msgstr "网关"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:21
+msgid "History data"
+msgstr "历史数据"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:23
+msgid "IP addr"
+msgstr "IP地址"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:25
+msgid "Landmarks"
+msgstr "姿态点"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:27
+msgid "On top"
+msgstr "放在顶部"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:29
+msgid "Poses"
+msgstr "姿态判断"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:31
+msgid "Progress"
+msgstr "进度"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:33
+msgid "Repetition SFX"
+msgstr "计次音效"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:35
+msgid "Start caption"
+msgstr "开场语"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:37
+msgid "Subnet mask"
+msgstr "子网掩码"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:39
+msgid "Timer"
+msgstr "计时"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:41
+msgid "Update"
+msgstr "修改"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:43
+msgid "Upgrade"
+msgstr "升级"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:45
+msgid "Video on center"
+msgstr "视频放中间"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:47
+msgid "View"
+msgstr "查看"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:49
+msgid "Workout chart"
+msgstr "数据复盘"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:51
+msgid "Workout items"
+msgstr "跟练项目"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:53
+msgid "Workout name"
+msgstr "健身操名称"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:55
+msgid "Workout settings"
+msgstr "跟练设置"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:57
+msgid "Workout summary"
+msgstr "训练小结"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:59
+msgid "camera^Snapshot"
+msgstr "拍照 "
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:61
+msgid "page^active"
+msgstr "跟练阶段"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:63
+msgid "page^finish"
+msgstr "结束阶段"
+
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:65
+msgid "page^start"
+msgstr "开始阶段"
+
+#: apps-src/apps/kdesktop/game_config.cpp:26
+msgid "caption_msg^start1"
+msgstr "今日训练"
+
+#: apps-src/apps/kdesktop/game_config.cpp:26
+msgid "caption_msg^finish1"
+msgstr "训练结束"
+
+#: apps-src/apps/kdesktop/game_config.cpp:27
+msgid "caption_msg^start2"
+msgstr "动作演示开始"
+
+#: apps-src/apps/kdesktop/game_config.cpp:27
+msgid "caption_msg^finish2"
+msgstr "演示结束"
+
+#: apps-src/apps/kdesktop/game_config.cpp:28
+msgid "caption_msg^start3"
+msgstr "今日份打卡"
+
+#: apps-src/apps/kdesktop/game_config.cpp:28
+msgid "caption_msg^finish3"
+msgstr "打完卡，收工"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:232
+msgid "Start decoder"
+msgstr "启动解码器"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:241
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1510
+msgid "Local"
+msgstr "本地"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:571
+msgid "Fail"
+msgstr "失败"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:571
+msgid "Success"
+msgstr "成功"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:572
+msgid "Start decoder $result"
+msgstr "启动解码器$result"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:574
+msgid "Decoder is ready"
+msgstr "解码器已就绪"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:917
+msgid "Visible area display $percent%"
+msgstr "显示$percent%桌面"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1509
+msgid "Remote"
+msgstr "远程"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1511
+msgid "$src ---> $dst"
+msgstr "$src ---> $dst"
+
+#: apps-src/apps/kdesktop/gui/dialogs/desktop.cpp:1563
+msgid "Delete"
+msgstr "删除"
+
+#: apps-src/apps/kdesktop/gui/dialogs/ethernetip.cpp:53
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:113
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:573
+msgid "Update IP"
+msgstr "修改IP"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:89
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:175
+msgid "home^rdp_layer"
+msgstr "首页"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:92
+msgid "Remote IP"
+msgstr "远程IP"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:95
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:176
+msgid "home^apps_layer"
+msgstr "应用"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:98
+msgid "Event"
+msgstr "事件"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:101
+msgid "Me"
+msgstr "我"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:147
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:420
+msgid "Landscape"
+msgstr "横屏"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:147
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:420
+msgid "Portrait"
+msgstr "竖屏"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:162
+msgid "When switching mode, can select '$item'"
+msgstr "切换模式时，可以选“$item”"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:168
+msgid "Applet"
+msgstr "小程序"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:171
+msgid ""
+"If '$desktop', and connect fails, you may enter the '$store' in '$applet' "
+"and let connect to network. Then come back to this interface."
+msgstr ""
+"如果“$desktop”后，连接失败，或许可进入“$applet”中的“$store”。让连一次网络，然"
+"后再回到此界面。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:180
+msgid "scene_list remark $rdp_layer, $apps_layer, $import_cfg"
+msgstr ""
+"1、打开 「$apps_layer」 → 「商店」，下载两个小程序：Basic Lua 和 kHome "
+"Lua。\n"
+"2、在 「$apps_layer」 页面底部，安装底盘驱动（Basic Lua）。\n"
+"3、在 「$apps_layer」 页面底部，安装中文拼音包（否则无法播报中文语音）。\n"
+"4、在 「$apps_layer」 页，进入「kLink」。点击页面右上角的 「导入」 按钮，在弹"
+"出的菜单中选择「$import_cfg 」。导入成功后，列表中会显示 kHome Lua 自带的动作"
+"脚本，如平板撑、俯卧撑等。\n"
+"5、返回 「$rdp_layer」，页面将同步显示「kLink」 中已有的项目。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:206
+msgid "When workout starts, it will automatically enter the '$dcamera'."
+msgstr "跟练开始后，自动进入“$dcamera”。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:231
+msgid "Install"
+msgstr "安装"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:243
+msgid ""
+"A maximum of $days days of logs can be stored, and no more than $max_logs "
+"logs can be stored"
+msgstr "最多存储$days天内日志，并且不会超过$max_logs条"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:397
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:483
+msgid "$driver not installed."
+msgstr "未安装底盘驱动。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:480
+msgid "$driver installed: $aplt"
+msgstr "已安装底盘驱动：$aplt"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:502
+msgid "Please go to the store and download '$name' first."
+msgstr "请先去商店下载“$name”。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:52
+msgid "At least $count more."
+msgstr "至少还有$count条。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:58
+msgid "Will keepalive automatically after $elapse"
+msgstr "在$elapse后会自动向服务器获取事件"
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:66
+msgid ""
+"Device is not logged on to the server, will login automatically after $elapse"
+msgstr "设备没登录服务器，$elapse后会自动重新登录"
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:68
+msgid "Device is not logged on to the server"
+msgstr "没登录服务器"
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:143
+msgid "Keepalive"
+msgstr "心跳"
+
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:153
+msgid "Get event"
+msgstr "获取事件"
+
+#: apps-src/apps/kdesktop/gui/dialogs/klink.cpp:66
+msgid "Base scene"
+msgstr "底盘场景"
+
+#: apps-src/apps/kdesktop/gui/dialogs/klink.cpp:67
+msgid "Env var"
+msgstr "环境变量"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:405
+msgid "Initialize mediapipe graph fail"
+msgstr "初始化 MediaPipe 图失败。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:473
+msgid "dcamera^warning"
+msgstr ""
+"跟练时，请将设备横屏放置，垂直地面（度数显示绿色），使用后置摄像头拍摄，并让"
+"后置摄像头一侧朝上。长按视频区，进入/退出Vlog模式。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:718
+msgid "Stop"
+msgstr "停止"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:734
+msgid "Snapshot"
+msgstr "拍照 "
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1735
+msgid "Starting Camera"
+msgstr "正在开启摄像头"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2158
+msgid "$count days"
+msgstr "$count天"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2158
+msgid "Total check-ins"
+msgstr "累计打卡"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2160
+msgid "$count times"
+msgstr "$count次"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2160
+msgid "Total workouts"
+msgstr "累计做操"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2163
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2356
+msgid "$count reps"
+msgstr "$count个"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2163
+msgid "Total reps"
+msgstr "累计个数"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1990
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2165
+msgid "Total duration"
+msgstr "累计时长"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1994
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2171
+msgid "Last check-in"
+msgstr "上次打卡"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2108
+msgid "Duration $time"
+msgstr "用时$time"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2274
+msgid "vlog rec toast"
+msgstr ""
+"Vlog模式已开启。\n"
+"如需录制，下滑控制中心启动录屏"
+
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2350
+msgid "time^s"
+msgstr "秒"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:114
+msgid "scan help $updateip"
+msgstr ""
+"一、要能查询、修改IP，Launcher需V0.1.1-20221112或以上。\n"
+"二、“修改IP”是通过修改连接哪个Wifi网络，不能改有线网。“修改IP”目的往往是改出"
+"一个”临时“IP，让之后可用它进行远程桌面。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:207
+msgid "Scan again"
+msgstr "重新扫描"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:214
+msgid "Query IP"
+msgstr "查询IP"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:220
+msgid "Connecting"
+msgstr "连接中"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:223
+msgid "Send request"
+msgstr "发送请求"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:226
+msgid "Waiting response"
+msgstr "等待应答"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:235
+msgid "Version dismatch"
+msgstr "版本不匹配"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:242
+msgid "Unsupport af: "
+msgstr "不支持af："
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:249
+msgid "Connect fail"
+msgstr "连接失败"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:252
+msgid "Get serviceDB fail"
+msgstr "获取Service失败"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:255
+msgid "ServiceDB error"
+msgstr "Service数据错误"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:258
+msgid "Unknown error"
+msgstr "未知错误"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:262
+msgid "Unknown device, don't query"
+msgstr "未知设备，不查询"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:425
+msgid "Wifi is enabled"
+msgstr "已开启Wifi"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:425
+msgid "Wifi is disabled"
+msgstr "未开启Wifi"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:429
+msgid "Using IP: $ip"
+msgstr "正使用IP：$ip"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:454
+msgid "BLE password error"
+msgstr "蓝牙密码错误"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:465
+msgid "BLE was connectioned, received error: $error"
+msgstr "蓝牙已连接，收到错误：$error"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:551
+msgid "Invalid SN"
+msgstr "无效SN"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:582
+msgid "Remote desktop"
+msgstr "远程桌面"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:609
+msgid "Connected"
+msgstr "已连接"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:739
+msgid "Password"
+msgstr "密码"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:739
+msgid "Connect"
+msgstr "连接"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:792
+msgid ""
+"The device does not enable Wifi, update IP will automatically enable Wifi on "
+"the device, do you want to continue?"
+msgstr "该远程设备没开启Wifi，修改IP会自动开启该设备上的Wifi，要继续吗？"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:793
+msgid "Continue"
+msgstr "继续"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:802
+msgid "Enter BLE password for $sn"
+msgstr "请输入设备($sn)的蓝牙密码"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:803
+msgid "Digit or alpha"
+msgstr "数字或字母"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:805
+msgid "If not modified, the password is $password"
+msgstr "如果没有修改过，密码是$password"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:806
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:230
+msgid "OK"
+msgstr "确认"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:846
+msgid "Scan will stop after $elapse"
+msgstr "$elapse后结束扫描"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:858
+msgid "BLE was connectioned, $time received Wifi List"
+msgstr "蓝牙已连接，$time时收到Wifi列表"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:863
+msgid "BLE connection was disconnected, and for $elapse"
+msgstr "蓝牙连接已断开，已持续$elapse"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:962
+msgid "Can not get IP within limited time"
+msgstr "不能在规定时间内查出IP"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:964
+msgid "Can not update IP within limited time"
+msgstr "不能在规定时间内修改IP"
+
+#: apps-src/apps/kdesktop/gui/dialogs/scan.cpp:998
+msgid ""
+"Do you want to delete SSID: $ssid? Once deleted, the password needs to be re-"
+"entered when connecting again"
+msgstr "是否删除Wifi网络：$ssid？一旦删除，再次连接时需要重新输入密码"
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:41
+msgid "Vlog"
+msgstr "Vlog"
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:42
+msgid "wko_settings^Misc"
+msgstr "音效"
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:64
+msgid "vlog_settings^remark"
+msgstr "打勾表示显示该项。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:173
+msgid "<Not set>"
+msgstr "<未设置>"
+
+#: apps-src/apps/kdesktop/gui/dialogs/wko_settings.cpp:212
+msgid "Edit $name text"
+msgstr "编辑$name文本"
+
+#: apps-src/apps/kdesktop/main.cpp:523
+msgid "Scale to screen"
+msgstr "拉伸到满区域"
+
+#: apps-src/apps/kdesktop/main.cpp:524
+msgid "Keep aspect ratio"
+msgstr "保持宽高比"
+
+#: apps-src/apps/kdesktop/main.cpp:525
+msgid "Partial"
+msgstr "部分显示"
+
+#: apps-src/apps/kdesktop/main.cpp:713
+msgid ""
+"A base task is running. Do you want to stop the task and enter '$module'?"
+msgstr "有底盘任务正在运行。要停止任务，从而进入“$module”吗？"
+
+#: apps-src/apps/kdesktop/main.cpp:715
+msgid "To enter $module, stop the base task"
+msgstr "要进入“$module”，结束底盘任务"
+
+#: apps-src/apps/kdesktop/main.cpp:902
+msgid ""
+"$driver failed to create slot. Navigate to '$center' to check the cause."
+msgstr "$driver创建对像失败。可转去“$center”查看原因。"
+
+#: apps-src/apps/kdesktop/main.cpp:1055
+msgid "Base node not started"
+msgstr "底盘驱动节点未启动"
+
+#: apps-src/apps/kdesktop/main.cpp:1059
+msgid "Base is in moveable mode"
+msgstr "底盘正工作在可移动模式"
+
+#: apps-src/apps/kdesktop/main.cpp:1064
+msgid "A background task using the camera is currently running"
+msgstr "有用到相机的后台任务正在运行"
+
+#: apps-src/apps/kdesktop/main.cpp:1090
+msgid "No scenes available to suspend"
+msgstr "没有可挂起的场景"
+
+#: apps-src/apps/kdesktop/main.cpp:1103
+msgid "Unable to start scene"
+msgstr "无法启动场景"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:293
+msgid "Connect to $ip"
+msgstr "连接$ip"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:301
+msgid "Cannot create local socket"
+msgstr "不能断建本地socket"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:309
+msgid "Connect fail. errcode: $errcode"
+msgstr "连接失败。错误码：$errcode"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:373
+msgid "Start SSL handshake"
+msgstr "开始SSL握手"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:421
+msgid "SSL handshake success"
+msgstr "SSL握手成功"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:438
+msgid "Send MCS Connect Initial PDU"
+msgstr "发送MSC Connect Initial PDU"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:551
+msgid "Finish connection sequence"
+msgstr "完成RDP连接流程"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:630
+msgid "Close connect because error. errcode: $errcode"
+msgstr "遇到错误而关闭网络连接。错误码：$errcode"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:632
+msgid "Close connect"
+msgstr "关闭网络连接"
+
+#: apps-src/apps/kdesktop/rdp_client.cc:960
+msgid "Hasn't received RTT Measure Request over $time, think as disconnect"
+msgstr "已持续$time没收到RTT Measure Request，认为连接已断开"
+
+#~ msgid "Misc"
+#~ msgstr "其它"
+
+#~ msgid "Amplify"
+#~ msgstr "放大"
+
+#~ msgid "Don't amplify"
+#~ msgstr "不放大"
+
+#~ msgid "amp^mid_3m"
+#~ msgstr "中距（3-4米，适中放大）1.25"
+
+#~ msgid "amp^far_5m"
+#~ msgstr "远距（5米，推荐）1.6"
+
+#~ msgid "amp^outdoor"
+#~ msgstr "户外（极限音量）2.0"
+
+#~ msgid "wko^vlog, default start_badge_text"
+#~ msgstr "今日训练"
+
+#~ msgid "wko^vlog, default finish_badge_text"
+#~ msgstr "训练结束"
+
+#~ msgid "Start caption text"
+#~ msgstr "开场语内容"
+
+#~ msgid "Finish caption text"
+#~ msgstr "结束语内容"
+
+#~ msgid "kDesktop"
+#~ msgstr "kDesktop"
+
+#~ msgid "The device is currently under privacy protection"
+#~ msgstr "设备正处于隐私保护中"
+
+#~ msgid "Login"
+#~ msgstr "登录"
+
+#~ msgid "Logout"
+#~ msgstr "退出登录"
+
+#~ msgid "Synchronize applet"
+#~ msgstr "同步小程序"
+
+#~ msgid "Username"
+#~ msgstr "用户名"
+
+#~ msgid "DNN"
+#~ msgstr "DNN"
+
+#~ msgid "Store"
+#~ msgstr "商店"
+
+#~ msgid "BLE password"
+#~ msgstr "蓝牙密码"
+
+#~ msgid "Download from Applet Store"
+#~ msgstr "从小程序商店下载"
+
+#~ msgid "Download test version"
+#~ msgstr "下载测试版本小程序"
+
+#~ msgid "Generate"
+#~ msgstr "生成"
+
+#~ msgid "$file isn't existed"
+#~ msgstr "$file不存在"
+
+#~ msgid "$file isn't a valid wml file"
+#~ msgstr "$file不是一个有效的wml文件"
+
+#~ msgid "A valid uuid is not specified in the file"
+#~ msgstr "文件中没指定一个有效的uuid"
+
+#~ msgid "There must be at least one SN in the file"
+#~ msgstr "文件中至少须存在一个序列号"
+
+#~ msgid "Generate $file successfully"
+#~ msgstr "生成$file，成功"
+
+#~ msgid "Device login"
+#~ msgstr "设备登录"
+
+#~ msgid "Server's IP or domain"
+#~ msgstr "服务器IP或域名"
+
+#~ msgid "Server's port"
+#~ msgstr "服务器端口"
+
+#~ msgid "Device code"
+#~ msgstr "设备编码"
+
+#~ msgid "Operator username"
+#~ msgstr "操作员账号"
+
+#~ msgid "Do you want to login using other device code?"
+#~ msgstr "你想用另一个设备编码登录吗？"
+
+#~ msgid "It will logout automaticly"
+#~ msgstr "一旦启动切换，设备将自动先退出登录"
+
+#~ msgid "Yes"
+#~ msgstr "是"
+
+#~ msgid "Access"
+#~ msgstr "门禁"
+
+#~ msgid "QRcode"
+#~ msgstr "二维码识别"
+
+#~ msgid "terminal^access remark"
+#~ msgstr ""
+#~ "v1.2.1或之后的手持终端只能控制v1.2.1或之后的门禁。如果要控制低于v1.2.1的门"
+#~ "禁，请使用低版本的手持终端"
+
+#~ msgid "$channels channels"
+#~ msgstr "$channels个通道"
+
+#~ msgid "Block all"
+#~ msgstr "常闭"
+
+#~ msgid "Bypass"
+#~ msgstr "常开"
+
+#~ msgid "Generate qrcode"
+#~ msgstr "生成二维码"
+
+#~ msgid "Open door"
+#~ msgstr "开门"
+
+#~ msgid "Operator login"
+#~ msgstr "操作员登录"
+
+#~ msgid "Smart access"
+#~ msgstr "智能出入口管理"
+
+#~ msgid "Stop status"
+#~ msgstr "结束状态"
+
+#~ msgid "Switch devicecode"
+#~ msgstr "切换设备编码"
+
+#~ msgid "Voice broadcast"
+#~ msgstr "语音播报"
+
+#~ msgid "Updating IP, from $src to $dst"
+#~ msgstr "正在修改IP，从$src到$dst"
+
+#~ msgid "Scan"
+#~ msgstr "扫描设备"
+
+#~ msgid "RD Client"
+#~ msgstr "远程桌面"
+
+#~ msgid "Launcher's version($cur) must >= $min"
+#~ msgstr "不支持的RDP Server($cur)。Server必须是Launcher，且版本至少$min"
+
+#~ msgid "The percentage of the desktop that is displayed when mode is partial"
+#~ msgstr "模式是显示部分远程桌面时，显示部分占桌面的百分比"
+
+#~ msgid "Enlarge"
+#~ msgstr "放大"

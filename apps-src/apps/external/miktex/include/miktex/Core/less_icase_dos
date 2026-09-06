@@ -1,0 +1,2 @@
+#pragma once
+#include <miktex/Core/less_icase_dos.h>

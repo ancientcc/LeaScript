@@ -1,0 +1,14 @@
+#
+# even if there is no content in this file, must not remove it. Keep it's directory not empty.
+#
+
+This directory contains app's private template widget.
+
+--name rule--
+non-nested template begin with "_".
+nested template begin with alpha. make nested template always after non-nested.
+
+模块控件内的控件id，建议采用“_[tpl_id]_[]”。举个例子：_statusbar_bluetooth_icon。
+“_”是前缀，在窗口脚中的id中不建议出现以“_”为前经的id。
+“statusbar”是该模板控件的id
+“bluetooth_icon”是在该模板控件内区分各控件

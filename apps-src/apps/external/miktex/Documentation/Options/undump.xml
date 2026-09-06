@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE varlistentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                              "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+<varlistentry>
+<term><option>--undump=<replaceable>name</replaceable></option></term>
+<listitem><para>Use <replaceable>name</replaceable> as the name of the format to
+<indexterm>
+<primary>--undump=name</primary>
+</indexterm>
+be used, instead of the name by which the program was called or a
+<programlisting>%&amp;</programlisting> line.</para></listitem>
+</varlistentry>

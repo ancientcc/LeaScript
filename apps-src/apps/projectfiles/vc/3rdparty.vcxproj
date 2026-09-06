@@ -1,0 +1,1966 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\3rdparty\aplt2.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\aplt_api.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\aplt_clazz.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\base_slot.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\config.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\gettext.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\jsoncpp.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\md4c\md2html\cmdline.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)md4c\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\md4c\md2html\md2html.c" />
+    <ClCompile Include="..\..\external\3rdparty\md4c\src\entity.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)md4c\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\md4c\src\md4c-html.c" />
+    <ClCompile Include="..\..\external\3rdparty\md4c\src\md4c.c" />
+    <ClCompile Include="..\..\external\3rdparty\rose_config_3rdparty.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_exception.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_filesystem_dll.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_font.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_lua.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\rose_md4c.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_mediapipe_api.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_net_api.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_prefs.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_sdl_utils.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_string_utils_dll.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_tflite.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_thread.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_var.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_version.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\so_aplt_task_helper.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\speech_slot.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\tstring.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\wkocamera_task.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\wkoscript.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\adler32.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\compress.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\crc32.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\deflate.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzclose.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzlib.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzread.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzwrite.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\infback.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\inffast.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\inflate.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\inftrees.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\trees.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\uncompr.c" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\zutil.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\asn1_lib.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\asn1_par.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\asn_pack.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_bitstr.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_bool.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_d2i_fp.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_dup.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_enum.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_gentm.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_i2d_fp.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_int.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_mbstr.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_object.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_octet.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_print.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_strnid.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_time.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_type.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_utctm.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\a_utf8.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\f_enum.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\f_int.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\f_string.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\tasn_dec.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\tasn_enc.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\tasn_fre.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\tasn_new.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\tasn_typ.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\tasn_utl.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\asn1\time_support.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\base64\base64.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\base64\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\bio.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\bio_mem.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\connect.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\fd.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\file.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\hexdump.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\pair.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\printf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\socket.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\bio\socket_helper.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bn_extra\bn_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bn_extra\convert.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\buf\buf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bio\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\bytestring\asn1_compat.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bytestring\ber.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bytestring\cbb.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bytestring\cbs.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\bytestring\unicode.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\bytestring\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\chacha\chacha.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\cipher_extra.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\derive_key.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_aesccm.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_aesctrhmac.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_aesgcmsiv.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_chacha20poly1305.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_null.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_rc2.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_rc4.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\e_tls.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cipher_extra\tls_cbc.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cmac\cmac.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\conf\conf.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\conf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\cpu-aarch64-linux.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cpu-arm-linux.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cpu-arm.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\cpu-intel.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\crypto.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\curve25519\curve25519.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\curve25519\spake25519.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\dh\check.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\dh\dh.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\dh\dh_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\dh\params.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\dh\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\digest_extra\digest_extra.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\dsa\dsa.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\dsa\dsa_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\ecdh_extra\ecdh_extra.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\ecdsa_extra\ecdsa_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\ec_extra\ec_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\ec_extra\ec_derive.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\ec_extra\hash_to_curve.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\engine\engine.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\err\err.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\err\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\digestsign.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\evp.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\evp_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\evp_ctx.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\pbkdf.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\print.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\sign\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_dsa_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_ec.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_ec_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_ed25519.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_ed25519_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_rsa.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_rsa_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_x25519.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\p_x25519_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\scrypt.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\evp\sign.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\sign\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\ex_data.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\fipsmodule\bcm.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\fipsmodule\fips_shared_support.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\fipsmodule\is_fips.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\hkdf\hkdf.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\hpke\hpke.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\hrss\hrss.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\lhash\lhash.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\mem.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\obj\obj.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\obj\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\obj\obj_xref.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_all.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_info.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_lib.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_oth.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_pk8.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_pkey.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_x509.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pem\pem_xaux.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pkcs7\pkcs7.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pkcs7\pkcs7_x509.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pkcs8\p5_pbev2.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pkcs8\pkcs8.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pkcs8\pkcs8_x509.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\poly1305\poly1305.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\poly1305\poly1305_arm.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\poly1305\poly1305_vec.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\pool\pool.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\pool\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\rand_extra\deterministic.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\rand_extra\forkunsafe.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\rand_extra\fuchsia.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\rand_extra\rand_extra.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\rand_extra\windows.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\rand_extra\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\rc4\rc4.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\refcount_c11.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\refcount_lock.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\rsa_extra\rsa_asn1.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\rsa_extra\rsa_print.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\siphash\siphash.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\stack\stack.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\stack\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\thread.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\thread_none.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\thread_pthread.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\thread_win.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\trust_token\pmbtoken.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\trust_token\trust_token.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\trust_token\voprf.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\pcy_cache.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\pcy_data.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\pcy_lib.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\pcy_map.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\pcy_node.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\pcy_tree.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_akey.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_akeya.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_alt.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_bcons.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_bitst.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_conf.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_cpols.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_crld.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_enum.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_extku.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_genn.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_ia5.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_info.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_int.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_lib.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_ncons.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_ocsp.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_pci.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_pcia.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_pcons.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_pmaps.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_prn.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_purp.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_skey.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509v3\v3_utl.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\algorithm.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boringssl\crypto\x509\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)boringssl\crypto\x509\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\asn1_gen.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\a_digest.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\a_sign.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\a_strex.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\a_verify.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\by_dir.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\by_file.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\i2d_pr.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\rsa_pss.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\t_crl.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\t_req.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\t_x509.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\t_x509a.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509cset.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509name.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509rset.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509spki.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_att.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_cmp.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_d2.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_def.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_ext.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_lu.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_obj.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_r2x.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_req.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_set.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_trs.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_txt.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_v3.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_vfy.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x509_vpm.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_algor.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_all.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_attrib.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_crl.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_exten.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_info.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_name.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_pkey.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_pubkey.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_req.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_sig.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_spki.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_val.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_x509.c" />
+    <ClCompile Include="..\..\external\boringssl\crypto\x509\x_x509a.c" />
+    <ClCompile Include="..\..\external\boringssl\decrepit\bio\base64_bio.c" />
+    <ClCompile Include="..\..\external\boringssl\err_data.c" />
+    <ClCompile Include="..\..\external\boringssl\ssl\bio_ssl.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\d1_both.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\d1_lib.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\d1_pkt.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\d1_srtp.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\dtls_method.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\dtls_record.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\handoff.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\handshake.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\handshake_client.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\handshake_server.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\s3_both.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\s3_lib.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\s3_pkt.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_aead_ctx.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_asn1.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_buffer.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_cert.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_cipher.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_file.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_key_share.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_lib.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_privkey.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_session.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_stat.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_transcript.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_versions.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\ssl_x509.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\t1_enc.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\t1_lib.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\tls13_both.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\tls13_client.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\tls13_enc.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\tls13_server.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\tls_method.cc" />
+    <ClCompile Include="..\..\external\boringssl\ssl\tls_record.cc" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\bindtextdom.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\dcgettext.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\dcigettext.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\dcngettext.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\dgettext.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\dngettext.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\explodename.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\finddomain.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\gettext.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)gettext\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gettext\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\hash-string.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\intl-compat.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\l10nflist.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\langprefs.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\loadmsgcat.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\localcharset.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\localealias.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\localename.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\lock.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\log.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\ngettext.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\osdep.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\plural-exp.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\plural.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\textdomain.c" />
+    <ClCompile Include="..\..\external\gettext\gettext-runtime\intl\version.c" />
+    <ClCompile Include="..\..\external\glog\src\demangle.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\logging.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)glog\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\port.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)glog\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\raw_logging.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\signalhandler.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\symbolize.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\utilities.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)glog\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\glog\src\vlog_is_on.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libiconv\lib\iconv.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\carotene\src\common.cpp" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_core.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_color_convert_all.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_color_convert_rgbs.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_bilateral.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_box.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_canny.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_gaussian.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_general.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_laplacian.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_morphology.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_scharr.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_filter_sobel.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_copy.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_copy_channel.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_copy_make_border.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_copy_merge.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_copy_split.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_scale.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_set.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_set_channel.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_op_swap_channels.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_transform_mirror.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_transform_resize.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_transform_rotate.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_image_transform_warpaffine.c" />
+    <ClCompile Include="..\..\external\opencv\3rdparty\ippicv\ippiw_win\src\iw_own.c" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\accum.avx.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\accum.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\accum.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\arithm.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\arithm.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\bilateral_filter.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\box_filter.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\box_filter.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\color_hsv.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\color_hsv.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\color_rgb.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\color_rgb.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\color_yuv.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\color_yuv.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\convert.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\convert_scale.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\count_non_zero.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\filter.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\filter.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\layers\layers_common.avx.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX;CV_CPU_COMPILE_AVX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX;CV_CPU_COMPILE_AVX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\layers\layers_common.avx2.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;CV_CPU_COMPILE_AVX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;CV_CPU_COMPILE_AVX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\layers\layers_common.avx512_skx.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX512_SKX;CV_CPU_COMPILE_AVX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX512_SKX;CV_CPU_COMPILE_AVX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\mathfuncs_core.avx.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\mathfuncs_core.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\matmul.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\matmul.avx512_skx.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX512_SKX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX512_SKX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\matmul.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\mean.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\median_blur.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\median_blur.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\merge.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\morph.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\morph.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_calib3d.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_core.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_features2d.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_imgproc.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_objdetect.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_photo.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_stitching.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_video.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\opencl_kernels_xfeatures2d.cpp" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\protobuf\opencv-caffe.pb.cc" />
+    <ClCompile Include="..\..\external\opencv\autogenerated\sift.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\sift.avx512_skx.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX512_SKX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX512_SKX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\sift.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\smooth.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\smooth.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\split.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\stat.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\stat.sse4_2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=SSE4_2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=SSE4_2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\sum.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\sumpixels.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\sumpixels.avx512_skx.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX512_SKX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX512_SKX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\autogenerated\undistort.avx2.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_DISPATCH_MODE=AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\ap3p.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\calibinit.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\calibration.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\calibration_handeye.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\checkchessboard.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\chessboard.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\circlesgrid.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\compat_ptsetreg.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\dls.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\epnp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\fisheye.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\five-point.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\fundam.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\homography_decomp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\ippe.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\levmarq.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\main.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)calib3d\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)calib3d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\p3p.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\polynom_solver.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\posit.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\ptsetreg.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\quadsubpix.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\rho.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\solvepnp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\sqpnp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\stereobm.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\stereosgbm.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\triangulate.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\undistort.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\upnp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\degeneracy.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\dls_solver.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\essential_solver.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\estimator.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)calib3d\usac\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\fundamental_solver.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\gamma_values.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\homography_solver.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\local_optimization.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\pnp_solver.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\quality.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)calib3d\usac\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\ransac_solvers.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\sampler.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)calib3d\usac\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\termination.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\calib3d\src\usac\utils.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)calib3d\usac\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)calib3d\usac\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\algorithm.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\alloc.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\arithm.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\arithm.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\array.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\async.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\batch_distance.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\bindings_utils.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\buffer_area.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\channels.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\check.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\command_line_parser.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\conjugate_gradient.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\convert.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\convert_c.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\convert_scale.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\copy.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\count_non_zero.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\cuda_gpu_mat.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\cuda_host_mem.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\cuda_info.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\cuda_stream.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\datastructs.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\directx.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\downhill_simplex.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\dxt.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\glob.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\gl_core_3_1.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\hal_internal.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\kmeans.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\lapack.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\lda.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\logger.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\lpsolver.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\lut.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\mathfuncs.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\mathfuncs_core.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matmul.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix_c.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix_decomp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix_expressions.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix_iterator.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix_operations.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix_sparse.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\matrix_wrap.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\mean.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\merge.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\minmax.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\norm.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\ocl.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\opencl\runtime\opencl_clamdblas.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\opencl\runtime\opencl_clamdfft.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\opencl\runtime\opencl_core.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\opengl.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\out.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\ovx.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\parallel.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\parallel_impl.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\pca.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\persistence.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\persistence_json.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\persistence_types.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\persistence_xml.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\persistence_yml.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\rand.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\softfloat.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\split.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\stat.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\stat_c.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\stl.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\sum.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\system.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\tables.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\trace.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\types.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\umatrix.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\utils\datafile.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\utils\filesystem.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\utils\logtagconfigparser.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\utils\logtagmanager.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\core\src\utils\samples.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)core\utils\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\core\src\va_intel.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\caffe\caffe_importer.cpp">
+      <ConformanceMode Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ConformanceMode>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\caffe\caffe_io.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\caffe\caffe_shrinker.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\dnn.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\graph_simplifier.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\halide_scheduler.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\ie_ngraph.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\init.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)dnn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\accum_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\batch_norm_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\blank_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\concat_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\const_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\convolution_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\correlation_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\crop_and_resize_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\detection_output_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\elementwise_layers.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\eltwise_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\flatten_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\flow_warp_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\fully_connected_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\layers_common.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\lrn_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\max_unpooling_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\mvn_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\normalize_bbox_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\padding_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\permute_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\pooling_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\prior_box_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\proposal_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\recurrent_layers.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\region_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\reorg_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\reshape_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\resize_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\scale_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\shuffle_channel_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\slice_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\softmax_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\layers\split_layer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\model.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)dnn\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\nms.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\op_halide.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\op_inf_engine.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\dnn\src\op_vkcom.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\affine_feature.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\agast.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)feature2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\agast_score.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\akaze.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\bagofwords.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\blobdetector.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\brisk.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\draw.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)feature2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\dynamic.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\evaluation.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\fast.avx2.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\fast.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\fast_score.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\feature2d.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\gftt.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\kaze.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\kaze\AKAZEFeatures.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\kaze\fed.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)feature2d\kaze\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\kaze\KAZEFeatures.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\kaze\nldiffusion_functions.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\keypoint.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\main.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)feature2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\matchers.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)features2d\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)features2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\mser.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\orb.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)feature2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\features2d\src\sift.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\flann\src\flann.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\flann\src\miniflann.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\accum.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\accum.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\approx.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\bilateral_filter.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\blend.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\box_filter.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\canny.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\clahe.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\color.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\colormap.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\color_hsv.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\color_lab.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\color_rgb.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\color_yuv.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\connectedcomponents.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\contours.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\convhull.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\corner.avx.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\corner.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\cornersubpix.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\demosaicing.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\deriv.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\distransform.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\drawing.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\emd.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\featureselect.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\filter.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\floodfill.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\gabor.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\generalized_hough.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\geometry.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\grabcut.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\hershey_fonts.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\histogram.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\hough.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\imgwarp.avx2.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\imgwarp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\imgwarp.sse4_1.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CV_CPU_COMPILE_SSE4_1=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CV_CPU_COMPILE_SSE4_1=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\intersection.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\linefit.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\lsd.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\main.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\matchcontours.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\median_blur.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\min_enclosing_triangle.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\moments.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\morph.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\phasecorr.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\pyramids.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\resize.avx2.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\resize.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\resize.sse4_1.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\rotcalipers.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\samplers.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\segmentation.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\shapedescr.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\smooth.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\spatialgradient.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\subdivision2d.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\sumpixels.dispatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\tables.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\templmatch.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\thresh.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\imgproc\src\utils.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\ann_mlp.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\boost.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\data.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)imgproc\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)imgproc\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\em.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\gbt.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\inner_functions.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\kdtree.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\knearest.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\lr.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\nbayes.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\rtrees.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\svm.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\svmsgd.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\testset.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\ml\src\tree.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_decoder\abs_decoder.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_decoder\common\hybrid_binarizer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_decoder\common\super_scale.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_decoder\common\utils.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)objdetect\barcode_decoder\common\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)objdetect\barcode_decoder\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_decoder\ean13_decoder.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_decoder\ean8_decoder.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_decoder\upcean_decoder.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\barcode_detector\bardetect.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\cascadedetect.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\cascadedetect_convert.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\detection_based_tracker.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\graphical_code_detector.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\hog.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\main.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)objdetect\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)objdetect\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\objdetect\src\qrcode.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\align.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)photo\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)photo\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\calibrate.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\contrast_preserve.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\denoise_tvl1.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\denoising.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\denoising.cuda.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\hdr_common.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\inpaint.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\merge.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\npr.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\seamless_cloning.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\seamless_cloning_impl.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\photo\src\tonemap.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\autocalib.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\blenders.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\camera.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\exposure_compensate.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\matchers.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)stitching\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)stitching\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\motion_estimators.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\seam_finders.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\stitcher.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\timelapsers.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\util.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)stitching\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)stitching\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\warpers.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)stitching\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)stitching\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\stitching\src\warpers_cuda.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\bgfg_gaussmix2.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\bgfg_KNN.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\camshift.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\dis_flow.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\ecc.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\kalman.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\lkpyramid.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\optflowgf.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\optical_flow_io.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_feature.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_feature_set.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_mil_model.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_mil_state.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_model.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_sampler.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_sampler_algorithm.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_state_estimator.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracking_feature.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\detail\tracking_online_mil.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\tracker.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)video\tracking\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\tracker_goturn.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\tracking\tracker_mil.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\video\src\variational_refinement.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\binarizermgr.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\decodermgr.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\detector\align.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\detector\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\detector\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\detector\ssd_detector.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\imgsource.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\scale\super_scale.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\scale\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\scale\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\wechat_qrcode.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\binarizer.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\binarybitmap.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\adaptive_threshold_mean_binarizer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\fast_window_binarizer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\global_histogram_binarizer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\hybrid_binarizer.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\common\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\zxing\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\simple_adaptive_binarizer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bitarray.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bitmatrix.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bitsource.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bytematrix.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\characterseteci.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\decoder_result.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\detector_result.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\greyscale_luminance_source.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\greyscale_rotated_luminance_source.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\grid_sampler.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\imagecut.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\kmeans.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\common\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\zxing\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\perspective_transform.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\reedsolomon\genericgf.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\reedsolomon\genericgfpoly.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\reedsolomon\reed_solomon_decoder.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\str.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\zxing\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\stringutils.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\unicomblock.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\errorhandler.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\luminance_source.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\bitmatrixparser.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\datablock.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\datamask.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\decoded_bit_stream_parser.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\decoder.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\qrcode\decoder\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\zxing\qrcode\decoder\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\mode.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\qrcode\decoder\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\zxing\qrcode\decoder\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\alignment_pattern.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\alignment_pattern_finder.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\detector.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\qrcode\detector\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\zxing\qrcode\detector\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\finder_pattern.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\finder_pattern_finder.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\finder_pattern_info.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\pattern_result.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\error_correction_level.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\format_information.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\qrcode_reader.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\version.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\qrcode\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)wechat_qrcode\zxing\qrcode\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\reader.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\result.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)wechat_qrcode\zxing\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\resultpoint.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\affine_feature2d.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\beblid.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\boostdesc.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\brief.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\daisy.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\ellipticKeyPoint.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\fast.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)xfeatures2d\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)xfeatures2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\freak.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\gms.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\harris_lapace_detector.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\latch.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)xfeatures2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\logos.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)xfeatures2d\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)xfeatures2d\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\logos\Logos.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)xfeatures2d\logos\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)xfeatures2d\logos\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\logos\Match.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)xfeatures2d\logos\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\logos\Point.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)xfeatures2d\logos\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\logos\PointPair.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)xfeatures2d\logos\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\lucid.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\msd.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\pct_signatures.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\pct_signatures\grayscale_bitmap.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\pct_signatures\pct_clusterizer.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\pct_signatures\pct_sampler.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\pct_signatures_sqfd.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\stardetector.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\surf.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\surf.cuda.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\surf.ocl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\tbmr.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\vgg.cpp" />
+    <ClCompile Include="..\..\external\opencv\modules\xfeatures2d\src\xfeatures2d_init.cpp" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\any.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)protobuf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\any.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\any_lite.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\api.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\arena.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\arenastring.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\descriptor.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\descriptor.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\descriptor_database.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\duration.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\dynamic_message.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\empty.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\extension_set.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\extension_set_heavy.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\field_mask.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\generated_enum_util.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\generated_message_bases.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\generated_message_reflection.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\generated_message_tctable_full.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\generated_message_tctable_lite.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\generated_message_util.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\implicit_weak_message.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\inlined_string_field.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\coded_stream.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\gzip_stream.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\io_win32.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\printer.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\strtod.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\tokenizer.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\zero_copy_stream.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\zero_copy_stream_impl.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\io\zero_copy_stream_impl_lite.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\map.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\map_field.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\message.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\message_lite.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\parse_context.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\reflection_ops.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\repeated_field.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\repeated_ptr_field.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\service.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\source_context.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\struct.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\bytestream.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\common.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)protobuf\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)protobuf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\int128.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\status.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)protobuf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\statusor.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\stringpiece.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\stringprintf.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\structurally_valid.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\strutil.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\substitute.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\stubs\time.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)protobuf\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\text_format.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\timestamp.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\type.pb.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\unknown_field_set.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\wire_format.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\wire_format_lite.cc" />
+    <ClCompile Include="..\..\external\protobuf\src\google\protobuf\wrappers.pb.cc" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lapi.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lauxlib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lbaselib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lcode.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lcorolib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lctype.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\ldblib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\ldebug.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\ldo.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\ldump.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lfunc.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lgc.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\linit.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\liolib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\llex.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lmathlib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lmem.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\loadlib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lobject.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lopcodes.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\loslib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lparser.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lstate.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lstring.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lstrlib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\ltable.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\ltablib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\ltm.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lundump.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lutf8lib.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lvm.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\lua\lzio.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\3rdparty\3rdparty_decl.h" />
+    <ClInclude Include="..\..\external\3rdparty\aplt2.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\aplt_api.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\aplt_common.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\aplt_clazz.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\base_slot.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\config.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\gettext.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\md4c\md2html\cmdline.h" />
+    <ClInclude Include="..\..\external\3rdparty\md4c\src\entity.h" />
+    <ClInclude Include="..\..\external\3rdparty\md4c\src\md4c-html.h" />
+    <ClInclude Include="..\..\external\3rdparty\md4c\src\md4c.h" />
+    <ClInclude Include="..\..\external\3rdparty\rose_config_3rdparty.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_exception.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_filesystem_dll.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_font.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_global.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_lua.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_md4c.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_mediapipe_api.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_net_api.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_prefs.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_sdl_utils.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_string_utils_dll.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_tflite.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_thread.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_util.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_var.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_version.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\ros_values.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\so_aplt_task_helper.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\speech_slot.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\tstring.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\wkocamera_task.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\wkoscript.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\accum.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\arithm.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\bilateral_filter.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\box_filter.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\color_hsv.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\color_rgb.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\color_yuv.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\convert.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\convert_scale.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\count_non_zero.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\filter.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\layers\layers_common.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\mathfuncs_core.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\matmul.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\mean.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\median_blur.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\merge.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\morph.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_calib3d.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_core.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_features2d.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_imgproc.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_objdetect.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_photo.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_stitching.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\opencl_kernels_video.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\protobuf\opencv-caffe.pb.h" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\sift.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\smooth.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\split.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\stat.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\sum.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\sumpixels.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\autogenerated\undistort.simd_declarations.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\ap3p.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\calib3d_c_api.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\chessboard.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\circlesgrid.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\distortion_model.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\dls.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\epnp.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\fisheye.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\ippe.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\p3p.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\polynom_solver.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\rho.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\sqpnp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\undistort.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\upnp.h" />
+    <ClInclude Include="..\..\external\opencv\modules\calib3d\src\usac.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\arithm.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\arithm_ipp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\bufferpool.impl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\convert.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\convert.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\convert_scale.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\count_non_zero.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\directx.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\directx.inc.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\gl_core_3_1.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\hal_internal.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\hal_replacement.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\intel_gpu_gemm.inl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\mathfuncs.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\mathfuncs_core.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\matmul.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\mean.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\merge.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\ocl_disabled.impl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\opencl\runtime\runtime_common.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\parallel_impl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\persistence.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\split.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\stat.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\stat.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\sum.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\umatrix.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\utils\logtagconfig.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\utils\logtagconfigparser.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\core\src\utils\logtagmanager.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\caffe\caffe_io.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\caffe\glog_emulator.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\dnn_common.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\graph_simplifier.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\halide_scheduler.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\ie_ngraph.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\layers\layers_common.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\layers\layers_common.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\nms.inl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\op_cuda.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\op_halide.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\op_inf_engine.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\dnn\src\op_vkcom.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\agast_score.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\fast.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\fast_score.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\hal_replacement.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\AKAZEConfig.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\AKAZEFeatures.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\fed.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\KAZEConfig.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\KAZEFeatures.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\nldiffusion_functions.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\TEvolution.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\kaze\utils.h" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\features2d\src\sift.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\accum.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\bilateral_filter.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\box_filter.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\color.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\color.simd_helpers.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\color_hsv.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\color_rgb.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\color_yuv.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\corner.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\filter.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\filter.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\filterengine.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\fixedpoint.inl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\hal_replacement.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\imgwarp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\median_blur.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\morph.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\resize.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\smooth.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\sumpixels.avx512_skx.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\imgproc\src\sumpixels.simd.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\ml\src\kdtree.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\ml\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\objdetect\src\cascadedetect.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\objdetect\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\arrays.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\contrast_preserve.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\fast_nlmeans_denoising_invoker.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\fast_nlmeans_denoising_invoker_commons.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\fast_nlmeans_denoising_opencl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\fast_nlmeans_multi_denoising_invoker.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\hdr_common.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\npr.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\photo\src\seamless_cloning.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\stitching\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\stitching\src\util_log.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\video\src\lkpyramid.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\video\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_feature_haar.impl.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_mil_model.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\video\src\tracking\detail\tracker_mil_state.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\video\src\tracking\detail\tracking_online_mil.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lapi.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lauxlib.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lcode.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lctype.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\ldebug.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\ldo.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lfunc.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lgc.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\ljumptab.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\llex.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\llimits.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lmem.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lobject.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lopcodes.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lopnames.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lparser.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lprefix.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lstate.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lstring.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\ltable.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\ltm.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lua.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lua.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\lua\luaconf.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lualib.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lundump.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lvm.h" />
+    <ClInclude Include="..\..\external\3rdparty\lua\lzio.h" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\binarizermgr.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\decodermgr.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\detector\align.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\detector\ssd_detector.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\imgsource.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\scale\super_scale.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\binarizer.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\binarybitmap.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\array.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\adaptive_threshold_mean_binarizer.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\fast_window_binarizer.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\global_histogram_binarizer.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\hybrid_binarizer.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\binarizer\simple_adaptive_binarizer.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bitarray.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bitmatrix.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bitsource.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\bytematrix.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\characterseteci.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\counted.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\decoder_result.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\detector_result.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\greyscale_luminance_source.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\greyscale_rotated_luminance_source.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\grid_sampler.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\imagecut.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\kmeans.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\mathutils.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\perspective_transform.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\reedsolomon\genericgf.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\reedsolomon\genericgfpoly.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\reedsolomon\reed_solomon_decoder.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\str.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\stringutils.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\common\unicomblock.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\decodehints.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\errorhandler.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\luminance_source.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\bitmatrixparser.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\datablock.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\datamask.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\decoded_bit_stream_parser.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\decoder.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\mode.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\decoder\qrcode_decoder_metadata.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\alignment_pattern.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\alignment_pattern_finder.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\detector.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\finder_pattern.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\finder_pattern_finder.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\finder_pattern_info.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\detector\pattern_result.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\error_correction_level.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\format_information.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\qrcode_reader.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\version.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\reader.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\result.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\resultpoint.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\zxing.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\beblid.p256.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\beblid.p512.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\logos\Logos.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\logos\Match.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\logos\Point.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\logos\PointPair.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\msd_pyramid.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\precomp.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\surf.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\teblid.p256.hpp" />
+    <ClInclude Include="..\..\external\opencv\modules\xfeatures2d\src\teblid.p512.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\external\boringssl\win-x86\crypto\chacha\chacha-x86.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)chacha-x86.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)chacha-x86.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)chacha-x86.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)chacha-x86.obj</Outputs>
+    </None>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\aesni-x86.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)aesni-x86.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)aesni-x86.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\bn-586.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)bn-586.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bn-586.obj</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\co-586.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)co-586.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)co-586.obj</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\ghash-ssse3-x86.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)ghash-ssse3-x86.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)ghash-ssse3-x86.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\ghash-x86.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)ghash-x86.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)ghash-x86.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\md5-586.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)md5-586.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)md5-586.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\sha1-586.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)sha1-586.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)sha1-586.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\sha256-586.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)sha256-586.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)sha256-586.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\sha512-586.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)sha512-586.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)sha512-586.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\vpaes-x86.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)vpaes-x86.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)vpaes-x86.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86\crypto\fipsmodule\x86-mont.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vsyasm -Xvc -g cv8 -f win32  -I"." "%(FullPath)" -o $(IntDir)x86-mont.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)x86-mont.obj</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\chacha\chacha-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)chacha-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)chacha-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\cipher_extra\aes128gcmsiv-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)aes128gcmsiv-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)aes128gcmsiv-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\cipher_extra\chacha20_poly1305_x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)chacha20_poly1305_x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)chacha20_poly1305_x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\aesni-gcm-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)aesni-gcm-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)aesni-gcm-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\aesni-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)aesni-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)aesni-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\ghash-ssse3-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)ghash-ssse3-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)ghash-ssse3-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\ghash-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)ghash-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)ghash-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\md5-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)md5-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)md5-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\p256-x86_64-asm.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)p256-x86_64-asm.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)p256-x86_64-asm.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\p256_beeu-x86_64-asm.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)p256_beeu-x86_64-asm.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)p256_beeu-x86_64-asm.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\rdrand-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)rdrand-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)rdrand-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\rsaz-avx2.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)rsaz-avx2.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)rsaz-avx2.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\sha1-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)sha1-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)sha1-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\sha256-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)sha256-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)sha256-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\sha512-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)sha512-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)sha512-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\vpaes-x86_64.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)vpaes-x86_64.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)vpaes-x86_64.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\x86_64-mont.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)x86_64-mont.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)x86_64-mont.obj</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\external\boringssl\win-x86_64\crypto\fipsmodule\x86_64-mont5.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vsyasm -Xvc -g cv8 -f win64  -I"." "%(FullPath)" -o $(IntDir)x86_64-mont5.obj</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)x86_64-mont5.obj</Outputs>
+    </CustomBuild>
+    <None Include="..\..\external\opencv\modules\wechat_qrcode\src\zxing\qrcode\qrcode_reader.cpp_" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{2998ab1e-4fed-4936-b132-c7ba9de6eccb}</ProjectGuid>
+    <RootNamespace>opencv</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>3rdparty</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\3rdparty\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\3rdparty\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32_LEAN_AND_MEAN;BOOST_ALL_NO_LIB;LUA_BUILD_AS_DLL;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;__OPENCV_BUILD=1;CVAPI_EXPORTS;IW_BUILD;ICV_BASE;OPENCV_ENABLE_NONFREE;BORINGSSL_SHARED_LIBRARY;BORINGSSL_IMPLEMENTATION;BORINGSSL_ALLOW_CXX_RUNTIME;BORINGSSL_NO_STATIC_INITIALIZER;OPENSSL_SMALL;OPENSSL_NO_ASM;BUILD_3RDPARTY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/boost;../../external/boringssl/include;../../external/chromium/third_party/abseil-cpp;../../external/protobuf/src;../../external/opencv;../../external/opencv/3rdparty/carotene/include;../../external/opencv/3rdparty/ippicv/ippicv_win/include;../../external/opencv/3rdparty/ippicv/ippiw_win/include;../../external/opencv/3rdparty/include/opencl/1.2;../../external/opencv/autogenerated;../../external/zlib;../../../linker/include/SDL2;../../../linker/include/SDL2_image;../../../linker/include/SDL2_ttf;../../external/tensorflow/tensorflow/lite/downloads/eigen</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>../../external/opencv/3rdparty/ippicv/ippicv_win/lib/ia32/ippicvmt.lib;../../../linker/windows/lib/SDL2.lib;../../../linker/windows/lib/SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32_LEAN_AND_MEAN;BOOST_ALL_NO_LIB;LUA_BUILD_AS_DLL;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;__OPENCV_BUILD=1;CVAPI_EXPORTS;IW_BUILD;ICV_BASE;OPENCV_ENABLE_NONFREE;BORINGSSL_SHARED_LIBRARY;BORINGSSL_IMPLEMENTATION;BORINGSSL_ALLOW_CXX_RUNTIME;BORINGSSL_NO_STATIC_INITIALIZER;OPENSSL_SMALL;OPENSSL_NO_ASM;ZLIB_DLL;ZLIB_INTERNAL;BUILD_3RDPARTY;_ITERATOR_DEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/3rdparty/zlib;../../external/boost;../../external/boringssl/include;../../external/chromium/third_party/abseil-cpp;../../external/glog/src;../../external/protobuf/src;../../external/opencv;../../external/opencv/3rdparty/carotene/include;../../external/opencv/3rdparty/ippicv/ippicv_win/include;../../external/opencv/3rdparty/ippicv/ippiw_win/include;../../external/opencv/3rdparty/include/opencl/1.2;../../external/opencv/autogenerated;../../../linker/include/SDL2;../../../linker/include/SDL2_image;../../../linker/include/SDL2_ttf;../../external/tensorflow/tensorflow/lite/downloads/eigen</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4251;4267;4275</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>../../external/opencv/3rdparty/ippicv/ippicv_win/lib/intel64/ippicvmt.lib;../../../linker/windows/lib/x64/SDL2.lib;../../../linker/windows/lib/x64/SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

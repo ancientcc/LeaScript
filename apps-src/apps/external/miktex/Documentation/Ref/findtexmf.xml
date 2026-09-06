@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+<!ENTITY filetypes SYSTEM "filetypes">
+]>
+
+<refentry id="findtexmf">
+
+<?dbhh topicname="MIKTEXHELP_FINDTEXMF" topicid="0"?>
+
+<refmeta>
+<refentrytitle>findtexmf</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">&PACKAGE_NAME;</refmiscinfo>
+<refmiscinfo class="version">&miktexrev;</refmiscinfo>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>findtexmf</refname>
+<refpurpose>search files in &MiKTeX; directories</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+
+<cmdsynopsis>
+&findtexmf;
+<arg choice="opt" rep="repeat"><replaceable>option</replaceable></arg>
+<arg choice="plain" rep="repeat"><replaceable>file</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+
+<title>Description</title>
+
+<para>&findtexmf; can be used to find files in the &MiKTeX;
+directories.  When the <option>-file-type</option> option is not
+given, the search path used when looking for a file is inferred from
+the name given, by looking for a known extension.  If no known
+extension is found, the search path for &TeX; source files is
+used.</para>
+
+</refsect1>
+
+<refsect1>
+<title>Options</title>
+
+<variablelist>
+<varlistentry>
+<term><option>--alias=<replaceable>name</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--alias=name</primary>
+</indexterm>
+<para>Pretend to be <replaceable>name</replaceable> when finding
+files.</para></listitem>
+</varlistentry>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/help.xml" />
+<varlistentry>
+<term><option>--file-type=<replaceable>filetype</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--file-type=filetype</primary>
+</indexterm>
+<para>Use the specified file type (see below).</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--list-file-types</option></term>
+<listitem>
+<indexterm>
+<primary>--list-file-types</primary>
+</indexterm>
+<para>Print known file types.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--must-exist</option></term>
+<listitem>
+<indexterm>
+<primary>--must-exist</primary>
+</indexterm>
+<para>Allow installation of a packacke, if a file should exist because
+it is a part of the package.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--show-path=<replaceable>filetype</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--show-path=filetype</primary>
+</indexterm>
+<para>Print the search path for the specified file type (see
+below).</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--start</option></term>
+<listitem>
+<indexterm>
+<primary>--start</primary>
+</indexterm>
+<para>Start the associated program, if the file was
+found.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--the-name-of-the-game=<replaceable>name</replaceable></option></term>
+<listitem>
+<indexterm>
+<primary>--the-name-of-the-game=engine</primary>
+</indexterm>
+<para>Set the name of the engine.  Relevant when searching for format
+files.</para></listitem>
+</varlistentry>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/version.xml" />
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>File Types</title>
+
+<programlisting>&filetypes;</programlisting>
+
+</refsect1>
+
+</refentry>

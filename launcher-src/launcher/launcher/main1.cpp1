@@ -1,0 +1,536 @@
+/* Require Rose v1.0.19 or above. $ */
+
+#define GETTEXT_DOMAIN "launcher-lib"
+
+#include "rdp_server_rose.h"
+#include "base_instance.hpp"
+#include "gui/widgets/window.hpp"
+#include "map_controller.hpp"
+#include "chart_controller.hpp"
+#include "game_end_exceptions.hpp"
+#include "wml_exception.hpp"
+#include "gettext.hpp"
+#include "loadscreen.hpp"
+#include "formula_string_utils.hpp"
+#include "help.hpp"
+#include "rose_version.hpp"
+
+#include "base_driver.hpp"
+
+
+// using namespace std::placeholders;
+extern uint32_t ReceivingInterfaceAddr;
+
+std::string label_state_nposm;
+
+class game_instance
+{
+public:
+	game_instance();
+	~game_instance();
+
+private:
+
+private:
+	const std::string saves_courseware_dir_;
+	const std::string saves_map_dir_; 
+	// net::trdpd_manager rdpd_mgr_;
+
+	SDL_OsInfo os_info_;
+};
+
+
+
+game_instance::game_instance()
+	: saves_courseware_dir_(game_config::preferences_dir + "/saves/courseware")
+	, saves_map_dir_(game_config::preferences_dir + "/saves/map")
+{
+	create_directory_if_missing(saves_courseware_dir_ + "/download");
+	create_directory_if_missing(saves_courseware_dir_ + "/upload");
+	create_directory_if_missing(saves_map_dir_);
+
+	create_directory_if_missing(game_config::preferences_dir + "/miktex/sandbox");
+}
+
+game_instance::~game_instance()
+{
+}
+
+#ifdef _WIN32
+std::string base_node_error_str(const tbase_driver& base_driver, const std::string& task)
+{
+	VALIDATE(!base_driver.node_started(), null_str);
+
+	std::string result;
+	
+	utils::string_map symbols;
+	symbols["task"] = task;
+	if (!base_driver.installed()) {
+		symbols["settings"] = _("icon^Settings");
+		result = vgettext2("To perform '$task', first select a base drive in '$settings'", symbols);
+	} else {
+		result = vgettext2("To perform '$task', select valid serial and baudrate for base drive", symbols);
+	}
+	return result;
+}
+
+void user_not_valid_try_again()
+{
+}
+#endif
+
+#define MAX_IMU_SAMPLES 5
+
+// extern int miktex_pdftex_main(const std::vector<std::string>& args);
+extern int miktex_makefmt_main(const std::vector<std::string>& args);
+extern int miktex_miktex_main(const std::vector<std::string>& args);
+// extern int miktex_xetex_main(const std::vector<std::string>& args);
+// extern int miktex_dvipdfmx_main(const std::vector<std::string>& args);
+extern int miktex_luahbtex_main(const std::vector<std::string>& args);
+
+void test_new_sdl_api()
+{
+	std::string file;
+	if (game_config::os == os_android) {
+		file = "/sdcard/apk/test_SDL_SetTimes.png";
+
+	} else {
+		file = game_config::preferences_dir + "/test_SDL_SetTimes.png";
+	}
+
+	time_t now = time(nullptr);
+	bool ret = SDL_SetTimes(file.c_str(), now - 2, now - 1, now);
+	SDL_Log("SDL_SetTimes(file: %s), ret: %s", file.c_str(), ret? "true": "false");
+
+	std::string dir;
+	if (game_config::os == os_android) {
+		dir = "/sdcard/apk/test_SDL_SetTimers";
+	} else {
+		dir = game_config::preferences_dir + "/test_SDL_SetTimers";
+	}
+	ret = SDL_SetTimes(dir.c_str(), now + 1, now + 2, now + 3);
+	SDL_Log("SDL_SetTimes(dir: %s), ret: %s", dir.c_str(), ret? "true": "false");
+
+	time_t creation_time = 0;
+	time_t last_access_time = 0;
+	time_t last_write_time = file_3times(file, &creation_time, &last_access_time);
+	SDL_Log("file_3times(file: %s), create: %s, access: %s, write: %s", file.c_str(), 
+		utils::format_time_ymdhms(creation_time).c_str(),
+		utils::format_time_ymdhms(last_access_time).c_str(),
+		utils::format_time_ymdhms(last_write_time).c_str());
+
+	creation_time = 0;
+	last_access_time = 0;
+	last_write_time = file_3times(dir, &creation_time, &last_access_time);
+	SDL_Log("file_3times(dir: %s), create: %s, access: %s, write: %s", dir.c_str(), 
+		utils::format_time_ymdhms(creation_time).c_str(),
+		utils::format_time_ymdhms(last_access_time).c_str(),
+		utils::format_time_ymdhms(last_write_time).c_str());
+
+	std::string pref_file;
+	if (game_config::os == os_android) {
+		pref_file = "/sdcard/apk/bookmarks1.html";
+	} else {
+		pref_file = game_config::preferences_dir + "/bookmarks1.html";
+	}
+	std::string d_file;
+	if (game_config::os == os_android) {
+		d_file = "/sdcard/apk1/bookmarks2.html";
+	} else {
+		d_file = "d:/backup20251001/bookmarks2.html";
+	}
+	ret = SDL_MoveFile(pref_file.c_str(), d_file.c_str());
+	SDL_Log("SDL_MoveFile: %s", ret? "true": "false");
+
+	creation_time = 0;
+	last_access_time = 0;
+	last_write_time = file_3times(d_file, &creation_time, &last_access_time);
+	SDL_Log("file_3times(d_file: %s), create: %s, access: %s, write: %s", d_file.c_str(), 
+		utils::format_time_ymdhms(creation_time).c_str(),
+		utils::format_time_ymdhms(last_access_time).c_str(),
+		utils::format_time_ymdhms(last_write_time).c_str());
+
+	unsigned long attributes = SDL_GetAttributes(file.c_str());
+	SDL_Log("{SDL_GetAttributes}pre, file: %s, attributes: 0x%08lx", file.c_str(), attributes);
+#ifdef _WIN32
+	attributes |= FILE_ATTRIBUTE_READONLY;
+	// attributes &= ~FILE_ATTRIBUTE_READONLY;
+#else
+	mode_t newAttributes = S_IRUSR | S_IRGRP | S_IROTH;
+	// newAttributes |= S_IWUSR | S_IWGRP | S_IWOTH;
+
+	attributes = newAttributes;
+#endif
+	ret = SDL_SetAttributes(file.c_str(), attributes);
+	attributes = SDL_GetAttributes(file.c_str());
+	SDL_Log("{SDL_GetAttributes}set: %s, post, file: %s, attributes: 0x%08lx", ret? "true": "false", file.c_str(), attributes);
+
+	attributes = SDL_GetAttributes(dir.c_str());
+	SDL_Log("{SDL_GetAttributes}pre, dir: %s, attributes: 0x%08lx", dir.c_str(), attributes);
+#ifdef _WIN32
+	attributes |= FILE_ATTRIBUTE_READONLY;
+	// attributes &= ~FILE_ATTRIBUTE_READONLY;
+#else
+	newAttributes = S_IRUSR | S_IRGRP | S_IROTH;
+	// newAttributes |= S_IWUSR | S_IWGRP | S_IWOTH;
+
+	attributes = newAttributes;
+#endif
+	ret = SDL_SetAttributes(dir.c_str(), attributes);
+	attributes = SDL_GetAttributes(dir.c_str());
+	SDL_Log("{SDL_GetAttributes}set: %s, post, dir: %s, attributes: 0x%08lx", ret? "true": "false", dir.c_str(), attributes);
+}
+
+const FILE* logfile_fp = nullptr;
+
+void test_miktex()
+{
+	bool pdflatex = false;
+	if (false) {
+		std::vector<std::string> makefmt_args;
+		makefmt_args.push_back("C:/ddksample/apps-src/apps/projectfiles/vc/Release/launcher.exe");
+/*
+		if (pdflatex) {
+			makefmt_args.push_back("--engine=pdftex");
+			makefmt_args.push_back("--dest-name=pdflatex");
+			makefmt_args.push_back("--no-dump");
+			makefmt_args.push_back("pdflatex.ini");
+			makefmt_args.push_back("--engine-option=-tcx=cp227.tcx");
+
+		} else {
+			makefmt_args.push_back("--engine=xetex");
+			makefmt_args.push_back("--dest-name=xelatex");
+			makefmt_args.push_back("--no-dump");
+			makefmt_args.push_back("xelatex.ini");
+		}
+
+		makefmt_args.push_back("--miktex-disable-maintenance");
+		makefmt_args.push_back("--miktex-disable-diagnose");
+*/
+		// --engine=luahbtex --dest-name=lualatex --no-dump lualatex.ini --miktex-disable-maintenance --miktex-disable-diagnose
+		makefmt_args.push_back("--engine=luahbtex");
+		makefmt_args.push_back("--dest-name=lualatex");
+		makefmt_args.push_back("--no-dump");
+		makefmt_args.push_back("lualatex.ini");
+		makefmt_args.push_back("--miktex-disable-maintenance");
+		makefmt_args.push_back("--miktex-disable-diagnose");
+
+		miktex_makefmt_main(makefmt_args);
+	}
+
+	if (false) {
+		std::vector<std::string> miktex_args;
+		miktex_args.push_back("C:/ddksample/apps-src/apps/projectfiles/vc/Release/launcher.exe");
+/*
+		miktex_args.push_back("formats");
+		miktex_args.push_back("build");
+
+		if (pdflatex) {
+			miktex_args.push_back("pdflatex");
+			miktex_args.push_back("--engine");
+			miktex_args.push_back("pdftex");
+
+		} else {
+			miktex_args.push_back("xelatex");
+			miktex_args.push_back("--engine");
+			miktex_args.push_back("xetex");
+		}
+*/
+		// --engine=luahbtex --dest-name=lualatex --no-dump 
+		miktex_args.push_back("--engine=luahbtex");
+		miktex_args.push_back("--dest-name=lualatex");
+		miktex_args.push_back("--no-dump");
+
+		miktex_miktex_main(miktex_args);
+	}
+
+	if (false && pdflatex) {
+		std::vector<std::string> pdftex_args;
+		pdftex_args.push_back("C:/ddksample/apps-src/apps/projectfiles/vc/Release/launcher.exe");
+
+		bool top = true;
+		if (top) {
+			// -synctex=1 -undump=pdflatex c:/ddksample/test2.tex
+			pdftex_args.push_back("-synctex=-1"); // -synctex=1
+			pdftex_args.push_back("-undump=pdflatex");
+			pdftex_args.push_back("-verbose");
+#ifdef _WIN32
+			pdftex_args.push_back("c:/ddksample/test2.tex");
+#else
+			pdftex_args.push_back("/sdcard/apk/test2.tex");
+#endif
+
+		} else {
+			// --miktex-disable-maintenance --miktex-disable-diagnose --interaction=nonstopmode --initialize --halt-on-error --alias=pdflatex --job-name=pdflatex -tcx=cp227.tcx --enable-etex pdflatex.ini
+			pdftex_args.push_back("--miktex-disable-maintenance");
+			pdftex_args.push_back("--miktex-disable-diagnose");
+			pdftex_args.push_back("--interaction=nonstopmode");
+			pdftex_args.push_back("--initialize");
+			pdftex_args.push_back("--halt-on-error");
+			pdftex_args.push_back("--alias=pdflatex");
+			pdftex_args.push_back("--job-name=pdflatex");
+			pdftex_args.push_back("-tcx=cp227.tcx");
+			pdftex_args.push_back("--enable-etex");
+			pdftex_args.push_back("pdflatex.ini");
+		}
+
+#ifdef pdfTeX
+		// miktex_pdftex_main(pdftex_args);
+#else
+		// miktex_xetex_main(pdftex_args);
+#endif
+
+	}
+
+	if (true && !pdflatex) {
+		std::vector<std::string> pdftex_args;
+		pdftex_args.push_back("C:/ddksample/apps-src/apps/projectfiles/vc/Release/launcher.exe");
+
+		bool top = false;
+		if (top) {
+/*
+			// -synctex=-1 -undump=xelatex c:/ddksample/test2.tex
+			// -synctex=1 --fmt=lualatex c:/ddksample/test3.tex
+			// pdftex_args.push_back("-synctex=-1"); // -synctex=1
+			pdftex_args.push_back("-undump=xelatex");
+			pdftex_args.push_back("-no-pdf");
+			// pdftex_args.push_back("-verbose");
+#ifdef _WIN32
+			pdftex_args.push_back("c:/ddksample/test3.tex");
+#else
+			pdftex_args.push_back("/sdcard/apk/test2.tex");
+#endif
+*/
+			// -synctex=-1 --fmt=lualatex c:\ddksample\test3.tex
+			pdftex_args.push_back("-synctex=-1");
+			pdftex_args.push_back("--fmt=lualatex");
+			pdftex_args.push_back("c:/ddksample/test2.tex");
+
+
+		} else {
+/*
+			// --miktex-disable-maintenance --miktex-disable-diagnose --interaction=nonstopmode --initialize --halt-on-error --alias=xelatex --job-name=xelatex --enable-etex xelatex.ini
+			pdftex_args.push_back("--miktex-disable-maintenance");
+			pdftex_args.push_back("--miktex-disable-diagnose");
+			pdftex_args.push_back("--interaction=nonstopmode");
+			pdftex_args.push_back("--initialize");
+			pdftex_args.push_back("--halt-on-error");
+			pdftex_args.push_back("--alias=xelatex");
+			pdftex_args.push_back("--job-name=xelatex");
+			pdftex_args.push_back("--enable-etex");
+			pdftex_args.push_back("xelatex.ini");
+*/
+			// --miktex-disable-maintenance --miktex-disable-diagnose --interaction=nonstopmode --initialize --halt-on-error --alias=lualatex --job-name=lualatex lualatex.ini
+			pdftex_args.push_back("--miktex-disable-maintenance");
+			pdftex_args.push_back("--miktex-disable-diagnose");
+			pdftex_args.push_back("--interaction=nonstopmode");
+			pdftex_args.push_back("--initialize");
+			pdftex_args.push_back("--halt-on-error");
+			pdftex_args.push_back("--alias=lualatex");
+			pdftex_args.push_back("--job-name=lualatex");
+			pdftex_args.push_back("lualatex.ini");
+
+		}
+
+		// miktex_xetex_main(pdftex_args);
+		miktex_luahbtex_main(pdftex_args);
+	}
+
+	if (false) {
+		std::vector<std::string> dvipdfmx_args;
+
+		dvipdfmx_args.push_back("dvipdfmx.exe");
+		dvipdfmx_args.push_back("c:/ddksample/test3.xdv");
+		// miktex_dvipdfmx_main(dvipdfmx_args);
+	}
+		
+}
+
+#include <mupdf/fitz.h>
+
+int test_mudpf()
+{
+	// c:/ddksample/test3.pdf 1 400 0 > c:/ddksample/page1.ppm
+	fz_context *ctx;
+	fz_document *doc;
+	fz_pixmap *pix;
+	fz_matrix ctm;
+	int x, y;
+	int page_count;
+
+	// std::string input = game_config::os == os_windows? "c:/ddksample/test3.pdf": "/sdcard/apk/test3.pdf";
+	std::string input = game_config::os == os_windows? "c:/ddksample/zzzzzz.pdf": "/sdcard/apk/zzzzzz.pdf";
+	int page_number = 0;
+	float zoom = 200;
+	float rotate = 0;
+
+	SDL_Log("{mupdf}input: %s, page_number: %i, zoom: %.3f, rotate: %.3f", input.c_str(), page_number, zoom, rotate);
+
+	/* Create a context to hold the exception stack and various caches. */
+	ctx = fz_new_context(NULL, NULL, FZ_STORE_UNLIMITED);
+	if (!ctx)
+	{
+		fprintf(stderr, "cannot create mupdf context\n");
+		return EXIT_FAILURE;
+	}
+
+	/* Register the default file types to handle. */
+	fz_try(ctx)
+		fz_register_document_handlers(ctx);
+	fz_catch(ctx)
+	{
+		fz_report_error(ctx);
+		fprintf(stderr, "cannot register document handlers\n");
+		fz_drop_context(ctx);
+		return EXIT_FAILURE;
+	}
+
+	/* Open the document. */
+	fz_try(ctx)
+		doc = fz_open_document(ctx, input.c_str());
+	fz_catch(ctx)
+	{
+		fz_report_error(ctx);
+		fprintf(stderr, "cannot open document\n");
+		fz_drop_context(ctx);
+		return EXIT_FAILURE;
+	}
+
+	/* Count the number of pages. */
+	fz_try(ctx)
+		page_count = fz_count_pages(ctx, doc);
+	fz_catch(ctx)
+	{
+		fz_report_error(ctx);
+		fprintf(stderr, "cannot count number of pages\n");
+		fz_drop_document(ctx, doc);
+		fz_drop_context(ctx);
+		return EXIT_FAILURE;
+	}
+
+	if (page_number < 0 || page_number >= page_count)
+	{
+		fprintf(stderr, "page number out of range: %d (page count %d)\n", page_number + 1, page_count);
+		fz_drop_document(ctx, doc);
+		fz_drop_context(ctx);
+		return EXIT_FAILURE;
+	}
+
+	/* Compute a transformation matrix for the zoom and rotation desired. */
+	/* The default resolution without scaling is 72 dpi. */
+	ctm = fz_scale(zoom / 100, zoom / 100);
+	ctm = fz_pre_rotate(ctm, rotate);
+
+	/* Render page to an RGB pixmap. */
+	fz_try(ctx)
+		pix = fz_new_pixmap_from_page_number(ctx, doc, page_number, ctm, fz_device_rgb(ctx), 0);
+	fz_catch(ctx)
+	{
+		fz_report_error(ctx);
+		fprintf(stderr, "cannot render page\n");
+		fz_drop_document(ctx, doc);
+		fz_drop_context(ctx);
+		return EXIT_FAILURE;
+	}
+
+	const std::string outfile = game_config::os == os_windows? "c:/ddksample/page1.ppm": "/sdcard/apk/page1.ppm";
+	SDL_Log("{mupdf}output: %s, page_count: %i, pix(x: %i, y: %i, w: %i, h: %i, n: %i)",
+		outfile.c_str(), page_count, pix->x, pix->y, pix->w, pix->h, pix->n);
+
+	tfile file(outfile, GENERIC_WRITE, CREATE_ALWAYS);
+	VALIDATE(file.valid(), null_str);
+
+	char szbuf[1024];
+
+	/* Print image data in ascii PPM format. */
+	// printf("P3\n");
+	int len = SDL_snprintf(szbuf, sizeof(szbuf), "P3\n");
+	posix_fwrite(file.fp, szbuf, len);
+
+	// printf("%d %d\n", pix->w, pix->h);
+	len = SDL_snprintf(szbuf, sizeof(szbuf), "%d %d\n", pix->w, pix->h);
+	posix_fwrite(file.fp, szbuf, len);
+
+	// printf("255\n");
+	len = SDL_snprintf(szbuf, sizeof(szbuf), "255\n");
+	posix_fwrite(file.fp, szbuf, len);
+
+	for (y = 0; y < pix->h; ++y)
+	{
+		unsigned char *p = &pix->samples[y * pix->stride];
+		for (x = 0; x < pix->w; ++x)
+		{
+			if (x > 0) {
+				// printf("  ");
+				szbuf[0] = ' ';
+				szbuf[1] = ' ';
+				posix_fwrite(file.fp, szbuf, 2);
+			}
+			// printf("%3d %3d %3d", p[0], p[1], p[2]);
+			len = SDL_snprintf(szbuf, sizeof(szbuf), "%3d %3d %3d", p[0], p[1], p[2]);
+			posix_fwrite(file.fp, szbuf, len);
+			p += pix->n;
+
+			// SDL_Delay(1);
+		}
+		// printf("\n");
+		len = SDL_snprintf(szbuf, sizeof(szbuf), "\n");
+		posix_fwrite(file.fp, szbuf, len);
+	}
+
+	/* Clean up. */
+	fz_drop_pixmap(ctx, pix);
+	fz_drop_document(ctx, doc);
+	fz_drop_context(ctx);
+
+	SDL_Log("{mupdf}---test finished ok---");
+	return EXIT_SUCCESS;
+}
+
+void test()
+{
+}
+
+
+/**
+ * Setups the game environment and enters
+ * the titlescreen or game loops.
+ */
+static int do_gameloop(int argc, char** argv)
+{
+	SDL_SetHint(SDL_HINT_BLE, "1");
+
+	if (game_config::os == os_android) {
+		set_preferences_dir(null_str);
+	} else {
+		set_preferences_dir("launcher");
+	}
+
+	game_instance instance;
+
+	SDL_Log("do_gameloop, main_tid: %" PRIu64 "", (uint64_t)main_tid);
+	// VALIDATE_IN_MAIN_THREAD();
+	// VALIDATE_NOT_MAIN_THREAD();
+
+	// test_new_sdl_api();
+	test_miktex();
+	// test_mudpf();
+
+	if (game_config::os == os_windows) {
+		const size_t kMaxBodySize = 100 << 20;
+		int ii = 0;
+		// test_slam();
+		// test_ceres_curve_fitting();
+		// test();
+		// SDL_assert(false);
+		// preferences::set_keyboard_style(keyboard_style_rose);
+	}
+	return 0;
+}
+
+int main(int argc, char** argv)
+{
+	do_gameloop(argc, argv);
+
+	return 0;
+}

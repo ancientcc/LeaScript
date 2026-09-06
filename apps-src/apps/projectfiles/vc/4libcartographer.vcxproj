@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\3rdparty\libpng\png.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngerror.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngget.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngmem.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngpread.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngread.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngrio.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngrtran.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngrutil.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngset.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngtrans.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngwio.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngwrite.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngwtran.c" />
+    <ClCompile Include="..\..\external\3rdparty\libpng\pngwutil.c" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\accelerate_sparse.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\array_utils.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\blas.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_evaluate_preparer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_jacobian_writer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_jacobi_preconditioner.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_random_access_dense_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_random_access_diagonal_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_random_access_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_random_access_sparse_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_sparse_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\block_structure.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\callbacks.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\canonical_views_clustering.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\cgnr_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\compressed_col_sparse_matrix_utils.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\compressed_row_jacobian_writer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\compressed_row_sparse_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\conditioned_cost_function.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\conjugate_gradients_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\context.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\context_impl.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\coordinate_descent_minimizer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\corrector.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\covariance.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\covariance_impl.cc">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="..\..\external\ceres\internal\ceres\cxsparse.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\c_api.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\dense_normal_cholesky_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\dense_qr_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\dense_sparse_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\detect_structure.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\dogleg_strategy.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\dynamic_compressed_row_jacobian_writer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\dynamic_compressed_row_sparse_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\dynamic_sparse_normal_cholesky_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\eigensparse.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\evaluator.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\file.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\float_cxsparse.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\float_suitesparse.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\function_sample.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_2_2.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_2_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_2_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_2_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_3_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_3_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_3_6.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_3_9.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_3_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_4_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_4_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_4_6.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_4_8.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_4_9.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_4_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_2_d_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_3_3_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_4_4_2.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_4_4_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_4_4_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_4_4_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\partitioned_matrix_view_d_d_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_2_2.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_2_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_2_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_2_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_3_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_3_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_3_6.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_3_9.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_3_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_4_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_4_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_4_6.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_4_8.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_4_9.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_4_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_2_d_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_3_3_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_4_4_2.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_4_4_3.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_4_4_4.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_4_4_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\generated\schur_eliminator_d_d_d.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\gradient_checker.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\gradient_checking_cost_function.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\gradient_problem.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\gradient_problem_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\implicit_schur_complement.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\inner_product_computer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\is_close.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\iterative_refiner.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\iterative_schur_complement_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\lapack.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\levenberg_marquardt_strategy.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\linear_least_squares_problems.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\linear_operator.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\linear_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\line_search.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\line_search_direction.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\line_search_minimizer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\line_search_preprocessor.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\local_parameterization.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\loss_function.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\low_rank_inverse_hessian.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\miniglog\glog\logging.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\minimizer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\normal_prior.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\parallel_for_cxx.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\parallel_for_nothreads.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\parallel_for_openmp.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\parallel_utils.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\parameter_block_ordering.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\partitioned_matrix_view.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\polynomial.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\preconditioner.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\preprocessor.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\problem.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\problem_impl.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\program.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\reorder_program.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\residual_block.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\residual_block_utils.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\schur_complement_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\schur_eliminator.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\schur_jacobi_preconditioner.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\schur_templates.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\scratch_evaluate_preparer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\single_linkage_clustering.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\solver_utils.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\sparse_cholesky.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\sparse_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\sparse_normal_cholesky_solver.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\split.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\stringprintf.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\subset_preconditioner.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\suitesparse.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\thread_pool.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\thread_token_provider.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\triplet_sparse_matrix.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\trust_region_minimizer.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\trust_region_preprocessor.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\trust_region_step_evaluator.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\trust_region_strategy.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\types.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\visibility.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\visibility_based_preconditioner.cc" />
+    <ClCompile Include="..\..\external\ceres\internal\ceres\wall_time.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\configuration_file_resolver.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\fixed_ratio_sampler.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\histogram.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\internal\ceres_solver_options.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\lua_parameter_dictionary.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\proto\ceres_solver_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\task.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\thread_pool.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\common\time.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\common\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\ground_truth\autogenerate_ground_truth.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\ground_truth\proto\relations.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\ground_truth\relations_text_file.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\color.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\io\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\coloring_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\counting_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\draw_trajectories.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\file_writer.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\io\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\fixed_ratio_sampling_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\frame_id_filtering_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\hybrid_grid_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\image.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\io\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\intensity_to_color_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\internal\in_memory_proto_stream.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\internal\mapping_state_serialization.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\internal\pbstream_info.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\internal\pbstream_migrate.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\min_max_range_filtering_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\outlier_removing_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\pcd_writing_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\ply_writing_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\points_batch.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\points_processor_pipeline_builder.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\probability_grid_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\proto_stream.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\proto_stream_deserializer.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\serialization_format_migration.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\submap_painter.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\vertical_range_filtering_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\xray_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\io\xyz_writing_points_processor.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\2d\grid_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\2d\probability_grid.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\2d\probability_grid_range_data_inserter_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\2d\submap_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\3d\range_data_inserter_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\3d\submap_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\detect_floors.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\imu_tracker.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\local_slam_result_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\local_trajectory_builder_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\local_trajectory_builder_options_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\normal_estimation_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\overlapping_submaps_trimmer_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\pose_graph_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\ray_to_pixel_mask.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\scan_matching\ceres_scan_matcher_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\scan_matching\correlative_scan_matcher_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\scan_matching\fast_correlative_scan_matcher_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\scan_matching\occupied_space_cost_function_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\scan_matching\real_time_correlative_scan_matcher_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\scan_matching\tsdf_match_cost_function_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\tsdf_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\tsdf_range_data_inserter_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\2d\tsd_value_converter.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\local_slam_result_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\local_trajectory_builder_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\local_trajectory_builder_options_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\pose_graph_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\scan_matching\ceres_scan_matcher_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\scan_matching\fast_correlative_scan_matcher_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\scan_matching\intensity_cost_function_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\scan_matching\low_resolution_matcher.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\scan_matching\precomputation_grid_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\scan_matching\real_time_correlative_scan_matcher_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\3d\scan_matching\rotational_scan_matcher.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\collated_trajectory_builder.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\connected_components.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\constraints\constraint_builder.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\constraints\constraint_builder_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\constraints\constraint_builder_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\eigen_quaterniond_from_two_vectors.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\global_trajectory_builder.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\imu_based_pose_extrapolator.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\motion_filter.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\optimization\ceres_pose.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\optimization\cost_functions\spa_cost_function_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\optimization\optimization_problem_2d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\optimization\optimization_problem_3d.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\optimization\optimization_problem_options.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\range_data_collator.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\scan_matching\real_time_correlative_scan_matcher.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\submap_controller.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\internal\trajectory_connectivity_state.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\map_builder.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\map_builder_interface.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\pose_extrapolator.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\pose_extrapolator_interface.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\pose_graph.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\pose_graph_trimmer.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\probability_values.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\cell_limits_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\connected_components.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\grid_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\grid_2d_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\hybrid_grid.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\local_trajectory_builder_options_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\local_trajectory_builder_options_3d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\map_builder_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\map_limits.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\motion_filter_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\normal_estimation_options_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\pose_extrapolator_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\pose_graph.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\pose_graph\constraint_builder_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\pose_graph\optimization_problem_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\pose_graph_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\probability_grid.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\probability_grid_range_data_inserter_options_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\range_data_inserter_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\range_data_inserter_options_3d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\scan_matching\ceres_scan_matcher_options_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\scan_matching\ceres_scan_matcher_options_3d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\scan_matching\fast_correlative_scan_matcher_options_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\scan_matching\fast_correlative_scan_matcher_options_3d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\scan_matching\real_time_correlative_scan_matcher_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\serialization.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\submap.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\submaps_options_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\submaps_options_3d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\submap_visualization.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\trajectory.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\trajectory_builder_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\trajectory_node_data.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\tsdf_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\proto\tsdf_range_data_inserter_options_2d.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\range_data_inserter_interface.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\trajectory_builder_interface.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\trajectory_node.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\mapping\value_conversion_tables.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\metrics\counter.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\metrics\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\metrics\gauge.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\metrics\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\metrics\histogram.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\metrics\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\metrics\register.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\metrics\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\compressed_point_cloud.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\fixed_frame_pose_data.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\imu_data.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\internal\collator.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\internal\ordered_multi_queue.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\internal\trajectory_collator.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\internal\voxel_filter.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\landmark_data.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\odometry_data.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\point_cloud.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\proto\adaptive_voxel_filter_options.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\proto\sensor.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\range_data.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\sensor\timed_point_cloud_data.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\transform\proto\timestamped_transform.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\transform\proto\transform.pb.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\transform\rigid_transform.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\transform\timestamped_transform.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\transform\transform.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer\transform\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer\cartographer\transform\transform_interpolation_buffer.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\map_builder_bridge.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\metrics\family_factory.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\metrics\internal\family.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer_ros\metrics\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\metrics\internal\histogram.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer_ros\metrics\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\msg_conversion.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\node.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)libros\cartographer_ros\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\node_constants.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\node_main.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\node_options.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\occupancy_grid_node_main.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\ros_log_sink.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\sensor_bridge.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\submap.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\tf_bridge.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\time_conversion.cc" />
+    <ClCompile Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\trajectory_options.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\libros\cartographer\cartographer\common\librose.h" />
+    <ClInclude Include="..\..\external\libros\cartographer_ros\cartographer_ros\cartographer_ros\sensor_bridge.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a2e16d3a-ff17-4b0f-a4d3-935fd98bf541}</ProjectGuid>
+    <RootNamespace>cartographer</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>4libcartographer</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\4libcartogreapher\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\4libcartogreapher\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <Optimization>MaxSpeed</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>
+      </SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;BOOST_ALL_NO_LIB;WIN32_LEAN_AND_MEAN;WEBRTC_WIN;DCHECK_ALWAYS_ON;PROTOBUF_USE_DLLS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/boringssl/include;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../external/chromium;../../external/chromium/third_party/abseil-cpp;../../external/libros/include;../../external/libros/cartographer;../../external/libros/cartographer_ros/cartographer_ros;../../external/libros/pixman;../../external/boost;../../external/ceres/include;../../external/ceres/internal;../../external/protobuf/src;../../external/libpng;../../external/webrtc;../../external/zlib;../../librose;../../../linker/include/SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;BOOST_ALL_NO_LIB;WIN32_LEAN_AND_MEAN;WEBRTC_WIN;DCHECK_ALWAYS_ON;PROTOBUF_USE_DLLS;_ITERATOR_DEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/3rdparty/cairo/include;../../external/boringssl/include;../../external/tensorflow/tensorflow/lite/downloads/eigen;../../external/chromium;../../external/chromium/third_party/abseil-cpp;../../external/libros/include;../../external/libros/cartographer;../../external/libros/cartographer_ros/cartographer_ros;../../external/boost;../../external/ceres/include;../../external/ceres/internal;../../external/protobuf/src;../../external/libpng;../../external/webrtc;../../external/zlib;../../librose;../../../linker/include/SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4251;4267;4275</DisableSpecificWarnings>
+      <Optimization>MaxSpeed</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

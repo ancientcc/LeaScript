@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<refentry id="miktex-languages">
+
+<?dbhh topicname="MIKTEXHELP_MIKTEX_LANGUAGES" topicid="0"?>
+
+<refmeta>
+<refentrytitle>miktex-languages</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">&PACKAGE_NAME;</refmiscinfo>
+<refmiscinfo class="version">&miktexrev;</refmiscinfo>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>miktex-languages</refname>
+<refpurpose>manage &LaTeX; language definitions</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+
+<cmdsynopsis>
+&miktex;
+<arg choice="opt" rep="repeat"><replaceable>common-option</replaceable></arg>
+<arg choice="plain">languages</arg>
+<arg choice="plain"><replaceable>command</replaceable></arg>
+<arg choice="opt" rep="repeat"><replaceable>command-option-or-parameter</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+
+<title>Description</title>
+
+<para>Commands for managing &LaTeX; language definitions.</para>
+
+</refsect1>
+
+<refsect1>
+
+<title>Commands</title>
+
+<variablelist>
+<varlistentry>
+<term><command>configure</command></term>
+<listitem>
+<indexterm>
+<primary>&LaTeX; language definition files</primary>
+<secondary>configuring</secondary>
+</indexterm>
+<para>Configure &LaTeX; language definition files.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><command>list <optional><option>--template <replaceable>template</replaceable></option></optional></command></term>
+<listitem>
+<para>List &LaTeX; language definitions.</para>
+<para><replaceable>template</replaceable> controls the output of each record.
+It can contain the following placeholders:</para>
+<para><simplelist type='inline'>
+<member><code>{custom}</code></member>
+<member><code>{exclude}</code></member>
+<member><code>{hyphenation}</code></member>
+<member><code>{key}</code></member>
+<member><code>{lefthyphenmin}</code></member>
+<member><code>{righthyphenmin}</code></member>
+<member><code>{loader}</code></member>
+<member><code>{luaspecial}</code></member>
+<member><code>{patterns}</code></member>
+<member><code>{righthyphenmin}</code></member>
+<member><code>{synonyms}</code></member>
+</simplelist></para></listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>See also</title>
+
+<simplelist type="inline">
+<member><citerefentry><refentrytitle>miktex</refentrytitle><manvolnum>1</manvolnum></citerefentry></member>
+</simplelist>
+
+</refsect1>
+
+</refentry>

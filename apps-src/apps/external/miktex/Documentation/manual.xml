@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<book lang="en">
+
+<bookinfo>
+
+<title>&MiKTeX; Manual</title>
+<subtitle>Revision &rev;</subtitle>
+
+<edition>&rev;</edition>
+
+<author>
+<firstname>Christian</firstname>
+<surname>Schenk</surname>
+</author>
+
+<copyright>
+<year>&year;</year>
+<holder>Christian Schenk</holder>
+</copyright>
+
+<date>&date;</date>
+
+<legalnotice>
+
+<para>Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.</para>
+
+<para>Permission is granted to copy and distribute modified versions
+of this manual under the conditions for verbatim copying, provided
+that the entire resulting derived work is distributed under the terms
+of a permission notice identical to this one.</para>
+
+<para>Permission is granted to copy and distribute translations of
+this manual into another language, under the above conditions for
+modified versions, except that this permission notice may be stated in
+a translation approved by the Free Software Foundation.</para>
+
+</legalnotice>
+
+</bookinfo>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/preface.xml" />
+
+<toc/>
+
+<part id="userguide">
+
+<title>User Guide</title>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/intro.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/installing.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/localguide.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/configuring.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/advanced.xml" />
+
+</part>
+
+<part id="reference">
+
+<title>Reference</title>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/programs.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/files.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/envvars.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/tracestreams.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Manual/defaults.xml" />
+
+</part>
+
+<index id="idx">
+<title>Index</title>
+</index>
+
+</book>

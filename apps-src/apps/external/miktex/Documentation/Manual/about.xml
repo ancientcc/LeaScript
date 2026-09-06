@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<section id="about">
+
+<title>About &MiKTeX;</title>
+
+<para>&TeX; is a typesetting system invented by D.&nbsp;E.&nbsp;Knuth.
+<indexterm>
+<primary>Knuth</primary>
+<secondary>Donald E.</secondary>
+</indexterm>
+&MiKTeX; (pronounced
+<emphasis>mik-tech</emphasis>) is an implementation of
+<indexterm>
+<primary>MiKTeX</primary>
+<secondary>how to pronounce</secondary>
+</indexterm>
+&TeX; and related programs.</para>
+
+<para>&MiKTeX; is available for &Windows;, &macOS; and selected
+&Linux; distributions. Its main features include:
+<indexterm>
+<primary>MiKTeX</primary>
+<secondary>features</secondary>
+</indexterm></para>
+
+<itemizedlist>
+<listitem><para>Easy to install</para>
+</listitem>
+<listitem><para>Integrated package management:
+&MiKTeX;'s integrated package manager installs missing components from the Internet, if required.
+This allows users to keep the &TeX; installation as minimal as possible (“Just enough TeX”).</para>
+</listitem>
+<listitem><para>Complete: the &MiKTeX; distribution contains almost
+all packages that are freely redistributable.</para>
+</listitem>
+<listitem><para>Always up-to-date: the &MiKTeX; package repository is updated regularly
+and &MiKTeX; provides tools to easily install package updates.</para>
+</listitem>
+<listitem><para>Open source</para></listitem>
+</itemizedlist>
+
+</section>

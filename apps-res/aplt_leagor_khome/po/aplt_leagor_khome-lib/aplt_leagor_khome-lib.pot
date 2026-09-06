@@ -1,0 +1,811 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: aplt_leagor_khome-lib\n"
+"POT-Creation-Date: 2026-06-06 15:11+0800\n"
+"PO-Revision-Date: 2016-01-03 20:34+0800\n"
+"Last-Translator: service <service@leagor.com>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-KeywordsList: _;vgettext2\n"
+"X-Poedit-Basepath: ../../../..\n"
+"X-Poedit-SearchPath-0: apps-res/aplt_leagor_khome/lua\n"
+"X-Poedit-SearchPath-1: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib\n"
+"X-Poedit-SearchPath-2: apps-src/apps/libleagor_khome\n"
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:32
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:11
+msgid "Face"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:58
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:56
+msgid "restaurant^Table"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:83
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:81
+msgid "Two capital letters"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:181
+msgid "$count faces"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:207
+msgid "Modify name(faceid: $faceid)"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:208
+msgid "OK"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:218
+msgid "Do you want to erase '$name'(faceid: $faceid)?"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/face.lua:242
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:217
+msgid "device remark, $alias_id"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/home.lua:23
+msgid "kHome"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/home.lua:52
+msgid "home^remark"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:75
+msgid "task^query"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:76
+msgid "task^query_cooking"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:77
+msgid "task^parse_time"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:78
+msgid "task^snapshot"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:79
+msgid "task^kpose"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:80
+msgid "task^workout"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:81
+msgid "task^kface"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/main.lua:82
+msgid "task^recognition"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:71
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:27
+msgid "Posture"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:103
+msgid "Readme"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:106
+#: apps-res/aplt_leagor_khome/lua/posture.lua:142
+msgid "Sit(front)"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:109
+#: apps-res/aplt_leagor_khome/lua/posture.lua:143
+msgid "Sit(rside)"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:112
+#: apps-res/aplt_leagor_khome/lua/posture.lua:144
+msgid "Sit(share)"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:115
+msgid "Shoulder neck"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:145
+msgid "readme's sit remark, $sit_front, $sit_rside, $sit_share"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:158
+msgid "sit_front remark"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:202
+msgid "sit_side remark"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:289
+msgid "shoulder_neck_layer remark"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:346
+msgid "sit_share remark, $var_name, $improper, $noperson, $sedentary"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:355
+msgid "sit_front improper summary, $shoulder_width_max, $ear_diff_threshold, $head_forward_threshold"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:365
+msgid "sit_front noperson summary, $ear_width_min, $shoulder_width_min"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:374
+msgid "sit_side improper summary, $shoulder_nose_angle_threshold, $improper_spine_angle_min, $improper_spine_angle_max, $shoulder_width_max, $spine_length_max"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:384
+msgid "sit_side noperson summary, $spine_length_min"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:393
+msgid "sit_share improper summary, $improper_time"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:402
+msgid "sit_share noperson summary, $noperson_time"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:411
+msgid "sit_share sedentary summary, $sedentary_time"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:430
+msgid "Value cannot be empty"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:435
+#: apps-res/aplt_leagor_khome/lua/posture.lua:445
+#: apps-res/aplt_leagor_khome/lua/posture.lua:455
+msgid "Value type must be $type"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/posture.lua:438
+#: apps-res/aplt_leagor_khome/lua/posture.lua:448
+#: apps-res/aplt_leagor_khome/lua/posture.lua:458
+msgid "The value needs to be in the range of [$min, $max]"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:27
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:29
+msgid "Query"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:53
+msgid "Goods"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:56
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:25
+#: apps-src/apps/libleagor_khome/block_task.cpp:581
+msgid "Position"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:115
+msgid "Do you want to import goods from file($file)?"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:128
+msgid "Import finished"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/query.lua:200
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:174
+msgid "Need to set the current map, or have at least one position on the map"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:30
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:31
+msgid "Restaurant"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/lua/restaurant.lua:157
+msgid "$count devices    $positions has position"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:1
+#: apps-src/apps/libleagor_khome/block_task.cpp:561
+msgid "Brand"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:3
+#: apps-src/apps/libleagor_khome/block_task.cpp:598
+msgid "Description"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:5
+msgid "Device alias ID"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:7
+msgid "Do sit for long time"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:9
+msgid "Erase"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:13
+msgid "Good position"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:15
+msgid "Have left your seat"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:17
+#: apps-src/apps/libleagor_khome/block_task.cpp:570
+#: apps-src/apps/libleagor_khome/block_task.cpp:604
+msgid "ID"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:19
+msgid "Is the sitting posture upright"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:21
+msgid "Map position"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:23
+msgid "Modify name"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:33
+msgid "Show image"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:35
+#: apps-src/apps/libleagor_khome/block_task.cpp:543
+#: apps-src/apps/libleagor_khome/block_task.cpp:592
+msgid "object^Name"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:37
+msgid "sit_front^duration(Min)"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:39
+msgid "sit_front^duration(S)"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:41
+msgid "sit_front^ear_diff_threshold label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:43
+msgid "sit_front^ear_width_min label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:45
+msgid "sit_front^head_forward_threshold label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:47
+msgid "sit_front^shoulder_width_max label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:49
+msgid "sit_front^shoulder_width_min label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:51
+msgid "sit_side^improper_spine_angle_range label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:53
+msgid "sit_side^shoulder_nose_angle_threshold label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:55
+msgid "sit_side^shoulder_width_max label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:57
+msgid "sit_side^spin_length_max label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:59
+msgid "sit_side^spine_length_min label"
+msgstr ""
+
+#: apps-res/aplt_leagor_khome/po/cfg-cpp/aplt_leagor_khome-lib/aplt.cpp:61
+msgid "upright^Sit"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:503
+#: apps-src/apps/libleagor_khome/block_task.cpp:1278
+msgid "Cannot open $file"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:515
+#: apps-src/apps/libleagor_khome/block_task.cpp:1290
+msgid "import^nonutf8 remark"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:545
+#: apps-src/apps/libleagor_khome/block_task.cpp:563
+msgid "[$item] '$field' should not appear character $char"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:572
+#: apps-src/apps/libleagor_khome/block_task.cpp:583
+#: apps-src/apps/libleagor_khome/block_task.cpp:593
+#: apps-src/apps/libleagor_khome/block_task.cpp:599
+msgid "[$item] '$field' must not empty."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:575
+#: apps-src/apps/libleagor_khome/block_task.cpp:586
+msgid "[$item] '$field' cannot exceed $max bytes. A chinese is about 3 bytes."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:605
+msgid "[$item] '$field' must not be duplicated."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:619
+msgid "[#$line] At least $count fields per row"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:636
+#: apps-src/apps/libleagor_khome/block_task.cpp:1399
+msgid "There is no valid query item in $csv."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:715
+msgid "At least one of $query_id and $query_name cannot be empty."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:978
+#: apps-src/apps/libleagor_khome/block_task.cpp:1109
+msgid "Input var($var)'s value must >= 0"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:999
+msgid "Alias($alias) does not conform to the required format"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1013
+msgid "Cannot find alias($alias), check if it is in IoT device list"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1041
+#: apps-src/apps/libleagor_khome/camera2.cpp:197
+msgid "Send fail"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1122
+msgid "for elapse, t($t) must >= 0"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1139
+msgid "for UTC-Time, t($t) must >= 0"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1156
+msgid "Before dawn"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1160
+msgid "Morning"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1164
+msgid "Noon"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1168
+msgid "Afternoon"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1172
+msgid "Evening"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1176
+msgid "Late night"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1222
+#: apps-src/apps/libleagor_khome/block_task.cpp:1231
+msgid "Input var($var)'s value must >= 1"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/block_task.cpp:1225
+#: apps-src/apps/libleagor_khome/block_task.cpp:1234
+msgid "Missing input var: $var"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:156
+msgid "Image$number"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:174
+msgid "Hope to capture $count images. but because there is no IMU, can only capture one."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:186
+msgid "The image captured by the task($task)."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:201
+msgid "Do not send"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:605
+msgid "Not recognized"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/camera2.cpp:611
+msgid "Try to place the object in the center of camera's view"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kface.cpp:224
+msgid "Unknown op value: $op. The behavior will be to only search for faces."
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kface.cpp:268
+msgid "Untitle"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:78
+msgid "Sedentary"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:93
+#: apps-src/apps/libleagor_khome/kpose.cpp:95
+msgid "The camera did not capture the shoulders, ears, or nose"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:97
+msgid "sit^good"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:99
+msgid "sit^improper"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:101
+msgid "sit^noperson"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:104
+msgid "Shoulders locate in middle of the camera"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:106
+msgid "Shoulder cannot be too crooked"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:108
+msgid "Shoulder parallel"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:110
+msgid "Not too close"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:112
+msgid "Shoulder width"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:114
+msgid "Face cannot be too crooked"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:116
+msgid "Height difference between two ears"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:118
+msgid "Head cannot be too low"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:120
+msgid "Height from nose to shoulder midpoint"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:123
+msgid "Don't capture hip"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:125
+msgid "Ear width canot be too narrow"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:127
+msgid "Shoulder width canot be too narrow"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:129
+msgid "Nose locates in the shoulder area"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:135
+#: apps-src/apps/libleagor_khome/kpose.cpp:137
+msgid "The camera did not capture right ear, shoulder, or hip"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:140
+msgid "Head cannot be too forward"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:142
+msgid "Shoulder-nose angle"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:144
+msgid "Spine cannot be too bending"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:146
+msgid "Shoulder-hip angle"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:148
+msgid "Shoulder cannot be too broad"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:150
+msgid "Spine cannot be too long"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:152
+msgid "Spine length"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:154
+msgid "Hip cannot be too high"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:156
+msgid "Hip position"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:160
+msgid "Spine cannot be too short"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:162
+msgid "Spine angle within a specific range"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:164
+msgid "Mouth is to the right of shoulders"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:172
+msgid "sn^0desc"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:173
+msgid "sn^0unsatisfied"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:174
+msgid "sn^0remind"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:175
+msgid "sn^0finished"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:177
+msgid "sn^1desc"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:178
+msgid "sn^1unsatisfied"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:179
+msgid "sn^1remind"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:180
+msgid "sn^1finished"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:182
+msgid "sn^2desc"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:183
+msgid "sn^2unsatisfied"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:184
+msgid "sn^2remind"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:185
+msgid "sn^2finished"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:187
+msgid "sn^3desc"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:188
+msgid "sn^3unsatisfied"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:189
+msgid "sn^3remind"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:190
+msgid "sn^3finished"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:192
+msgid "sn^4desc"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:193
+msgid "sn^4unsatisfied"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:194
+msgid "sn^4remind"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:195
+msgid "sn^4finished"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:219
+msgid "Unknow type: $type"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:227
+msgid "This version does not support type: $type"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:233
+#: apps-src/apps/libleagor_khome/kpose2.cpp:124
+msgid "Initialize mediapipe graph fail"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1080
+#: apps-src/apps/libleagor_khome/kpose.cpp:1086
+#: apps-src/apps/libleagor_khome/kpose.cpp:1175
+#: apps-src/apps/libleagor_khome/kpose.cpp:1181
+#: apps-src/apps/libleagor_khome/kpose.cpp:1313
+#: apps-src/apps/libleagor_khome/kpose.cpp:1319
+msgid "Have the camera capture shoulders, elbows, and wrists"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1131
+#: apps-src/apps/libleagor_khome/kpose.cpp:1145
+#: apps-src/apps/libleagor_khome/kpose.cpp:1233
+#: apps-src/apps/libleagor_khome/kpose.cpp:1354
+#: apps-src/apps/libleagor_khome/kpose.cpp:1359
+msgid "left"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1132
+#: apps-src/apps/libleagor_khome/kpose.cpp:1136
+msgid "Raise $lr elbow more straight"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1135
+#: apps-src/apps/libleagor_khome/kpose.cpp:1149
+#: apps-src/apps/libleagor_khome/kpose.cpp:1233
+#: apps-src/apps/libleagor_khome/kpose.cpp:1364
+#: apps-src/apps/libleagor_khome/kpose.cpp:1369
+msgid "right"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1139
+msgid "Place the centers of both wrists and shoulders on the same vertical line as much as possible"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1142
+msgid "Cross your fingers and reduce the width formed by your wrists"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1146
+#: apps-src/apps/libleagor_khome/kpose.cpp:1150
+msgid "The $lr wrist should be inside the $lr shoulder"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1206
+msgid "Lower your head a bit"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1209
+msgid "Bring the right wrist closer to the left shoulder"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1212
+msgid "Bring the left wrist closer to the right shoulder"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1240
+#: apps-src/apps/libleagor_khome/kpose.cpp:1251
+msgid "Have the camera capture $lr shoulder, elbow, and wrist"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1279
+#: apps-src/apps/libleagor_khome/kpose.cpp:1374
+msgid "The elbow should be outside the shoulder"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1282
+msgid "Make both ears tilt more"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1285
+msgid "Increase elbow angle"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1288
+msgid "Reduce elbow angle"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1351
+msgid "Tilt your head upwards"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1355
+#: apps-src/apps/libleagor_khome/kpose.cpp:1365
+msgid "increase"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1356
+#: apps-src/apps/libleagor_khome/kpose.cpp:1361
+#: apps-src/apps/libleagor_khome/kpose.cpp:1366
+#: apps-src/apps/libleagor_khome/kpose.cpp:1371
+msgid "Place $lr elbow on the back of neck, unfold it, and $inc_red the angle"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1360
+#: apps-src/apps/libleagor_khome/kpose.cpp:1370
+msgid "reduce"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1424
+msgid "sn^remind breath"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose.cpp:1470
+msgid "sn^prelude"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose2.cpp:110
+msgid "Action script"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/kpose2.cpp:116
+msgid "Input var($var)'s value cannot be empty"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/task_api.cpp:99
+msgid "Unknonw task: $task"
+msgstr ""
+
+#: apps-src/apps/libleagor_khome/task_api.cpp:111
+msgid "Don't use DFACE message"
+msgstr ""

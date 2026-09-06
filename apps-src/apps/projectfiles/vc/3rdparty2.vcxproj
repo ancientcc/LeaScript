@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\blocksort.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bzip2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)bzip2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\bzlib.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bzip2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)bzip2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\compress.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bzip2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)bzip2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\crctable.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bzip2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)bzip2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\decompress.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bzip2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)bzip2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\huffman.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bzip2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)bzip2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\bzip2\randtable.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)bzip2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)bzip2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\libb64\src\cdecode.c" />
+    <ClCompile Include="..\..\external\3rdparty\libb64\src\cencode.c" />
+    <ClCompile Include="..\..\external\3rdparty\lz4\lib\lz4.c" />
+    <ClCompile Include="..\..\external\3rdparty\mtrand.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_filesystem.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_peripheral.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_qr_code.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\rose_string_utils.cpp" />
+    <ClCompile Include="..\..\external\3rdparty\zlib\adler32.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\compress.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\crc32.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\deflate.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzclose.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzlib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzread.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\gzwrite.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\infback.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\inffast.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\inflate.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\inftrees.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\trees.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\uncompr.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\zlib\zutil.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\chrono\src\chrono.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\chrono\src\process_cpu_clocks.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\chrono\src\thread_clock.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\codecvt_error_category.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\directory.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\exception.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\operations.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\path.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\path_traits.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\portability.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\unique_path.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\utf8_codecvt_facet.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boost\filesystem\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)boost\filesystem\</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\filesystem\src\windows_file_codecvt.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\cmdline.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\convert.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\options_description.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\positional_options.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\utf8_codecvt_facet.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\value_semantic.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\program_options\src\variables_map.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\archive_exception.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_archive.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_iarchive.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_iserializer.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_oarchive.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_oserializer.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_pointer_iserializer.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_pointer_oserializer.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\basic_serializer_map.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\binary_iarchive.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\binary_oarchive.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\codecvt_null.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\extended_type_info.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\extended_type_info_no_rtti.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\extended_type_info_typeid.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\stl_port.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\utf8_codecvt_facet.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)boost\serialization\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)boost\serialization\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\serialization\src\void_cast.cpp" />
+    <ClCompile Include="..\..\external\boost\libs\thread\src\tss_null.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\boost\libs\thread\src\win32\thread.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\cycleclock.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\low_level_alloc.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\raw_logging.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\spinlock.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\spinlock_wait.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\strerror.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\sysinfo.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\thread_identity.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\throw_delegate.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\tracing.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\base\internal\unscaledcycleclock.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\container\internal\hashtablez_sampler.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\container\internal\hashtablez_sampler_force_weak_definition.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\container\internal\raw_hash_set.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\crc32c.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc_cord_state.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc_memcpy_fallback.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\crc\internal\crc_x86_arm_combined.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\failure_signal_handler.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\address_is_readable.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\demangle.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\elf_mem_image.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\examine_stack.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\internal\vdso_support.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\leak_check.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\stacktrace.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\debugging\symbolize.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\commandlineflag.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\flags\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\flags\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\commandlineflag.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\flags\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\flags\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\flag.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\flags\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\flags\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\private_handle_accessor.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\program_name.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\internal\usage.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\flags\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\flags\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\marshalling.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\parse.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\flags\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\flags\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\reflection.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\usage.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\flags\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\flags\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\flags\usage_config.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\hash\internal\city.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\hash\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\hash\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\hash\internal\hash.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\hash\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\hash\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\hash\internal\low_level_hash.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\globals.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\log\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\log\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\check_op.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\conditions.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\fnmatch.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\globals.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\log\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\log\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\log_format.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\log_message.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\log_sink_set.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\nullguard.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\proto.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\structured_proto.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\internal\vlog_config.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\log\log_sink.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\numeric\int128.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\numeric\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\numeric\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\discrete_distribution.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\gaussian_distribution.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\chi_square.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\distribution_test_util.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\pool_urbg.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_detect.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_hwaes.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_round_keys.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\randen_slow.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\internal\seed_material.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\seed_gen_exception.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\random\seed_sequences.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\internal\status_internal.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\status.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\status\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\status\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\statusor.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\status\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\status\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\status\status_payload_printer.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\ascii.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\charconv.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\cord.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\escaping.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\charconv_bigint.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\charconv_parse.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cordz_handle.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cordz_info.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_internal.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_btree.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_btree_navigator.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_btree_reader.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_consume.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\cord_rep_crc.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\damerau_levenshtein_distance.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\escaping.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\strings\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\strings\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\memutil.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\ostringstream.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\stringify_sink.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\arg.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\bind.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\extension.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\float_conversion.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\output.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\str_format\parser.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\internal\utf8.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\strings\internal\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\strings\internal\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\match.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\numbers.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\string_view.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\str_cat.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\str_replace.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\str_split.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\strings\substitute.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\strings\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\barrier.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\blocking_counter.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\create_thread_identity.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\graphcycles.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\kernel_timeout.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\per_thread_sem.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\waiter_base.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\internal\win32_waiter.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\mutex.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\synchronization\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\synchronization\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\synchronization\notification.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\synchronization\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\synchronization\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\civil_time.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\clock.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\duration.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\format.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\civil_time_detail.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_fixed.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_format.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_if.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_impl.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_info.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_libc.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_lookup.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\time_zone_posix.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\internal\cctz\src\zone_info_source.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\time\time.cc">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)abseil-cpp\time\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\types\bad_any_cast.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\types\bad_optional_access.cc" />
+    <ClCompile Include="..\..\external\chromium\third_party\abseil-cpp\absl\types\bad_variant_access.cc" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-analysis-surface.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-arc.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-array.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-atomic.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-base64-stream.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-base85-stream.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-bentley-ottmann-rectangular.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-bentley-ottmann-rectilinear.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-bentley-ottmann.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-botor-scan-converter.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-boxes-intersect.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-boxes.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-cache.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-boxes.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-polygon.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-region.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-surface.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip-tor-scan-converter.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-clip.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-color.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-composite-rectangles.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-contour.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-damage.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-debug.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-default-context.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-device.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-error.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-fallback-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-face-twin-data.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-face-twin.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-face.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-font-options.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-freed-pool.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-freelist.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-gstate.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-hash.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-hull.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-info.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-source.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-image-surface.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-line.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-lzw.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mask-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-matrix.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mempool.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mesh-pattern-rasterizer.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-misc.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mono-scan-converter.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-mutex.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-no-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-observer.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-output-stream.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-paginated-surface.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-bounds.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-fill.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-fixed.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-in-fill.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-boxes.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-polygon.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-traps.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke-tristrip.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path-stroke.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-path.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-pattern.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-pen.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-png.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-polygon-intersect.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-polygon-reduce.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-polygon.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-raster-source-pattern.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-recording-surface.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-rectangle.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-rectangular-scan-converter.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-region.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-rtree.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-scaled-font.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-shape-mask-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-slope.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-spans-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-spans.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-spline.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-stroke-dash.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-stroke-style.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-clipper.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-fallback.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-observer.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-offset.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-snapshot.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-subsurface.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface-wrapper.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-surface.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-time.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-tor-scan-converter.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-tor22-scan-converter.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-toy-font-face.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-traps-compositor.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-traps.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-tristrip.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-unicode.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-user-font.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-version.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo-wideint.c" />
+    <ClCompile Include="..\..\external\3rdparty\cairo\src\cairo.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-access-accessors.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-access.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-arm.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-bits-image.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-combine-float.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-combine32.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-conical-gradient.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-edge-accessors.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-edge.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-fast-path.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-filter.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-general.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-glyph.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-gradient-walker.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-image.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-implementation.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-linear-gradient.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-matrix.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-mips.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-noop.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-ppc.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-radial-gradient.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-region16.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-region32.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-region64f.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-riscv.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-solid-fill.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-timer.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-trap.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-utils.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman-x86.c" />
+    <ClCompile Include="..\..\external\3rdparty\pixman\pixman.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\3rdparty\bzip2\bzlib.h" />
+    <ClInclude Include="..\..\external\3rdparty\bzip2\bzlib_private.h" />
+    <ClInclude Include="..\..\external\3rdparty\exceptions.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\lz4\lib\lz4.h" />
+    <ClInclude Include="..\..\external\3rdparty\mtrand.h" />
+    <ClInclude Include="..\..\external\3rdparty\rose_filesystem.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_peripheral.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_qr_code.hpp" />
+    <ClInclude Include="..\..\external\3rdparty\rose_string_utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\external\3rdparty\const_clone.tpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{FE931540-70C1-4A74-8CE9-ACF6F2F36F1A}</ProjectGuid>
+    <RootNamespace>opencv</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>3rdparty2</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\3rdparty2\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\3rdparty2\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32_LEAN_AND_MEAN;BOOST_ALL_NO_LIB;LUA_BUILD_AS_DLL;PROTOBUF_USE_DLLS;__OPENCV_BUILD=1;BORINGSSL_SHARED_LIBRARY;BORINGSSL_ALLOW_CXX_RUNTIME;BORINGSSL_NO_STATIC_INITIALIZER;OPENSSL_SMALL;OPENSSL_NO_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/boost;../../external/boringssl/include;../../external/chromium/third_party/abseil-cpp;../../external/protobuf/src;../../external/opencv;../../external/zlib;../../../linker/include/SDL2;../../../linker/include/SDL2_image</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>../../external/opencv/3rdparty/ippicv/ippicv_win/lib/ia32/ippicvmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32_LEAN_AND_MEAN;BOOST_ALL_NO_LIB;LUA_BUILD_AS_DLL;PROTOBUF_USE_DLLS;__OPENCV_BUILD=1;BORINGSSL_SHARED_LIBRARY;BORINGSSL_ALLOW_CXX_RUNTIME;BORINGSSL_NO_STATIC_INITIALIZER;OPENSSL_SMALL;OPENSSL_NO_ASM;_ITERATOR_DEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../external/3rdparty;../../external/3rdparty/cairo/include;../../external/3rdparty/pixman;../../external/boost;../../external/boringssl/include;../../external/chromium/third_party/abseil-cpp;../../external/protobuf/src;../../external/opencv;../../../linker/include/SDL2;../../../linker/include/SDL2_image</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

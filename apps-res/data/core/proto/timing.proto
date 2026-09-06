@@ -1,0 +1,32 @@
+// Protocol message for the cards.
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+
+package pb2;
+
+message ttask {
+  string aplt_id = 1;
+  string id = 2;
+  int32 zerotz_t = 3;
+  int32 state = 4;
+};
+
+message tlog {
+  int64 timestamp = 1;
+  string aplt = 2;
+  string id = 3;
+  string msg = 4;
+};
+
+message tpin {
+  string bundleid = 1;
+  string ids = 2;
+};
+  
+message ttiming {
+  int32 version = 1;
+
+  repeated ttask tasks = 3;
+  repeated tlog logs = 4;
+  repeated tpin pins = 5;
+};

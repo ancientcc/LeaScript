@@ -1,0 +1,159 @@
+#ifndef GUI_DIALOGS_DCAMERA_HPP_INCLUDED
+#define GUI_DIALOGS_DCAMERA_HPP_INCLUDED
+
+#include "gui/dialogs/statusbar.hpp"
+#include "moveit_calculator.hpp"
+#include "bg_task2.hpp"
+#include "base_instance.hpp"
+#include "mediapipe/rose/mediapipe_api.hpp"
+
+// webrtc
+// #include <rtc_base/event.h>
+
+namespace gui2 {
+
+class tbutton;
+class ttrack;
+
+class tdcamera: public tdialog, public tstatusbar, public tdcamera_slot_impl, 
+	public tbase_msg_subscriber, public tcamera::tviewer
+{
+public:
+	explicit tdcamera(std::map<aplt::taplt_key, aplt::tapplet>& applets, net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, tdcamera_driver& dcamera_driver, tdrivers& drivers, 
+		aplt::tbg_task2& bg_task2, tros_instance& ros_instance, tcamera& camera, std::unique_ptr<tmoveit_aplt_task>& moveit_aplt_task);
+	~tdcamera();
+
+private:
+	// Inherited from tdialog.
+	void pre_show() override;
+
+	// Inherited from tdialog.
+	void post_show() override;
+
+	// Inherited from tdialog, implemented by REGISTER_DIALOG.
+	virtual const std::string& window_id() const;
+
+	void click_start(tbutton& widget);
+	void click_moveit_aplt(tbutton& widget);
+	void click_view(tbutton& widget);
+	void click_snapshot(tbutton& widget);
+	void click_dbg_RP(tbutton& widget);
+	void click_snapshot_depth(tbutton& widget);
+	void click_reach_dcpitch(tbutton& widget);
+
+	void did_operate_stopped() override;
+	void set_set_ik_diff_label(double x_diff, double z_diff) override;
+
+	tcamera::tslot& get_camera_slot();
+	void set_did_draw_slice_bh_in_viewer();
+
+	void set_highlight(const std::string& msg, int threshold);
+	void set_status_label(const std::string& msg);
+
+	void set_rpy_label();
+
+	texture did_create_background_tex(ttrack& widget, const SDL_Rect& draw_rect);
+
+	void did_draw_paper(gui2::ttrack& widget, const SDL_Rect& draw_rect, const bool bg_drawn);
+	void did_mouse_leave_paper(gui2::ttrack& widget, const tpoint& first, const tpoint& last);
+
+	void did_draw_slice_bh(tmoveit_calculator& calculator, trtc_client::VideoRenderer& vsink, const SDL_Rect& draw_rect, const std::string& msg, const std::vector<SDL_2Point>& new_qrcode_corners, const std::vector<SDL_Rect>&reference_rects);
+
+	// 
+	// tcamera::tslot
+	//
+	void camera_did_draw_slice(int id, SDL_Renderer* renderer, trtc_client::VideoRenderer** locals, int locals_count, trtc_client::VideoRenderer** remotes, int remotes_count, const SDL_Rect& draw_rect) override;
+	bool camera_use_cv_frame(const cv::Mat& argb, cv::Mat& cv_argb) override;
+	void camera_post_enter_task() override;
+	void camera_pre_exit_task() override;
+	void camera_work_frame(const surface& surf) override;
+	void camera_post_switch_camera() override {}
+	// tdcamera_tslot
+	void dcamera_did_OnFrame(int task, const tdcframe_C* frames, int count) override;
+
+	// tcamera::tcenter_slot
+	void camera_did_draw_slice_c(int id, SDL_Renderer* renderer, trtc_client::VideoRenderer** locals, int locals_count, trtc_client::VideoRenderer** remotes, int remotes_count, const SDL_Rect& draw_rect) override;
+
+	// tbase_msg_subscriber
+	void bg_task_will_start(const aplt::tbg_task::tbase_bg_task2& sys_task) override;
+	void bg_task_stopped(const aplt::tbg_task::tbase_bg_task2& sys_task) override;
+	void base_scene_state_changed(const aplt::tbase_scene& scene, int to_state) override;
+
+	void app_timer_handler(uint32_t now) override;
+
+	enum {MSG_CALIBRATE_NEAR = POST_MSG_MIN_APP};
+	struct tmsg_data_calibrate_near: public rtc::MessageData {
+		explicit tmsg_data_calibrate_near(const SDL_DPoint3& _PRP_diff, const SDL_DPoint3& _fk_diff)
+			: PRP_diff(_PRP_diff)
+			, fk_diff(_fk_diff)
+		{
+		}
+
+		~tmsg_data_calibrate_near()
+		{
+		}
+
+		const SDL_DPoint3 PRP_diff;
+		const SDL_DPoint3 fk_diff;
+	};
+
+	void app_OnMessage(rtc::Message* msg) override;
+
+private:
+	tdcamera_driver& dcamera_driver_;
+	tbase_driver& base_driver_;
+	tmoveit_driver& moveit_driver_;
+	tdrivers& drivers_;
+	aplt::tbg_task2& bg_task2_;
+	tros_instance& ros_instance_;
+	tcamera& camera_;
+	std::unique_ptr<tmoveit_aplt_task>& moveit_aplt_task_;
+	enum {case_moveit, case_base_subtask};
+	int case_;
+	uint32_t original_camera_flags_;
+	std::unique_ptr<aplt::tdisable_new_klink_task_lock> disable_new_aplt_lock_;
+
+	// Used to obtain mediapipe time without libkosapi.so.
+	const bool use_mediapipe_;
+	std::unique_ptr<mediapipe::tpose_tracking_api> mediapipe_api_ptr_;
+	SDL_FPoint xy_landmarks_[mediapipe::kNumPoseLandmarks];
+	const bool mediapipe_flip_h_;
+	int spent_ms_;
+	int total_valid_frames_;
+	int64_t total_spent_ms_;
+	cv::Mat output_mat_;
+	threading::mutex mediapipe_mutex_;
+	enum {frame_ok, frame_fail};
+	int new_frame_state_;
+	std::string last_mediapipe_msg_;
+
+	bool save_work_frame_;
+
+	tbutton* start_widget_;
+	tbutton* moveit_aplt_widget_;
+	gui2::ttrack* paper_;
+	tbutton* reach_dcpitch_widget_;
+	tlabel* set_ik_diff_widget_;
+	tlabel* status_widget_;
+	tlabel* rpy_widget_;
+
+	std::map<int, std::string> moveit_ops_;
+	std::string start_avcapture_message_;
+
+	std::string highlight_msg_;
+	texture highlight_tex_;
+	uint32_t highlight_ticks_;
+
+	std::string work_highlight_msg_;
+
+	const int offset_percent_threshold_;
+	bool base_scene_result_cancel_;
+
+	const bool set_vlcsnap_surf_;
+	int vlcsnap_surf_times_;
+};
+
+} // namespace gui2
+
+#endif
+

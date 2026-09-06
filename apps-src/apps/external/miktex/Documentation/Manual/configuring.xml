@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<chapter id="configuring">
+    
+<title>Maintenance</title>
+
+<section id="fndbupdate">
+
+<title>Refreshing the File Name Database</title>
+
+<indexterm>
+<primary>file name database</primary>
+<secondary>defined</secondary>
+</indexterm>
+
+<indexterm>
+<primary>file name database</primary>
+<secondary>refreshing</secondary>
+</indexterm>
+
+<para>To speed up file search, &MiKTeX; makes use
+of a list of known file names.  This list is called the
+<firstterm>file name database</firstterm> (&FNDB;).</para>
+
+<para>It is necessary that you refresh the file name database whenever
+you manually install &TeX;/&LaTeX;-related files in a user-managed
+&TEXMF; directory.</para>
+
+<para>You can update the file name database with the help of <ulink
+url="&hqbaseurl;howto/miktex-console">&MiKTeXConsole;</ulink>. If you
+prefer the command-line, you can use &OneMiKTeXUtility;
+(see <xref linkend="miktex"/>).</para>
+
+</section>
+
+<section id="papersize">
+
+<title>Setting the Preferred Paper Format</title>
+
+<indexterm>
+<primary>paper format</primary>
+<secondary>setting</secondary>
+</indexterm>
+
+<para>You can set the preferred paper format with the help of <ulink
+url="&hqbaseurl;howto/miktex-console">&MiKTeXConsole;</ulink>.</para>
+
+</section>
+
+<section id="updating">
+
+<title>Installing Updates</title>
+
+<para>You can use &MiKTeXConsole; to install the latest &MiKTeX;
+updates.
+<indexterm>
+<primary>MiKTeX Console</primary>
+<secondary>update wizard</secondary>
+</indexterm>
+<indexterm>
+<primary>MiKTeX</primary>
+<secondary>updating</secondary>
+</indexterm>
+<indexterm>
+<primary>packages</primary>
+<secondary>updating</secondary>
+</indexterm>
+<indexterm>
+<primary>updates</primary>
+<secondary>installing</secondary>
+</indexterm>
+</para>
+
+<indexterm>
+<primary>MiKTeX Console</primary>
+<secondary>running</secondary>
+</indexterm>
+
+<para>To start &MiKTeXConsole;, search and click the &MiKTeXConsole; icon in the application launcher.
+Please read <ulink url="&hqbaseurl;howto/miktex-console">the &MiKTeXConsole;
+tutorial</ulink>, for a step-by-step guide.</para>
+
+</section>
+
+<section id="autoinstall">
+
+<title>Automatic Package Installation</title>
+
+<para>&MiKTeX; has the ability to automatically install
+<indexterm>
+<primary>packages</primary>
+<secondary>automatic installation of</secondary>
+</indexterm>
+missing packages.</para>
+
+<para>&MiKTeX; asks your permission before installing a package.</para>
+
+<para>Click <guibutton>Install</guibutton> to start the installation of the
+package. Click <guibutton>Cancel</guibutton>, to cancel the
+installation. If you do not want to see this dialog in the future,
+clear the mark from the check box <guilabel>Always show this
+dialog before installing packages</guilabel>. Your decision will be
+remembered.</para>
+
+</section>
+
+<section id="localadditions">
+
+<title>Integrating Local Additions</title>
+
+<indexterm>
+<primary>local additions</primary>
+<secondary>intergrating</secondary>
+</indexterm>
+
+<para>If you have files that you want to integrate into the &MiKTeX;
+setup, you have several options:</para>
+
+<bridgehead>Use the command-line option
+<option>--include-directory=<replaceable>dir</replaceable></option></bridgehead>
+
+<para>For example:</para>
+
+<programlisting>latex --include-directory=C:\path\to\my\style\files thesis.tex</programlisting>
+
+<para>See <xref linkend="includedirectory"/>, for more information.</para>
+
+<bridgehead>Set environment variables</bridgehead>
+
+<para>For example:</para>
+
+<programlisting>set TEXINPUTS=C:\path\to\my\style\files
+latex thesis.tex</programlisting>
+
+<para>See <xref linkend="envvars"/>, to learn more about
+&MiKTeX; environment variables.</para>
+
+<bridgehead>Register a user-managed &TEXMF; root directory</bridgehead>
+
+<para>Register the root of the directory tree which contains your
+files. The directory tree must conform to the &TDS; standard, i.e.,
+you must imitate the directory tree in the &MiKTeX; installation
+directory (usually &commoninstalldir;).</para>
+
+<tip><para>This is the recommended method.  You can register &TEXMF;
+root directories with the help of <ulink
+url="&hqbaseurl;howto/miktex-console">&MiKTeXConsole;</ulink>.</para></tip>
+
+</section>
+
+</chapter>

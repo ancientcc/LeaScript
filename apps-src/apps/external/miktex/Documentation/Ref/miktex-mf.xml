@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<refentry id="miktex-mf">
+
+<?dbhh topicname="MIKTEXHELP_MF" topicid="0"?>
+
+<refmeta>
+<refentrytitle>miktex-mf</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">&PACKAGE_NAME;</refmiscinfo>
+<refmiscinfo class="version">&miktexrev;</refmiscinfo>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>miktex-mf</refname>
+<refpurpose>&METAFONT;, a language for font and logo design</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+
+<cmdsynopsis>
+<command>miktex-mf</command>
+<arg choice="opt" rep="repeat"><replaceable>option</replaceable></arg>
+<group>
+<arg choice="opt" rep="repeat"><replaceable>command</replaceable></arg>
+<arg choice="opt"><replaceable>file</replaceable></arg>
+</group>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+
+<title>Description</title>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="_tlack.xml" />
+
+<para>&METAFONT; reads the program in the specified files and outputs
+font rasters (in &GF; format) and font metrics (in
+<acronym>TFM</acronym> format).  The &METAFONT; language is described
+in <citetitle>The &METAFONT;book</citetitle>.</para>
+
+<para>Like &TeX;, &METAFONT; is normally used with a large body of
+precompiled macros, and font generation in particular requires the
+support of several macro files.  This version of &METAFONT; looks at
+its command line to see what name it was called under.  Both &inimf;
+and &virmf; are links to the &miktexmf; executable.  When called as
+&inimf; (or when the <option>--initialize</option> option is given) it
+can be used to precompile macros into a <filename>.base</filename>
+file.  When called as &virmf; it will use the
+<emphasis>plain</emphasis> base.  When called under any other name,
+&METAFONT; will use that name as the name of the base to use.  For
+example, when called as &miktexmf; the <emphasis>mf</emphasis> base is
+used, which is identical to the <emphasis>plain</emphasis> base.
+Other bases than <emphasis>plain</emphasis> are rarely used.</para>
+
+<para>The commands given on the command line to the &METAFONT; program
+are passed to it as the first input line.  (But it is often easier to
+type extended arguments as the first input line, since shells tend to
+gobble up or misinterpret &METAFONT;'s favorite symbols, like
+semicolons, unless you quote them.)  As described in <citetitle>The
+&METAFONT;book</citetitle>, that first line should begin with a
+filename, a <markup role="metafont">\controlsequence</markup>, or a
+<filename>&amp;<replaceable>basename</replaceable></filename>.</para>
+
+<para>The normal usage is to say <userinput>miktex-mf
+\mode=<replaceable>printengine</replaceable>; input
+<replaceable>font</replaceable></userinput> to start processing
+<filename><replaceable>font</replaceable>.mf</filename>.  (Or you can
+just say &miktexmf; and give the other stuff on the next line.)  Other
+control sequences, such as <userinput>batchmode</userinput> (for
+silent operation) can also appear.  The name
+<replaceable>font</replaceable> will be the <quote>jobname</quote>,
+and is used in forming output file names.  If &METAFONT; doesn't get a
+file name in the first line, the job name is
+<filename>mfput</filename>.  The default extension,
+<filename>.mf</filename>, can be overridden by specifying an extension
+explicitly.</para>
+
+<para>A log of error messages goes into the file
+<filename><replaceable>jobname</replaceable>.log</filename>.  The
+output files are
+<filename><replaceable>jobname</replaceable>.tfm</filename> and
+<filename><replaceable>jobname</replaceable>.<replaceable>number</replaceable>gf</filename>,
+where <replaceable>number</replaceable> depends on the resolution and
+magnification of the font.  The mode in this example is shown
+generically as <replaceable>printengine</replaceable>, a symbolic term
+for which the name of an actual device or, most commonly, the name
+<filename>localfont</filename> (see below) must be substituted.  If
+the mode is not specified or is not valid, &METAFONT; will default to
+proof mode which produces large character images for use in font
+design and refinement.  Proof mode can be recognized by the suffix
+<filename>.2602gf</filename> after the job name.  Examples of proof
+mode output can be found in <citetitle>Computer Modern
+Typefaces</citetitle> (Volume&nbsp;E of Computers and
+Typesetting<citetitle></citetitle>).  The system of magsteps is
+identical to the system used by &TeX;, with values generally in the
+range 0.5, 1.0, 2.0, 3.0, 4.0 and 5.0.</para>
+
+<para>Magnification can also be specified not as a magstep but as an
+arbitrary value, such as 1.315, to create special character
+sizes.</para>
+
+<para>Before font production can begin, it is necessary to set up the
+appropriate base files.  The minimum set of components for font
+production for a given printengine is the
+<filename>plain.mf</filename> macro file and the local <markup
+role="metafont">mode_def</markup> file.  The macros in
+<filename>plain.mf</filename> can be studied in an appendix to
+<citetitle>The &METAFONT;book</citetitle>; they were developed by
+Donald&nbsp;E. Knuth, and this file should never be altered except
+when it is officially upgraded.  Each <markup
+role="metafont">mode_def</markup> specification helps adapt fonts to a
+particular printengine.  The local ones in use on this
+<indexterm>
+<primary>modes.mf</primary>
+</indexterm>
+computer should be in <filename>modes.mf</filename>.</para>
+
+<para>The <userinput>e</userinput> response to &METAFONT;'s
+error-recovery prompt causes the default editor to start up at the
+current line of the current file.  The configuration value <parameter
+class="option">[Core]Editor</parameter> can be used to change the
+editor used.  It may contain a string with <literal>%f</literal>
+indicating where the file name goes and <literal>%l</literal>
+indicating where the decimal line number (if any) goes. For example,
+an <parameter class="option">[Core]Editor</parameter> string for
+<command>emacs</command> can be set with the command
+<screen><prompt>&prompt;</prompt><userinput>initexmf --set-config-value="[Core]Editor=emacs +%l%f"</userinput></screen>
+</para>
+
+<para>A convenient file is <filename>null.mf</filename>, containing
+nothing.  When &METAFONT; can't find the file it thinks you want to
+input, it keeps asking you for another file name; responding
+<userinput>null</userinput> gets you out of the loop if you don't want
+to input anything.</para>
+
+</refsect1>
+
+<refsect1>
+
+<title>Online Graphics Output</title>
+
+<para>You can see &METAFONT;s output without printing.  Chapter&nbsp;23 of
+<citetitle>The &METAFONT;book</citetitle> describes what you can do.
+You enable screen ouput by giving <option>--screen</option> on the
+command-line.</para>
+
+</refsect1>
+
+<refsect1>
+
+<title>Options</title>
+
+<variablelist>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/alias.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/auxdirectory.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/bistacksize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/bufsize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/cstyleerrors.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/disableinstaller.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/dontparsefirstline.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/enableinstaller.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/errorline.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/halferrorline.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/haltonerror.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/help.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/hhelp.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/includedirectory.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/initialize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/interaction.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/jobname.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/jobtime.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/ligtablesize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/mainmemory.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/maxprintline.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/maxstrings.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/maxwiggle.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/movesize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/nocstyleerrors.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/outputdirectory.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/paramsize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/parsefirstline.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/pathsize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/poolsize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/quiet.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/recordpackageusages.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/recorder.xml" />
+<varlistentry>
+<term><option>--screen</option></term>
+<listitem>
+<indexterm>
+<primary>--screen</primary>
+</indexterm>
+<para>Enable screen output.</para></listitem>
+</varlistentry>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/stacksize.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/stringvacancies.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/tcx.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/timestatistics.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/trace.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/undump.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../Options/version.xml" />
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>Environment</title>
+
+<variablelist>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../EnvVars/MFINPUTS.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../EnvVars/MIKTEX_EDITOR.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../EnvVars/MIKTEX_TRACE.xml" />
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>See also</title>
+
+<bibliolist>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../BibEntries/metafontbook.xml" />
+</bibliolist>
+
+</refsect1>
+
+</refentry>

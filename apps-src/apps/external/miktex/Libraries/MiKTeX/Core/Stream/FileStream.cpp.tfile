@@ -1,0 +1,99 @@
+/* FileStream.cpp: file stream
+
+   Copyright (C) 1996-2018 Christian Schenk
+
+   This file is part of the MiKTeX Core Library.
+
+   The MiKTeX Core Library is free software; you can redistribute it
+   and/or modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2, or
+   (at your option) any later version.
+
+   The MiKTeX Core Library is distributed in the hope that it will be
+   useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with the MiKTeX Core Library; if not, write to the Free
+   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+   02111-1307, USA. */
+
+#include "../miktex_Core_config.h"
+
+#include <fcntl.h>
+
+#if defined(_MSC_VER) || defined(__MINGW32__)
+#  include <io.h>
+#endif
+
+// #include <miktex/Core/FileStream>
+#include <miktex/Core/FileStream.h>
+
+#include "../miktex_Core_internal.h"
+
+using namespace std;
+
+using namespace MiKTeX::Core;
+
+FileStream::~FileStream() noexcept
+{
+}
+
+void FileStream::Attach(posix_file_t file)
+{
+	VALIDATE(file != INVALID_FILE, null_str);
+	if (this->fp != INVALID_FILE) {
+		Close();
+	}
+	this->fp = file;
+}
+
+void FileStream::Close()
+{
+	close();
+}
+
+size_t FileStream::Read(void* data, size_t count)
+{
+    return posix_fread(fp, data, count);
+}
+
+void FileStream::Write(const void* data, size_t count)
+{
+    posix_fwrite(fp, data, count);
+}
+
+void FileStream::Seek(long offset, SeekOrigin seekOrigin)
+{
+  int origin;
+  switch (seekOrigin)
+  {
+  case SeekOrigin::Begin:
+    origin = RW_SEEK_SET;
+    break;
+  case SeekOrigin::End:
+    origin = RW_SEEK_END;
+    break;
+  case SeekOrigin::Current:
+    origin = RW_SEEK_CUR;
+    break;
+  default:
+    MIKTEX_UNEXPECTED();
+    break;
+  }
+  int64_t ret = posix_fseek2(fp, offset, origin);
+  VALIDATE(ret >= 0, null_str);
+}
+
+long FileStream::GetPosition() const
+{
+    long pos = posix_ftell(fp);
+    VALIDATE(pos >= 0, null_str);
+    return pos;
+}
+
+void FileStream::SetBinary()
+{
+    // do nothing
+}

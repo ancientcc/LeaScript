@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE varlistentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                              "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+<varlistentry>
+<term><option>--max-print-line=<replaceable>n</replaceable></option></term>
+<listitem>
+<para>Set the
+<indexterm>
+<primary>--max-print-line=n</primary>
+</indexterm>
+width of longest text lines output; should be at least
+<literal>60</literal>.</para></listitem>
+</varlistentry>

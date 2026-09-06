@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % entities.ent SYSTEM "entities.ent">
+%entities.ent;
+]>
+
+<refentry id="miktex-formats">
+
+<?dbhh topicname="MIKTEXHELP_MIKTEX_FORMATS" topicid="0"?>
+
+<refmeta>
+<refentrytitle>miktex-formats</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">&PACKAGE_NAME;</refmiscinfo>
+<refmiscinfo class="version">&miktexrev;</refmiscinfo>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>miktex-formats</refname>
+<refpurpose>manage &TeX; formats</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+
+<cmdsynopsis>
+&miktex;
+<arg choice="opt" rep="repeat"><replaceable>common-option</replaceable></arg>
+<arg choice="plain">formats</arg>
+<arg choice="plain"><replaceable>command</replaceable></arg>
+<arg choice="opt" rep="repeat"><replaceable>command-option-or-parameter</replaceable></arg>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+
+<title>Description</title>
+
+<para>Commands for managing &TeX; formats and &METAFONT; bases.</para>
+
+</refsect1>
+
+<refsect1>
+
+<title>Commands</title>
+
+<variablelist>
+<varlistentry>
+<term><command>build</command> <optional><option>--engine <replaceable>engine</replaceable></option></optional> <optional><replaceable>key</replaceable></optional></term>
+<listitem>
+<indexterm>
+<primary>--dump</primary>
+</indexterm>
+<indexterm>
+<primary>format files</primary>
+<secondary>build</secondary>
+</indexterm>
+<para>Build &TeX; format files.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><command>list</command> <optional><option>--template <replaceable>template</replaceable></option></optional></term>
+<listitem>
+<para>List &TeX; formats.</para>
+<para><replaceable>template</replaceable> controls the output of each record.
+It can contain the following placeholders:</para>
+<para><simplelist type='inline'>
+<member><code>{arguments}</code></member>
+<member><code>{compiler}</code></member>
+<member><code>{custom}</code></member>
+<member><code>{description}</code></member>
+<member><code>{exclude}</code></member>
+<member><code>{inputFile}</code></member>
+<member><code>{key}</code></member>
+<member><code>{name}</code></member>
+<member><code>{noExecutable}</code></member>
+<member><code>{outputFile}</code></member>
+<member><code>{preloaded}</code></member>
+</simplelist></para></listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+
+<title>See also</title>
+
+<simplelist type="inline">
+<member><citerefentry><refentrytitle>miktex</refentrytitle><manvolnum>1</manvolnum></citerefentry></member>
+</simplelist>
+
+</refsect1>
+
+</refentry>
