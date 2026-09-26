@@ -61,6 +61,7 @@ using namespace std::placeholders;
 
 #include "aplt_common.hpp"
 #include "serialization/parser.hpp"
+#include "wkoscript.hpp"
 
 double remove_two_farthest_iterative(const double* samples, int max_samples, double* temp)
 {   
@@ -853,6 +854,67 @@ bool base_instance::init_language()
 	// hotkey::load_descriptions();
 
 	return true;
+}
+
+static std::string extract_postfix(const std::string& id)
+{
+	size_t pos = id.rfind("_");
+	if (pos == std::string::npos) {
+		return null_str;
+	}
+	return id.substr(pos);
+}
+
+void base_instance::load_action_tpl2s_cfg()
+{
+	aplt::twkoscript::init_wkoscript();
+	std::map<std::string, aplt::taction_tpl2>& action_tpl2s = aplt::action_tpl2s;
+
+	std::string stream;
+	std::string filename = game_config::path + "/data/core/cert/action_tpl2s.cfg";
+	{
+		const int max_cw_default_cfg_size = 256 * 1024; // 256K bytes
+		tfile file(filename, GENERIC_READ, OPEN_EXISTING);
+		int fsize = file.read_2_data();
+		VALIDATE(fsize > 0 && fsize <= max_cw_default_cfg_size, null_str);
+
+		bool all_is_utf8 = utils::is_utf8str(file.data, fsize);
+		VALIDATE(all_is_utf8, null_str);
+		stream.assign(file.data, fsize);
+	}
+
+	config top_cfg;
+	aplt::read_config_ex(stream, true, top_cfg);
+
+	std::string postfix;
+	BOOST_FOREACH (const config &pose_cfg, top_cfg.child_range("action_tpl2")) {
+		aplt::taction_tpl2 action_tpl2;
+		bool retbool = action_tpl2.from_cfg(pose_cfg);
+		if (!retbool) {
+			continue;
+		}
+		
+		postfix = extract_postfix(action_tpl2.id);
+		if (action_tpl2.is_setup) {
+			if (postfix != "_setup") {
+				continue;
+			}
+
+		} else if (action_tpl2.task->type == aplt::twkoscript::tasktype_time_counter) {
+			if (postfix != "_time") {
+				continue;
+			}
+
+		} else {
+			VALIDATE(action_tpl2.task->type == aplt::twkoscript::tasktype_rep_counter, null_str);
+			if (postfix != "_rep") {
+				continue;
+			}
+		}
+
+		VALIDATE(action_tpl2s.count(action_tpl2.id) == 0, null_str);
+		action_tpl2s.insert(std::make_pair(action_tpl2.id, action_tpl2));
+	}
 }
 
 uint32_t base_instance::get_callback_id() const

@@ -32,7 +32,7 @@ enum {navigation_bh_luafunc, navigation_bh_count};
 
 namespace aplt {
 
-enum {builtinid_store = MAX_APPLETS, builtinid_settings, builtinid_klink, builtinid_speech, builtinid_task, builtinid_courseware, builtinid_mkscript, builtinid_health, builtinid_map, 
+enum {builtinid_store = MAX_APPLETS, builtinid_settings, builtinid_klink, builtinid_speech, builtinid_task, builtinid_artifact, builtinid_mkscript, builtinid_mkcourse, builtinid_health, builtinid_map, 
 	builtinid_moveit, builtinid_dnn, builtinid_explorer, builtinid_dcamera, builtinid_center, builtinid_mic, builtinid_count};
 
 struct tbuildin

@@ -2162,12 +2162,33 @@ std::string revise_iot_alias_id(const std::string& id, const std::string& def)
 
 tbase_scene::tbase_scene()
 	: file_key("file")
-	, amp(ampmode_1x)
-{}
-
-void tbase_scene::set_name(const std::string& name)
 {
-	VALIDATE(!name.empty(), null_str);
+	clear();
+}
+
+std::string tbase_scene::get_id(bool exclude_wkocourse_id2) const
+{
+	if (!valid()) {
+		return null_str;
+	}
+
+	char buf[512];
+	if (wkocourse_id2.empty() || exclude_wkocourse_id2) {
+		SDL_snprintf(buf, sizeof(buf), "%s__%s__%s", aplt.c_str(), task.c_str(), join_input_vars().c_str());
+
+	} else {
+		SDL_snprintf(buf, sizeof(buf), "%s__%s__%s__%s", 
+			aplt.c_str(), task.c_str(), join_input_vars().c_str(), wkocourse_id2.c_str());
+	}
+
+	return buf;
+}
+
+void tbase_scene::set_name(const std::string& name, bool allow_empty)
+{
+	if (!allow_empty) {
+		VALIDATE(!name.empty(), null_str);
+	}
 	if (name != name_) {
 		name_ = name;
 
@@ -2177,7 +2198,7 @@ void tbase_scene::set_name(const std::string& name)
 		py_name = aplt::get_curr_pinyin().from_utf8str2(name, tone, eng_lowercase);
 	}
 }
-
+/*
 std::string tbase_scene::id_for_gui(int _max_chars) const
 {
 	if (game_config::app_code == app_launcher) {
@@ -2190,7 +2211,7 @@ std::string tbase_scene::id_for_gui(int _max_chars) const
 	const int max_chars = _max_chars == nposm? 15: _max_chars;
 	return utils::truncate_to_max_chars2(id, max_chars, true);
 }
-
+*/
 std::string tbase_scene::name_for_gui(int _max_chars) const
 {
 	if (game_config::app_code == app_launcher) {
@@ -2232,6 +2253,73 @@ uint16_t split_log_tokens(uint64_t tokens, int* input_ptr, int* output_ptr)
 		*output_ptr = posix_hi16(lo32);
 	}
 	return posix_hi16(hi32);
+}
+
+//
+// twkocourse_enroll
+//
+void twkocourse_enroll::to_cfg(config& cfg) const
+{
+	VALIDATE(valid(), null_str);
+
+	cfg["id"].from_string(id, true);
+	cfg["aplt"].from_string(aplt, true);
+
+	cfg["purchase"].from_int64(purchase);
+
+	if (active != nposm) {
+		cfg["active"].from_int64(active);
+	}
+}
+
+bool twkocourse_enroll::from_cfg(const config& cfg)
+{
+	clear();
+
+	tauto_destruct_executor destruct_executor(std::bind(&twkocourse_enroll::clear, this));
+
+	id = cfg["id"].str();
+	if (!isvalid_normal_id_or_var_name224(id)) {
+		return false;
+	}
+	aplt = cfg["aplt"].str();
+	if (!is_bundleid(aplt)) {
+		return false;
+	}
+
+	purchase = cfg["purchase"].to_int64(nposm);
+	if (purchase == nposm) {
+		return false;
+	}
+
+	active = cfg["active"].to_int64(nposm);
+
+	id2 = utils::join_app_prefix_id(aplt, id);
+	destruct_executor.cancel_execute();
+	return true;
+}
+
+void twkocourse_enroll::do_purchase(const std::string& _aplt, const std::string& _id)
+{
+	// aplt::twkocourse_enroll& enroll = ins.first->second;
+	VALIDATE(is_bundleid(_aplt), null_str);
+	VALIDATE(!_id.empty(), null_str);
+
+	clear();
+
+	id = _id;
+	aplt = _aplt;
+	id2 = utils::join_app_prefix_id(aplt, id);
+	purchase = time(nullptr);
+}
+
+void twkocourse_enroll::do_active()
+{
+	// aplt::twkocourse_enroll& enroll = ins.first->second;
+	VALIDATE(valid(), null_str);
+	VALIDATE(active == nposm, null_str);
+
+	active = time(nullptr);
 }
 
 }

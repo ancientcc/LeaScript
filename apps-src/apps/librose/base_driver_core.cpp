@@ -148,6 +148,7 @@ tbase_driver_core::tbase_driver_core(std::map<aplt::taplt_key, aplt::tapplet>& a
 	, subtask_finished_(false)
 	, disable_start_subtask_(false)
 	, allow_restart_subtask_when_bg_ing_(false)
+	, disable_earase_wkocourse_scene_(false)
 {
 	memset(&battery_info_, 0, sizeof(tbattery_info_C));
 }
@@ -267,7 +268,7 @@ void tbase_driver_core::start_subtask_internal(const aplt::tbase_scene& scene, b
 	} else {
 		VALIDATE(subtask_state_ == aplt::sts_nposm || subtask_state_ == aplt::sts_idle || subtask_state_ == aplt::sts_preempted, null_str);
 	}
-	VALIDATE(scene_id_ == scene.id, null_str);
+	VALIDATE(scene_id_ == scene.get_id(), null_str);
 
 	utils::string_map symbols;
 	std::string err_msg;
@@ -383,8 +384,8 @@ void tbase_driver_core::start_subtask_internal(const aplt::tbase_scene& scene, b
 
 		health_.did_start_or_stop_base_subtask(true);
 
-		VALIDATE(chinese::curr_pinyin.get_amp_mode() == aplt::ampmode_1x, null_str);
-		if (scene.amp != aplt::ampmode_1x) {
+		VALIDATE(chinese::curr_pinyin.get_amp_mode() == ampmode_1x, null_str);
+		if (scene.amp != ampmode_1x) {
 			chinese::curr_pinyin.set_amp_mode(scene.amp);
 		}
 	}
@@ -481,8 +482,8 @@ void tbase_driver_core::stop_subtask_internal(bool idle_or_preempt)
 		subtask_finished_ = false;
 
 		VALIDATE(chinese::curr_pinyin.get_amp_mode() == scene->amp, null_str);
-		if (scene->amp != aplt::ampmode_1x) {
-			chinese::curr_pinyin.set_amp_mode(aplt::ampmode_1x);
+		if (scene->amp != ampmode_1x) {
+			chinese::curr_pinyin.set_amp_mode(ampmode_1x);
 		}
 
 	} else {
@@ -567,7 +568,7 @@ void tbase_driver_core::idle_subtask_from_empty(const aplt::tbase_scene& scene)
 	VALIDATE(subtask_state_ == aplt::sts_nposm, null_str);
 	VALIDATE(scene_id_.empty(), null_str);
 
-	scene_id_ = scene.id;
+	scene_id_ = scene.get_id();
 	start_subtask_internal(scene, true);
 	instance->base_scene_state_changed(scene, aplt::sts_idle);
 }
@@ -623,7 +624,7 @@ void tbase_driver_core::start_subtask_from_preferences()
 		bool use0_if_empty = false;
 		if (use0_if_empty) {
 			scene = &scenes[0];
-			scene_id = scene->id;
+			scene_id = scene->get_id();
 
 			preferences::set_base_scene_id(scene_id);
 		} else {
@@ -657,7 +658,7 @@ void tbase_driver_core::start_subtask_from_nposm(const aplt::tbase_scene& scene)
 	VALIDATE(scene_id_.empty(), null_str);
 	VALIDATE(subtask_state_ == aplt::sts_nposm, null_str);
 
-	scene_id_ = scene.id;
+	scene_id_ = scene.get_id();
 	start_subtask_internal(scene, false);
 }
 
@@ -668,7 +669,11 @@ void tbase_driver_core::stop_subtask(bool sts_is_idle_or_ing)
 	const aplt::tbase_scene* curr_scene = nullptr;
 	if (subtask_state_ != aplt::sts_nposm) {
 		curr_scene = cfg_cpp_api_.base_scene_from_id(scene_id_, true);
+	} else {
+		// subtask_state_ == aplt::sts_nposm
+		// Just ensure a clean execution environment.
 	}
+
 	const int original_subtask_state = subtask_state_;
 
 	if (sts_is_idle_or_ing) {
@@ -723,6 +728,12 @@ void tbase_driver_core::stop_subtask(bool sts_is_idle_or_ing)
 		VALIDATE(subtask_state_ == aplt::sts_nposm, null_str);
 		instance->base_scene_state_changed(*curr_scene, subtask_state_);
 	}
+
+	if (curr_scene != nullptr && !curr_scene->wkocourse_id2.empty()) {
+		if (!disable_earase_wkocourse_scene_) {
+			cfg_cpp_api_.erase_scene(curr_scene->get_id());
+		}
+	}
 }
 
 void tbase_driver_core::stop_subtask_and_empty_pref()
@@ -764,7 +775,7 @@ bool tbase_driver_core::stop_subtask_if_runing(const std::string& warnning, cons
 // When stopping, 'stop_is_idle' indicates whether to suspend or stop (and will also clear 'scene_id' in the preferences).
 void tbase_driver_core::start_or_stop_subtask(const aplt::tbase_scene& desire_scene, bool stop_is_idle)
 {
-	bool is_me = desire_scene.id == scene_id();
+	bool is_me = desire_scene.get_id() == scene_id();
 
 	if (is_me) {
 		if (subtask_state() == aplt::sts_ing) {
@@ -779,11 +790,11 @@ void tbase_driver_core::start_or_stop_subtask(const aplt::tbase_scene& desire_sc
 		}
 
 	} else {
-		preferences::set_base_scene_id(desire_scene.id);
+		preferences::set_base_scene_id(desire_scene.get_id());
 		restart_subtask();
 	}
 }
-
+/*
 void tbase_driver_core::did_scene_id_changed(const std::string& new_id)
 {
 	VALIDATE_IN_MAIN_THREAD();
@@ -794,7 +805,7 @@ void tbase_driver_core::did_scene_id_changed(const std::string& new_id)
 	scene_id_ = new_id;
 	preferences::set_base_scene_id(new_id);
 }
-
+*/
 void tbase_driver_core::set_wko_task_slot(aplt::twko_task_slot* slot)
 {
 	VALIDATE_IN_MAIN_THREAD();

@@ -285,7 +285,7 @@ public:
 		return scene_id_; 
 	}
 
-	void did_scene_id_changed(const std::string& new_id);
+	// void did_scene_id_changed(const std::string& new_id);
 	void set_wko_task_slot(aplt::twko_task_slot* slot);
 
 	class tdisable_start_subtask_lock
@@ -320,6 +320,26 @@ public:
 		{
 			VALIDATE(base_driver_.allow_restart_subtask_when_bg_ing_, null_str);
 			base_driver_.allow_restart_subtask_when_bg_ing_ = false;
+		}
+
+	private:
+		tbase_driver_core& base_driver_;
+	};
+
+	class tdisable_earase_wkocourse_scene_lock
+	{
+	public:
+		tdisable_earase_wkocourse_scene_lock(tbase_driver_core& base_driver)
+			: base_driver_(base_driver)
+		{
+			VALIDATE(!base_driver_.disable_earase_wkocourse_scene_, null_str);
+			base_driver_.disable_earase_wkocourse_scene_ = true;
+		}
+
+		~tdisable_earase_wkocourse_scene_lock()
+		{
+			VALIDATE(base_driver_.disable_earase_wkocourse_scene_, null_str);
+			base_driver_.disable_earase_wkocourse_scene_ = false;
 		}
 
 	private:
@@ -387,6 +407,7 @@ protected:
 
 	bool disable_start_subtask_;
 	bool allow_restart_subtask_when_bg_ing_;
+	bool disable_earase_wkocourse_scene_;
 
 	bool next_repeat_speak_off_;
 };
@@ -422,6 +443,7 @@ private:
 	tbase_driver_core& base_driver_;
 	const int original_subtask_state_;
 };
+
 
 #endif
 

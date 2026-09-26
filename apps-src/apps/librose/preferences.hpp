@@ -249,6 +249,9 @@ void set_share_watermark(const std::string& value);
 std::string dyn_charts();
 void set_dyn_charts(const std::string& value);
 
+std::string wkocourses();
+void set_wkocourses(const std::string& value);
+
 } // end namespace preferences
 
 #endif

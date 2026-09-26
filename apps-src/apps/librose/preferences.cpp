@@ -1291,5 +1291,15 @@ void set_dyn_charts(const std::string& value)
 	preferences::set_str("dyn_charts", value);
 }
 
+std::string wkocourses()
+{
+	return preferences::get_str("wkocourses");
+}
+
+void set_wkocourses(const std::string& value)
+{
+	preferences::set_str("wkocourses", value);
+}
+
 } // end namespace preferences
 

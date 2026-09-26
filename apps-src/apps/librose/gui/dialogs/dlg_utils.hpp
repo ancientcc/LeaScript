@@ -15,6 +15,8 @@ std::string generate_task2_desc(const aplt::tapplet& aplt, const aplt::tapplet::
 std::string generate_task2_desc2(int type, const aplt::tapplet& aplt, const aplt::tapplet::ttask& cfg_task, const std::string& device_id);
 // std::string task_name2_from_3id(std::map<aplt::taplt_key, aplt::tapplet>& applets, 
 //	const std::string& aplt_id, const std::string& task_id, const std::string& ble_device_id, bool aplt_id_is_bundleid);
+void list_wkoscript_files_to_freq_vals(const aplt::tapplet& aplt, std::vector<std::string>& result);
+std::string auto_edit_scene_id_or_name(const aplt::ttask_pair& pair, const aplt::tbase_scene& scene, int scene_at, bool type_is_id);
 
 class tbutton;
 class treport;
@@ -51,21 +53,24 @@ protected:
 	void click_scene_task(tlistbox& list, tbutton& widget, int at);
 	bool did_scene_can_drag(tlistbox& list, ttoggle_panel& row);
 	void click_edit_scene_4item(tlistbox& list, tbutton& widget);
-	std::string auto_edit_scene_id_or_name(const aplt::ttask_pair& pair, const aplt::tbase_scene& scene, int scene_at, int type) const;
+	// std::string auto_edit_scene_id_or_name(const aplt::ttask_pair& pair, const aplt::tbase_scene& scene, int scene_at, int type) const;
 	void click_edit_scene_id_or_name_internal(tlistbox& list, int drag_at, int type);
 	void click_edit_scene_id_or_name(tlistbox& list, int type);
 	void sel_new_amp_mode_bh(aplt::tbase_scene& scene, ttoggle_panel& row, int new_mode);
 	void click_edit_amp(tlistbox& list, tbutton& widget);
-	void list_wkoscript_files_to_freq_vals(const aplt::tapplet& aplt, std::vector<std::string>& result) const;
+	// void list_wkoscript_files_to_freq_vals(const aplt::tapplet& aplt, std::vector<std::string>& result) const;
 	void click_edit_scene_input_vars_internal(tlistbox& list, int drag_at);
 	void click_edit_scene_input_vars(tlistbox& list);
 	void click_start_scene(tlistbox& list);
 	void click_erase_scene(tlistbox& list);
 
+	enum {wkocourse_blocktype_insert_scene, wkocourse_blocktype_import, wkocourse_blocktype_count};
+	bool is_wkocourse_scene_ing(int type, bool show_dlg) const;
+
 /*	
 	bool verify_edit_device_id(const std::string& label, const std::string& initial, int min_chars) const;
 */
-	enum {etype_var_name, etype_iot_alias, etype_scene_id, etype_scene_name, edit_count};
+	enum {etype_var_name, etype_iot_alias, /*etype_scene_id,*/ etype_scene_name, edit_count};
 	bool verify_edit_alias_name(const std::string& label, const std::string& initial, int etype, const std::set<std::string>& excludes) const;
 /*
 	std::string edit_device_id(const std::string& src, bool& cancel) const;

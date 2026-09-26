@@ -54,6 +54,8 @@ class animation;
 class trtc_client;
 class tble;
 
+// #include "wkocourse.hpp"
+
 namespace rtc {
 // SDLThread. Automatically pumps wakeup and IO messages.
 
@@ -118,102 +120,6 @@ private:
 
 	std::atomic<double> sync_val_;
 };
-
-/*
-template<typename T = float>
-class tlow_pass_filter
-{
-public:
-    tlow_pass_filter(T alpha = 0.3f, uint32_t reset_threshold_ms = 500)
-        : filtered_(0)
-		, initialized_(false)
-		, alpha_(alpha)
-        , reset_threshold_ms_(reset_threshold_ms)
-		, last_recv_sample_ticks_(0)
-	{
-		VALIDATE(alpha > 0.05f, null_str);
-	}
-
-    // Update the filtered value.
-    T update(T raw)
-	{
-        const uint32_t now = SDL_GetTicks();
-        
-        if (!initialized_) {
-            filtered_ = raw;
-            initialized_ = true;
-            last_recv_sample_ticks_ = now;
-            return filtered_;
-        }
-        
-        // Check whether a reset is needed.
-        uint32_t delta = now - last_recv_sample_ticks_;
-        if (delta > reset_threshold_ms_) {
-            reset(raw);
-            return filtered_;
-        }
-        
-        // Normal filtering.
-        filtered_ = alpha_ * raw + (static_cast<T>(1.0) - alpha_) * filtered_;
-        last_recv_sample_ticks_ = now;
-        return filtered_;
-    }
-
-    // Reset the filter.
-    void reset(T value = static_cast<T>(0.0))
-	{
-        filtered_ = value;
-        last_recv_sample_ticks_ = SDL_GetTicks();
-    }
-
-    // Get the current filtered value.
-    T get_filtered() const { return filtered_; }
-
-    // Set parameters.
-    void set_alpha(T alpha) { alpha_ = alpha; }
-
-private:
-    T filtered_;
-    bool initialized_;
-    T alpha_;
-
-	const uint32_t reset_threshold_ms_;
-    uint32_t last_recv_sample_ticks_;
-};
-
-class trpy_sensor
-{
-public:
-    trpy_sensor();
-    ~trpy_sensor();
-    
-	// Initialize the sensor.
-    bool init();
-    
-    // Update sensor data (call in the main loop).
-    void update();
-    
-    // Determine whether it is perpendicular to the ground.
-    bool is_vertical(float threshold = 70.0f) const;
-    
-    // Get the angle.
-    float get_pitch() const { return pitch_; }
-    float get_roll() const { return roll_; }
-    bool has_data() const { return has_data_; }
-    
-    // Clean up resources.
-    void quit();
-    
-private:
-    SDL_Sensor* accel_sensor_;
-    float pitch_;
-    float roll_;
-    bool has_data_;
-    bool initialized_;
-
-	tlow_pass_filter<float> pitch_filter_;
-};
-*/
 
 enum {APLT_MSG_WILLRUN, APLT_MSG_DIDDLGCLOSE, APLT_MSG_DIDTERMINATE};
 enum {logtype_aplt_task, logtype_iot_event, logtype_nlp_resp, logtype_center_chat, logtype_speech_recognition, logtype_warn, logtype_count};
@@ -390,6 +296,9 @@ public:
 	void logs_validate_log_list(gui2::tlistbox& list, bool aiagent_dlg);
 	void logs_pb_log_added2(gui2::tlistbox& list, int count, const pb2::tlog& log, bool aiagent_dlg);
 
+	std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls() { return wkocourse_enrolls_; }
+	virtual void purchase_wkocourse(const std::string& aplt, const std::string& id) {}
+
 	virtual void app_fill_anim_tags(std::map<const std::string, int>& tags) {};
 	virtual void fill_anim(int at, const std::string& id, bool area, bool tpl, const config& cfg);
 
@@ -559,6 +468,9 @@ public:
 	aplt::trpy_sensor& rpy_sensor() { return rpy_sensor_; }
 	// tfarthest_filter& pitch_filter() { return pitch_filter_; }
 
+protected:
+	void load_action_tpl2s_cfg();
+
 private:
 	virtual void app_load_settings_config(const config& cfg) {}
 	virtual void app_pre_setmode(tpre_setmode_settings& settings) {}
@@ -702,6 +614,7 @@ protected:
 
 	aplt::trpy_sensor rpy_sensor_;
 	// tfarthest_filter pitch_filter_;
+	std::map<std::string, aplt::twkocourse_enroll> wkocourse_enrolls_;
 
 private:
 	tble* current_ble_;

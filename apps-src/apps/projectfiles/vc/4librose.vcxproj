@@ -1946,6 +1946,9 @@
     <ClCompile Include="..\..\librose\gui\dialogs\health_scene.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\librose\gui\dialogs\insert_scene.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\librose\gui\dialogs\menu.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
     </ClCompile>
@@ -3124,6 +3127,7 @@
     <ClInclude Include="..\..\librose\gui\dialogs\combo_box2.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\dlg_utils.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\health_scene.hpp" />
+    <ClInclude Include="..\..\librose\gui\dialogs\insert_scene.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\rcamera.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\guide.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\menu.hpp" />

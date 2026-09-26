@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aplt_leagor_khomelua-lib\n"
 "Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
-"POT-Creation-Date: 2026-07-03 14:28+0800\n"
-"PO-Revision-Date: 2026-07-03 14:29+0800\n"
+"POT-Creation-Date: 2026-09-25 13:32+0800\n"
+"PO-Revision-Date: 2026-09-25 13:36+0800\n"
 "Last-Translator: \n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: zh_CN\n"
@@ -15,18 +15,64 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 3.9\n"
 
-#: lua/home.lua:28 lua/home.lua:82
+#: lua/home.lua:33 lua/home.lua:152
 msgid "kHome Lua"
 msgstr "kHome Lua"
 
-#: lua/home.lua:38
-msgid "task^wokrout"
-msgstr "跟练"
+#: lua/home.lua:44
+msgid "task^course"
+msgstr "课程"
 
-#: lua/home.lua:39
+#: lua/home.lua:45
+msgid "task^workout"
+msgstr "健身操"
+
+#: lua/home.lua:46
 msgid "Me"
 msgstr "我"
 
+#: lua/home.lua:196
+msgid "This course is free. Do you want to purchase it?"
+msgstr "此课程免费，要购买吗？"
+
+#: lua/home.lua:232
+msgid "Not a valid course script."
+msgstr "不是一个有效的课程脚本。"
+
+#: lua/home.lua:241
+msgid "Expires on $expire. Purchase time: $purchase, Active time: $active."
+msgstr "$expire到期。购买时间：$purchase，激活时间：$active。"
+
+#: lua/home.lua:246
+msgid ""
+"Expired (expiration time: $expire). Purchase time: $purchase, Active time: "
+"$active."
+msgstr ""
+"已到期（到期时间：$expire）。购买时间：$purchase，激活时间：$active。"
+
+#: lua/home.lua:255
+msgid "Not activated. $purchase, $force_active, $first_day"
+msgstr ""
+"课程未激活。退出小程序，在 kDesktop 「首页」，完成一套健身操即可激活。若未"
+"在 $force_active 前激活，课程将自动从 $first_day 开始计算 Day 1。\n"
+"\n"
+"购买时间：$purchase"
+
+#: lua/home.lua:268
+msgid "wkocourse^Free"
+msgstr "免费"
+
 #: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:1
+msgid "Open coure reference"
+msgstr "视频"
+
+#: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:3
 msgid "Open demo"
 msgstr "演示视频"
+
+#: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:5
+msgid "Purchase"
+msgstr "购买"
+
+#~ msgid "Expires on $expire. Purchase time: $purchase."
+#~ msgstr "$expire到期。购买时间：$purchase。"

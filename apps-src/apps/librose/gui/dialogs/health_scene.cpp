@@ -103,7 +103,7 @@ void thealth_scene::pre_toolbar_normal(tgrid& grid)
 	for (int at = 0; at < dyn_chartsel_count; at ++) {
 		const health_controller::tdyn_chartsel& chartsel = *dyn_chartsels[at];
 		// report->insert_item(null_str, chartsel.title()).set_cookie(health_controller::chartsel_dyn_min + at);
-		report->insert_item(null_str, chartsel.title());
+		report->insert_item(null_str, chartsel.title(controller_));
 	}
 	report->set_did_item_pre_change(std::bind(&thealth_scene::did_navigation_report_item_pre_change, this, _1, _2, _3));
 	report->set_did_item_changed(std::bind(&thealth_scene::did_navigation_report_item_changed, this, _2));

@@ -19,6 +19,8 @@ enum {lmkside_center, lmkside_left, lmkside_right, lmkside_count};
 
 namespace cairo {
 
+#define WKO_PLAN_WORKOUT_DURATION_S		120 // 30 second
+
 enum {wkomattype_health, wkomattype_image, wkomattype_vlog, wkomattype_count};
 enum {multcolmattype_start_history, multcolmattype_poses, multcolmattype_finish_history, multcolmattype_count};
 
@@ -244,7 +246,6 @@ public:
 	SDL_Rect* pl_btn_rects;
 };
 
-#define MAX_HEALTH_DAYS	30
 #define VALIDATE_POSTURE_DAYS(days)	VALIDATE((days) >= 2 && (days) <= MAX_HEALTH_DAYS, null_str)
 
 struct tdays_posture_fields
@@ -553,6 +554,129 @@ public:
 	SDL_Rect* tip_rects;
 };
 
+struct tdays_course_summary_fields
+{
+public:
+	enum {fid_title, fid_this_days, fid_left_y_axis, fid_right_y_axis, 
+		fid_legend_workout_duration, fid_legend_plan_alert, fid_legend_actual_alert, 
+		fid_legend_full_wko_id, fid_legend_incomplete_wko_id, fid_legend_pending_wko_id, fid_chart_remark, fid_count};
+
+	tdays_course_summary_fields()
+		: Y_axis_label_width(33)
+		, Y_axis_label_chart_gap(20)
+		, legend_2legend_gap_y(5)
+		, y_axis_title_gap_y(Y_AXIS_TITLE_GAP_Y)
+		, incomplete_bg_color{100.0 / 255.0, 100.0 / 255.0, 100.0 / 255.0, 1.0}
+		, share(bool_set_none)
+		, pl_btn_rects(nullptr)
+		, tip_rects(nullptr)
+	{
+		memset(arrays, 0, sizeof(arrays));
+
+		arrays[fid_title] = &title;
+		arrays[fid_this_days] = &this_days;
+		arrays[fid_left_y_axis] = &left_y_axis;
+		arrays[fid_right_y_axis] = &right_y_axis;
+		arrays[fid_legend_workout_duration] = &legend_workout_duration;
+		arrays[fid_legend_plan_alert] = &legend_plan_alert;
+		arrays[fid_legend_actual_alert] = &legend_actual_alert;
+		arrays[fid_legend_full_wko_id] = &legend_full_wko_id;
+		arrays[fid_legend_incomplete_wko_id] = &legend_incomplete_wko_id;
+		arrays[fid_legend_pending_wko_id] = &legend_pending_wko_id;
+		arrays[fid_chart_remark] = &chart_remark;
+
+		for (int at = 0; at < fid_count; at ++) {
+			VALIDATE(arrays[at] != nullptr, null_str);
+		}
+	}
+
+	void clear()
+	{
+		bar_4labels.clear();
+	}
+
+	int get_legend_height_or_draw(cairo_t* cr, int width, const SDL_Point& margin);
+
+public:
+	const int Y_axis_label_width;
+	const int Y_axis_label_chart_gap;
+	int title_height;
+	int legend_height;
+	const int legend_2legend_gap_y;
+	const int y_axis_title_gap_y;
+	int day_labels_height;
+	const SDL_DColor incomplete_bg_color;
+	bool_set_t share;
+
+	tsdl_field title;
+	tsdl_field this_days;
+	tsdl_field left_y_axis;
+	tsdl_field right_y_axis;
+	tsdl_field legend_workout_duration;
+	// tsdl_field legend_improper_duration;
+	tsdl_field legend_plan_alert;
+	tsdl_field legend_actual_alert;
+	tsdl_field legend_full_wko_id;
+	tsdl_field legend_incomplete_wko_id;
+	tsdl_field legend_pending_wko_id;
+	tsdl_field chart_remark;
+	tsdl_field* arrays[fid_count];
+
+	int actual_workout_durations_sec[MAX_HEALTH_DAYS];
+
+	int plan_workouts[MAX_HEALTH_DAYS];
+	// actual_workouts.x: finished
+	// actual_workouts.y: not finish
+	SDL_Point actual_workouts[MAX_HEALTH_DAYS];
+
+	struct tworkout_id
+	{
+		tworkout_id(const std::string& id)
+			: id(id)
+			, plan_workouts(0)
+			, actual_workouts({0, 0})
+		{}
+
+		std::string id;
+		int plan_workouts;
+		SDL_Point actual_workouts;
+		SDL_DColor color;
+		tsdl_field label;
+	};
+
+	struct tbar_4label
+	{
+		tbar_4label()
+		{}
+
+		std::vector<tworkout_id> plan_workout_ids;
+		std::vector<tworkout_id> actual_workout_ids;
+
+		tsdl_field sit;
+		// tsdl_field improper;
+		tsdl_field plan_workout;
+		tsdl_field actual_workout;
+		tsdl_field day;
+	};
+	std::vector<tbar_4label> bar_4labels;
+
+	struct tlegend_workout_id
+	{
+		tlegend_workout_id(const std::string& id2, const SDL_DColor& color)
+			: id2(id2)
+			, color(color)
+		{}
+
+		std::string id2;
+		SDL_DColor color;
+		tsdl_field label;
+	};
+	std::vector<tlegend_workout_id> legend_workout_ids;
+
+	SDL_Rect* pl_btn_rects;
+	SDL_Rect* tip_rects;
+};
+
 struct tlandmark_fields
 {
 public:
@@ -687,6 +811,9 @@ cv::Mat draw_landmarks_mat(bool to_image, int width, int height, double radius, 
 
 cv::Mat draw_days_workout_dual_axis_stacked_bar_chart(bool to_image, int width, int height, double radius, const SDL_Point& margin,
 	int days, tdays_workout_fields& fields);
+
+cv::Mat draw_days_course_summary_mat(bool to_image, int width, int height, double radius, const SDL_Point& margin,
+	int days, tdays_course_summary_fields& fields);
 
 cv::Mat draw_tip_mat(bool to_image, int width, int height, double radius, const SDL_Point& margin,
 	int shadow_blur_radius, ttip_fields& fields);

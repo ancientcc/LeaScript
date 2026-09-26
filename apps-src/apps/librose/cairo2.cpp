@@ -4040,6 +4040,678 @@ cv::Mat draw_days_workout_dual_axis_stacked_bar_chart(bool to_image, int width, 
     return result;
 }
 
+int tdays_course_summary_fields::get_legend_height_or_draw(cairo_t* cr, int width, const SDL_Point& margin)
+{
+    tdays_course_summary_fields& fields = *this;
+
+    bool draw = cr != nullptr;
+    tsdl_field* sdl_field = nullptr;
+    const SDL_DColor& plan_alert_color = fields.legend_plan_alert.cairo_color;
+    const SDL_DColor& actual_alert_color = fields.legend_actual_alert.cairo_color;
+    SDL_Point tmp_sdl_field_offset;
+
+    int legend_icon_text_gap_x = 3;
+    SDL_Point legend_2legend_gap{(int)(10 * gui2::twidget::hdpi_scale), fields.legend_2legend_gap_y};
+    SDL_Point legend_size{(int)(20 * gui2::twidget::hdpi_scale), posix_align_ceil2(fields.legend_plan_alert.name_text_size.y - 4, 2)};
+
+    // The legend is split into two lines, both left-aligned. 
+    // The first line contains three fixed items, and the second line contains various reasons for improper posture.
+    int fixed_legends[10] = {fields.fid_legend_workout_duration,
+        fields.fid_legend_full_wko_id,
+        fields.fid_legend_incomplete_wko_id,
+        fields.fid_legend_pending_wko_id,
+        fields.fid_legend_plan_alert, 
+        fields.fid_legend_actual_alert,
+    };
+    int fixed_legend_count = 6;
+    int best_fixed_legends_width = 0;
+    int max_1th_line_height = 0;
+
+    for (int at = 0; at < fixed_legend_count; at ++) {
+        int fid = fixed_legends[at];
+        sdl_field = fields.arrays[fid];
+        // SDL_Log("{dbg-days}12.2, [%i/%i], fid: %i, sdl_field: %p", at, fixed_legend_count, fid, sdl_field);
+        VALIDATE(sdl_field != nullptr, null_str);
+
+        if (at != 0) {
+            best_fixed_legends_width += legend_2legend_gap.x;
+        }
+        best_fixed_legends_width += legend_size.x + legend_icon_text_gap_x + sdl_field->name_text_size.x;
+        max_1th_line_height = SDL_max(max_1th_line_height, sdl_field->name_text_size.y);
+    }
+
+    // const int legend_x = (width - best_fixed_legends_width) / 2;
+    const int legend_x = margin.x;
+    const int legend_y = margin.y + fields.title_height;
+
+    int tmp_legend_x = legend_x;
+    int tmp_legend_y = legend_y;
+    for (int at = 0; at < fixed_legend_count; at ++) {
+        int fid = fixed_legends[at];
+        sdl_field = fields.arrays[fid];
+        VALIDATE(sdl_field != nullptr, null_str);
+
+        int x = tmp_legend_x;
+        int y = tmp_legend_y;
+
+        if (draw) {
+            if (fid != fields.fid_legend_plan_alert && fid != fields.fid_legend_actual_alert) {
+                if (fid == fid_legend_incomplete_wko_id) {
+                    draw_rounded_rectangle2(&incomplete_bg_color, nullptr, float_nposm, cr, x, 
+                        y + (sdl_field->name_text_size.y - legend_size.y) / 2, legend_size.x, legend_size.y, 4);
+
+                    double height = legend_size.y / 2;
+                    draw_rounded_rectangle2(&sdl_field->cairo_color, nullptr, float_nposm, cr, x, 
+                        y + sdl_field->name_text_size.y / 2, legend_size.x, height, 4, false, false);
+
+                } else if (fid == fid_legend_pending_wko_id) {
+                    draw_rounded_rectangle2(nullptr, &sdl_field->cairo_color, 1.0, cr, x, 
+                        y + (sdl_field->name_text_size.y - legend_size.y) / 2, legend_size.x, legend_size.y, 4);
+
+                } else {
+                    draw_rounded_rectangle2(&sdl_field->cairo_color, nullptr, float_nposm, cr, x, 
+                        y + (sdl_field->name_text_size.y - legend_size.y) / 2, legend_size.x, legend_size.y, 4);
+                }
+            } else {
+                const SDL_DColor& alert_color = fid == fields.fid_legend_plan_alert? plan_alert_color: actual_alert_color;
+
+                int mid_offset = fields.legend_plan_alert.name_text_size.y / 2;
+                // Draw legend line
+                cairo_set_source_rgb(cr, alert_color.r, alert_color.g, alert_color.b);
+                cairo_set_line_width(cr, 2.5);
+                cairo_move_to(cr, x, y + mid_offset);
+                cairo_line_to(cr, x + legend_size.x, y + mid_offset);
+                cairo_stroke(cr);
+    
+                // Draw legend point
+                cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+                cairo_arc(cr, x + legend_size.x / 2, y + mid_offset, 5, 0, 2 * M_PI);
+                cairo_fill(cr);
+                // cairo_fill_preserve(cr);
+    
+                cairo_set_source_rgb(cr, alert_color.r, alert_color.g, alert_color.b);
+                cairo_arc(cr, x + legend_size.x / 2, y + mid_offset, 5, 0, 2 * M_PI);
+                cairo_stroke(cr);
+            }
+        }
+
+        tmp_sdl_field_offset.x = tmp_legend_x + legend_size.x + legend_icon_text_gap_x;
+        tmp_sdl_field_offset.y = tmp_legend_y; // (sdl_field->name_text_size.y / 2);
+
+        if (draw) {
+            sdl_field->offset = tmp_sdl_field_offset;
+        }
+
+        tmp_legend_x = tmp_sdl_field_offset.x + sdl_field->name_text_size.x + legend_2legend_gap.x;
+        max_1th_line_height = SDL_max(max_1th_line_height, sdl_field->name_text_size.y);
+    }
+
+
+    // 2th line
+    tmp_legend_x = legend_x;
+    tmp_legend_y = legend_y + max_1th_line_height + legend_2legend_gap.y;
+    max_1th_line_height = 0;
+    for (int at = 0; at < (int)fields.legend_workout_ids.size(); at ++) {
+        tdays_course_summary_fields::tlegend_workout_id& workout_id = fields.legend_workout_ids[at];
+        const SDL_DColor& fill_color = workout_id.color;
+
+        const int this_label_offset_x = tmp_legend_x + legend_size.x + legend_icon_text_gap_x;
+        if (this_label_offset_x + workout_id.label.name_text_size.x > width - 2 * margin.x) {
+            // This line can’t fit anymore; start a new line.
+            tmp_legend_x = legend_x;
+            tmp_legend_y += max_1th_line_height + legend_2legend_gap.y;
+        }
+
+        int x = tmp_legend_x;
+        int y = tmp_legend_y;
+
+        if (draw) {
+            draw_rounded_rectangle2(&fill_color, nullptr, float_nposm, cr, x, 
+                y + (workout_id.label.name_text_size.y - legend_size.y) / 2, legend_size.x, legend_size.y, 4);
+        }
+
+        tmp_sdl_field_offset.x = x + legend_size.x + legend_icon_text_gap_x;
+        tmp_sdl_field_offset.y = y;
+
+        if (draw) {
+            workout_id.label.offset = tmp_sdl_field_offset;
+        }
+
+        tmp_legend_x = tmp_sdl_field_offset.x + workout_id.label.name_text_size.x + legend_2legend_gap.x;
+        max_1th_line_height = SDL_max(max_1th_line_height, sdl_field->name_text_size.y);
+    }
+
+    tmp_legend_y += max_1th_line_height + legend_2legend_gap.y;
+    int result = tmp_legend_y - legend_y;
+
+    result += max_1th_line_height + fields.y_axis_title_gap_y;
+
+    return result;
+}
+
+cv::Mat draw_days_course_summary_mat(bool to_image, int width, int height, double radius, const SDL_Point& margin,
+    int days, tdays_course_summary_fields& fields)
+{
+    VALIDATE_POSTURE_DAYS(days);
+
+    VALIDATE(fields.pl_btn_rects != nullptr, null_str);
+    memset(fields.pl_btn_rects, 0, sizeof(SDL_Rect) * pl_btn_count);
+
+    VALIDATE(fields.tip_rects != nullptr, null_str);
+    memset(fields.tip_rects, 0, sizeof(SDL_Rect) * days);
+
+    cv::Mat result;
+    // ===== 1. Prepare data =====
+    const int TOTAL_COLUMNS = days;
+    VALIDATE((int)fields.bar_4labels.size() == days, null_str);
+    char buf[32];
+
+    const int cairo_font_size = 16;
+
+    int stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, width);
+    std::vector<unsigned char> buffer(height * stride);
+    
+    // ===== 2. Create a Cairo surface and context =====
+    cairo_surface_t* surface = cairo_image_surface_create_for_data(
+        buffer.data(),
+        CAIRO_FORMAT_ARGB32,
+        width,
+        height,
+        stride
+    );
+    
+    if (cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS) {
+        SDL_Log("Failed to create surface");
+        return result;
+    }
+    
+    cairo_t* cr = cairo_create(surface);
+    
+    // ===== 3. Set canvas parameters =====
+    cairo_text_extents_t extents;
+    cairo_set_font_size(cr, cairo_font_size);
+    cairo_text_extents(cr, "55.5", &extents);
+    // int chart_margin_left = 80;
+    // int chart_margin_left = margin.x + extents.width + Y_axis_label_chart_gap;
+    int chart_margin_left = margin.x + fields.Y_axis_label_width + fields.Y_axis_label_chart_gap;
+    // int chart_margin_right = 80;
+    int chart_margin_right = chart_margin_left;
+    int chart_margin_top = margin.y + fields.title_height + fields.legend_height;
+    int chart_margin_bottom = fields.day_labels_height + margin.y;
+    // int chart_margin_bottom = 60;
+    
+    int chart_width = width - chart_margin_left - chart_margin_right;
+    int chart_height = height - chart_margin_top - chart_margin_bottom;
+
+    // ===== 4. Set white background =====
+    draw_canvas(cr, width, height, radius, SDL_DColor{1.0, 1.0, 1.0, 1.0}, NULL, !to_image, !to_image, !to_image, !to_image);
+    
+    // ===== 5. Draw grid and axes =====
+    cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+    cairo_set_line_width(cr, 0.5);
+    
+    // Find the maximum max_duration of all data for normalization
+    double max_workout_duration = 0;
+    for (int i = 0; i < TOTAL_COLUMNS; i++) {
+        // max_sit_duration = SDL_max(max_sit_duration, fields.sit_durations[i] / 60.0);
+        max_workout_duration = SDL_max(max_workout_duration, fields.actual_workout_durations_sec[i]);
+    }
+    // Prevent the text marking the maximum value from protruding beyond the chart.
+    max_workout_duration += max_workout_duration / 10;
+
+    double max_plan_or_actual_workouts = 0;
+    for (int i = 0; i < TOTAL_COLUMNS; i++) {
+        max_plan_or_actual_workouts = SDL_max(max_plan_or_actual_workouts, fields.plan_workouts[i]);
+        max_plan_or_actual_workouts = SDL_max(max_plan_or_actual_workouts, fields.actual_workouts[i].x);
+    }
+    // Prevent the text marking the maximum value from protruding beyond the chart.
+    max_plan_or_actual_workouts += max_plan_or_actual_workouts / 10;
+/*
+    const SDL_DColor sit_duration_color{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+    // const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+    const SDL_DColor improper_duration_color{1.0, 0.0, 0.0, 1.0};
+    const SDL_DColor improper_alert_color{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+*/
+    const SDL_DColor& sit_duration_color = fields.legend_workout_duration.cairo_color;
+    // const SDL_DColor& improper_duration_color = fields.legend_improper_duration.cairo_color;
+    const SDL_DColor& plan_alert_color = fields.legend_plan_alert.cairo_color;
+    const SDL_DColor& actual_alert_color = fields.legend_actual_alert.cairo_color;
+
+    // Draw horizontal grid lines
+    const double min_sit_duration = 0;
+    const double min_plan_or_actual_workouts = 0;
+    int grid_lines = 6;
+    for (int i = 0; i <= grid_lines; i++) {
+        double y = chart_margin_top + (chart_height * i) / grid_lines;
+        cairo_move_to(cr, chart_margin_left, y);
+        cairo_line_to(cr, width - chart_margin_right, y);
+        cairo_stroke(cr);
+
+        // Add Y-axis labels
+        double sit_value = max_workout_duration - (max_workout_duration - min_sit_duration) * i / grid_lines;
+        std::stringstream ss;
+        
+        ss.str("");
+        // ss << std::fixed << std::setprecision(1) << sit_value;
+        ss << utils::format_elapse_hm_or_ms(sit_value, false, utils::timesep_unit);
+
+        // left. labels are right-align.
+        cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+        cairo_set_font_size(cr, cairo_font_size);
+        cairo_text_extents(cr, ss.str().c_str(), &extents);
+        cairo_move_to(cr, chart_margin_left - fields.Y_axis_label_chart_gap - extents.width / 2, y + 5); // y - 5
+        cairo_show_text(cr, ss.str().c_str());
+
+        // right. labels are left-align.
+        double type_improper_value = max_plan_or_actual_workouts - (max_plan_or_actual_workouts - min_plan_or_actual_workouts) * i / grid_lines;
+        ss.str("");
+        ss << std::fixed << std::setprecision(1) << type_improper_value;
+        // ss << (int)type_improper_value;
+        // cairo_set_source_rgb(cr, 250.0 / 255, 198.0 / 255, 52.0 / 255);
+        cairo_set_source_rgb(cr, plan_alert_color.r, plan_alert_color.g, plan_alert_color.b);
+        cairo_move_to(cr, chart_margin_left + chart_width + 5, y + 5);
+        // cairo_move_to(cr, chart_margin_left + chart_width + Y_axis_label_chart_gap, y + 5);
+        cairo_show_text(cr, ss.str().c_str());
+
+        cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);  // Restore grid color
+    }
+    
+    // Draw vertical grid lines
+    double column_width = (double)chart_width / TOTAL_COLUMNS;
+    double gap = column_width * 0.2;
+    double bar_width = column_width - gap;
+    double bar_width_by_3 = bar_width / 3;
+
+    int tip_rect_count = 0;
+    SDL_Point tip_points[6];
+    int tip_point_count;
+
+    for (int i = 0; i < TOTAL_COLUMNS; i++) {
+        tdays_course_summary_fields::tbar_4label& bar_4label = fields.bar_4labels[i];
+        // double x = chart_margin_left + i * column_width + gap / 2;
+        double x = chart_margin_left + i * column_width + gap / 2;
+
+        // x += bar_width_by_3 / 2;
+
+        const double bottom_y = height - chart_margin_bottom;  // Stack from the bottom
+
+        double current_y = bottom_y;  // Stack from the bottom
+        // workout duration
+        double segment_height = normalize2(fields.actual_workout_durations_sec[i], max_workout_duration, chart_height);
+        double y = current_y - segment_height;
+
+        for (std::vector<tdays_course_summary_fields::tworkout_id>::const_iterator it = bar_4label.plan_workout_ids.begin(); 
+            it != bar_4label.plan_workout_ids.end(); ++ it) {
+
+            const tdays_course_summary_fields::tworkout_id& workout_id = *it;
+            segment_height = normalize2(workout_id.plan_workouts, max_plan_or_actual_workouts, chart_height);
+            y = current_y - segment_height;
+
+            draw_rounded_rectangle2(&workout_id.color, nullptr, float_nposm, cr, x, y, bar_width_by_3, segment_height, 
+                5, true, true, false, false);
+            
+            current_y = y;  // Update Y position for stacking the next segment
+        }
+        tip_point_count = 0;
+        fill_tip_points(x, current_y, bar_width_by_3, bottom_y - current_y, tip_point_count, tip_points);
+
+        x += bar_width_by_3;
+        current_y = height - chart_margin_bottom;
+
+        for (std::vector<tdays_course_summary_fields::tworkout_id>::const_iterator it = bar_4label.plan_workout_ids.begin(); 
+            it != bar_4label.plan_workout_ids.end(); ++ it) {
+
+            const tdays_course_summary_fields::tworkout_id& workout_id = *it;
+            // segment_height = normalize2(workout_id.actual_workouts.x, max_plan_or_actual_workouts, chart_height);
+            segment_height = normalize2(workout_id.plan_workouts, max_plan_or_actual_workouts, chart_height);
+            y = current_y - segment_height;
+
+            SDL_DColor full_color{0.0, 1.0, 0.0, 1.0};
+            SDL_DColor incomplete2_color{1.0, 165.0 / 255.0, 0.0, 1.0};
+            // SDL_DColor incomplete2_color{85.0 / 255.0, 170.0 / 255.0, 85.0 / 255.0, 1.0};
+            SDL_DColor pending_color{0.0, 0.0, 0.0, 1.0};
+            
+            const SDL_DColor* fill_color = nullptr;
+            const SDL_DColor* line_color = nullptr;
+            if (workout_id.actual_workouts.x >= workout_id.plan_workouts) {
+                fill_color = &full_color;
+
+            } else if (workout_id.actual_workouts.x > 0) {
+                fill_color = &fields.incomplete_bg_color;
+
+            } else {
+                line_color = &pending_color;
+            }
+
+            draw_rounded_rectangle2(fill_color, line_color, line_color == nullptr? float_nposm: 1.0, cr, x, y, bar_width_by_3, segment_height, 
+                5, true, true, false, false);
+
+            if (fill_color == &fields.incomplete_bg_color) {
+                double height = normalize2(workout_id.actual_workouts.x, workout_id.plan_workouts, segment_height);
+                draw_rounded_rectangle2(&incomplete2_color, nullptr, float_nposm, cr, x, y + segment_height - height, bar_width_by_3, height, 
+                    0, true, true, false, false);
+            }
+            
+            current_y = y;  // Update Y position for stacking the next segment
+        }
+        fill_tip_points(x, current_y, bar_width_by_3, bottom_y - current_y, tip_point_count, tip_points);
+
+        x += bar_width_by_3;
+        current_y = height - chart_margin_bottom;
+
+        const double duration_bar_width = bar_width_by_3 / 2;
+        if (fields.actual_workout_durations_sec[i] != 0) {
+            segment_height = normalize2(fields.actual_workout_durations_sec[i], max_workout_duration, chart_height);
+            y = current_y - segment_height;
+            draw_rounded_rectangle2(&sit_duration_color, nullptr, float_nposm, cr, x, y, duration_bar_width, segment_height, 
+                    0, true, true, false, false);
+
+            fill_tip_points(x, y, duration_bar_width, segment_height, tip_point_count, tip_points);
+
+        } else {
+            y = current_y;
+        }
+
+        tsdl_field* field = &bar_4label.sit;
+        // field->offset.x = x + duration_bar_width - field->name_text_size.x / 2;
+        field->offset.x = x;
+        // field->offset.x -= SDL_min(gap / 2, 15);
+        field->offset.y = y - field->name_text_size.y;
+
+        SDL_Rect& tip_rect = fields.tip_rects[tip_rect_count ++];
+        SDL_EnclosePoints(tip_points, tip_point_count, nullptr, &tip_rect);
+    }
+    VALIDATE(tip_rect_count == TOTAL_COLUMNS, null_str);
+    
+    // ===== 6. Draw axes (bold black) =====
+    cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+    cairo_set_line_width(cr, 2.0);
+ /*   
+    // y-axis
+    cairo_move_to(cr, chart_margin_left, chart_margin_top);
+    cairo_line_to(cr, chart_margin_left, height - chart_margin_bottom);
+    cairo_stroke(cr);
+*/    
+    // x-axis
+    cairo_move_to(cr, chart_margin_left, height - chart_margin_bottom);
+    cairo_line_to(cr, width - chart_margin_right, height - chart_margin_bottom);
+    cairo_stroke(cr);
+    
+    // ===== 7. Calculate point coordinates =====
+    std::vector<SDL_DPoint> points(TOTAL_COLUMNS);
+    double x_step = (double)chart_width / (TOTAL_COLUMNS - 1);
+    
+    tsdl_field* sdl_field = nullptr;
+    for (int alert_at = 0; alert_at < 2; alert_at ++) {
+        const SDL_DColor& alert_color = alert_at == 0? plan_alert_color: actual_alert_color;
+        for (int i = 0; i < TOTAL_COLUMNS; i++) {
+            const int alert = alert_at == 0? fields.plan_workouts[i]: fields.actual_workouts[i].x;
+            double x = chart_margin_left + i * column_width + column_width / 2;
+            double y = height - chart_margin_bottom - normalize(alert, 
+                min_plan_or_actual_workouts, max_plan_or_actual_workouts, chart_height);
+            points[i] = {x, y};
+        }
+    
+        // ===== 8. Draw polyline =====
+        // SDL_Log("{dbg-days}8. Draw polyline");
+        double line_width = 2.5;
+        line_width = alert_at == 0? 3.0: 1.0;
+
+        draw_smooth_curve_optimized(cr, alert_color, line_width, points);
+    
+        // ===== 9. Draw data point markers =====
+        // SDL_Log("{dbg-days}9. Draw data point markers");
+        for (int i = 0; i < TOTAL_COLUMNS; i++) {
+            double x = points[i].x;
+            double y = points[i].y;
+        
+            double point_radius = 5;
+
+            // Draw white filled circles
+            cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+            cairo_arc(cr, x, y, point_radius, 0, 2 * M_PI);
+            cairo_fill(cr);
+        
+            // Draw blue border
+            cairo_set_source_rgb(cr, alert_color.r, alert_color.g, alert_color.b);
+            cairo_set_line_width(cr, 2.0);
+            cairo_arc(cr, x, y, point_radius, 0, 2 * M_PI);
+            cairo_stroke(cr);
+
+            // Add value labels above the points
+            sdl_field = alert_at == 0? &fields.bar_4labels[i].plan_workout: &fields.bar_4labels[i].actual_workout;
+            sdl_field->offset.x = x - sdl_field->name_text_size.x / 2;
+            sdl_field->offset.y = y - sdl_field->name_text_size.y;
+        }
+    }
+    
+    // ===== 10. Add X-axis labels =====
+    // SDL_Log("{dbg-days}10. Add X-axis labels");
+    bool use_sdl_labels = true;
+    if (use_sdl_labels) {
+        double y = height - chart_margin_bottom;
+        for (int i = 0; i < TOTAL_COLUMNS; i++) {
+            tsdl_field* field = &fields.bar_4labels[i].day;
+            double x = chart_margin_left + i * column_width + column_width / 2;
+            field->offset = SDL_Point{(int)x, (int)y};
+        }
+
+    } else {
+        VALIDATE(false, null_str);
+        cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+        cairo_set_font_size(cr, cairo_font_size);
+
+        std::vector<std::string> time_labels;
+        for (int i = 0; i < TOTAL_COLUMNS; i++) {
+            // Generate labels
+            SDL_snprintf(buf, sizeof(buf), "%02i:00", i);
+            time_labels.push_back(buf);
+        }
+
+        cairo_text_extents(cr, time_labels[TOTAL_COLUMNS / 2].c_str(), &extents);
+        bool use_rotate = column_width < extents.width + 15;
+        // SDL_Log("{dbg}column_width: %.5f, extents.width: %.5f", column_width, extents.width);
+
+        for (int i = 0; i < TOTAL_COLUMNS; i++) {
+            double x = chart_margin_left + i * column_width + column_width / 2;
+        
+            if (!use_rotate) {
+                // Get text dimensions for centering
+                cairo_text_extents(cr, time_labels[i].c_str(), &extents);
+                // Center the text at (0,0)
+                cairo_move_to(cr, x - extents.width/2, height - chart_margin_bottom + 12 + extents.height/2);
+
+                // cairo_move_to(cr, 0, 0);
+
+                cairo_show_text(cr, time_labels[i].c_str());
+
+            } else {
+                cairo_save(cr);
+                cairo_translate(cr, x, height - chart_margin_bottom + 15);
+                cairo_rotate(cr, -M_PI / 4);
+
+                // Get text dimensions for centering
+                cairo_text_extents(cr, time_labels[i].c_str(), &extents);
+                // Center the text at (0,0)
+                cairo_move_to(cr, -extents.width/2, extents.height/2);
+
+                // cairo_move_to(cr, 0, 0);
+
+                cairo_show_text(cr, time_labels[i].c_str());
+                cairo_restore(cr);
+            }
+        }
+    }
+    
+    // ===== 11. Add title and axis labels =====
+    // SDL_Log("{dbg-days}11. Add title and axis labels");
+    cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+    
+    // Main title
+    fields.title.offset = SDL_Point{margin.x, margin.y};
+
+    // Today
+    sdl_field = &fields.this_days;
+    int today_gap_x = 24;
+    SDL_Rect today_rect{0, margin.y, 2 * today_gap_x + sdl_field->name_text_size.x, fields.title.name_text_size.y};
+    today_rect.x = width - margin.x - today_rect.w;
+    draw_rounded_rectangle2(&sdl_field->cairo_color, nullptr, float_nposm, cr, today_rect.x, today_rect.y,
+        today_rect.w, today_rect.h, radius);
+    sdl_field->offset = SDL_Point{today_rect.x + today_gap_x, 
+        margin.y + (fields.title.name_text_size.y - sdl_field->name_text_size.y) / 2};
+    
+    sdl_field = &fields.chart_remark;
+    if (!sdl_field->name.empty()) {
+        sdl_field->offset = SDL_Point{margin.x, height - margin.y - sdl_field->name_text_size.y};
+    }
+
+    // X-axis title
+/*
+    cairo_set_font_size(cr, 14);
+    cairo_move_to(cr, width/2 - 30, height - 10);
+    cairo_show_text(cr, "Data Points");
+*/   
+    // Y-axis title (rotated)
+/*
+    cairo_save(cr);
+    cairo_translate(cr, 20, height/2);
+    cairo_rotate(cr, -M_PI/2);
+    cairo_set_font_size(cr, 14);
+    cairo_move_to(cr, 0, 0);
+    cairo_show_text(cr, "Values");
+    cairo_restore(cr);
+*/    
+    // ===== 12. Add legend =====
+    // SDL_Log("{dbg-days}12. Add legend");
+    fields.get_legend_height_or_draw(cr, width, margin);
+/*
+    int legend_icon_text_gap_x = 3;
+    SDL_Point legend_2legend_gap{15, fields.legend_2legend_gap_y};
+    SDL_Point legend_size{30, posix_align_ceil2(fields.legend_plan_alert.name_text_size.y - 4, 2)};
+
+    // The legend is split into two lines, both left-aligned. 
+    // The first line contains three fixed items, and the second line contains various reasons for improper posture.
+    int fixed_legends[10] = {fields.fid_legend_workout_duration,
+        fields.fid_legend_plan_alert, 
+        fields.fid_legend_actual_alert};
+    int fixed_legend_count = 3;
+    int best_fixed_legends_width = 0;
+    int max_1th_line_height = 0;
+
+    for (int at = 0; at < fixed_legend_count; at ++) {
+        int fid = fixed_legends[at];
+        sdl_field = fields.arrays[fid];
+        // SDL_Log("{dbg-days}12.2, [%i/%i], fid: %i, sdl_field: %p", at, fixed_legend_count, fid, sdl_field);
+        VALIDATE(sdl_field != nullptr, null_str);
+
+        if (at != 0) {
+            best_fixed_legends_width += legend_2legend_gap.x;
+        }
+        best_fixed_legends_width += legend_size.x + legend_icon_text_gap_x + sdl_field->name_text_size.x;
+        max_1th_line_height = SDL_max(max_1th_line_height, sdl_field->name_text_size.y);
+    }
+
+    // const int legend_x = (width - best_fixed_legends_width) / 2;
+    const int legend_x = margin.x;
+    const int legend_y = margin.y + fields.title_height;
+
+    int tmp_legend_x = legend_x;
+    int tmp_legend_y = legend_y;
+    for (int at = 0; at < fixed_legend_count; at ++) {
+        int fid = fixed_legends[at];
+        sdl_field = fields.arrays[fid];
+        VALIDATE(sdl_field != nullptr, null_str);
+
+        int x = tmp_legend_x;
+        int y = tmp_legend_y;
+        if (fid != fields.fid_legend_plan_alert && fid != fields.fid_legend_actual_alert) {
+            draw_rounded_rectangle2(&sdl_field->cairo_color, nullptr, float_nposm, cr, x, 
+                y + (sdl_field->name_text_size.y - legend_size.y) / 2, legend_size.x, legend_size.y, 4);
+        } else {
+            const SDL_DColor& alert_color = fid == fields.fid_legend_plan_alert? plan_alert_color: actual_alert_color;
+
+            int mid_offset = fields.legend_plan_alert.name_text_size.y / 2;
+            // Draw legend line
+            cairo_set_source_rgb(cr, alert_color.r, alert_color.g, alert_color.b);
+            cairo_set_line_width(cr, 2.5);
+            cairo_move_to(cr, x, y + mid_offset);
+            cairo_line_to(cr, x + legend_size.x, y + mid_offset);
+            cairo_stroke(cr);
+    
+            // Draw legend point
+            cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+            cairo_arc(cr, x + legend_size.x / 2, y + mid_offset, 5, 0, 2 * M_PI);
+            cairo_fill(cr);
+            // cairo_fill_preserve(cr);
+    
+            cairo_set_source_rgb(cr, alert_color.r, alert_color.g, alert_color.b);
+            cairo_arc(cr, x + legend_size.x / 2, y + mid_offset, 5, 0, 2 * M_PI);
+            cairo_stroke(cr);
+        }
+
+        sdl_field->offset.x = tmp_legend_x + legend_size.x + legend_icon_text_gap_x;
+        sdl_field->offset.y = tmp_legend_y; // (sdl_field->name_text_size.y / 2);
+
+        tmp_legend_x = sdl_field->offset.x + sdl_field->name_text_size.x + legend_2legend_gap.x;
+        max_1th_line_height = SDL_max(max_1th_line_height, sdl_field->name_text_size.y);
+    }
+
+
+    // 2th line
+    tmp_legend_x = legend_x;
+    tmp_legend_y = legend_y + max_1th_line_height + legend_2legend_gap.y;
+    max_1th_line_height = 0;
+    for (int at = 0; at < (int)fields.legend_workout_ids.size(); at ++) {
+        tdays_course_summary_fields::tlegend_workout_id& workout_id = fields.legend_workout_ids[at];
+        const SDL_DColor& fill_color = workout_id.color;
+
+        const int this_label_offset_x = tmp_legend_x + legend_size.x + legend_icon_text_gap_x;
+        if (this_label_offset_x + workout_id.label.name_text_size.x > width - 2 * margin.x) {
+            // This line can’t fit anymore; start a new line.
+            tmp_legend_x = legend_x;
+            tmp_legend_y += max_1th_line_height + legend_2legend_gap.y;
+        }
+
+        int x = tmp_legend_x;
+        int y = tmp_legend_y;
+
+        draw_rounded_rectangle2(&fill_color, nullptr, float_nposm, cr, x, 
+            y + (workout_id.label.name_text_size.y - legend_size.y) / 2, legend_size.x, legend_size.y, 4);
+
+        workout_id.label.offset.x = x + legend_size.x + legend_icon_text_gap_x;
+        workout_id.label.offset.y = y;
+
+        tmp_legend_x = workout_id.label.offset.x + workout_id.label.name_text_size.x + legend_2legend_gap.x;
+        max_1th_line_height = SDL_max(max_1th_line_height, sdl_field->name_text_size.y);
+    }
+ */  
+    // ===== 13. Add statistical information =====
+    // SDL_Log("{dbg-days}13. Add statistical information");
+    sdl_field = &fields.left_y_axis;
+    sdl_field->offset.x = chart_margin_left - sdl_field->name_font_size * 3;
+    sdl_field->offset.y = chart_margin_top - fields.y_axis_title_gap_y - sdl_field->name_text_size.y;
+
+    sdl_field = &fields.right_y_axis;
+    sdl_field->offset.x = chart_margin_left + chart_width - sdl_field->name_text_size.x + sdl_field->name_font_size * 3;
+    sdl_field->offset.y = chart_margin_top - fields.y_axis_title_gap_y - sdl_field->name_text_size.y;
+    
+    // ==== 14. draw play icon ====
+    if (fields.share != bool_set_none) {
+        draw_check_icon2(cr, fields.share == bool_set_true, fields.pl_btn_rects[pl_btn_share]);
+    }
+
+    // ===== 15. Save image and clean up resources =====
+    result = argb_mat_from_CAIRO_FORMAT_ARGB32(surface, buffer.data(), width, height);
+
+    // cairo_surface_write_to_png(surface, (game_config::preferences_dir + "/line_chart.png").c_str());
+    // SDL_Log("Line chart saved to line_chart.png");
+    
+    cairo_destroy(cr);
+    cairo_surface_destroy(surface);
+    
+    return result;
+}
+
 // 绘制带柔和边缘阴影的矩形背景（类似参考图中的阴影过渡效果）
 void draw_rect_with_soft_edge_shadow(cairo_t *cr, 
                                       double rect_x, double rect_y, 

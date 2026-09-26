@@ -16,6 +16,7 @@
 #include "gui/dialogs/health_scene.hpp"
 #include "gui/dialogs/message.hpp"
 #include "gui/dialogs/edit_box.hpp"
+#include "gui/dialogs/menu.hpp"
 #include "gettext.hpp"
 #include "rose_config.hpp"
 #include "cairo2.hpp"
@@ -24,6 +25,8 @@
 // #include "mediapipe/rose/mediapipe_api.hpp"
 #include "filesystem.hpp"
 #include <opencv2/imgproc.hpp>
+#include "base_instance.hpp"
+
 
 using namespace std::placeholders;
 
@@ -232,15 +235,17 @@ void collect_health_files(const std::string& saves_health_dir, int max_days, boo
 }
 
 const std::map<int, std::string> dynchart_types = {
-		{dyncharttype_idcontain, "idcontain"},
-		};
+	{dyncharttype_idcontain, "idcontain"},
+	{dyncharttype_course, "course"},
+};
 
 void health_controller::tdyn_chartsel::to_pref(config& cfg) const
 {
 	cfg.clear();
 	VALIDATE(valid(), null_str);
 
-	cfg["type"] = dynchart_types.find(dyncharttype_idcontain)->second;
+	// cfg["type"] = dynchart_types.find(dyncharttype_idcontain)->second;
+	cfg["type"] = dynchart_types.find(type)->second;
 	cfg["key"] = key;
 }
 
@@ -254,7 +259,7 @@ int dynchart_type_from_str(const std::string& str)
 	}
 	return nposm;
 }
-
+/*
 void health_controller::tdyn_chartsel::from_pref(const config& cfg)
 {
 	clear_pref();
@@ -269,20 +274,46 @@ void health_controller::tdyn_chartsel::from_pref(const config& cfg)
 		clear_pref();
 	}
 }
-
-std::string health_controller::tdyn_chartsel::title() const
+*/
+std::string health_controller::tdyn_chartsel::title(const health_controller& controller) const
 {
 	utils::string_map symbols;
-	symbols["key"] = str_cast(key);
-	return vgettext2("ID Inc \"$key\"", symbols); 
+	std::string result;
+	if (type == dyncharttype_idcontain) {
+		symbols["key"] = key;
+		result = vgettext2("ID Inc \"$key\"", symbols);
+
+	} else {
+		VALIDATE(type == dyncharttype_course, null_str);
+		symbols["title"] = key;
+		if (controller.wkocourses_.count(key) != 0) {
+			const aplt::twkocourse& wkocourse = controller.wkocourses_.find(key)->second;
+			symbols["title"] = wkocourse.title;
+		}
+		result = vgettext2("Course \"$title\"", symbols);
+	}
+	return result;
 }
 
-std::string health_controller::tdyn_chartsel::chart_title() const
+std::string health_controller::tdyn_chartsel::chart_title(const health_controller& controller) const
 {
 	utils::string_map symbols;
 	symbols["days"] = str_cast(MAX_HEALTH_DAYS);
-	symbols["key"] = str_cast(key);
-	return vgettext2("Workout records from the last $days days containing \"$key\"", symbols); 
+	std::string result;
+	if (type == dyncharttype_idcontain) {
+		symbols["key"] = key;
+		result = vgettext2("Workout records from the last $days days containing \"$key\"", symbols); 
+
+	} else {
+		VALIDATE(type == dyncharttype_course, null_str);
+		symbols["title"] = key;
+		if (controller.wkocourses_.count(key) != 0) {
+			const aplt::twkocourse& wkocourse = controller.wkocourses_.find(key)->second;
+			symbols["title"] = wkocourse.title;
+		}
+		result = vgettext2("Course progress: $title", symbols);
+	}
+	return result;
 }
 
 static double normalize2(double value, double max_value, double chart_height)
@@ -352,23 +383,32 @@ tchart_metrics::tchart_metrics(int sdl_field_small_font_size, int height_in_dot)
 	, pose_state_duration_color_({255 / 255.0, 0 / 255.0, 255 / 255.0, 1.0})
 	, satisfied_duration_color_({78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0})
 	, unsatisfied_duration_color_({1.0, 0.0, 0.0, 1.0})
+	, day_period_color_{
+			// font::SDL_DColor_to_SDL_Color(fields.legend_sit_duration.cairo_color),
+			{255, 0, 0, 255},
+			{100, 149, 237, 255},
+	}
 	, chart_title_font_size_(font::SIZE_LARGER)
 {}
 
 std::string health_controller::unsatisfied_isnan_msgstr;
 std::string health_controller::unsatisfied_absend_landmark_msgstr;
 
-health_controller::health_controller(trhealth_scene_slot& scene_slot, const config& app_cfg, CVideo& video, 
-	aplt::thealth& health, int sdl_field_small_font_size)
+health_controller::health_controller(trhealth_scene_slot& scene_slot, const config& app_cfg, CVideo& video,
+	aplt::thealth& health, std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, 
+	std::map<std::string, aplt::twkocourse>& wkocourses, int sdl_field_small_font_size)
 	: base_controller(SDL_GetTicks(), app_cfg, video)
 	, tchart_metrics(sdl_field_small_font_size)
 	, scene_slot_(scene_slot)
 	, health_(health)
+	, wkocourse_enrolls_(wkocourse_enrolls)
+	, wkocourses_(wkocourses)
 	, map_(null_str)
 	, units_(*this, map_, false)
 	, gui_(nullptr)
 	, dlg_(nullptr)
 	, window_(nullptr)
+	, applets_(instance->applets())
 	// , vert_locs_(posix_align_ceil2(24, HEAL_UNIT_LOCS))
 	, vert_locs_(posix_align_ceil2(48, HEAL_UNIT_LOCS))
 	// , map_margin_({4, 4}) // {20, 20}
@@ -467,8 +507,8 @@ health_controller::health_controller(trhealth_scene_slot& scene_slot, const conf
 	VALIDATE(IS_MULTIPLE_OF_4(map_margin_.x), null_str);
 	VALIDATE(IS_MULTIPLE_OF_4(map_margin_.y), null_str);
 
-	std::string str = preferences::dyn_charts();
-	preferences::set_dyn_charts(str);
+	// std::string str = preferences::dyn_charts();
+	// preferences::set_dyn_charts(str);
 
 	// C array cannot evaluate in struct-list.
 	fake_workouts_[0] = &header_mat_;
@@ -510,9 +550,26 @@ health_controller::health_controller(trhealth_scene_slot& scene_slot, const conf
 */
 	dyn_charts_from_pref(dyn_chartsels_);
 /*
-	dyn_chartsels_.push_back(tdyn_chartsel());
-	tdyn_chartsel& dyn_chartsel = dyn_chartsels_.back();
-	dyn_chartsel.set_idcontain_rule("leagor_plank");
+	wkoscript_enrolls_from_pref(wkocourse_enrolls_);
+
+	VALIDATE(wkocourses_.empty(), null_str);
+	for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = wkocourse_enrolls_.begin(); it != wkocourse_enrolls_.end(); ++ it) {
+		const aplt::twkocourse_enroll& enroll = it->second;
+		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets_, enroll.aplt);
+		if (aplt == nullptr) {
+			continue;
+		}
+
+		std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins =
+			wkocourses_.insert(std::make_pair(enroll.id, aplt::twkocourse()));
+
+		aplt::twkocourse& wkocourse = ins.first->second;
+		std::string err_msg = wkocourse.from_aplt_file(*aplt, enroll.id_to_filename());
+
+		if (!wkocourse.valid()) {
+			wkocourses_.erase(ins.first);
+		}
+	}
 */
 }
 
@@ -1218,13 +1275,23 @@ cv::Mat health_controller::draw_days_workout_mat(bool to_image, int mat_width, d
 	return draw_days_mat(to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, slot);
 }
 
-cv::Mat health_controller::draw_days_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+cv::Mat health_controller::draw_days_idcontain_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
 	int small_font_size, int days, const std::string& title, bool is_sharing, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
 	tdyn_chartsel& dyn_chartsel)
 {
-	tdays_summary_mat_slot slot(*this, to_image, mat_width, radius,map_margin, chart_margin, 
+	tdays_idcontain_summary_mat_slot slot(*this, to_image, mat_width, radius,map_margin, chart_margin, 
 		small_font_size, days, title, is_sharing, btn_rects, tip_rects, share, 
 		&dyn_chartsel);
+	return draw_days_mat(to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, slot);
+}
+
+cv::Mat health_controller::draw_days_course_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin,
+	int small_font_size, int days, const std::string& title, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
+	tdyn_chartsel& dyn_chartsel)
+{
+	tdays_course_summary_mat_slot slot(*this, to_image, mat_width, radius,map_margin, chart_margin, 
+		small_font_size, days, title, btn_rects, tip_rects, share, 
+		dyn_chartsel);
 	return draw_days_mat(to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, slot);
 }
 
@@ -1625,7 +1692,7 @@ const cairo::tsdl_field& health_controller::tdays_workout_mat_slot::post_render_
 //
 // draw days summary mat
 //
-cairo::tsdl_field* health_controller::tdays_summary_mat_slot::pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color)
+cairo::tsdl_field* health_controller::tdays_idcontain_summary_mat_slot::pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color)
 {
 	cairo::tsdl_field* field = fields.arrays[at];
 
@@ -1732,7 +1799,7 @@ static std::string to_msg_workout_max_range(const SDL_Range& range_ms)
 	return ss.str();
 }
 
-void health_controller::tdays_summary_mat_slot::did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2)
+void health_controller::tdays_idcontain_summary_mat_slot::did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2)
 {
 	if (dyn_chartsel == nullptr) {
 		return;
@@ -1750,11 +1817,14 @@ void health_controller::tdays_summary_mat_slot::did_load_valid_result2(int day, 
 	for (std::vector<aplt::thealth::tworkout_result2>::const_iterator it = result2.workouts.begin(); it != result2.workouts.end(); ++ it, workout_at ++) {
 		const aplt::thealth::tworkout_result2& workout_result2 = *it;
 		bool skip = true;
+/*
 		if (result2.workout_cfgs.count(workout_result2.wkoscript_index) != 0) {
 			const std::string& wkoscript_cfg_str = result2.workout_cfgs.find(workout_result2.wkoscript_index)->second;
 			std::string id = aplt::wkoscript_extract_id(wkoscript_cfg_str);
 			skip = id.find(dyn_chartsel->key) == std::string::npos;
 		}
+*/
+		skip = workout_result2.id.find(dyn_chartsel->key) == std::string::npos;
 
 		if (!skip) {
 			tuint8cdata_C zip_workout = result2.find_zip_workout(workout_result2.start_s);
@@ -1786,7 +1856,7 @@ void health_controller::tdays_summary_mat_slot::did_load_valid_result2(int day, 
 	}
 }
 
-cairo::tsdl_field* health_controller::tdays_summary_mat_slot::fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool retbool, std::string& day_label_val)
+cairo::tsdl_field* health_controller::tdays_idcontain_summary_mat_slot::fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool retbool, std::string& day_label_val)
 {
 	if (dyn_chartsel == nullptr) {
 		fields.sit_durations[day] = result2.calc_workout_total(aplt::thealth::thealth_result2::type_workout_duration);
@@ -1847,7 +1917,7 @@ cairo::tsdl_field* health_controller::tdays_summary_mat_slot::fill_day_array(int
 	return &bar_4label.day;
 }
 
-cv::Mat health_controller::tdays_summary_mat_slot::cairo_draw_days_mat(int mat_height)
+cv::Mat health_controller::tdays_idcontain_summary_mat_slot::cairo_draw_days_mat(int mat_height)
 {
 	if (tip_rects.size >= days) {
 		VALIDATE(tip_rects.ptr != nullptr, null_str);
@@ -1869,7 +1939,7 @@ cv::Mat health_controller::tdays_summary_mat_slot::cairo_draw_days_mat(int mat_h
 	return cairo::draw_days_workout_dual_axis_stacked_bar_chart(to_image, mat_width, mat_height, radius, chart_margin, days, fields);
 }
 
-const cairo::tsdl_field& health_controller::tdays_summary_mat_slot::post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color)
+const cairo::tsdl_field& health_controller::tdays_idcontain_summary_mat_slot::post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color)
 {
 	const cairo::tsdl_field& field = *fields.arrays[at];
 	x_start = field.offset.x;
@@ -1895,7 +1965,7 @@ const cairo::tsdl_field& health_controller::tdays_summary_mat_slot::post_render_
 	return field;
 }
 
-const cairo::tsdl_field& health_controller::tdays_summary_mat_slot::post_render_day_array(int day, surface& surf)
+const cairo::tsdl_field& health_controller::tdays_idcontain_summary_mat_slot::post_render_day_array(int day, surface& surf)
 {
 	surface text_surf;
 	SDL_Rect dst_rect;
@@ -1938,6 +2008,467 @@ const cairo::tsdl_field& health_controller::tdays_summary_mat_slot::post_render_
 		sdl_blit(text_surf, nullptr, surf, &dst_rect);
 	}
 	return bar_3label.day;
+}
+
+//
+// draw days course summary mat
+//
+cairo::tsdl_field* health_controller::tdays_course_summary_mat_slot::pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color)
+{
+	cairo::tsdl_field* field = fields.arrays[at];
+
+	if (at == fields.fid_title) {
+		icon = "misc/workout48.png";
+		utils::string_map symbols;
+		symbols["days"] = str_cast(days);
+		// name = vgettext2("title^workout chart, $days", symbols);
+		name = title;
+		name_font_size = controller_.chart_title_font_size_;
+
+	} else if (at == fields.fid_this_days) {
+		std::stringstream ss;
+		ss << utils::format_time_ymd4(desire_start_of_today - ((days - 1) * ONE_DAY_SECONDS), true, true, true);
+		ss << "-";
+		ss << utils::format_time_ymd4(desire_start_of_today, false, true, true);
+		name = ss.str();
+		name_font_size = font::SIZE_DEFAULT;
+		cairo_color = SDL_DColor{232 / 255.0, 241 / 255.0, 250 / 255.0, 1.0};
+
+	} else if (at == fields.fid_left_y_axis) {
+		name = _("workout^Workout duration");
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_right_y_axis) {
+		name = _("workout^Workout count");
+		// name.append("/").append(_("wko^Share workout count"));
+
+		name_font_size = small_font_size;
+
+	} else if (at == fields.fid_legend_workout_duration) {
+		name = _("workout^Workout duration");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+		// cairo_color = controller_.sit_duration_color_;
+		cairo_color = controller_.workout_duration_color_;
+
+		// const SDL_DColor sit_duration_color{78 / 255.0, 175 / 255.0, 80 / 255.0, 1.0};
+
+	} /* else if (at == fields.fid_legend_improper_duration) {
+		// bool no_legend_improper_duration = true;
+		name = _("posture^Improper duration");
+		name_font_size = small_font_size;
+
+		// cairo_color = SDL_DColor{1.0, 0.0, 0.0, 1.0};
+		cairo_color = controller_.improper_duration_color_;
+
+		// const SDL_DColor improper_duration_color{252 / 255.0, 84 / 255.0, 84 / 255.0, 1.0};
+		const SDL_DColor improper_duration_color{1.0, 0.0, 0.0, 1.0};
+
+	} */ else if (at == fields.fid_legend_plan_alert) {
+		name = _("workout^Plan workout count");
+		name_font_size = small_font_size;
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 4 / 255.0, 1.0};
+		// cairo_color = SDL_DColor{1.0, 195 / 255.0, 0 / 255.0, 1.0};
+
+		// cairo_color = SDL_DColor{1.0, 165 / 255.0, 0 / 255.0, 1.0};
+		cairo_color = controller_.improper_alert_color_;
+
+	} else if (at == fields.fid_legend_actual_alert) {
+		name = _("wko^Actual workout count");
+		name_font_size = small_font_size;
+
+		cairo_color = controller_.share_alert_color_;
+
+	} else if (at == fields.fid_legend_full_wko_id) {
+		name = _("wko^Full workout id");
+		name_font_size = small_font_size;
+
+		cairo_color = SDL_DColor{0.0, 1.0, 0.0, 1.0};
+
+	} else if (at == fields.fid_legend_incomplete_wko_id) {
+		name = _("wko^Incomplete workout id");
+		name_font_size = small_font_size;
+
+		cairo_color = SDL_DColor{1.0, 165.0 / 255.0, 0.0, 1.0};
+
+	} else if (at == fields.fid_legend_pending_wko_id) {
+		name = _("wko^Pending workout id");
+		name_font_size = small_font_size;
+
+		cairo_color = SDL_DColor{0.0, 0.0, 0.0, 1.0};
+
+	} else if (at == fields.fid_chart_remark) {
+		std::stringstream name_ss;
+		name_ss << _("wko^days workout summary chart remark");
+		name = name_ss.str();
+		name_font_size = small_font_size;
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+
+	return field;
+}
+
+void health_controller::tdays_course_summary_mat_slot::did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2)
+{
+	return;
+}
+
+void health_controller::tdays_course_summary_mat_slot::calc_workout_id_colors()
+{
+	VALIDATE(id2_colors.empty(), null_str);
+
+	VALIDATE((int)wkocourse.days.size() == wkocourse.total_days, null_str);
+	for (int day_at = 0; day_at < wkocourse.total_days; day_at ++) {
+		const aplt::twkocourse::tday& day = wkocourse.days[day_at];
+		for (int at = 0; at < (int)day.workouts.size(); at ++) {
+			const aplt::twkocourse::tworkout& workout = day.workouts[at];
+			const std::string id2 = workout.get_id2(course_bundleid);
+			if (id2_colors.count(id2) == 0) {
+				const std::vector<tcairo_improper>& cairo_impropers = controller_.cairo_impropers;
+				const SDL_DColor& color = cairo_impropers[id2_colors.size() % cairo_impropers.size()].color;
+				id2_colors.insert(std::make_pair(id2, color));
+			}
+		}
+	}
+
+	aplt::twkoscript script;
+	instance->applets();
+	for (std::map<std::string, SDL_DColor>::const_iterator it = id2_colors.begin(); it != id2_colors.end(); ++ it) {
+		fields.legend_workout_ids.emplace_back(cairo::tdays_course_summary_fields::tlegend_workout_id(it->first, it->second));
+
+		cairo::tdays_course_summary_fields::tlegend_workout_id& workout_id = fields.legend_workout_ids.back();
+		
+		std::pair<std::string, std::string> pair = utils::split_app_prefix_id(workout_id.id2);
+		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(controller_.applets_, pair.first);
+		VALIDATE(aplt != nullptr, null_str);
+
+		std::string name;
+		std::string err_msg = script.from_aplt_file(*aplt, pair.second + ".cfg");
+		if (script.valid()) {
+			name = script.title;
+		} else {
+			name = pair.second;
+		}
+		int max_chars = 15;
+		name = utils::truncate_to_max_chars2(name, max_chars, true);
+
+		cairo::tsdl_field& field = workout_id.label;
+		field.set(null_str, name, small_font_size, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+}
+
+cairo::tsdl_field* health_controller::tdays_course_summary_mat_slot::fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool retbool, std::string& day_label_val)
+{
+	int course_day_at = nposm;
+	if (wkocourse_enroll.active != nposm) {
+		course_day_at = aplt::MAX_HEALTH_day_at_to_course_day_at(day, wkocourse_enroll.active, wkocourse.total_days);
+	}
+
+	std::map<std::string, int> plan_workout_id2s;
+	if (course_day_at >= 0 && course_day_at < wkocourse.total_days) {
+		fields.plan_workouts[day] = wkocourse.get_day_workout_count(course_day_at);
+		wkocourse.get_day_workout_id2s(course_day_at, course_bundleid, plan_workout_id2s);
+
+		bool mark_top = false;
+		if (top_day_label_ats.empty()) {
+			mark_top = true;
+
+		} else if (day != days - 1) {
+			int interval_days = 2;
+			if (day - top_day_label_ats.rbegin()->first >= interval_days) {
+				mark_top = true;
+			}
+		}
+		if (mark_top) {
+			top_day_label_ats.insert(std::make_pair(day, course_day_at));
+		}
+
+	} else {
+		fields.plan_workouts[day] = 0;
+	}
+
+	fields.actual_workouts[day] = SDL_Point{0, 0};
+
+	memset(dyn_chartsel.workout_durations, 0, sizeof(dyn_chartsel.workout_durations));
+	memset(dyn_chartsel.workout_count, 0, sizeof(dyn_chartsel.workout_count));
+
+	int NUM = sizeof(dyn_chartsel.max_range) / sizeof(dyn_chartsel.max_range[0]);
+	for (int at = 0; at < NUM; at ++) {
+		dyn_chartsel.max_range[at] = SDL_Range{nposm, nposm};
+	}
+
+	std::map<std::string, SDL_Point> actual_workout_id2s;
+	int workout_at = 0;
+	aplt::twkoscript script;
+	for (std::vector<aplt::thealth::tworkout_result2>::const_iterator it = result2.workouts.begin(); 
+		retbool && it != result2.workouts.end(); ++ it, workout_at ++) {
+		const aplt::thealth::tworkout_result2& workout_result2 = *it;
+		
+		// std::string id;
+		std::string id2;
+/*
+		if (result2.workout_cfgs.count(workout_result2.wkoscript_index) != 0) {
+			const std::string& wkoscript_cfg_str = result2.workout_cfgs.find(workout_result2.wkoscript_index)->second;
+			// id = aplt::wkoscript_extract_id(wkoscript_cfg_str);
+
+			// id2 = utils::join_app_prefix_id(wkocourse_enroll.aplt, id);
+			aplt::wkoscript_extract_id(wkoscript_cfg_str, &id2);
+		}
+*/
+		id2 = utils::join_app_prefix_id(workout_result2.aplt, workout_result2.id);
+
+		if (plan_workout_id2s.count(id2) != 0) {
+			tuint8cdata_C zip_workout = result2.find_zip_workout(workout_result2.start_s);
+			if (zip_workout.ptr == nullptr) {
+				VALIDATE(zip_workout.len == 0, null_str);
+			}
+		} else {
+			id2.clear();
+		}
+			
+		if (id2.empty()) {
+			continue;
+		}
+		VALIDATE(!id2.empty(), null_str);
+
+		const std::string& wkoscript_cfg_str = result2.workout_cfgs.find(workout_result2.wkoscript_index)->second;
+		// Check if it has finished.
+		config wkoscript_cfg;
+		aplt::read_config_ex(wkoscript_cfg_str, true, wkoscript_cfg);
+		VALIDATE(!wkoscript_cfg.empty(), null_str);
+
+		if (actual_workout_id2s.count(id2) == 0) {
+			actual_workout_id2s.insert(std::make_pair(id2, SDL_Point{0, 0}));
+		}
+		bool ret = script.from_cfg(wkoscript_cfg);
+		bool finished = false;
+		if (ret) {
+			finished = script.states.size() == workout_result2.flow_states2.size();
+
+		} else {
+			// May fail. The old format is too outdated, and the new format no longer supports certain syntaxes. 
+			// For example, angle2p now requires both 'min' and 'max' to be set.
+		}
+
+		if (finished) {
+			actual_workout_id2s.find(id2)->second.x ++;
+			int new_duration = workout_result2.range_ms.max - workout_result2.range_ms.min;
+			dyn_chartsel.workout_durations[day] += new_duration;
+
+		} else {
+			actual_workout_id2s.find(id2)->second.y ++;
+		}
+
+		dyn_chartsel.workout_count[day] ++;
+
+		if (finished) {
+			fields.actual_workouts[day].x ++;
+		} else {
+			fields.actual_workouts[day].y ++;
+		}
+
+		// SDL_Log("day: %i, id: %s, dyn_chartsel.workout_count[day]: %i", day, id.c_str(), dyn_chartsel.workout_count[day]);
+
+		// Take the workout with the longest duration.
+		bool update_max_range = false;
+		if (dyn_chartsel.max_range[day].min == nposm) {
+			dyn_chartsel.max_range[day].min = workout_result2.range_ms.min;
+		}
+		dyn_chartsel.max_range[day].max = workout_result2.range_ms.max;
+	}
+
+	fields.actual_workout_durations_sec[day] = dyn_chartsel.workout_durations[day];
+	fields.actual_workout_durations_sec[day] /= 1000;
+
+	// bottom's day labels
+	int time_sep = utils::timesep_unit;
+	fields.bar_4labels.push_back(cairo::tdays_course_summary_fields::tbar_4label());
+	cairo::tdays_course_summary_fields::tbar_4label& bar_4label = fields.bar_4labels.back();
+
+#define WKO_MAX_WORKOUT_IDS_PER_DAY		10  // 
+	for (std::map<std::string, int>::const_iterator it = plan_workout_id2s.begin(); it != plan_workout_id2s.end(); ++ it) {
+		const std::string& id2 = it->first;
+		bar_4label.plan_workout_ids.push_back(cairo::tdays_course_summary_fields::tworkout_id(id2));
+		cairo::tdays_course_summary_fields::tworkout_id& workout_id = bar_4label.plan_workout_ids.back();
+		workout_id.plan_workouts = it->second;
+		if (actual_workout_id2s.count(id2) != 0) {
+			workout_id.actual_workouts = actual_workout_id2s.find(id2)->second;
+		}
+		VALIDATE(id2_colors.count(id2) != 0, null_str);
+		workout_id.color = id2_colors.find(id2)->second;
+
+		if (bar_4label.plan_workout_ids.size() == WKO_MAX_WORKOUT_IDS_PER_DAY) {
+			break;
+		}
+	}
+
+	// sit duration
+	if (retbool) {
+		bar_4label.sit.set(null_str, utils::format_elapse_hm_or_ms(fields.actual_workout_durations_sec[day], true, time_sep),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.sit.clear();
+	}
+/*
+	// improper duration
+	if (retbool) {
+		bar_4label.improper.set(null_str, utils::format_elapse_hm_or_ms(fields.improper_durations[day], true, intl, false),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	} else {
+		bar_4label.improper.clear();
+	}
+*/
+
+	// The @plan_workouts has nothing to do with whether the workout was actually performed that day. 
+	// Therefore, it does not need to depend on @retbool.
+	if (fields.plan_workouts[day] != 0) {
+		bar_4label.plan_workout.set(null_str, str_cast(fields.plan_workouts[day]),
+			controller_.posture_small_font_size_, null_str, 0, SDL_Point{0, 0}, SDL_Point{0, 0});
+	}
+
+	// day label
+	day_label_val.clear();
+	if (retbool) {
+		if (dyn_chartsel.max_range[day].min != nposm) {
+			day_label_val = to_msg_workout_max_range(dyn_chartsel.max_range[day]);
+		}
+	}
+	return &bar_4label.day;
+}
+
+int health_controller::tdays_course_summary_mat_slot::get_chart_height_bonus() const
+{
+	return 16 * gui2::twidget::hdpi_scale;
+}
+
+cv::Mat health_controller::tdays_course_summary_mat_slot::cairo_draw_days_mat(int mat_height)
+{
+	if (tip_rects.size >= days) {
+		VALIDATE(tip_rects.ptr != nullptr, null_str);
+	} else {
+		if (tip_rects.ptr != nullptr) {
+			free(tip_rects.ptr);
+		}
+		tip_rects.ptr = (SDL_Rect*)malloc(sizeof(SDL_Rect) * days);
+		tip_rects.size = days;
+	}
+	tip_rects.vsize = days;
+
+	VALIDATE(fields.tip_rects == nullptr, null_str);
+	fields.tip_rects = tip_rects.ptr;
+	fields.pl_btn_rects = btn_rects;
+
+	fields.share = controller_.hide_cairo_share_? bool_set_none: share;
+
+	return cairo::draw_days_course_summary_mat(to_image, mat_width, mat_height, radius, chart_margin, days, fields);
+}
+
+const cairo::tsdl_field& health_controller::tdays_course_summary_mat_slot::post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color)
+{
+	const cairo::tsdl_field& field = *fields.arrays[at];
+	x_start = field.offset.x;
+	y_start = field.offset.y;
+	if (at == fields.fid_title) {
+		surface img_surf = image::get_image(field.icon);
+		VALIDATE(img_surf.get() != nullptr, null_str);
+		img_surf = scale_surface(img_surf, field.name_text_size.y, field.name_text_size.y);
+		SDL_Rect dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+		sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+		x_start += img_surf->w;
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_left_y_axis) {
+		font_color = font::BLACK_COLOR;
+
+	} else if (at == fields.fid_right_y_axis) {
+		const SDL_DColor& dcolor = fields.legend_plan_alert.cairo_color;
+		font_color = SDL_Color{(uint8_t)(int)(dcolor.r * 255), (uint8_t)(int)(dcolor.g * 255), (uint8_t)(int)(dcolor.b * 255), 255};
+
+	}
+	return field;
+}
+
+const cairo::tsdl_field& health_controller::tdays_course_summary_mat_slot::post_render_day_array(int day, surface& surf)
+{
+	surface text_surf;
+	SDL_Rect dst_rect;
+
+	const cairo::tdays_course_summary_fields::tbar_4label& bar_3label = fields.bar_4labels[day];
+	// const cairo::tdays_workout_fields::tbar_4label& bar_3label = *it;
+
+	SDL_Color font_color = font::SDL_DColor_to_SDL_Color(fields.legend_workout_duration.cairo_color);
+	int x_start;
+	int y_start;
+	// sit duration
+	const cairo::tsdl_field* field = &bar_3label.sit;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+/*
+	// improper duration
+	font_color = font::SDL_DColor_to_SDL_Color(fields.legend_improper_duration.cairo_color);
+	field = &bar_3label.improper;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+*/
+	// improper alert
+	// font_color = font::SDL_DColor_to_SDL_Color(fields.legend_plan_alert.cairo_color);
+	font_color = font::BLACK_COLOR;
+	field = &bar_3label.plan_workout;
+	if (!field->name.empty()) {
+		text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
+		x_start = field->offset.x;
+		y_start = field->offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+
+	if (top_day_label_ats.count(day) != 0) {
+		int course_day_at = top_day_label_ats.find(day)->second;
+		char buf[32];
+		SDL_snprintf(buf, sizeof(buf), "Day %i", course_day_at + 1);
+		font_color = controller_.day_label_color(day, bar_3label.day);
+		// font_color = font::BLACK_COLOR;
+		text_surf = font::get_rendered_text(buf, INT_MAX, controller_.posture_small_font_size_, font_color);
+
+		x_start = field->offset.x + field->name_text_size.x / 2 - text_surf->w / 2;
+		const cairo::tsdl_field& field2 = *fields.arrays[fields.fid_left_y_axis];
+		y_start = field2.offset.y;
+		dst_rect = ::create_rect(x_start, y_start, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+
+	return bar_3label.day;
+}
+
+void health_controller::tdays_course_summary_mat_slot::post_render_other_sdl_fields(surface& surf)
+{
+	surface text_surf;
+	SDL_Rect dst_rect;
+	for (std::vector<cairo::tdays_course_summary_fields::tlegend_workout_id>::iterator it = fields.legend_workout_ids.begin(); it != fields.legend_workout_ids.end(); ++ it) {
+		const cairo::tdays_course_summary_fields::tlegend_workout_id& workout_id = *it;
+		cairo::tsdl_field& field = it->label;
+
+		text_surf = font::get_rendered_text(field.name, INT_MAX, field.name_font_size, font::GRAY_COLOR);
+		{
+			// text_surf = image::get_image("misc/chart_background.png");
+			// text_surf = scale_surface(text_surf, 40, 20);
+		}
+		dst_rect = ::create_rect(field.offset.x, field.offset.y, text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
 }
 
 cv::Mat health_controller::draw_days_mat(bool to_image, int mat_width, double radius, const SDL_Point& /*map_margin*/, const SDL_Point& chart_margin,
@@ -2094,7 +2625,7 @@ cv::Mat health_controller::draw_days_mat(bool to_image, int mat_width, double ra
 	}
 	slot.get_3height(day_labels_height2, title_height, legend_height, day_labels_height);
 
-	const int chart_height = chart_height_;
+	const int chart_height = chart_height_ + slot.get_chart_height_bonus();
 	const int mat_height = chart_margin_.y + title_height + legend_height +
 		chart_height + day_labels_height + chart_margin_.y;
 	//
@@ -2119,22 +2650,26 @@ cv::Mat health_controller::draw_days_mat(bool to_image, int mat_width, double ra
 				sdl_blit(text_surf, nullptr, surf, &dst_rect);
 			}
 		}
-
+/*
 		const SDL_Color period_color[] = {
 			// font::SDL_DColor_to_SDL_Color(fields.legend_sit_duration.cairo_color),
 			{255, 0, 0, 255},
 			{100, 149, 237, 255},
 		};
+*/
 		for (int day_at = 0; day_at < days; day_at ++) {
 			const cairo::tsdl_field& day_field = slot.post_render_day_array(day_at, surf);
 			// day label
-			bool odd = day_at & 1;
-			const SDL_Color& color = period_color[odd? 1: 0];
 
+			bool odd = day_at & 1;
+/*
+			const SDL_Color& color = day_period_color_[odd? 1: 0];
+*/
 			// field = &bar_3label.day;
 			const cairo::tsdl_field* field = &day_field;
 			// font_color = font::GRAY_COLOR;
-			SDL_Color font_color = !field->val.empty() && odd? color: font::GRAY_COLOR;
+			// SDL_Color font_color = !field->val.empty() && odd? color: font::GRAY_COLOR;
+			SDL_Color font_color = day_label_color(day_at, day_field);
 			text_surf = font::get_rendered_text(field->name, INT_MAX, field->name_font_size, font_color);
 			int x_start = field->offset.x - field->name_text_size.x / 2;
 			int y_start = field->offset.y + field->margin.y;
@@ -2155,8 +2690,21 @@ cv::Mat health_controller::draw_days_mat(bool to_image, int mat_width, double ra
 				sdl_blit(text_surf, nullptr, surf, &dst_rect);
 			}
 		}
+
+		slot.post_render_other_sdl_fields(surf);
 	}
 	return result_mat;
+}
+
+SDL_Color health_controller::day_label_color(int day_at, const cairo::tsdl_field& day_field) const
+{
+	bool odd = day_at & 1;
+	const SDL_Color& color = day_period_color_[odd? 1: 0];
+
+	// field = &bar_3label.day;
+	const cairo::tsdl_field* field = &day_field;
+	// font_color = font::GRAY_COLOR;
+	return !field->val.empty() && odd? color: font::GRAY_COLOR;
 }
 
 health_controller::ttip6 health_controller::parse_tip_at(int workout_at, const aplt::thealth::tworkout_result2& workout, const tworkout_mat2_C& mat2, int tip_at) const
@@ -2257,6 +2805,7 @@ cv::Mat health_controller::draw_tip_mat(bool to_image, int /*allowed_width*/, in
 	std::stringstream right_label_ss;
 
 	const aplt::tflow_state_C& flow_state = flow_states[tip6.flow_state_at];
+	
 	const config* state2_cfg = nullptr;
 	if (flow_state.state >= 0 && wkoscript_cfg.has_child("state2")) {
 		const config& cfg2 = wkoscript_cfg.child("state2", flow_state.state);
@@ -2264,9 +2813,15 @@ cv::Mat health_controller::draw_tip_mat(bool to_image, int /*allowed_width*/, in
 			state2_cfg = &cfg2;
 		}
 	}
-	VALIDATE(state2_cfg != nullptr, null_str);
+
+	const aplt::twkoscript::tstate2* state2 = nullptr;
+	if (flow_state.state >= 0 && mat2.script->valid() && flow_state.state < (int)mat2.script->states.size()) {
+		state2 = &mat2.script->states.find(flow_state.state)->second;
+	}
+	// VALIDATE(state2 != nullptr, null_str);
 
 	std::string state_name = "Unknown state name";
+	// Do not use @state2 to get @state_name. if old script, @state2 will always be nullptr.
 	if (state2_cfg != nullptr) {
 		state_name = (*state2_cfg)["state"].str();
 	}
@@ -2281,11 +2836,11 @@ cv::Mat health_controller::draw_tip_mat(bool to_image, int /*allowed_width*/, in
 	header_str.append(state_name);
 
 	std::vector<std::string> unsatisfied_legend_names;
-	if (state2_cfg != nullptr) {
-		const config& track_pose_cfg = state2_cfg->child("track_pose");
-		if (track_pose_cfg) {
-			BOOST_FOREACH (const config &pose_cfg, track_pose_cfg.child_range("pose")) {
-				std::string legend_str = pose_cfg["name"].str();
+	if (state2 != nullptr) {
+		if (!state2->track_pose.poses.empty()) {
+			for (int pose_at = 0; pose_at < state2->track_pose.poses.size(); pose_at ++) {
+				const aplt::twkoscript::tpose& pose = state2->track_pose.poses[pose_at];
+				const std::string legend_str = pose.name;
 				VALIDATE(!legend_str.empty(), null_str);
 				unsatisfied_legend_names.push_back(legend_str);
 			}
@@ -3408,7 +3963,7 @@ void test_calculate_best_chinese_chars()
 
 void push_col2_to_bar_4labels(const cairo::tworkout_fields::tcol2_C& col2, 
 	cairo::tworkout_fields& fields, int posture_small_font_size, const aplt::tflow_state_C& flow_state,
-	const aplt::thealth::tworkout_result2& workout, const config* state2_cfg, int max_state_name_chars,
+	const aplt::thealth::tworkout_result2& workout, int max_state_name_chars,
 	int& max_day_labels_height, SDL_Size& max_state_name_labels_size, bool& day_label_use_2line,
 	int& last_state_name_label_width, double column_width, const std::string& day_str, const std::string& state_name)
 {
@@ -3459,14 +4014,7 @@ void push_col2_to_bar_4labels(const cairo::tworkout_fields::tcol2_C& col2,
 
 	// day label
 	VALIDATE(!day_str.empty() && !state_name.empty(), null_str);
-/*
-	std::string day_str = utils::format_elapse_hm_or_ms(flow_state.start_s - workout.range.min, true, time_sep, false);
-	std::string state_name = "Unknown state name";
-	if (state2_cfg != nullptr) {
-		state_name = (*state2_cfg)["state"].str();
-	}
-	state_name = utils::truncate_to_max_chars2(state_name, max_state_name_chars, true);
-*/
+
 	bar_4label.day.set(null_str, day_str, posture_small_font_size,
 		state_name, posture_small_font_size, SDL_Point{4, 0}, {4, 0});
 
@@ -3620,13 +4168,24 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 				state2_cfg = &cfg2;
 			}
 		}
-		bool is_pose_state = state2_cfg == nullptr || state2_cfg->has_child("track_pose");
-		const bool has_seg_or_rep = flow_state.seg_count != 0 || flow_state.rep_count != 0;
-		if (is_pose_state) {
-			fields.has_pose_state = true;
+
+		const aplt::twkoscript::tstate2* state2 = nullptr;
+		if (flow_state.state >= 0 && workout_mat2.script->valid() && flow_state.state < (int)workout_mat2.script->states.size()) {
+			state2 = &workout_mat2.script->states.find(flow_state.state)->second;
 		}
 
+		const bool has_seg_or_rep = flow_state.seg_count != 0 || flow_state.rep_count != 0;
+		if (has_seg_or_rep) {
+			fields.has_pose_state = true;
+		}
+		// Do not use @state2 to determine is_pose_state. 
+		// --This is because the wkoscript may be an old script that the new version of the app may no longer be able to open, 
+		// in which case @state2 will always be nullptr.
+		// bool is_pose_state = state2 != nullptr && !state2->track_pose.poses.empty();
+		bool is_pose_state = has_seg_or_rep;
+
 		std::string state_name = "Unknown state name";
+		// Do not use @state2 to get @state_name. if old script, @state2 will always be nullptr.
 		if (state2_cfg != nullptr) {
 			state_name = (*state2_cfg)["state"].str();
 		}
@@ -3652,18 +4211,18 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 			std::string day_str = utils::format_elapse_hm_or_ms((flow_state.start_ms - workout.range_ms.min) / 1000, true, time_sep2, false);
 
 			push_col2_to_bar_4labels(to_col2, fields, metrics.posture_small_font_size_, flow_state, workout,
-				state2_cfg, max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
+				max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
 				day_label_use_2line, last_state_name_label_width, column_width, day_str, state_name);
 
 			col_at ++;
 		}
 
 		std::vector<std::string> unsatisfied_legend_names;
-		if (state2_cfg != nullptr) {
-			const config& track_pose_cfg = state2_cfg->child("track_pose");
-			if (track_pose_cfg) {
-				BOOST_FOREACH (const config &pose_cfg, track_pose_cfg.child_range("pose")) {
-					std::string legend_str = pose_cfg["name"].str();
+		if (state2 != nullptr) {
+			if (!state2->track_pose.poses.empty()) {
+				for (int pose_at = 0; pose_at < state2->track_pose.poses.size(); pose_at ++) {
+					const aplt::twkoscript::tpose& pose = state2->track_pose.poses[pose_at];
+					const std::string legend_str = pose.name;
 					VALIDATE(!legend_str.empty(), null_str);
 					unsatisfied_legend_names.push_back(legend_str);
 				}
@@ -3751,7 +4310,7 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 				}
 
 				push_col2_to_bar_4labels(to_col2, fields, metrics.posture_small_font_size_, flow_state, workout,
-					state2_cfg, max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
+					max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
 					day_label_use_2line, last_state_name_label_width, column_width, day_str, fake_state_name);
 
 				col_at ++;
@@ -3801,7 +4360,7 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 
 				std::string fake_state_name = std::string("#") + str_cast(seg_at + 1);
 				push_col2_to_bar_4labels(to_col2, fields, metrics.posture_small_font_size_, flow_state, workout,
-					state2_cfg, max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
+					max_state_name_chars, max_day_labels_height, max_state_name_labels_size,
 					day_label_use_2line, last_state_name_label_width, column_width, day_str, fake_state_name);
 
 				col_at ++;
@@ -3832,7 +4391,11 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 		SDL_DColor cairo_color{0.0, 0.0, 0.0, 0.0};
 		if (at == fields.fid_title) {
 			icon = "misc/workout48.png";
-			name = wkoscript_cfg["name"].str();
+			name = wkoscript_cfg["title"].str();
+			if (name.empty()) {
+				// 2026-9-25
+				name = wkoscript_cfg["name"].str();
+			}
 			std::string author = wkoscript_cfg["author"].str();
 			if (!author.empty()) {
 				name.append("@" + author);
@@ -4340,6 +4903,7 @@ void health_controller::draw_workout_mat_from_cache(int item_at)
 	VALIDATE(dyn_chartsel.result2s[at2.day_at] != nullptr, null_str);
 	const aplt::thealth::thealth_result2& result2 = *dyn_chartsel.result2s[at2.day_at];
 	cv::Mat mat;
+
 	SDL_Size mat_size = draw_workout_mat(*this, cairo::wkomattype_health, mat2.cache_mat_size.w, hide_cairo_share_,
 		result2, at2.workout_at, mat2, mat2.btn_rects, &mat2.tip_rects, mat2.rep_steps, &mat2.chart_margin_lr, &mat);
 	VALIDATE(mat_size.w == mat.cols && mat_size.h == mat.rows, null_str);
@@ -4781,9 +5345,66 @@ void health_controller::refresh_days_chart(int days)
 	item->mat_size = SDL_Size{item->mat->cols, item->mat->rows};
 }
 
+std::string wkocourse_enroll_miss_course_msg(const std::map<aplt::taplt_key, aplt::tapplet>& applets, const std::string& enroll_id2)
+{
+	std::string msg;
+
+	utils::string_map symbols;
+	symbols["course"] = enroll_id2;
+
+	std::pair<std::string, std::string> pair = utils::split_app_prefix_id(enroll_id2);
+	const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets, pair.first);
+	if (aplt == nullptr) {
+		msg = vgettext2("wko^miss course, no aplt, $course", symbols);
+
+	} else {
+		symbols["aplt"] = aplt->name2();
+		msg = vgettext2("wko^miss course, aplt hasn't course, $course, $aplt", symbols);
+	}
+	return msg;
+}
+
+cv::Mat health_controller::draw_miss_days_course_summary_mat(const tdyn_chartsel& dyn_chartsel, int mat_width)
+{
+	VALIDATE(dyn_chartsel.type == dyncharttype_course, null_str);
+
+	const std::string& id2 = dyn_chartsel.key;
+	bool enroll_valid = wkocourse_enrolls_.count(id2) != 0;
+	bool course_valid = wkocourses_.count(id2) != 0;
+	VALIDATE(!enroll_valid || !course_valid, null_str);
+
+	std::string msg;
+	utils::string_map symbols;
+	symbols["course"] = id2;
+	if (!enroll_valid) {
+		msg = vgettext2("wko^miss course, no enroll, $course", symbols);
+
+	} else {
+		VALIDATE(!course_valid, null_str);
+		msg = wkocourse_enroll_miss_course_msg(applets_, id2);
+	}
+	VALIDATE(!msg.empty(), null_str);
+
+	int mat_height = 128 * gui2::twidget::hdpi_scale;
+	cv::Mat result_mat = cv::Mat::zeros(mat_height, mat_width, CV_8UC4);
+	result_mat.setTo(cv::Scalar(249, 245, 240, 255));
+	{
+		surface surf(result_mat);
+
+		SDL_Color font_color = font::BLACK_COLOR;
+
+		surface text_surf = font::get_rendered_text(msg, INT_MAX, font::SIZE_DEFAULT, font_color);
+		SDL_Rect dst_rect = ::create_rect((surf->w - text_surf->w) / 2, (surf->h - text_surf->h) / 2,
+			text_surf->w, text_surf->h);
+		sdl_blit(text_surf, nullptr, surf, &dst_rect);
+	}
+
+	return result_mat;
+}
+
 void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, bool redraw_only, const SDL_Point& redraw_which_chart)
 {
-	VALIDATE(dyn_chartsel.type == dyncharttype_idcontain, null_str);
+	VALIDATE(dyn_chartsel.type == dyncharttype_idcontain || dyn_chartsel.type == dyncharttype_course, null_str);
 	const std::string& key_id = dyn_chartsel.key;
 	VALIDATE(!key_id.empty(), null_str);
 
@@ -4805,8 +5426,10 @@ void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, boo
 	int offset_y = map_margin_.y + 0;
 
 	const int small_font_size = posture_small_font_size_;
+	
+	// Even if the wkocourse.total_days is less than MAX_HEALTH_DAYS, 
+	// days is also equal to MAX_HEALTH_DAYS.
 	const int days = MAX_HEALTH_DAYS;
-
 	std::vector<bool_set_t> workout_shares;
 
 	int share_workout_count[MAX_HEALTH_DAYS];
@@ -4841,9 +5464,51 @@ void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, boo
 	} else {
 		calculate_share_workout_count(dyn_chartsel);
 	}
-	summary_mat_.mat = draw_days_summary_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
-		dyn_chartsel.chart_title(), is_sharing_, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
-		dyn_chartsel);
+
+	const aplt::twkocourse_enroll* wkocourse_enroll = nullptr;
+	const aplt::twkocourse* wkocourse = nullptr;
+	std::string course_bundleid;
+/*
+	if (dyn_chartsel.type == dyncharttype_course) {
+		bool enroll_valid = wkocourse_enrolls_.count(key_id) != 0;
+		bool course_valid = wkocourses_.count(key_id) != 0;
+
+		if (!enroll_valid || !course_valid) {
+			int mat_width = width - map_margin_.x * 2;
+			int mat_height = 128 * gui2::twidget::hdpi_scale;
+			summary_mat_.mat = cv::Mat(mat_height, mat_width, CV_8UC4);
+			return;
+		}
+
+		wkocourse_enroll = &wkocourse_enrolls_.find(key_id)->second;
+		wkocourse = &wkocourses_.find(key_id)->second;		
+		course_bundleid = utils::split_app_prefix_id(dyn_chartsel.key).first;
+	}
+*/
+	if (dyn_chartsel.type == dyncharttype_idcontain) {
+		summary_mat_.mat = draw_days_idcontain_summary_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
+			dyn_chartsel.chart_title(*this), is_sharing_, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
+			dyn_chartsel);
+
+	} else {
+		VALIDATE(dyn_chartsel.type == dyncharttype_course, null_str);
+
+		bool enroll_valid = wkocourse_enrolls_.count(key_id) != 0;
+		bool course_valid = wkocourses_.count(key_id) != 0;
+
+		if (enroll_valid && course_valid) {
+			summary_mat_.mat = draw_days_course_summary_mat(false, width - map_margin_.x * 2, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
+				dyn_chartsel.chart_title(*this), summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
+				dyn_chartsel);
+
+			wkocourse_enroll = &wkocourse_enrolls_.find(key_id)->second;
+			wkocourse = &wkocourses_.find(key_id)->second;		
+			course_bundleid = utils::split_app_prefix_id(dyn_chartsel.key).first;
+
+		} else {
+			summary_mat_.mat = draw_miss_days_course_summary_mat(dyn_chartsel, width - map_margin_.x * 2);
+		}
+	}
 	if (!redraw_only) {
 		item = (tdraw_item*)draw_items_.append_1();
 		item->type = mattype_summary;
@@ -4869,6 +5534,8 @@ void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, boo
 	//
 	// workout chart
 	//
+	const std::string actual_bundleid = "aplt.leagor.khomelua";
+
 	const time_t t = time(nullptr); // + ONE_DAY_SECONDS * 15
 	const int64_t desire_start_of_today = utils::calculate_0h0m0s_ts(t);
 	// struct tm first_day_tm;
@@ -4877,6 +5544,9 @@ void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, boo
 	aplt::thealth::thealth_result2 result2_for_not_last;
 	const tdyn_chartsel::tworkout_at2* at2s = (tdyn_chartsel::tworkout_at2*)dyn_chartsel.workout_at2s.data;
 	for (int day = 0; day < days; day ++) {
+		if (dyn_chartsel.type == dyncharttype_course && wkocourse == nullptr) {
+			break;
+		}
 		// Today's 'result2' uses fixed data(curr_day_result2_) to prevent users from appending additional data to it during look.
 		bool is_last_day = day == days - 1;
 		if (!redraw_only && summary_mat_.draw_item_at == nposm) {
@@ -4910,16 +5580,42 @@ void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, boo
 			continue;
 		}
 
+		std::map<std::string, int> plan_workout_id2s;
+		if (wkocourse != nullptr) {
+			int course_day_at = nposm;
+			if (wkocourse_enroll->active != nposm) {
+				course_day_at = aplt::MAX_HEALTH_day_at_to_course_day_at(day, wkocourse_enroll->active, wkocourse->total_days);
+			}
+			if (course_day_at >= 0 && course_day_at < wkocourse->total_days) {
+				wkocourse->get_day_workout_id2s(course_day_at, course_bundleid, plan_workout_id2s);
+			}
+		}
+
 		int workout_at = 0;
 		for (std::vector<aplt::thealth::tworkout_result2>::const_iterator it = result2.workouts.begin(); it != result2.workouts.end(); ++ it, workout_at ++) {
 			const aplt::thealth::tworkout_result2& workout_result2 = *it;
 			VALIDATE(workout_result2.start_of_today == result2.start_of_today, null_str);
 
 			bool skip = true;
+			std::string id;
+			std::string id2;
+/*
 			if (result2.workout_cfgs.count(workout_result2.wkoscript_index) != 0) {
 				const std::string& wkoscript_cfg_str = result2.workout_cfgs.find(workout_result2.wkoscript_index)->second;
-				std::string id = aplt::wkoscript_extract_id(wkoscript_cfg_str);
+				id = aplt::wkoscript_extract_id(wkoscript_cfg_str, &id2);
+				// id2 = utils::join_app_prefix_id(actual_bundleid, id);
+			}
+*/
+			id = workout_result2.id;
+			id2 = utils::join_app_prefix_id(workout_result2.aplt, id);
+
+			if (dyn_chartsel.type == dyncharttype_idcontain) {
 				skip = id.find(dyn_chartsel.key) == std::string::npos;
+
+			} else {
+				VALIDATE(dyn_chartsel.type == dyncharttype_course, null_str);
+				VALIDATE(wkocourse != nullptr, null_str);
+				skip = plan_workout_id2s.count(id2) == 0;
 			}
 			
 			if (skip) {
@@ -5139,7 +5835,7 @@ void health_controller::refresh_chart_by_sel(int64_t sel)
 	dlg_->flt_erase_widget().set_visible(sel >= chartsel_dyn_min);
 	dlg_->set_status_label(default_status_msg());
 
-	SDL_Log("{dbg-vsize}refresh_chart_by_sel, pre fresh_xxx_chart, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
+	// SDL_Log("{dbg-vsize}refresh_chart_by_sel, pre fresh_xxx_chart, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
 
 	if (is_day_chartsel(sel)) {
 		time_t desire_time = day_chartsel_2_t(sel);
@@ -5152,12 +5848,12 @@ void health_controller::refresh_chart_by_sel(int64_t sel)
 	} else {
 		VALIDATE(sel >= chartsel_dyn_min, null_str);
 		VALIDATE(sel - chartsel_dyn_min < (int)dyn_chartsels_.size(), null_str);
-		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
 
+		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
 		refresh_idcontain_chart(dyn_chartsel, false);
 	}
 
-	SDL_Log("{dbg-vsize}refresh_chart_by_sel, pose fresh_xxx_chart, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
+	// SDL_Log("{dbg-vsize}refresh_chart_by_sel, pose fresh_xxx_chart, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
 
 	make_sure_map();
 }
@@ -5409,9 +6105,25 @@ void health_controller::do_save_image(const std::string& watermark_msg)
 			days = 30;
 		}
 	} else {
-		filename_prfix = "share_idcontain_";
-		days = MAX_HEALTH_DAYS;
+		VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
+		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[curr_chartsel_ - chartsel_dyn_min];
+
+		int _days = MAX_HEALTH_DAYS;
+		if (dyn_chartsel.type == dyncharttype_idcontain) {
+			filename_prfix = "share_idcontain_";
+
+		} else {
+			VALIDATE(dyn_chartsel.type == dyncharttype_course, null_str);
+			filename_prfix = "share_course_";
+			const aplt::twkocourse& wkocourse = wkocourses_.find(dyn_chartsel.key)->second;
+			if (wkocourse.total_days < MAX_HEALTH_DAYS) {
+				// _days = wkocourse.total_days;
+			}
+		}
+		days = _days;
+		VALIDATE(days == MAX_HEALTH_DAYS, null_str);
 	}
+
 	VALIDATE(bg_width > 0 && bg_height > 0, null_str);
 
 	void* pixel_data = nullptr;
@@ -5512,10 +6224,32 @@ void health_controller::do_save_image(const std::string& watermark_msg)
 			bool is_sharing = true; // is_sharing_
 			// bool_set_t mat_sharing = bool_set_none; // summary_mat_.share
 			calculate_share_workout_count(dyn_chartsel);
-			cv::Mat summary_mat = draw_days_summary_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
-				dyn_chartsel.chart_title(), is_sharing, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
-				dyn_chartsel);
-			
+			cv::Mat summary_mat;
+			if (dyn_chartsel.type == dyncharttype_idcontain) {
+				summary_mat = draw_days_idcontain_summary_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
+					dyn_chartsel.chart_title(*this), is_sharing, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
+					dyn_chartsel);
+
+			} else {
+				VALIDATE(dyn_chartsel.type == dyncharttype_course, null_str);
+
+				bool enroll_valid = wkocourse_enrolls_.count(dyn_chartsel.key) != 0;
+				bool course_valid = wkocourses_.count(dyn_chartsel.key) != 0;
+
+				if (enroll_valid && course_valid) {
+					summary_mat = draw_days_course_summary_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
+						dyn_chartsel.chart_title(*this), summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
+						dyn_chartsel);
+
+					// wkocourse_enroll = &wkocourse_enrolls_.find(key_id)->second;
+					// wkocourse = &wkocourses_.find(key_id)->second;		
+					// course_bundleid = utils::split_app_prefix_id(dyn_chartsel.key).first;
+
+				} else {
+					summary_mat = draw_miss_days_course_summary_mat(dyn_chartsel, bg_width);
+				}
+			}
+
 			dst_rect = create_rect(0, y_offset, summary_mat.cols, summary_mat.rows);
 			if (cvt_code != nposm) {
 				cv::cvtColor(summary_mat, summary_mat, cvt_code);
@@ -5622,205 +6356,6 @@ void health_controller::do_save_image(const std::string& watermark_msg)
 	gui2::show_message(null_str, msg);
 }
 
-/*
-void health_controller::do_save_image(const std::string& watermark_msg)
-{
-	VALIDATE(curr_chartsel_ != nposm, null_str);
-
-	tworkout_mat2_C* mat2s = (tworkout_mat2_C*)workout_mat2s_.data;
-	std::string filename_prfix;
-	int days = nposm;
-	SDL_Size snapshot_size = calculate_snapshot_size(true);
-	int bg_width = snapshot_size.w;
-	int bg_height = snapshot_size.h;
-	if (is_day_chartsel(curr_chartsel_)) {
-		filename_prfix = "share_day_";
-
-	} else if (is_days_chartsel(curr_chartsel_)) {
-		if (curr_chartsel_ == chartsel_15days) {
-			filename_prfix = "share_15days-";
-			days = 15;
-
-		} else {
-			VALIDATE(curr_chartsel_ == chartsel_30days, null_str);
-			filename_prfix = "share_30days-";
-			days = 30;
-		}
-	} else {
-		filename_prfix = "share_idcontain_";
-		days = MAX_HEALTH_DAYS;
-	}
-	VALIDATE(bg_width > 0 && bg_height > 0, null_str);
-
-	surface bg_surf = create_neutral_surface(bg_width, bg_height);
-	// SDL_Color almost_white{240, 245, 249, 255};
-	uint32_t bg_color = 0xfff0f5f9; // {240, 245, 249, 255}
-	// uint32_t bg_color = 0xffff0000;
-	fill_surface(bg_surf, bg_color);
-
-	SDL_Rect dst_rect;
-	const int small_font_size = posture_small_font_size_;
-
-	int y_offset = 0;
-	thide_cairo_share_lock lock(*this);
-	const int sel = curr_chartsel_;
-	if (is_day_chartsel(sel)) {
-		time_t desire_time = day_chartsel_2_t(sel);
-		filename_prfix = filename_prfix + utils::format_time_ymd2(desire_time, '\0', true) + "-";
-
-		const aplt::thealth::thealth_result2& result2 = curr_day_result2_;
-		// bool retbool = health_.load_health_data_4_report(desire_time, result2);
-
-		if (header_mat_.share != bool_set_false) {
-			cv::Mat header_mat = draw_header_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, result2);
-			dst_rect = create_rect(0, y_offset, header_mat.cols, header_mat.rows);
-			sdl_blit(header_mat, nullptr, bg_surf, &dst_rect);
-
-			y_offset += dst_rect.h + charts_gap_y_;
-		}
-
-		//
-		// sit chart
-		//
-		if (sit_mat_.share != bool_set_false) {
-			cv::Mat sit_mat = draw_sit_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, result2);
-
-			dst_rect = create_rect(0, y_offset, sit_mat.cols, sit_mat.rows);
-			sdl_blit(sit_mat, nullptr, bg_surf, &dst_rect);
-
-			y_offset += dst_rect.h + charts_gap_y_;
-		}
-
-		int header_hide_height = 0;
-		if (header_mat_.share == bool_set_false) {
-			header_hide_height += header_mat_.mat.rows;
-		}
-		if (sit_mat_.share == bool_set_false) {
-			header_hide_height += charts_gap_y_ + sit_mat_.mat.rows;
-		}
-
-		do_save_workout_mat2s_and_tip(bg_width, nullptr, header_hide_height, bg_surf, y_offset);
-
-	} else if (is_days_chartsel(sel)) {
-		cv::Mat days_posture_mat = draw_days_sit_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days);
-		dst_rect = create_rect(0, 0, days_posture_mat.cols, days_posture_mat.rows);
-		sdl_blit(days_posture_mat, nullptr, bg_surf, &dst_rect);
-
-		y_offset = dst_rect.y + dst_rect.h;
-		cv::Mat* tmp_mat = &days_workout_mat_;
-		dst_rect = create_rect(0, y_offset + charts_gap_y_, tmp_mat->cols, tmp_mat->rows);
-		sdl_blit(*tmp_mat, nullptr, bg_surf, &dst_rect);
-
-	} else {
-		VALIDATE(sel >= chartsel_dyn_min, null_str);
-		tdyn_chartsel& dyn_chartsel = *dyn_chartsels_[sel - chartsel_dyn_min];
-
-		filename_prfix = filename_prfix + dyn_chartsel.key + "-";
-
-		if (summary_mat_.share != bool_set_false) {
-			bool is_sharing = true; // is_sharing_
-			// bool_set_t mat_sharing = bool_set_none; // summary_mat_.share
-			calculate_share_workout_count(dyn_chartsel);
-			cv::Mat summary_mat = draw_days_summary_mat(true, bg_width, chart_radius_, map_margin_, chart_margin_, small_font_size, days,
-				dyn_chartsel.chart_title(), is_sharing, summary_mat_.btn_rects, summary_mat_.tip_rects, summary_mat_.share, 
-				dyn_chartsel);
-
-			dst_rect = create_rect(0, y_offset, summary_mat.cols, summary_mat.rows);
-			sdl_blit(summary_mat, nullptr, bg_surf, &dst_rect);
-
-			y_offset += dst_rect.h + charts_gap_y_;
-		}
-
-		int header_hide_height = 0;
-		if (summary_mat_.share == bool_set_false) {
-			header_hide_height += summary_mat_.mat.rows;
-		}
-
-		do_save_workout_mat2s_and_tip(bg_width, &dyn_chartsel, header_hide_height, bg_surf, y_offset);
-	}
-
-	if (!watermark_msg.empty()) {
-		surface surf = font::get_rendered_text(watermark_msg, INT_MAX, watermark_font_size_, watermark_font_color_);
-
-		int x = bg_width - surf->w - chart_margin_.x;
-		int y = bg_height - chart_margin_.y + (chart_margin_.y - surf->h) / 2;
-		dst_rect = create_rect(x, y, surf->w, surf->h);
-		sdl_blit(surf, nullptr, bg_surf, &dst_rect);
-	}
-
-	const std::string filename = filename_prfix + utils::format_time_ymdhms2(time(nullptr)) + ".png";
-	std::string full_filename;
-
-	utils::string_map symbols;
-	bool save_album_ok = false;
-    bool no_album_dir = false;
-	std::string fail_reason = _("Please check permissions");
-	// Why do both if branches have 'game_config::os == os_windows'? 
-	// This is to allow debugging of SDL_xxx APIs in both entry points.
-	if (game_config::os == os_windows || game_config::os == os_android) {
-	// if (game_config::os == os_android) {
-		char path_buf[256];
-		int len = SDL_GetPublicDirectory(SDL_PDirPictures, path_buf, sizeof(path_buf));
-		if (path_buf[0] != '\0') {
-			full_filename = path_buf;
-			if (game_config::os == os_windows || game_config::os == os_android) {
-				full_filename.append("/Screenshots");
-				SDL_MakeDirectory(full_filename.c_str());
-			}
-			full_filename.append("/" + filename);
-			SDL_Log("{do_save_image[android]}save 1th filename: %s", full_filename.c_str());
-			imwrite(bg_surf, full_filename);
-			save_album_ok = SDL_IsFile(full_filename.c_str());
-			if (save_album_ok) {
-				SDL_NotifyMediaFileAdded(full_filename.c_str());
-
-			} else {
-				symbols["dir"] = utils::extract_file(path_buf);
-				fail_reason = vgettext2("Failed to save to \"$dir\"", symbols);
-			}
-		} else if (game_config::os == os_windows) {
-			no_album_dir = true;
-		}
-	
-		if (!save_album_ok) {
-			full_filename = game_config::preferences_dir + "/saves/" + filename;
-			SDL_Log("{do_save_image[android]}save 2th filename: %s", full_filename.c_str());
-			imwrite(bg_surf, full_filename);
-		}
-
-	} else if (game_config::os == os_windows || game_config::os == os_ios) {
-		full_filename = game_config::preferences_dir + "/saves/" + filename;
-		SDL_Log("{do_save_image[ios]}save tmp filename: %s", full_filename.c_str());
-		imwrite(bg_surf, full_filename);
-		if (SDL_NotifyMediaFileAdded(full_filename.c_str())) {
-			SDL_Log("{do_save_image[ios]}to album ok, delete tmp filename: %s", full_filename.c_str());
-			SDL_DeleteFiles(full_filename.c_str());
-			save_album_ok = true;
-
-		} else {
-			SDL_Log("{do_save_image[ios]}to album fail, keep tmp filename: %s", full_filename.c_str());
-		}
-
-	} else {
-		VALIDATE(false, null_str);
-	}
-
-	std::string msg = _("Saved to Photos");
-	if (!save_album_ok) {
-		symbols["file"] = full_filename;
-		if (no_album_dir) {
-			VALIDATE(game_config::os == os_windows, null_str);
-			symbols["type"] = _("Image");
-			msg = vgettext2("$type file has been generated.\nPath: $file", symbols);
-
-		} else {
-			symbols["reason"] = fail_reason;
-			msg = vgettext2("Failed to save to Photos. $reason. The image is saved in the app's private directory.\nPath: $file", symbols);
-		}
-	}
-	gui2::show_message(null_str, msg);
-}
-*/
 #define WKO_MIN_ID_CHARS		5
 
 bool health_controller::verify_dyn_chart_inc_id(const std::string& label) const
@@ -5837,57 +6372,121 @@ bool health_controller::verify_dyn_chart_inc_id(const std::string& label) const
 
 void health_controller::click_insert_dyn_chart(gui2::tbutton& widget)
 {
-	utils::string_map symbols;
-	std::string title = _("wko^Add ID filter");
-	std::string prefix;
-	symbols["chars"] = str_cast(WKO_MIN_ID_CHARS);
-    std::string placeholder = vgettext2("Enter ID keyword (min. $chars chars)", symbols);
-    const std::string initial;
-
-	int max_chars = MAX_NORMAL_ID_OR_VAR_NAME_BYTES;
-	symbols["days"] = str_cast(MAX_HEALTH_DAYS);
-    std::string remark = vgettext2("Insert dyn_chart remark, idcontain, $days", symbols);
-
-	aplt::tb_api& b_api_ = aplt::get_b_api();
-
-	std::vector<std::pair<std::string, std::string> > freq_vals;
-	const std::vector<aplt::tbase_scene>& scenes = b_api_.aplt_base_scenes();
-	const int scene_count = scenes.size();
-
-	for (int at = 0; at < scene_count; at ++) {
-		const aplt::tbase_scene& scene = scenes[at];
-
-		std::string file = scene.file_var_val();
-		if (file.size() < 4 && file.rfind(".cfg") != 0) {
-			continue;
-		}
-		freq_vals.push_back(std::make_pair(utils::file_stem_name(file), scene.name()));
-	}
-
-	std::string id_key;
+	enum {sel_idcontain = 100};
+	int cursel = nposm;
 	{
-		gui2::tedit_box_param param(title, prefix, placeholder, initial, remark, null_str, _("OK"), max_chars, gui2::tedit_box_param::show_cancel);
-		param.freq_vals = freq_vals;
-		param.did_text_changed = std::bind(&health_controller::verify_dyn_chart_inc_id, this, _1);
-		{
-			gui2::tedit_box dlg(param);
-			// it is in landscape, on android/ios, soft-keyboard is almost height.
-			dlg.show(nposm, window_->get_height() / 30); // / 5
-			if (dlg.get_retval() != gui2::twindow::OK) {
-				return;
+		std::vector<gui2::tmenu::titem> items;
+		int initial_sel = nposm;
+    
+		int enroll_at = 0;
+		for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = wkocourse_enrolls_.begin(); it != wkocourse_enrolls_.end(); ++ it, enroll_at ++) {
+			const aplt::twkocourse_enroll& enroll = it->second;
+			VALIDATE(enroll.valid(), null_str);
+			std::string label;
+
+			if (wkocourses_.count(enroll.id2) != 0) {
+				label = wkocourses_.find(enroll.id2)->second.title;
+				items.push_back(gui2::tmenu::titem(label, enroll_at));
+
+			} else {
+				label = enroll.id;
 			}
 		}
-		id_key = param.result;
+		if (!items.empty()) {
+			items.back().separator = true;
+		}
+
+		items.push_back(gui2::tmenu::titem(_("ID contain"), sel_idcontain));
+
+		if (items.empty()) {
+			return;
+		}
+
+		gui2::tmenu dlg(items, initial_sel);
+		dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * gui2::twidget::hdpi_scale);
+		if (dlg.get_retval() != gui2::twindow::OK) {
+			return;
+		}
+
+		cursel = dlg.selected_val();
+	}
+	VALIDATE(cursel >= 0 && cursel < (int)wkocourse_enrolls_.size() || cursel == sel_idcontain, null_str);
+
+	int type = dyncharttype_idcontain;
+	VALIDATE(type == dyncharttype_idcontain || type == dyncharttype_course, null_str);
+
+	if (cursel == sel_idcontain) {
+		utils::string_map symbols;
+		std::string title = _("wko^Add ID filter");
+		std::string prefix;
+		symbols["chars"] = str_cast(WKO_MIN_ID_CHARS);
+		std::string placeholder = vgettext2("Enter ID keyword (min. $chars chars)", symbols);
+		const std::string initial;
+
+		int max_chars = MAX_NORMAL_ID_OR_VAR_NAME_BYTES;
+		symbols["days"] = str_cast(MAX_HEALTH_DAYS);
+		std::string remark = vgettext2("Insert dyn_chart remark, idcontain, $days", symbols);
+
+		aplt::tb_api& b_api_ = aplt::get_b_api();
+
+		std::vector<std::pair<std::string, std::string> > freq_vals;
+		const std::vector<aplt::tbase_scene>& scenes = b_api_.aplt_base_scenes();
+		const int scene_count = scenes.size();
+
+		for (int at = 0; at < scene_count; at ++) {
+			const aplt::tbase_scene& scene = scenes[at];
+
+			std::string file = scene.file_var_val();
+			if (file.size() < 4 && file.rfind(".cfg") != 0) {
+				continue;
+			}
+			freq_vals.push_back(std::make_pair(utils::file_stem_name(file), scene.name()));
+		}
+
+		std::string id_key;
+		{
+			gui2::tedit_box_param param(title, prefix, placeholder, initial, remark, null_str, _("OK"), max_chars, gui2::tedit_box_param::show_cancel);
+			param.freq_vals = freq_vals;
+			param.did_text_changed = std::bind(&health_controller::verify_dyn_chart_inc_id, this, _1);
+			{
+				gui2::tedit_box dlg(param);
+				// it is in landscape, on android/ios, soft-keyboard is almost height.
+				dlg.show(nposm, window_->get_height() / 30); // / 5
+				if (dlg.get_retval() != gui2::twindow::OK) {
+					return;
+				}
+			}
+			id_key = param.result;
+		}
+
+		VALIDATE(isvalid_normal_id_or_var_name224(id_key), null_str);
+		tdyn_chartsel* new_chart = new tdyn_chartsel();
+		dyn_chartsels_.push_back(new_chart);
+		tdyn_chartsel& new_charsel = *dyn_chartsels_.back();
+		new_charsel.set_idcontain_rule(id_key);
+
+	} else {
+		VALIDATE(cursel >= 0 && cursel < (int)wkocourse_enrolls_.size(), null_str);
+
+		std::map<std::string, aplt::twkocourse_enroll>::const_iterator sel_it = wkocourse_enrolls_.begin();
+		if (cursel != 0) {
+			std::advance(sel_it, cursel);
+		}
+		const std::string& id2 = sel_it->first;
+
+		VALIDATE(wkocourses_.count(id2) != 0, null_str);
+		const aplt::twkocourse& wkocourse = wkocourses_.find(id2)->second;
+
+		tdyn_chartsel* new_chart = new tdyn_chartsel();
+		dyn_chartsels_.push_back(new_chart);
+		tdyn_chartsel& new_charsel = *dyn_chartsels_.back();
+
+		new_charsel.set_course(id2);
 	}
 
-	VALIDATE(isvalid_normal_id_or_var_name224(id_key), null_str);
-	tdyn_chartsel* new_chart = new tdyn_chartsel();
-	dyn_chartsels_.push_back(new_chart);
 	tdyn_chartsel& new_charsel = *dyn_chartsels_.back();
-	new_charsel.set_idcontain_rule(id_key);
-
 	gui2::treport& report = dlg_->main_report();
-	report.insert_item(null_str, new_charsel.title());
+	report.insert_item(null_str, new_charsel.title(*this));
 	report.select_item(report.items() - 1);
 
 	dyn_charts_to_pref(dyn_chartsels_);
@@ -6290,7 +6889,118 @@ void health_controller::dyn_charts_from_pref(std::vector<tdyn_chartsel*>& dyn_ch
 		// dyn_chartsels.push_back(tdyn_chartsel());
 		tdyn_chartsel* new_chart = new tdyn_chartsel();
 		dyn_chartsels.push_back(new_chart);
-		dyn_chartsels.back()->set_idcontain_rule(key);
+		if (type == dyncharttype_idcontain) {
+			dyn_chartsels.back()->set_idcontain_rule(key);
+
+		} else {
+			VALIDATE(type == dyncharttype_course, null_str);
+			dyn_chartsels.back()->set_course(key);
+		}
+	}
+}
+
+void wkocourse_enrolls_to_pref(const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls)
+{
+	std::stringstream out;
+	if (!wkocourse_enrolls.empty()) {
+		config top_cfg;
+		for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = wkocourse_enrolls.begin(); it != wkocourse_enrolls.end(); ++ it) {
+			const aplt::twkocourse_enroll& enroll = it->second;
+			if (!enroll.valid()) {
+				continue;
+			}
+			config& subcfg = top_cfg.add_child("wkocourse");
+			enroll.to_cfg(subcfg);
+		}
+
+		aplt::write_config(out, top_cfg);
+	}
+	preferences::set_wkocourses(out.str());
+}
+
+void wkocourse_enrolls_from_pref(std::map<std::string, aplt::twkocourse_enroll>& enrolls,
+	std::map<std::string, aplt::twkocourse>* p_wkocourses)
+{
+	std::string wkocourses_str = preferences::wkocourses();
+
+	config top_cfg2;
+	bool ret = aplt::read_config_ex(wkocourses_str, true, top_cfg2);
+	VALIDATE(ret, null_str);
+
+	enrolls.clear();
+	BOOST_FOREACH (const config &wkocourse_cfg, top_cfg2.child_range("wkocourse")) {
+		const std::string id = wkocourse_cfg["id"].str();
+		if (id.empty()) {
+			continue;
+		}
+		const std::string aplt = wkocourse_cfg["aplt"].str();
+		if (!is_bundleid(aplt)) {
+			continue;
+		}
+		const std::string id2 = utils::join_app_prefix_id(aplt, id);
+		std::pair<std::map<std::string, aplt::twkocourse_enroll>::iterator, bool> ins = 
+			enrolls.insert(std::make_pair(id2, aplt::twkocourse_enroll()));
+		if (!ins.second) {
+			continue;
+		}
+		aplt::twkocourse_enroll& enroll = ins.first->second;
+		if (!enroll.from_cfg(wkocourse_cfg)) {
+			enrolls.erase(ins.first);
+		}
+		VALIDATE(id2 == enroll.id2, null_str);
+	}
+
+	if (p_wkocourses == nullptr) {
+		return;
+	}
+	wkocourse_enrolls_to_courses(enrolls, *p_wkocourses);
+/*
+	std::map<aplt::taplt_key, aplt::tapplet>& applets = instance->applets();
+	std::map<std::string, aplt::twkocourse>& wkocourses = *p_wkocourses;
+	VALIDATE(wkocourses.empty(), null_str);
+	for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = enrolls.begin(); it != enrolls.end(); ++ it) {
+		const aplt::twkocourse_enroll& enroll = it->second;
+		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets, enroll.aplt);
+		if (aplt == nullptr) {
+			continue;
+		}
+
+		std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins =
+			wkocourses.insert(std::make_pair(enroll.id2, aplt::twkocourse()));
+
+		aplt::twkocourse& wkocourse = ins.first->second;
+		std::string err_msg = wkocourse.from_aplt_file(*aplt, enroll.id_to_filename());
+
+		if (!wkocourse.valid()) {
+			wkocourses.erase(ins.first);
+		}
+	}
+*/
+}
+
+void wkocourse_enrolls_to_courses(const std::map<std::string, aplt::twkocourse_enroll>& enrolls,
+	std::map<std::string, aplt::twkocourse>& wkocourses)
+{
+	wkocourses.clear();
+
+	std::map<aplt::taplt_key, aplt::tapplet>& applets = instance->applets();
+	VALIDATE(wkocourses.empty(), null_str);
+	for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = enrolls.begin(); it != enrolls.end(); ++ it) {
+		const aplt::twkocourse_enroll& enroll = it->second;
+		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets, enroll.aplt);
+		if (aplt == nullptr) {
+			continue;
+		}
+
+		std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins =
+			wkocourses.insert(std::make_pair(enroll.id2, aplt::twkocourse()));
+
+		aplt::twkocourse& wkocourse = ins.first->second;
+		std::string err_msg = wkocourse.from_aplt_file(*aplt, enroll.id_to_filename());
+
+		if (!wkocourse.valid()) {
+			wkocourses.erase(ins.first);
+		}
 	}
 }
 

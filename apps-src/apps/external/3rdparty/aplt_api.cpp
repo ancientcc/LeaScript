@@ -99,7 +99,7 @@ const tbase_scene* handle_base_scene(aplt::tb_api& ros, int desire_at, const std
 			if (curr_scene != nullptr) {
 				for (std::vector<tbase_scene>::const_iterator it = scenes.begin(); it != scenes.end(); ++ it) {
 					const tbase_scene& scene = *it;
-					if (scene.id == curr_scene->id) {
+					if (scene.get_id() == curr_scene->get_id()) {
 						curr_at = std::distance(scenes.begin(), it);
 						break;
 					}

@@ -46,14 +46,6 @@ enum {cpp_id_sys_dlg_closed, cpp_id_sys_count, cpp_id_aplt_min = 100};
 #define speakid_nposm				0
 #define speakid_repeat				9999
 
-enum {
-	ampmode_1x,		// 1m (1.0x)
-	ampmode_1_25x,	// 3~4m (1.25x)
-	ampmode_1_6x,	// 5m   (1.6x)
-	ampmode_2x,		// Outdoor / noisy environment. (2.0x)
-	ampmode_count,
-};
-
 extern LIB3RDPARTY_DECL std::map<int, tcode3> amp_modes;
 LIB3RDPARTY_DECL int amp_mode_from_str(const std::string& str, bool nposm_to_1x);
 

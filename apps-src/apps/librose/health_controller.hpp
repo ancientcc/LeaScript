@@ -9,8 +9,14 @@
 #include "health.hpp"
 #include "cairo2.hpp"
 #include "wkoscript.hpp"
+#include "wkocourse.hpp"
 
 double chart_height_using_hdpi_scale();
+
+void wkocourse_enrolls_to_pref(const std::map<std::string, aplt::twkocourse_enroll>& enrolls);
+void wkocourse_enrolls_from_pref(std::map<std::string, aplt::twkocourse_enroll>& enrolls, std::map<std::string, aplt::twkocourse>* p_wkocourses);
+void wkocourse_enrolls_to_courses(const std::map<std::string, aplt::twkocourse_enroll>& enrolls, std::map<std::string, aplt::twkocourse>& wkocourses);
+std::string wkocourse_enroll_miss_course_msg(const std::map<aplt::taplt_key, aplt::tapplet>& applets, const std::string& enroll_id2);
 
 struct tchart_metrics
 {
@@ -36,6 +42,7 @@ public:
 	const SDL_DColor pose_state_duration_color_;
 	const SDL_DColor satisfied_duration_color_;
 	const SDL_DColor unsatisfied_duration_color_;
+	const SDL_Color day_period_color_[2];
 
 	const int chart_title_font_size_;
 };
@@ -56,7 +63,7 @@ struct trectdata2_C {
 	int size;
 };
 
-enum {dyncharttype_idcontain};
+enum {dyncharttype_idcontain, dyncharttype_course, cyncharttype_count};
 extern const std::map<int, std::string> dynchart_types;
 
 class tlru_cache
@@ -231,18 +238,27 @@ public:
 			clear();
 		}
 
+		void set_course(const std::string& _key)
+		{
+			VALIDATE(!_key.empty(), null_str);
+			type = dyncharttype_course;
+			key = _key;
+
+			clear();
+		}
+
 		bool valid() const { return type != nposm && !key.empty(); }
 
 		void to_pref(config& cfg) const;
-		void from_pref(const config& cfg);
+		// void from_pref(const config& cfg);
 		void clear_pref()
 		{
 			type = nposm;
 			key.clear();
 		}
 
-		std::string title() const;
-		std::string chart_title() const;
+		std::string title(const health_controller& controller) const;
+		std::string chart_title(const health_controller& controller) const;
 
 		void clear()
 		{
@@ -289,7 +305,8 @@ public:
 	};
 
 	health_controller(trhealth_scene_slot& scene_slot, const config &app_cfg, CVideo& video,
-		aplt::thealth& health, int sdl_field_small_font_size);
+		aplt::thealth& health, std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, 
+		std::map<std::string, aplt::twkocourse>& wkocourses, int sdl_field_small_font_size);
 	~health_controller();
 
 	health_display& gui() { return *gui_; }
@@ -574,9 +591,11 @@ private:
 		virtual cairo::tsdl_field* pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color) = 0;
 		virtual void did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2) {}
 		virtual cairo::tsdl_field* fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool result2_valid, std::string& day_label_val) = 0;
+		virtual int get_chart_height_bonus() const { return 0; }
 		virtual cv::Mat cairo_draw_days_mat(int mat_height) = 0;
 		virtual const cairo::tsdl_field& post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color) = 0;
 		virtual const cairo::tsdl_field& post_render_day_array(int day, surface& surf) = 0;
+		virtual void post_render_other_sdl_fields(surface& surf) {}
 
 		aplt::thealth::thealth_result2** result2s() { return result2s_; }
 
@@ -667,10 +686,10 @@ private:
 		cairo::tdays_workout_fields fields;
 	};
 
-	struct tdays_summary_mat_slot: public tdays_mat_slot
+	struct tdays_idcontain_summary_mat_slot: public tdays_mat_slot
 	{
 	public:
-		tdays_summary_mat_slot(health_controller& controller, bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		tdays_idcontain_summary_mat_slot(health_controller& controller, bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
 			int small_font_size, int days, const std::string& title, bool is_sharing, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
 			tdyn_chartsel* dyn_chartsel)
 			: tdays_mat_slot(controller, to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, 
@@ -719,6 +738,74 @@ private:
 		tdyn_chartsel* dyn_chartsel;
 	};
 
+	struct tdays_course_summary_mat_slot: public tdays_mat_slot
+	{
+	public:
+		tdays_course_summary_mat_slot(health_controller& controller, bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+			int small_font_size, int days, const std::string& title, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
+			tdyn_chartsel& dyn_chartsel)
+			: tdays_mat_slot(controller, to_image, mat_width, radius, map_margin, chart_margin, small_font_size, days, 
+				dyn_chartsel.result2s)
+			, wkocourse(controller.wkocourses_.find(dyn_chartsel.key)->second)
+			, wkocourse_enroll(controller_.wkocourse_enrolls_.find(dyn_chartsel.key)->second)
+			, title(title)
+			, course_bundleid(utils::split_app_prefix_id(dyn_chartsel.key).first)
+			, fields()
+			, btn_rects(btn_rects)
+			, tip_rects(tip_rects)
+			, share(share)
+			, dyn_chartsel(dyn_chartsel)
+		{
+			VALIDATE(is_bundleid(course_bundleid), null_str);
+			calc_workout_id_colors();
+		}
+	private:
+		int fid_count() const override { return fields.fid_count; }
+		int bar_labels_size() const override { return fields.bar_4labels.size(); }
+		std::string day_pattern_val() const override { return "02:23:20-12:23:59"; }
+		void get_chart2_margin(int& left, int& right) override
+		{
+			left = chart_margin.x + fields.Y_axis_label_width + fields.Y_axis_label_chart_gap;
+			right = left;
+		}
+		void get_3height(int max_day_labels_height, int& title_height, int& legend_height, int& day_labels_height) override
+		{
+			fields.title_height = fields.title.name_text_size.y + chart_margin.y - 5;
+			// fields.legend_height = fields.legend_plan_alert.name_text_size.y * 2 
+			//	+ 12 + fields.y_axis_title_gap_y;
+			fields.legend_height = fields.get_legend_height_or_draw(nullptr, mat_width, chart_margin);
+			fields.day_labels_height = max_day_labels_height;
+			fields.day_labels_height += fields.chart_remark.name_text_size.y;
+
+			title_height = fields.title_height;
+			legend_height = fields.legend_height;
+			day_labels_height = fields.day_labels_height;
+		}
+		cairo::tsdl_field* pre_fill_sdl_field(int at, int64_t desire_start_of_today, std::string& icon, std::string& name, int& name_font_size, SDL_DColor& cairo_color) override;
+		void did_load_valid_result2(int day, const aplt::thealth::thealth_result2& result2) override;
+		cairo::tsdl_field* fill_day_array(int day, const aplt::thealth::thealth_result2& result2, bool result2_valid, std::string& day_label_val) override;
+		int get_chart_height_bonus() const override;
+		cv::Mat cairo_draw_days_mat(int mat_height) override;
+		const cairo::tsdl_field& post_render_sdl_field(int at, surface& surf, int& x_start, int& y_start, SDL_Color& font_color) override;
+		const cairo::tsdl_field& post_render_day_array(int day, surface& surf) override;
+		void post_render_other_sdl_fields(surface& surf) override;
+
+		void calc_workout_id_colors();
+
+	private:
+		const aplt::twkocourse& wkocourse;
+		const aplt::twkocourse_enroll& wkocourse_enroll;
+		const std::string title;
+		const std::string course_bundleid;
+		cairo::tdays_course_summary_fields fields;
+		SDL_Rect* btn_rects;
+		trectdata2_C& tip_rects;
+		const bool_set_t& share;
+		tdyn_chartsel& dyn_chartsel;
+		std::map<std::string, SDL_DColor> id2_colors;
+		std::map<int, int> top_day_label_ats;
+	};
+
 	cv::Mat draw_days_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
 		int small_font_size, int days, tdays_mat_slot& slot);
 
@@ -728,9 +815,17 @@ private:
 	cv::Mat draw_days_workout_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
 		int small_font_size, int days);
 
-	cv::Mat draw_days_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+	cv::Mat draw_days_idcontain_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
 		int small_font_size, int days, const std::string& title, bool is_sharing, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
 		tdyn_chartsel& dyn_chartsel);
+
+	cv::Mat draw_days_course_summary_mat(bool to_image, int mat_width, double radius, const SDL_Point& map_margin, const SDL_Point& chart_margin, 
+		int small_font_size, int days, const std::string& title, SDL_Rect* btn_rects, trectdata2_C& tip_rects, const bool_set_t& share,
+		tdyn_chartsel& dyn_chartsel);
+
+	cv::Mat draw_miss_days_course_summary_mat(const tdyn_chartsel& dyn_chartsel, int mat_width);
+
+	SDL_Color day_label_color(int day_at, const cairo::tsdl_field& day_field) const;
 
 	void clear_fake_workouts_rects()
 	{
@@ -856,11 +951,14 @@ public:
 private:
 	trhealth_scene_slot& scene_slot_;
 	aplt::thealth& health_;
+	std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls_;
+	std::map<std::string, aplt::twkocourse>& wkocourses_;
 	tmap map_;
 	health_unit_map units_;
 	health_display* gui_;
 	gui2::thealth_scene* dlg_;
 	gui2::twindow* window_;
+	const std::map<aplt::taplt_key, aplt::tapplet>& applets_;
 	const int vert_locs_;
 	// const SDL_Point map_margin_;
 	// const SDL_Point chart_margin_;

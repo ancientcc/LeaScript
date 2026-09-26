@@ -4898,6 +4898,9 @@
     <ClCompile Include="..\..\external\3rdparty\zstd\lib\dictBuilder\zdict.c">
       <Filter>zstd\dictBuilder</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\librose\gui\dialogs\insert_scene.cpp">
+      <Filter>gui\dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\external\boost\libs\regex\src\internals.hpp">
@@ -7673,6 +7676,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\librose\gui\dialogs\health_scene.hpp">
+      <Filter>gui\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\librose\gui\dialogs\insert_scene.hpp">
       <Filter>gui\dialogs</Filter>
     </ClInclude>
   </ItemGroup>

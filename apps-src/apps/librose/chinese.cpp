@@ -105,7 +105,7 @@ int tamplify::audio_amp_init(void)
 
     // Default set to within-1-meter mode (1.0x).
     current_lut = lut_1x;
-	curr_mode = aplt::ampmode_1x;
+	curr_mode = ampmode_1x;
 
     return 0;
 }
@@ -133,18 +133,18 @@ void tamplify::audio_amp_deinit(void)
 
 void tamplify::audio_amp_set_mode(int mode)
 {
-	VALIDATE(mode >= 0 && mode < aplt::ampmode_count, null_str);
+	VALIDATE(mode >= 0 && mode < ampmode_count, null_str);
     switch (mode) {
-	case aplt::ampmode_1x: 
+	case ampmode_1x: 
 		current_lut = lut_1x;
 		break; // 1.0x
-	case aplt::ampmode_1_25x:
+	case ampmode_1_25x:
 		current_lut = lut_1_25x;
 		break; // 1.25x
-	case aplt::ampmode_1_6x:
+	case ampmode_1_6x:
 		current_lut = lut_1_6x;
 		break; // 1.6x
-	case aplt::ampmode_2x:
+	case ampmode_2x:
 		current_lut = lut_2x;
 		break; // 2.0x
     default:

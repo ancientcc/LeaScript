@@ -807,6 +807,7 @@ bool thome::generate_aplt_rsp(const std::string& lua_bundleid, const version_inf
 	src_dirs.insert("sounds");
 	src_dirs.insert("tflites");
 	src_dirs.insert("translations");
+	src_dirs.insert("wkocourse");
 	src_dirs.insert("wkoscript");
 	src_dirs.insert("xwml");
 

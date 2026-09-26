@@ -109,7 +109,7 @@ public:
 		tstuff_widget_key curr_stuff_widget_key_;
 	};
 
-	explicit treport(bool multi_line, bool toggle, const std::string& unit_definition, const std::string& unit_w, const std::string& unit_h, int gap, bool segment_switch, int fixed_cols, bool multi_select);
+	treport(bool multi_line, bool toggle, const std::string& unit_definition, const std::string& unit_w, const std::string& unit_h, int gap, bool segment_switch, int fixed_cols, bool multi_select);
 
 	tpoint tmp_item_get_best_size(const std::string& label, const std::string& icon);
 	void set_unit_size(const tpoint& size);
@@ -117,9 +117,12 @@ public:
 	// may use set_unit_size2 to both replace tmp_item_get_best_size() and set_unit_size().
 	void set_unit_size2(const std::string& label, const std::string& icon);
 
+	void set_fixed_cols(int cols);
+
 	const tpoint& get_unit_size() const { return unit_size_; }
 	int get_unit_width() const { return unit_size_.x; }
 	int get_unit_height() const { return unit_size_.y; }
+	int get_gap() const { return gap_; }
 
 	// below 5 function special to report control.
 	tcontrol& insert_item(const std::string& id, const std::string& label, int at = nposm);

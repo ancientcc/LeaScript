@@ -42,6 +42,8 @@ struct tanti_shake_sample_C
 #define MAX_ANTI_SHAKE_SAMPLES			4 // 4
 
 #define WKO_MAX_REFERENCE_BYTES			64
+class taction_tpl2;
+
 class DECLSPEC twkoscript // wko: WorKOut
 {
 public:
@@ -53,11 +55,20 @@ public:
 	public:
 		ttask_base(tstate2& state2, int type)
 			: type(type)
+			, state2_(&state2)
 			, b_api_(aplt::get_b_api())
 			, pinyin_(aplt::get_curr_pinyin())
-			, state2_(state2)
 			, finished_(false)
 		{}
+/*
+		ttask_base(const ttask_base& that)
+			: type(that.type)
+			, state2_(that.state2_)
+			, b_api_(that.b_api_)
+			, pinyin_(that.pinyin_)
+			, finished_(that.finished_)
+		{}
+*/
 		virtual ~ttask_base() {}
 
 		virtual bool from_cfg(const config& cfg) = 0;
@@ -95,11 +106,16 @@ public:
 
 	public:
 		int type;
+		// Why is a pointer needed instead of a reference? 
+		// -- Sometimes, after calling "operator=", the value of state2_ needs to be modified, 
+		// -- which cannot be done with a reference. 
+		// -- Of course, this pointer always points to an object.
+		// -- see twkoscript::from_state2_cfg when '!state2.action_tpl2_id.empty()'.
+		tstate2* state2_;
 
 	protected:
 		tb_api& b_api_;
 		aplt::tpinyin& pinyin_;
-		tstate2& state2_;
 		bool finished_;
 	};
 
@@ -176,7 +192,6 @@ public:
 			: ttask_base(state2, tasktype_time_counter)
 			, rule(nposm)
 			, tone(nposm)
-			, upcount(false)
 			, max_count(nposm)
 			, satisfied_threshold_s(nposm)
 			, sn_last_speak_s_(nposm)
@@ -188,7 +203,9 @@ public:
 		~ttime_counter() {}
 
 		bool from_cfg(const config& cfg) override;
+		bool from_cfg_override(const config& cfg);
 		void to_cfg(config& cfg) const;
+		void to_cfg_override(const ttime_counter& tpl2_task, config& cfg) const;
 
 		ttime_counter& operator=(const ttime_counter& that)
 		{
@@ -202,7 +219,6 @@ public:
 
 			rule = that.rule;
 			tone = that.tone;
-			upcount = that.upcount;
 			max_count = that.max_count;
 			satisfied_threshold_s = that.satisfied_threshold_s;
 			satisfied_msgstr = that.satisfied_msgstr;
@@ -219,9 +235,6 @@ public:
 				return false;
 			}
 			if (tone != that.tone) {
-				return false;
-			}
-			if (upcount != that.upcount) {
 				return false;
 			}
 
@@ -256,7 +269,6 @@ public:
 	public:
 		int rule;
 		int tone;
-		bool upcount;
 		int max_count;
 
 		int satisfied_threshold_s;
@@ -318,9 +330,8 @@ public:
 	public:
 		trep_counter(tstate2& state2)
 			: ttask_base(state2, tasktype_rep_counter)
-			, upcount(false)
 			, max_count(nposm)
-			, curr_phase_(state2.track_pose.curr_phase_)
+			// , curr_phase_(state2.track_pose.curr_phase_)
 			, first_active_period_start_sent_(false)
 			, next_satisfied_ticks_(0)
 			, next_cooldowned_ticks_(0)
@@ -334,14 +345,15 @@ public:
 		~trep_counter();
 
 		bool from_cfg(const config& cfg) override;
+		bool from_cfg_override(const config& cfg);
 		void to_cfg(config& cfg) const;
+		void to_cfg_override(const trep_counter& tpl2_task, config& cfg) const;
 
 		trep_counter& operator=(const trep_counter& that)
 		{
 			VALIDATE(type == that.type, null_str);
 			VALIDATE(count_ == nposm, null_str);
 
-			upcount = that.upcount;
 			max_count = that.max_count;
 			phases = that.phases;
 			// phase_count = that.phase_count;
@@ -357,9 +369,6 @@ public:
 		bool is_cfg_equal(const ttask_base& _that) const override
 		{
 			const trep_counter& that = *static_cast<const trep_counter*>(&_that);
-			if (upcount != that.upcount) {
-				return false;
-			}
 
 			if (max_count != that.max_count) {
 				return false;
@@ -374,7 +383,6 @@ public:
 
 		void clear()
 		{
-			upcount = false;
 			max_count = nposm;
 
 			phases.clear();
@@ -388,6 +396,7 @@ public:
 		void slice() override;
 
 	private:
+		int& curr_phase() { return state2_->track_pose.curr_phase_; }
 		void to_next_phase();
 		void update_next_satisfied_ticks(const std::string& scene);
 		void zero_next_satisfied_ticks(const std::string& scene);
@@ -399,7 +408,6 @@ public:
 		void to_log_file(const char *fmt, ...);
 
 	public:
-		bool upcount;
 		int max_count;
 
 		std::vector<tphase> phases;
@@ -409,7 +417,7 @@ public:
 
 	private:
 		std::string original_unsatisfied_2th_msgstr_;
-		int& curr_phase_;
+		// int& curr_phase_;
 		bool first_active_period_start_sent_;
 		uint32_t next_satisfied_ticks_;
 		uint32_t next_cooldowned_ticks_;
@@ -461,7 +469,10 @@ public:
 		virtual ~tpose() {}
 
 		virtual bool from_cfg(const config& cfg);
+		bool from_cfg_override(const config& cfg);
+
 		virtual void to_cfg(config& cfg) const;
+		void to_cfg_override(const tpose& tpl2_pose, config& cfg) const;
 
 		virtual bool valid() const { return type != nposm && operand_type != nposm; }
 		uint64_t is_valid2_range(int index, std::string& err_msg) const;
@@ -497,12 +508,16 @@ public:
 			name.clear();
 			unsatisfied_msgstr.clear();
 			unsatisfied_rmax_msgstr.clear();
-			legend.clear();
 		}
 
 		// SDL_DPoint.x: if invalid, float_nposm. else 0.
 		// SDL_DPoint.y: result.
 		SDL_DPoint calc_result_may_invalid(const SDL_FPoint* landmarks) const;
+
+		// for diff version.
+		std::string operands_to_landmarks_str() const;
+		std::string get_diff_id() const;
+		bool id_can_diff(const tpose& tpl2_pose) const;
 
 	public:
 		int type;
@@ -518,10 +533,6 @@ public:
 		std::string unsatisfied_msgstr;
 		std::string unsatisfied_rmax_msgstr;
 
-		// It has been confirmed that it is no longer in use 'legend'. 
-		// It is kept only so that the code can be reused if fields need to be added in the future.
-		std::string legend;
-
 	protected:
 		bool validate_range_;
 	};
@@ -535,7 +546,9 @@ public:
 		}
 
 		bool from_cfg(const config& cfg);
+		bool from_cfg_override(const config& cfg);
 		void to_cfg(config& cfg) const;
+		void to_cfg_override(const taction_tpl2& action_tpl2, config& cfg) const;
 
 		bool valid() const { return !poses.empty(); }
 		// int calc_posture_fields() const;
@@ -588,79 +601,33 @@ public:
 		int curr_phase_;
 	};
 
-	enum {typeid_script, typeid_global, typeid_task, typeid_track_pose, typeid_pose};
-	enum {fid_id, fid_name, fid_states,
-		fid_is_setup, fid_debug_skip, fid_unsatisfied_threshold_ms, fid_unsatisfied_2th_threshold_s, fid_unsatisfied_2th_msgstr, 
-		fid_pose_phase_mask, fid_pose_name, fid_pose_min, fid_pose_max, fid_pose_unsatisfied_msgstr, fid_pose_unsatisfied_rmax_msgstr, fid_pose_ang_range, fid_pose_legend,
-		fid_typeself, fid_type, fid_operand_type, fid_landmarks,
-
-		// for tasktype_speak
-		fid_task_msgstr, fid_task_repeat_s, fid_task_min_state_duration_s,
-
-		// for tasktype_time_counter
-		fid_task_satisfied_threshold_s, fid_task_satisfied_msgstr,
-		fid_time_counter_rule, fid_time_counter_tone, fid_time_counter_max_count,
-		fid_rep_counter_max_count,
-
-		// for tasktype_rep_counter
-		fid_phase_min, fid_phase_action_msg = fid_phase_min, fid_phase_min_duration_ms, fid_phase_cooldowned_ms, fid_phase_max = fid_phase_cooldowned_ms,
-	};
-
-	class DECLSPEC tstate2
+	class DECLSPEC taction_tpl
 	{
 	public:
-		tstate2(int _state)
-			: state(_state)
-			, lmk33_png_at(nposm)
-			, task(nullptr)
+		taction_tpl()
+			: task(nullptr)
 			, is_setup(false)
-			, debug_skip(false)
 			, satisfied_threshold_s1(nposm)
 			, unsatisfied_threshold_ms(nposm)
 			, unsatisfied_2th_threshold_s(nposm)
-			, b_api_(aplt::get_b_api())
-			, pinyin_(aplt::get_curr_pinyin())
-			, script_(nullptr)
-			, pose_state_at_(nposm)
-			, enter_state_ticks_(0)
-			, first_satisfied_ticks_(0)
-			, threshold_first_satisfied_ticks_(0)
-			, last_satisfied_ticks_(0)
-			, next_speak_satisfied_msg_ticks_(0)
-			, next_speak_unsatisfied_msg_ticks_(0)
-			, speak_unsatisfied_msgstr_count_(0)
-			, speak_satisfied_msgstr1_only_once_(bool_set_none)
 		{
-			next.clear();
 		}
 
-		tstate2(const tstate2& that)
+		taction_tpl(const taction_tpl& that)
 			: task(nullptr)
-			, b_api_(aplt::get_b_api())
-			, pinyin_(that.pinyin_)
-			, script_(nullptr)
-			, pose_state_at_(nposm)
-			, enter_state_ticks_(0)
-			, first_satisfied_ticks_(0)
-			, threshold_first_satisfied_ticks_(0)
-			, last_satisfied_ticks_(0)
-			, next_speak_satisfied_msg_ticks_(0)
-			, next_speak_unsatisfied_msg_ticks_(0)
-			, speak_unsatisfied_msgstr_count_(0)
-			, speak_satisfied_msgstr1_only_once_(bool_set_none)
 		{
 			*this = that;
 		}
 
-		tstate2& operator=(const tstate2 & that)
+		taction_tpl& operator=(const taction_tpl & that)
 		{
 			// Only state2 has never been run(used for parsing or editing), 
 			// allow the call to 'tstate2 state2 = that'.
-			VALIDATE(script_ == nullptr, null_str);
-			VALIDATE(that.script_ == nullptr, null_str);
+			// VALIDATE(script_ == nullptr, null_str);
+			// VALIDATE(that.script_ == nullptr, null_str);
 
-			state = that.state;
-			lmk33_png_at = that.lmk33_png_at;
+			// state = that.state;
+			// lmk33_png_at = that.lmk33_png_at;
 			track_pose = that.track_pose;
 
 			if (that.task != nullptr) {
@@ -700,11 +667,9 @@ public:
 			} else {
 				VALIDATE(task == nullptr, null_str);
 			}
-			next = that.next;
 
 			// track pose relative
 			is_setup = that.is_setup;
-			debug_skip = that.debug_skip;
 			satisfied_threshold_s1 = that.satisfied_threshold_s1;
 			satisfied_msgstr1 = that.satisfied_msgstr1;
 
@@ -715,7 +680,7 @@ public:
 			return *this;
 		}
 
-		~tstate2()
+		virtual ~taction_tpl()
 		{
 			if (task != nullptr) {
 				delete task;
@@ -723,21 +688,17 @@ public:
 			}
 		}
 
-		void to_cfg(const std::vector<std::string>& state_names, config& cfg) const;
-		void green();
-		ttask_base* new_task(int type);
-		void set_next_to_state(int to_state);
+		bool from_cfg(const config& cfg, tstate2& state2);
+		bool from_cfg_override(const config& cfg, tstate2& state2);
 
-		bool operator==(const tstate2& that) const
+		virtual void to_cfg(config& cfg) const;
+		void to_cfg_override(const taction_tpl2& action_tpl2, config& cfg) const;
+
+		virtual bool valid() const { return track_pose.valid() && task != nullptr; }
+		ttask_base* new_task(int type, tstate2& state2);
+
+		virtual bool operator==(const taction_tpl& that) const
 		{
-			if (state != that.state) {
-				return false;
-			}
-
-			if (lmk33_png_at != that.lmk33_png_at) {
-				return false;
-			}
-
 			if (track_pose != that.track_pose) {
 				return false;
 			}
@@ -753,16 +714,10 @@ public:
 				return false;
 			}
 
-			if (next != that.next) {
-				return false;
-			}
-
 			if (is_setup != that.is_setup) {
 				return false;
 			}
-			if (debug_skip != that.debug_skip) {
-				return false;
-			}
+
 			if (satisfied_threshold_s1 != that.satisfied_threshold_s1) {
 				return false;
 			}
@@ -781,13 +736,169 @@ public:
 			}
 			return true;
 		}
-		bool operator!=(const tstate2& that) const { return !operator==(that); }
+		bool operator!=(const taction_tpl& that) const { return !operator==(that); }
+
+		void clear_action_tpl()
+		{
+			track_pose.clear();
+			if (task != nullptr) {
+				delete task;
+				task = nullptr;
+			}
+
+			is_setup = false;
+			satisfied_threshold_s1 = nposm;
+			satisfied_msgstr1.clear();
+
+			unsatisfied_threshold_ms = nposm;
+			unsatisfied_2th_threshold_s = nposm;
+
+			unsatisfied_2th_msgstr.clear();
+		}
+
+	public:
+		twkoscript::ttrack_pose track_pose;
+		twkoscript::ttask_base* task;
+
+		// track pose relative
+		bool is_setup;
+		// satisfied_xxx isn't from cfg file, evaluate by tstate2::set_satisfied_msgstr
+		int satisfied_threshold_s1;
+		std::string satisfied_msgstr1;
+
+		int unsatisfied_threshold_ms;
+		int unsatisfied_2th_threshold_s;
+
+		std::string unsatisfied_2th_msgstr;
+	};
+
+	enum {typeid_script, typeid_global, typeid_task, typeid_track_pose, typeid_pose};
+	enum {fid_id, fid_name, fid_states,
+		fid_action_tpl2_id, fid_is_setup, fid_debug_skip, fid_unsatisfied_threshold_ms, fid_unsatisfied_2th_threshold_s, fid_unsatisfied_2th_msgstr, 
+		fid_pose_phase_mask, fid_pose_name, fid_pose_min, fid_pose_max, fid_pose_unsatisfied_msgstr, fid_pose_unsatisfied_rmax_msgstr, fid_pose_ang_range,
+		fid_typeself, fid_type, fid_operand_type, fid_landmarks,
+
+		// for tasktype_speak
+		fid_task_msgstr, fid_task_repeat_s, fid_task_min_state_duration_s,
+
+		// for tasktype_time_counter
+		fid_task_satisfied_threshold_s, fid_task_satisfied_msgstr,
+		fid_time_counter_rule, fid_time_counter_tone, fid_time_counter_max_count,
+		fid_rep_counter_max_count,
+
+		// for tasktype_rep_counter
+		fid_phase_min, fid_phase_action_msg = fid_phase_min, fid_phase_min_duration_ms, fid_phase_cooldowned_ms, fid_phase_max = fid_phase_cooldowned_ms,
+	};
+
+	class DECLSPEC tstate2: public taction_tpl
+	{
+	public:
+		tstate2(int _state)
+			: state(_state)
+			, lmk33_png_at(nposm)
+			, debug_skip(false)
+			, b_api_(aplt::get_b_api())
+			, pinyin_(aplt::get_curr_pinyin())
+			, script_(nullptr)
+			, pose_state_at_(nposm)
+			, enter_state_ticks_(0)
+			, first_satisfied_ticks_(0)
+			, threshold_first_satisfied_ticks_(0)
+			, last_satisfied_ticks_(0)
+			, next_speak_satisfied_msg_ticks_(0)
+			, next_speak_unsatisfied_msg_ticks_(0)
+			, speak_unsatisfied_msgstr_count_(0)
+			, speak_satisfied_msgstr1_only_once_(bool_set_none)
+		{
+			next.clear();
+		}
+
+		tstate2(const tstate2& that)
+			: b_api_(aplt::get_b_api())
+			, pinyin_(that.pinyin_)
+			, script_(nullptr)
+			, pose_state_at_(nposm)
+			, enter_state_ticks_(0)
+			, first_satisfied_ticks_(0)
+			, threshold_first_satisfied_ticks_(0)
+			, last_satisfied_ticks_(0)
+			, next_speak_satisfied_msg_ticks_(0)
+			, next_speak_unsatisfied_msg_ticks_(0)
+			, speak_unsatisfied_msgstr_count_(0)
+			, speak_satisfied_msgstr1_only_once_(bool_set_none)
+		{
+			*this = that;
+		}
+
+		tstate2& operator=(const tstate2 & that)
+		{
+			taction_tpl::operator=(that);
+
+			// Only state2 has never been run(used for parsing or editing), 
+			// allow the call to 'tstate2 state2 = that'.
+			VALIDATE(script_ == nullptr, null_str);
+			VALIDATE(that.script_ == nullptr, null_str);
+
+			state = that.state;
+			lmk33_png_at = that.lmk33_png_at;
+
+			action_tpl2_id = that.action_tpl2_id;
+			next = that.next;
+
+			// track pose relative
+			debug_skip = that.debug_skip;
+
+			return *this;
+		}
+
+		~tstate2() {}
+
+		void to_cfg(const std::vector<std::string>& state_names, config& cfg) const;
+		void green();
+		// ttask_base* new_task(int type);
+		void set_next_to_state(int to_state);
+
+		bool operator==(const taction_tpl& that) const override
+		{
+			// Attempt to convert to the same type.
+			const tstate2* derived = dynamic_cast<const tstate2*>(&that);
+			if (!derived) {
+				return false;  // Types are different, cannot be equal.
+			}
+			if (!taction_tpl::operator==(that)) {
+				return false;
+			}
+
+			if (state != derived->state) {
+				return false;
+			}
+
+			if (lmk33_png_at != derived->lmk33_png_at) {
+				return false;
+			}
+
+			if (action_tpl2_id != derived->action_tpl2_id) {
+				return false;
+			}
+
+			if (next != derived->next) {
+				return false;
+			}
+
+			if (debug_skip != derived->debug_skip) {
+				return false;
+			}
+
+			return true;
+		}
+		// Since 'bool operator==(const tstate2& that)' is not implemented, 'bool operator!=(const tstate2& that)' should likewise not be implemented. 
+		// -- This avoids potential pitfalls, such as inadvertently hiding the base class's overloaded '!=' operator in certain scenarios.
 
 		static std::string get_field_str(int type, int field);
-		std::string get_placeholder_msg(int type, int field) const;
-		std::string get_error_msg(const tcookie3f& cookie3f) const;
+		static std::string get_placeholder_msg(int type, int field);
+		static std::string get_error_msg(const tcookie3f& cookie3f);
+		std::string diff_id_err_msg(const std::string& field_str) const;
 		uint64_t is_valid2(int pose_states_parsed, std::string& err_msg, bool check_range = true) const;
-		std::string fomrat_is_valid2_result(uint64_t res, const std::string& err_msg) const;
 		// void sync_task_input_vars(const aplt::tapplet& aplt, const aplt::tapplet::ttask& task);
 		bool state_swap(int s1, int s2);
 		std::string build_lmk33_png_filename(const std::string& phase_surf_dir, int phase) const;
@@ -808,20 +919,12 @@ public:
 	public:
 		int state;
 		int lmk33_png_at;
-		ttrack_pose track_pose;
-		ttask_base* task;
+
+		std::string action_tpl2_id;
 		tif_block next;
 
 		// track pose relative
-		bool is_setup;
 		bool debug_skip;
-		int satisfied_threshold_s1;
-		std::string satisfied_msgstr1;
-
-		int unsatisfied_threshold_ms;
-		int unsatisfied_2th_threshold_s;
-
-		std::string unsatisfied_2th_msgstr;
 
 	public:
 		aplt::tb_api& b_api_;
@@ -843,8 +946,11 @@ public:
 		bool_set_t speak_satisfied_msgstr1_only_once_;
 	};
 
+	static const std::string& reserved_key_id2();
+	static std::string id_to_filename(const std::string& _id);
 	static std::string build_lmk33_png_basename(int state, int phase);
 	static std::string build_lmk33_png_filename3(const std::string& phase_surf_dir, int state, int phase, bool is_tmp);
+	static void init_wkoscript();
 
 	twkoscript();
 
@@ -863,11 +969,12 @@ public:
 	// because member 'pinyin_', cannot use b = a. 
 	void assign(const aplt::twkoscript& that);
 	uint64_t is_valid2(std::string& err_msg, const tstate2** err_state, bool check_range = true) const;
+	static std::string fomrat_is_valid2_result(uint64_t res, const std::string& err_msg);
 
-	std::string name2() const 
+	std::string title2() const 
 	{
 		std::stringstream ss;
-		ss << name << "(" << id << ")";
+		ss << title << "(" << id << ")";
 
 		return ss.str();
 	}
@@ -885,6 +992,8 @@ public:
 	void clone_state(int at);
 	void set_lmk33_png_at_equal_to_state_at();
 	void history_after_one_finish(const SDL_Range& range_ms, uint32_t& reps, uint32_t& duration_s) const;
+	void apply_action_tpl2(tstate2& state2, const taction_tpl2& action_tpl2);
+	void copy_action_tpl2(const tstate2& state2, taction_tpl2& action_tpl2);
 
 	// When use gui writes task, some redundant items will be generated, such as req_task.position1, 
 	// which will be eliminated in 'green()'. 
@@ -895,7 +1004,7 @@ public:
 	void clear()
 	{
 		id.clear();
-		name.clear();
+		title.clear();
 		author.clear();
 		reference.clear();
 		version = null_str;
@@ -952,7 +1061,7 @@ public:
 	std::string cfg_str; 
 
 	std::string id;
-	std::string name;
+	std::string title;
 	std::string author;
 	std::string reference;
 	version_info version;
@@ -1069,9 +1178,67 @@ public:
 	double tolerance;
 };
 
+class DECLSPEC taction_tpl2: public twkoscript::taction_tpl
+{
+public:
+	taction_tpl2()
+		: state2_(nposm)
+	{}
+
+	bool from_cfg(const config& cfg);
+	void to_cfg(config& cfg) const override;
+
+	bool valid() const override { return !id.empty() && !name.empty() && taction_tpl::valid(); }
+	std::string name2() const 
+	{
+		std::string result = name;
+		result.append("(" + id + ")");
+
+		return result;
+	};
+
+	bool operator==(const taction_tpl& that) const override {
+		// Attempt to convert to the same type.
+		const taction_tpl2* derived = dynamic_cast<const taction_tpl2*>(&that);
+		if (!derived) {
+			return false;  // Types are different, cannot be equal.
+		}
+		if (!taction_tpl::operator==(that)) {
+			return false;
+		}
+		if (id != derived->id || name != derived->name) {
+			return false;
+		}
+		if (msg != derived->msg) {
+			return false;
+		}
+		return true;
+	}
+
+	void clear()
+	{
+		clear_action_tpl();
+		id.clear();
+		name.clear();
+		msg.clear();
+	}
+
+private:
+	void did_from_cfg_quited(const std::string& err_msg);
+
+public:
+	std::string id;
+	std::string name;
+	std::string msg;
+
+private:
+	twkoscript::tstate2 state2_;
+};
+extern LIB3RDPARTY_DECL std::map<std::string, taction_tpl2> action_tpl2s;
+
 extern LIB3RDPARTY_DECL const std::string wko_new_dir_prefix;
 
-LIB3RDPARTY_DECL std::string wkoscript_extract_id(const std::string& cfg_str);
+LIB3RDPARTY_DECL std::string wkoscript_extract_id(const std::string& cfg_str, std::string* id2 = nullptr);
 
 enum {type_wkoscript_ids, type_wkoscript_cfgfiles, type_wkoscript_new_benchmarks, type_wkoscript_new_dirs, type_wkoscript_count};
 LIB3RDPARTY_DECL void list_wkoscript_files_by_type(const std::string& wkoscript_dir2, int type, std::set<std::string>& result_set);

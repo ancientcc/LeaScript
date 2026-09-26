@@ -264,6 +264,9 @@ void rose_lua_kernel::preprocess_env_table(lua_State *L, bool caller_is_fg_aplt,
 	lua_pushstring(L, utils::replace_all(lua_bundleid, "_", ".").c_str());
 	lua_setfield(L, -2, "bundleid");
 
+	lua_pushstring(L, aplt.id.c_str());
+	lua_setfield(L, -2, "id");
+
 	lua_pushstring(L, version.str(true).c_str());
 	lua_setfield(L, -2, "version");
 

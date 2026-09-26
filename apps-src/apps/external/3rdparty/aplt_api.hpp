@@ -165,8 +165,9 @@ public:
 	virtual void push_floating_window_task(const std::string& msg, int duration_ms) = 0;
 
 	virtual void health_push_n32_event(int type, int ctx) = 0;
-	virtual void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str) = 0;
+	virtual void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str, const std::string& aux_str2, int aux_int) = 0;
 	virtual void health_push_landmarks(const SDL_U16Point* landmarks, int unsatisfied_reason) = 0;
+	virtual void health_workout_finished(const std::string& aplt, const std::string& id) = 0;
 
 	virtual bool cswamp_addevent(int64_t ts, const std::string& desc, const std::vector<timage_pair>& images, bool quiet) = 0;
 	virtual bool cswamp_querytablecooking(int table, net::tcswamp_table_result& result, bool quiet) = 0;

@@ -52,7 +52,7 @@ using namespace std::placeholders;
 
 namespace aplt {
 
-const version_info min_aplt_rose_ver("1.0.1-20260903");
+const version_info min_aplt_rose_ver("1.0.1-20260926");
 
 const std::string file_launcher_android = "launcher.android";
 const std::string file_kdesktop_android = "kdesktop.android";
@@ -157,11 +157,13 @@ void initial()
 		aplt::tbuildin(aplt::builtinid_speech, "misc/builtinid_speech.png", _("fakeid^Speech"))));
 	all_fake_applets.insert(std::make_pair(aplt::builtinid_task, 
 		aplt::tbuildin(aplt::builtinid_task, "misc/builtinid_task.png", _("fakeid^Task"))));
-	all_fake_applets.insert(std::make_pair(aplt::builtinid_courseware, 
-		aplt::tbuildin(aplt::builtinid_courseware, "misc/builtinid_courseware.png", _("fakeid^Courseware"))));
+	all_fake_applets.insert(std::make_pair(aplt::builtinid_artifact, 
+		aplt::tbuildin(aplt::builtinid_artifact, "misc/builtinid_artifact.png", _("fakeid^Artifact"))));
 	all_fake_applets.insert(std::make_pair(aplt::builtinid_mkscript, 
 		aplt::tbuildin(aplt::builtinid_mkscript, "misc/builtinid_mkscript.png", _("fakeid^Make script"))));
-	all_fake_applets.insert(std::make_pair(aplt::builtinid_health, 
+	all_fake_applets.insert(std::make_pair(aplt::builtinid_mkcourse,
+		aplt::tbuildin(aplt::builtinid_mkcourse, "misc/builtinid_mkcourse.png", _("fakeid^Make course"))));
+	all_fake_applets.insert(std::make_pair(aplt::builtinid_health,
 		aplt::tbuildin(aplt::builtinid_health, "misc/builtinid_health.png", _("fakeid^Health"))));
 	all_fake_applets.insert(std::make_pair(aplt::builtinid_map, 
 		aplt::tbuildin(aplt::builtinid_map, "misc/builtinid_map.png", _("fakeid^Map"))));
@@ -889,15 +891,15 @@ void initial_fake_aplt()
 	// don't want export @env_vars.
 	init_env_vars();
 
-	amp_modes.insert(std::make_pair(aplt::ampmode_1x, 
-		tcode3(aplt::ampmode_1x, "1x", _("amp^1x"))));
-	amp_modes.insert(std::make_pair(aplt::ampmode_1_25x,
-		tcode3(aplt::ampmode_1_25x, "1_25x", _("amp^1_25x"))));
-	amp_modes.insert(std::make_pair(aplt::ampmode_1_6x,
-		tcode3(aplt::ampmode_1_6x, "1_6x", _("amp^1_6x"))));
-	amp_modes.insert(std::make_pair(aplt::ampmode_2x,
-		tcode3(aplt::ampmode_2x, "2x", _("amp^2x"))));
-	VALIDATE(amp_modes.size() == aplt::ampmode_count, null_str);
+	amp_modes.insert(std::make_pair(ampmode_1x, 
+		tcode3(ampmode_1x, "1x", _("amp^1x"))));
+	amp_modes.insert(std::make_pair(ampmode_1_25x,
+		tcode3(ampmode_1_25x, "1_25x", _("amp^1_25x"))));
+	amp_modes.insert(std::make_pair(ampmode_1_6x,
+		tcode3(ampmode_1_6x, "1_6x", _("amp^1_6x"))));
+	amp_modes.insert(std::make_pair(ampmode_2x,
+		tcode3(ampmode_2x, "2x", _("amp^2x"))));
+	VALIDATE(amp_modes.size() == ampmode_count, null_str);
 }
 
 void load_applets_from_disk(std::map<taplt_key, tapplet>& applets)
@@ -998,6 +1000,7 @@ void setup_aplt_user_data_dir(const std::string& aplt_preferences_dir)
 	// create_directory_if_missing(dir_path + "/images/misc");
 	create_directory_if_missing(dir_path + "/saves");
 	create_directory_if_missing(dir_path + "/tflites");
+	create_directory_if_missing(dir_path + "/wkocourse");
 	create_directory_if_missing(dir_path + "/wkoscript");
 }
 

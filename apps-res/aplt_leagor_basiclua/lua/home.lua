@@ -36,7 +36,7 @@ function aplt_leagor_basiclua__home.pre_show(dlg, window)
 	widget = gui2.find_widget(window, "navigation", false, true);
 	local items = {
 		{label = _("Driver"), icon = "misc/multiselect.png"},
-		{label = _("Me"), icon = "misc/multiselect.png"},
+		{label = _("Me"), icon = "misc/me.png"},
 	};
 	for k, v in ipairs(items) do
 		local item = widget:insert_item("", v.label);

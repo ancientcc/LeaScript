@@ -434,10 +434,15 @@ public:
 	bool drawing() const { return drawing_; }
 
 	bool drawn() const { return drawn_; }
-	void set_drawn() 
+	void set_drawn()
 	{ 
 		VALIDATE(!drawn_, null_str);
 		drawn_ = true;
+	}
+	void set_undraw()
+	{ 
+		VALIDATE(drawn_, null_str);
+		drawn_ = false;
 	}
 	bool layouted() const { return layouted_; }
 

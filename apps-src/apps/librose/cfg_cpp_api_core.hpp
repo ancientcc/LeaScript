@@ -485,6 +485,7 @@ public:
 	void base_scenes_to_stringstream(const std::vector<tbase_scene>& scenes, std::stringstream& result) const;
 	bool string_to_base_scenes(const std::string& stream, std::vector<tbase_scene>& result) const;
 	const tbase_scene* base_scene_from_id(const std::string& id, bool must_exist) const;
+	void erase_scene(const std::string& id);
 	void set_base_scenes(const std::vector<tbase_scene>& base_scenes);
 
 	//

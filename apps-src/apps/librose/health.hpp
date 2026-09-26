@@ -107,7 +107,7 @@ struct twko_tlv_header_C
 	int32_t length;
 };
 
-struct twko_tlv_history_C
+struct twko_tlv_history_C2
 {
 	int32_t type; // T
 	int32_t length; // L
@@ -126,13 +126,39 @@ struct twko_tlv_history_C
 	int32_t reserved3;
 };
 
+struct twko_tlv_history_C
+{
+	int32_t type; // T
+	int32_t length; // L
+
+	int seconds_since0; // wkoscript_index_seconds_since0. V's start
+	int64_t start_of_lastday;
+	SDL_Range last_range_ms;
+	uint32_t days;
+	uint32_t workouts;
+	uint32_t reps;
+	uint32_t duration_s;
+
+	int32_t reserved0;
+	int32_t reserved1;
+	int32_t reserved2;
+	int32_t reserved3;
+	int32_t reserved4;
+	char id[48];
+	char aplt[RSP_MAXBUNDLEIDBYTES + 1];
+	int final_state_at;
+	uint8_t reserved5[128];
+};
+
 enum {wko_tlv_type_history, wko_tlv_type_count};
 
+#define WKO_TLV_HISTORY_LEN2		(sizeof(aplt::twko_tlv_history_C2) - offsetof(aplt::twko_tlv_history_C2, seconds_since0))
 #define WKO_TLV_HISTORY_LEN		(sizeof(aplt::twko_tlv_history_C) - offsetof(aplt::twko_tlv_history_C, seconds_since0))
 #define init_wko_tlv_history(history)	\
 	(history).type = aplt::wko_tlv_type_history; \
 	(history).length = WKO_TLV_HISTORY_LEN; \
-	(history).seconds_since0 = nposm;
+	(history).seconds_since0 = nposm; \
+	(history).final_state_at = nposm;
 
 #define wko_tlv_history_is_valid(history)		((history).seconds_since0 != nposm)
 
@@ -182,8 +208,9 @@ public:
 	const std::string health_dat_filename(time_t t) const;
 
 	int health_push_n32_event(int type, int ctx);
-	void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str);
+	void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str, const std::string& aux_str2, int aux_int);
 	void health_push_landmarks(const SDL_U16Point* landmarks, int unsatisfied_reason);
+	void health_workout_finished(const std::string& aplt, const std::string& id);
 #define WORKOUT_TYPE_PREFIX	0xff
 #define WORKOUT_TYPE_BYTES	6
 	enum {wkotype_start, wkotype_enter_state, wkotype_count};
@@ -226,6 +253,9 @@ public:
 			wkon32_event_items = that.wkon32_event_items;
 
 			history = that.history;
+
+			id = that.id;
+			aplt = that.aplt;
 
 			return *this;
 		}
@@ -296,7 +326,10 @@ public:
 			}
 
 			memset(&history, 0, sizeof(history));
-			history.seconds_since0 = nposm;
+			init_wko_tlv_history(history);
+
+			id.clear();
+			aplt.clear();
 		}
 
 		void clear_flow_state_C(tflow_state_C& state)
@@ -347,6 +380,8 @@ public:
 		tevent_item* wkon32_event_items;
 
 		twko_tlv_history_C history;
+		std::string id;
+		std::string aplt;
 	};
 
 	struct thealth_result2
@@ -461,8 +496,8 @@ public:
 		telem_array_C workout_tlvs;
 	};
 	twko_tlv_history_C find_wko_history(int start_s) const;
-	twko_tlv_history_C get_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, const std::string& wkoscript_id) const;
-	void push_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, const std::string& id, thealth_result& h) const;
+	twko_tlv_history_C get_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, const std::string& wkoscript_id, const std::string& aplt) const;
+	void push_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, const std::string& id, const std::string& aplt, int final_state_at, thealth_result& h) const;
 	bool migrate_health_dat_for_history(const std::string& filename) const;
 
 private:

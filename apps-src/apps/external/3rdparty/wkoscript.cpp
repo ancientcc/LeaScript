@@ -185,7 +185,7 @@ void twkoscript::ttask_speak::slice()
 		if (min_state_duration_s == nposm) {
 			finished_ = true;
 
-		} else if (SDL_GetTicks() < state2_.enter_state_ticks_ + min_state_duration_s * 1000) {
+		} else if (SDL_GetTicks() < state2_->enter_state_ticks_ + min_state_duration_s * 1000) {
 			min_duration_slice();
 
 		} else {
@@ -210,7 +210,7 @@ void twkoscript::ttask_speak::min_duration_slice()
 {
 	VALIDATE(min_state_duration_s != nposm, null_str);
 	uint32_t now = SDL_GetTicks();
-	const uint32_t desire_finish_ticks = state2_.enter_state_ticks_ + min_state_duration_s * 1000;
+	const uint32_t desire_finish_ticks = state2_->enter_state_ticks_ + min_state_duration_s * 1000;
 	if (desire_finish_ticks > now) {
 		int diff = desire_finish_ticks - now;
 		int integer = diff / 1000 + 1;
@@ -272,7 +272,6 @@ bool twkoscript::ttime_counter::from_cfg(const config& cfg)
 		return false;
 	}
 
-	upcount = cfg["upcount"].to_bool();
 	max_count = cfg["max_count"].to_int(nposm);
 	if (max_count <= 0) {
 		return false;
@@ -289,6 +288,51 @@ bool twkoscript::ttime_counter::from_cfg(const config& cfg)
 	return true;
 }
 
+bool twkoscript::ttime_counter::from_cfg_override(const config& cfg)
+{
+	if (cfg.has_attribute("rule")) {
+		rule = wko_time_rule_from_str(cfg["rule"].str());
+		if (rule == nposm) {
+			return false;
+		}
+	}
+
+	if (cfg.has_attribute("tone")) {
+		std::string str = cfg["tone"].str();
+		if (!str.empty()) {
+			tone = wko_time_tone_from_str(str);
+		} else {
+			// Legacy compatibility. 
+			// Introduced on 2026-08-07, planned for removal no earlier than 2026-08-07.
+			tone = timetone_full;
+		}
+		if (tone == nposm) {
+			return false;
+		}
+	}
+
+	if (cfg.has_attribute("max_count")) {
+		max_count = cfg["max_count"].to_int(nposm);
+		if (max_count <= 0) {
+			return false;
+		}
+	}
+
+	if (cfg.has_attribute("satisfied_threshold_s")) {
+		satisfied_threshold_s = cfg["satisfied_threshold_s"].to_int(nposm);
+	}
+	if (cfg.has_attribute("satisfied_msgstr")) {
+		satisfied_msgstr = cfg["satisfied_msgstr"].str();
+	}
+	if (!satisfied_msgstr.empty()) {
+		if (satisfied_threshold_s < 0) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void twkoscript::ttime_counter::to_cfg(config& cfg) const
 {
 	VALIDATE(wko_time_rules.count(rule) != 0, null_str);
@@ -296,10 +340,6 @@ void twkoscript::ttime_counter::to_cfg(config& cfg) const
 
 	VALIDATE(wko_time_tones.count(tone) != 0, null_str);
 	cfg["tone"] = wko_time_tones.find(tone)->second.id;
-
-	if (upcount) {
-		cfg["upcount"].from_bool(upcount);
-	}
 	
 	if (max_count != nposm) {
 		cfg["max_count"].from_int(max_count);
@@ -313,15 +353,39 @@ void twkoscript::ttime_counter::to_cfg(config& cfg) const
 	}
 }
 
+void twkoscript::ttime_counter::to_cfg_override(const ttime_counter& tpl2_task, config& cfg) const
+{
+	VALIDATE(wko_time_rules.count(rule) != 0, null_str);
+	if (rule != tpl2_task.rule) {
+		cfg["rule"] = wko_time_rules.find(rule)->second.id;
+	}
+
+	VALIDATE(wko_time_tones.count(tone) != 0, null_str);
+	if (tone != tpl2_task.tone) {
+		cfg["tone"] = wko_time_tones.find(tone)->second.id;
+	}
+	
+	if (max_count != tpl2_task.max_count) {
+		cfg["max_count"].from_int(max_count);
+	}
+
+	if (satisfied_threshold_s != tpl2_task.satisfied_threshold_s) {
+		cfg["satisfied_threshold_s"].from_int(satisfied_threshold_s);
+	}
+	if (satisfied_msgstr != tpl2_task.satisfied_msgstr) {
+		cfg["satisfied_msgstr"].from_string(satisfied_msgstr, true);
+	}
+}
+
 void twkoscript::ttime_counter::did_enter_state()
 {
 	if (!satisfied_msgstr.empty()) {
 		VALIDATE(satisfied_threshold_s != nposm, null_str);
-		state2_.set_satisfied_msgstr(satisfied_threshold_s, satisfied_msgstr);
+		state2_->set_satisfied_msgstr(satisfied_threshold_s, satisfied_msgstr);
 	}
 
 	if (rule == timerule_total || rule == timerule_satisfied) {
-		state2_.speak_satisfied_msgstr1_only_once_ = bool_set_true;
+		state2_->speak_satisfied_msgstr1_only_once_ = bool_set_true;
 	}
 
 	VALIDATE(satisfied_trigger_flag_ == bool_set_none, null_str);
@@ -422,8 +486,8 @@ void twkoscript::ttime_counter::clear_countdown()
 int twkoscript::ttime_counter::total_satisfied_ms() const 
 {
 	if (rule == timerule_total) {
-		if (state2_.first_satisfied_ticks_ != 0) {
-			return SDL_GetTicks() - state2_.first_satisfied_ticks_;
+		if (state2_->first_satisfied_ticks_ != 0) {
+			return SDL_GetTicks() - state2_->first_satisfied_ticks_;
 
 		} else {
 			return 0;
@@ -434,8 +498,8 @@ int twkoscript::ttime_counter::total_satisfied_ms() const
 
 	} else {
 		VALIDATE(rule == timerule_strict, null_str);
-		if (state2_.threshold_first_satisfied_ticks_ != 0) {
-			return SDL_GetTicks() - state2_.threshold_first_satisfied_ticks_;
+		if (state2_->threshold_first_satisfied_ticks_ != 0) {
+			return SDL_GetTicks() - state2_->threshold_first_satisfied_ticks_;
 
 		} else {
 			return 0;
@@ -575,10 +639,10 @@ void twkoscript::ttime_counter::tone_speak(int total_sec, int curr_sec)
 void twkoscript::ttime_counter::countdown_slice_total()
 {
 	VALIDATE(rule == timerule_total, null_str);
-	VALIDATE(state2_.first_satisfied_ticks_ > 0, null_str);
+	VALIDATE(state2_->first_satisfied_ticks_ > 0, null_str);
 
 	uint32_t now = SDL_GetTicks();
-	int total_satisfied_ms1 = now - state2_.first_satisfied_ticks_;
+	int total_satisfied_ms1 = now - state2_->first_satisfied_ticks_;
 	int diff = max_count * 1000 - total_satisfied_ms1;
 	if (diff > 0) {
 		tone_speak(max_count, total_satisfied_ms1 / 1000);
@@ -609,7 +673,7 @@ void twkoscript::ttime_counter::countdown_slice_strict()
 	VALIDATE(rule == timerule_strict, null_str);
 
 	uint32_t now = SDL_GetTicks();
-	int total_satisfied_ms1 = now - state2_.threshold_first_satisfied_ticks_;
+	int total_satisfied_ms1 = now - state2_->threshold_first_satisfied_ticks_;
 	int diff = max_count * 1000 - total_satisfied_ms1;
 	if (diff > 0) {
 		tone_speak(max_count, total_satisfied_ms1 / 1000);
@@ -631,7 +695,6 @@ bool twkoscript::trep_counter::from_cfg(const config& cfg)
 {
 	clear();
 
-	upcount = cfg["upcount"].to_bool();
 	max_count = cfg["max_count"].to_int(nposm);
 	if (max_count <= 0) {
 		return false;
@@ -665,12 +728,58 @@ bool twkoscript::trep_counter::from_cfg(const config& cfg)
 	return true;
 }
 
+bool twkoscript::trep_counter::from_cfg_override(const config& cfg)
+{
+	if (cfg.has_attribute("max_count")) {
+		max_count = cfg["max_count"].to_int(nposm);
+		if (max_count <= 0) {
+			return false;
+		}
+	}
+
+	if (phases.size() == cfg.child_count("phase")) {
+		int phase_at = 0;
+		BOOST_FOREACH (const config &phase_cfg, cfg.child_range("phase")) {
+			tphase& phase = phases[phase_at];
+
+			if (phase_cfg.has_attribute("min_duration_ms")) {
+				phase.min_duration_ms = phase_cfg["min_duration_ms"].to_int(nposm);
+			}
+			if (phase_cfg.has_attribute("action_msg")) {
+				phase.action_msg = phase_cfg["action_msg"].str();
+			}
+			if (phase_cfg.has_attribute("cooldowned_ms")) {
+				phase.cooldowned_ms = phase_cfg["cooldowned_ms"].to_int(nposm);
+			}
+
+			if (phase.min_duration_ms <= 0 || phase.action_msg.empty() || phase.cooldowned_ms <= 0) {
+				return false;
+			}
+			phase_at ++;
+		}
+
+	} else {
+		// [1/2]The new version of the action_tpl2 may have modified the number of phase count, 
+		// and this is not considered an error.
+	}
+
+	int phase_count = phases.size();
+	if (phase_count != 2) {
+		return false;
+	}
+	for (int at = 0; at < phase_count; at ++) {
+		const tphase& phase = phases[at];
+
+		if (!phase.valid(at == phase_count - 1)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void twkoscript::trep_counter::to_cfg(config& cfg) const
 {
-	if (upcount) {
-		cfg["upcount"].from_bool(upcount);
-	}
-	
 	if (max_count != nposm) {
 		cfg["max_count"].from_int(max_count);
 	}
@@ -694,8 +803,36 @@ void twkoscript::trep_counter::to_cfg(config& cfg) const
 	}
 }
 
+void twkoscript::trep_counter::to_cfg_override(const trep_counter& tpl2_task, config& cfg) const
+{
+	if (max_count != tpl2_task.max_count) {
+		cfg["max_count"].from_int(max_count);
+	}
+
+
+	const int phase_count = phases.size();
+	VALIDATE(phase_count == (int)tpl2_task.phases.size(), null_str);
+	for (int at = 0; at < phase_count; at ++) {
+		const tphase& phase = phases[at];
+		const tphase& tpl2_phase = tpl2_task.phases[at];
+		VALIDATE(phase.valid(at == phase_count - 1), null_str);
+
+		config& sub_cfg = cfg.add_child("phase");
+		if (phase.action_msg != tpl2_phase.action_msg) {
+			sub_cfg["action_msg"].from_string(phase.action_msg, true);
+		}
+		if (phase.min_duration_ms != tpl2_phase.min_duration_ms) {
+			sub_cfg["min_duration_ms"].from_int(phase.min_duration_ms);
+		}
+		if (phase.cooldowned_ms != tpl2_phase.cooldowned_ms) {
+			sub_cfg["cooldowned_ms"].from_int(phase.cooldowned_ms);
+		}
+	}
+}
+
 void twkoscript::trep_counter::did_enter_state()
 {
+	int& curr_phase_ = curr_phase();
 	VALIDATE(curr_phase_ == 0, null_str);
 	VALIDATE(next_satisfied_ticks_ == 0, null_str);
 	VALIDATE(next_cooldowned_ticks_ == 0, null_str);
@@ -705,9 +842,9 @@ void twkoscript::trep_counter::did_enter_state()
 	VALIDATE(log_file_ == nullptr, null_str);
 
 	count_ = 0;
-	original_unsatisfied_2th_msgstr_ = state2_.unsatisfied_2th_msgstr;
+	original_unsatisfied_2th_msgstr_ = state2_->unsatisfied_2th_msgstr;
 
-	state2_.unsatisfied_2th_msgstr = phases[curr_phase_].action_msg;
+	state2_->unsatisfied_2th_msgstr = phases[curr_phase_].action_msg;
 
 	// const bool enable_log_file = game_config::os == os_windows;
 	const bool enable_log_file = false;
@@ -727,7 +864,7 @@ void twkoscript::trep_counter::did_exit_state()
 		log_file_ = nullptr;
 		last_log_ticks_ = 0;
 	}
-	state2_.unsatisfied_2th_msgstr = original_unsatisfied_2th_msgstr_;
+	state2_->unsatisfied_2th_msgstr = original_unsatisfied_2th_msgstr_;
 
 	first_active_period_start_sent_ = false;
 	next_satisfied_ticks_ = 0;
@@ -739,6 +876,7 @@ void twkoscript::trep_counter::did_exit_state()
 
 void twkoscript::trep_counter::did_mediapipe_new_frame(bool satisfied)
 {
+	int& curr_phase_ = curr_phase();
 	uint32_t now = SDL_GetTicks();
 	int phase_count = phases.size();
 
@@ -759,7 +897,7 @@ void twkoscript::trep_counter::did_mediapipe_new_frame(bool satisfied)
 				zero_next_satisfied_ticks("curr phase satisfied");
 				if (curr_phase_ + 1 == phase_count) {
 					const std::string msg = str_cast(++ count_);
-					if (state2_.script_->sfx_enabled()) {
+					if (state2_->script_->sfx_enabled()) {
 						sound::rose_play_sound_simple("rep_full.wav");
 						set_delay_speak(now + delay_speak_threshold_ms_, msg);
 
@@ -781,7 +919,7 @@ void twkoscript::trep_counter::did_mediapipe_new_frame(bool satisfied)
 					}
 					// ???it is necessary?
 					// state2_.track_pose.update_landmarks(*state2_.script_);
-					state2_.unsatisfied_2th_msgstr = phases[curr_phase_].action_msg;
+					state2_->unsatisfied_2th_msgstr = phases[curr_phase_].action_msg;
 
 					update_next_cooldowned_ticks();
 					
@@ -789,7 +927,7 @@ void twkoscript::trep_counter::did_mediapipe_new_frame(bool satisfied)
 					// 1/2)The first time the voice msgstr for the current phase is played is at the beginning of the cooldown period. 
 					const std::string& action_msg = phases[curr_phase_ + 1].action_msg;
 
-					if (state2_.script_->sfx_enabled()) {
+					if (state2_->script_->sfx_enabled()) {
 						sound::rose_play_sound_simple("rep_phase1.wav");
 						set_delay_speak(now + delay_speak_threshold_ms_, action_msg);
 
@@ -866,6 +1004,7 @@ void twkoscript::trep_counter::slice()
 
 void twkoscript::trep_counter::to_next_phase()
 {
+	int& curr_phase_ = curr_phase();
 	VALIDATE(next_cooldowned_ticks_ != 0, null_str);
 	zero_next_cooldowned_ticks();
 
@@ -874,7 +1013,7 @@ void twkoscript::trep_counter::to_next_phase()
 	if (curr_phase_ == phase_count) {
 		curr_phase_ = 0;
 	}
-	state2_.script_->did_phase_changed(state2_.state, curr_phase_);
+	state2_->script_->did_phase_changed(state2_->state, curr_phase_);
 	if (log_file_ != nullptr) {
 		if (curr_phase_ != 0) {
 			to_log_file("end cooldown, to next_phase");
@@ -883,19 +1022,20 @@ void twkoscript::trep_counter::to_next_phase()
 		}
 	}
 	b_api_.health_push_n32_event(workoutevt_n32, workoutn32_active_period_start);
-	state2_.track_pose.update_landmarks(*state2_.script_);
+	state2_->track_pose.update_landmarks(*state2_->script_);
 	const std::string& action_msg = phases[curr_phase_].action_msg;
 	// 2/2)The first time the voice msgstr for the current phase is played is at the beginning of the cooldown period. 
 	// The cooldown period is often very short; 
 	// it should not be played at the end to prevent the user from hearing two prompts of the same message with a very short interval.
 	// pinyin_.speak(action_msg);
-	state2_.unsatisfied_2th_msgstr = action_msg;
+	state2_->unsatisfied_2th_msgstr = action_msg;
 
 	update_next_satisfied_ticks("to_next_phase");
 }
 
 void twkoscript::trep_counter::update_next_satisfied_ticks(const std::string& scene)
 {
+	int& curr_phase_ = curr_phase();
 	VALIDATE(next_cooldowned_ticks_ == 0, null_str);
 	VALIDATE(curr_phase_ < (int)phases.size(), null_str);
 	next_satisfied_ticks_ = SDL_GetTicks() + phases[curr_phase_].min_duration_ms;
@@ -917,6 +1057,7 @@ void twkoscript::trep_counter::zero_next_satisfied_ticks(const std::string& scen
 
 void twkoscript::trep_counter::update_next_cooldowned_ticks()
 {
+	int& curr_phase_ = curr_phase();
 	VALIDATE(next_satisfied_ticks_ == 0, null_str);
 	VALIDATE(curr_phase_ < (int)phases.size(), null_str);
 	next_cooldowned_ticks_ = SDL_GetTicks() + phases[curr_phase_].cooldowned_ms;
@@ -948,6 +1089,7 @@ void twkoscript::trep_counter::set_delay_speak(uint32_t ticks, const std::string
 
 void twkoscript::trep_counter::to_log_file(const char *fmt, ...)
 {
+	int& curr_phase_ = curr_phase();
 	VALIDATE(log_file_ != nullptr, null_str);
 	va_list ap;
 
@@ -1072,11 +1214,6 @@ bool twkoscript::tpose::from_cfg(const config& cfg)
 		if (is_valid2_range(0, err_msg) != TCOOKIE3F_CHECK_OK) {
 			return false;
 		}
-/*
-		if (is_float_nposm(range.min) && is_float_nposm(range.max)) {
-			return false;
-		}
-*/
 	}
 
 	int max_phase_mask = BIT_IDX_MASK(WKO_MAX_PHASE_COUNT) - 1;
@@ -1087,7 +1224,6 @@ bool twkoscript::tpose::from_cfg(const config& cfg)
 	name = cfg["name"].str();
 	unsatisfied_msgstr = cfg["unsatisfied_msgstr"].str();
 	unsatisfied_rmax_msgstr = cfg["unsatisfied_rmax_msgstr"].str();
-	legend = cfg["legend"].str();
 
 	// if (fail) {
 		// clear();
@@ -1095,16 +1231,54 @@ bool twkoscript::tpose::from_cfg(const config& cfg)
 	return true;
 }
 
-void twkoscript::tpose::to_cfg(config& cfg) const
+bool twkoscript::tpose::from_cfg_override(const config& cfg)
 {
-	cfg.clear();
+	if (cfg.has_attribute("abs")) {
+		abs = cfg["abs"].to_bool();
+	}
 
-	// VALIDATE(isvalid_normal_id_or_var_name224(type), null_str);
-	VALIDATE(type >= 0 && type < posetype_count, null_str);
-	cfg["type"] = wko_pose_types[type].id;
-	cfg["operand"] = wko_operand_types[operand_type].id;
+	if (cfg.has_attribute("ang_range")) {
+		ang_range = wko_ang_range_from_str(cfg["ang_range"].str());
+		if (ang_range == nposm) {
+			ang_range = def_pose_ang_range;
+		}
+	}
+	VALIDATE(ang_range >= 0 && ang_range < angrange_count, null_str);
 
-	// landmarks
+	if (cfg.has_attribute("min")) {
+		range.min = cfg["min"].to_double(float_nposm);
+	}
+	if (cfg.has_attribute("max")) {
+		range.max = cfg["max"].to_double(float_nposm);
+	}
+
+	if (validate_range_) {
+		std::string err_msg;
+		if (is_valid2_range(0, err_msg) != TCOOKIE3F_CHECK_OK) {
+			return false;
+		}
+	}
+/*
+	int max_phase_mask = BIT_IDX_MASK(WKO_MAX_PHASE_COUNT) - 1;
+	phase_mask = cfg["phase_mask"].to_int(1);
+	if (phase_mask < 1 || phase_mask > max_phase_mask) {
+		return false;
+	}
+*/
+	if (cfg.has_attribute("name")) {
+		name = cfg["name"].str();
+	}
+	if (cfg.has_attribute("unsatisfied_msgstr")) {
+		unsatisfied_msgstr = cfg["unsatisfied_msgstr"].str();
+	}
+	if (cfg.has_attribute("unsatisfied_rmax_msgstr")) {
+		unsatisfied_rmax_msgstr = cfg["unsatisfied_rmax_msgstr"].str();
+	}
+	return true;
+}
+
+std::string twkoscript::tpose::operands_to_landmarks_str() const
+{
 	std::stringstream ss;
 	ss.str("");
 	for (int at = 0; at < MAX_OPERANDS_PER_POSE; at ++) {
@@ -1122,7 +1296,39 @@ void twkoscript::tpose::to_cfg(config& cfg) const
 			ss << "," << operands[at].lmk1;
 		}
 	}
-	cfg["landmarks"] = ss.str();
+	return ss.str();
+}
+
+void twkoscript::tpose::to_cfg(config& cfg) const
+{
+	cfg.clear();
+
+	// VALIDATE(isvalid_normal_id_or_var_name224(type), null_str);
+	VALIDATE(type >= 0 && type < posetype_count, null_str);
+	cfg["type"] = wko_pose_types[type].id;
+	cfg["operand"] = wko_operand_types[operand_type].id;
+
+	// landmarks
+	std::stringstream ss;
+/*
+	ss.str("");
+	for (int at = 0; at < MAX_OPERANDS_PER_POSE; at ++) {
+		if (operands[at].lmk0 == nposm) {
+			break;
+		}
+		if (at != 0) {
+			ss << "; ";
+		}
+		VALIDATE(is_valid_lmk_all(operands[at].lmk0), null_str);
+		ss << operands[at].lmk0;
+
+		if (operands[at].lmk1 != nposm) {
+			VALIDATE(is_valid_lmk_all(operands[at].lmk1), null_str);
+			ss << "," << operands[at].lmk1;
+		}
+	}
+*/
+	cfg["landmarks"] = operands_to_landmarks_str();
 
 	// divisor
 	ss.str("");
@@ -1190,8 +1396,68 @@ void twkoscript::tpose::to_cfg(config& cfg) const
 	if (!unsatisfied_rmax_msgstr.empty()) {
 		cfg["unsatisfied_rmax_msgstr"].from_string(unsatisfied_rmax_msgstr, true);
 	}
-	if (!legend.empty()) {
-		cfg["legend"].from_string(legend, true);
+}
+
+std::string twkoscript::tpose::get_diff_id() const
+{
+	char buf[256];
+	SDL_snprintf(buf, sizeof(buf), "[%s]-[%s]-[%s]-[%i]", 
+		wko_pose_types[type].id.c_str(), wko_operand_types[operand_type].id.c_str(),
+		operands_to_landmarks_str().c_str(), phase_mask); 
+	return buf;
+}
+
+bool twkoscript::tpose::id_can_diff(const tpose& tpl2_pose) const
+{
+	if (type != tpl2_pose.type || operand_type != tpl2_pose.operand_type) {
+		return false;
+	}
+	if (memcmp(operands, tpl2_pose.operands, sizeof(operands)) != 0) {
+		return false;
+	}
+	if (phase_mask != tpl2_pose.phase_mask) {
+		return false;
+	}
+	return true;
+}
+
+void twkoscript::tpose::to_cfg_override(const tpose& tpl2_pose, config& cfg) const
+{
+	cfg.clear();
+	VALIDATE(id_can_diff(tpl2_pose), null_str);
+
+	cfg["diff_id"] = get_diff_id();
+
+	if (abs != tpl2_pose.abs) {
+		cfg["abs"].from_bool(abs);
+	}
+	VALIDATE(wko_ang_ranges.count(ang_range) != 0, null_str);
+	if (ang_range != tpl2_pose.ang_range) {
+		cfg["ang_range"].from_string(wko_ang_ranges.find(ang_range)->second.id, true);
+	}
+
+	const double eps = 0.0001;
+	if (!KDL_Equal(range.min, tpl2_pose.range.min, eps)) {
+		cfg["min"].from_double(range.min);
+	}
+
+	if (!KDL_Equal(range.max, tpl2_pose.range.max, eps)) {
+		cfg["max"].from_double(range.max);
+	}
+/*
+	VALIDATE(phase_mask > 0, null_str);
+	if (phase_mask != 1) {
+		cfg["phase_mask"].from_int(phase_mask);
+	}
+*/
+	if (name != tpl2_pose.name) {
+		cfg["name"].from_string(name, true);
+	}
+	if (unsatisfied_msgstr != tpl2_pose.unsatisfied_msgstr) {
+		cfg["unsatisfied_msgstr"].from_string(unsatisfied_msgstr, true);
+	}
+	if (unsatisfied_rmax_msgstr != tpl2_pose.unsatisfied_rmax_msgstr) {
+		cfg["unsatisfied_rmax_msgstr"].from_string(unsatisfied_rmax_msgstr, true);
 	}
 }
 
@@ -1216,9 +1482,6 @@ bool twkoscript::tpose::operator==(const tpose& that) const
 		return false;
 	}
 	if (phase_mask != that.phase_mask || name != that.name || unsatisfied_msgstr != that.unsatisfied_msgstr || unsatisfied_rmax_msgstr != that.unsatisfied_rmax_msgstr) {
-		return false;
-	}
-	if (legend != that.legend) {
 		return false;
 	}
 	return true;
@@ -1421,6 +1684,39 @@ bool twkoscript::ttrack_pose::from_cfg(const config& cfg)
 	return true;
 }
 
+bool twkoscript::ttrack_pose::from_cfg_override(const config& cfg)
+{
+	std::map<std::string, int> tpl2_diff_ids;
+	for (int at = 0; at < (int)poses.size(); at ++) {
+		const tpose& tpl2_pose = poses[at];
+		tpl2_diff_ids.insert(std::make_pair(tpl2_pose.get_diff_id(), at));
+	}
+	std::set<int> existed;
+
+	BOOST_FOREACH (const config &pose_cfg, cfg.child_range("pose")) {
+		const std::string diff_id = pose_cfg["diff_id"].str();
+		if (tpl2_diff_ids.count(diff_id) == 0) {
+			// [2/2]The new version of the action_tpl2 may have deleted this pose judgment, 
+			// and this is not considered an error.
+			continue;
+		}
+
+		tpose& pose = poses[tpl2_diff_ids.find(diff_id)->second];
+		bool retval = pose.from_cfg_override(pose_cfg);
+		if (!retval) {
+			return false;
+		}
+/*
+		if (pose.operand_type == operandtype_point) {
+			posture_fields1 += 1;
+		} else {
+			posture_fields1 += 2;
+		}
+*/
+	}
+	return true;
+}
+
 void twkoscript::ttrack_pose::to_cfg(config& cfg) const
 {
 	VALIDATE(valid(), null_str);
@@ -1430,6 +1726,22 @@ void twkoscript::ttrack_pose::to_cfg(config& cfg) const
 		config& pose_cfg = cfg.add_child("pose");
 
 		pose.to_cfg(pose_cfg);
+	}
+}
+
+void twkoscript::ttrack_pose::to_cfg_override(const taction_tpl2& action_tpl2, config& cfg) const
+{
+	VALIDATE(valid(), null_str);
+	VALIDATE(poses.size() == action_tpl2.track_pose.poses.size(), null_str);
+
+	for (int at = 0; at < (int)poses.size(); at ++) {
+		const tpose& pose = poses[at];
+		const tpose& tpl2_pose = action_tpl2.track_pose.poses[at];
+		if (pose != tpl2_pose) {
+			config& pose_cfg = cfg.add_child("pose");
+
+			pose.to_cfg_override(tpl2_pose, pose_cfg);
+		}
 	}
 }
 
@@ -1463,6 +1775,14 @@ twkoscript::tpose& twkoscript::ttrack_pose::insert_pose(int after_at, const std:
 	pose.name = new_name;
 	pose.type = posetype_angle3p;
 	pose.operand_type = operandtype_point;
+	pose.operands[0].lmk0 = 0;
+	pose.operands[1].lmk0 = 0;
+	if (wko_operand_count_from_pose_type(pose.type) == 3) {
+		pose.operands[2].lmk0 = 0;
+	}
+	pose.range.min = 90;
+	pose.ang_range = angrange_180;
+	pose.unsatisfied_msgstr = _("Untitle");
 
 	VALIDATE(pose.phase_mask >= 1, null_str);
 	return pose;
@@ -1556,15 +1876,15 @@ void twkoscript::ttrack_pose::update_landmarks(twkoscript& script)
 	script.reset_anti_shike_samples(anti_shake_fields);
 }
 
-void twkoscript::tstate2::to_cfg(const std::vector<std::string>& state_names, config& cfg) const
+void twkoscript::taction_tpl::to_cfg(config& cfg) const
 {
-	cfg["state"] = state_names[state];
-
+	// this state2 maybe pose or non-pose state.
 	if (track_pose.valid()) {
 		config& track_pose_cfg = cfg.add_child("track_pose");
 		track_pose.to_cfg(track_pose_cfg);
 	}
 
+	VALIDATE(task != nullptr, null_str);
 	if (task != nullptr) {
 		config& task_cfg = cfg.add_child("task");
 
@@ -1572,21 +1892,10 @@ void twkoscript::tstate2::to_cfg(const std::vector<std::string>& state_names, co
 		task->to_cfg(task_cfg);
 	}
 
-	next.to_cfg("next", state_names.size(), cfg);
-/*
-	if (satisfied_threshold_s != nposm) {
-		cfg["satisfied_threshold_s"].from_int(satisfied_threshold_s);
-	}
-	if (!satisfied_msgstr.empty()) {
-		cfg["satisfied_msgstr"].from_string(satisfied_msgstr, true);
-	}
-*/
 	if (is_setup) {
 		cfg["is_setup"].from_bool(is_setup);
 	}
-	if (debug_skip) {
-		cfg["debug_skip"].from_bool(debug_skip);
-	}
+
 	if (unsatisfied_threshold_ms != nposm) {
 		cfg["unsatisfied_threshold_ms"].from_int(unsatisfied_threshold_ms);
 	}
@@ -1597,6 +1906,91 @@ void twkoscript::tstate2::to_cfg(const std::vector<std::string>& state_names, co
 	if (!unsatisfied_2th_msgstr.empty()) {
 		cfg["unsatisfied_2th_msgstr"].from_string(unsatisfied_2th_msgstr, true);
 	}
+}
+
+void twkoscript::taction_tpl::to_cfg_override(const taction_tpl2& action_tpl2, config& cfg) const
+{
+	// this state2 must be pose state.
+	VALIDATE(track_pose.valid(), null_str);
+	if (action_tpl2.track_pose != track_pose) {
+		config& track_pose_cfg = cfg.add_child("track_pose");
+		track_pose.to_cfg_override(action_tpl2, track_pose_cfg);
+	}
+
+	VALIDATE(task != nullptr && action_tpl2.task != nullptr, null_str);
+	VALIDATE(task->type == action_tpl2.task->type, null_str);
+
+	if (*task != *action_tpl2.task) {
+		config& task_cfg = cfg.add_child("task");
+
+		if (task->type == tasktype_time_counter) {
+			const ttime_counter* task2 = static_cast<const ttime_counter*>(task);
+			const ttime_counter* tpl2_task2 = static_cast<const ttime_counter*>(action_tpl2.task);
+			task2->to_cfg_override(*tpl2_task2, task_cfg);
+
+		} else {
+			VALIDATE(task->type == tasktype_rep_counter, null_str);
+			const trep_counter* task2 = static_cast<const trep_counter*>(task);
+			const trep_counter* tpl2_task2 = static_cast<const trep_counter*>(action_tpl2.task);
+			task2->to_cfg_override(*tpl2_task2, task_cfg);
+		}
+	}
+
+	if (is_setup != action_tpl2.is_setup) {
+		cfg["is_setup"].from_bool(is_setup);
+	}
+
+	if (unsatisfied_threshold_ms != action_tpl2.unsatisfied_threshold_ms) {
+		cfg["unsatisfied_threshold_ms"].from_int(unsatisfied_threshold_ms);
+	}
+	if (unsatisfied_2th_threshold_s != action_tpl2.unsatisfied_2th_threshold_s) {
+		cfg["unsatisfied_2th_threshold_s"].from_int(unsatisfied_2th_threshold_s);
+	}
+
+	if (unsatisfied_2th_msgstr != action_tpl2.unsatisfied_2th_msgstr) {
+		cfg["unsatisfied_2th_msgstr"].from_string(unsatisfied_2th_msgstr, true);
+	}
+}
+
+void twkoscript::tstate2::to_cfg(const std::vector<std::string>& state_names, config& cfg) const
+{
+	if (action_tpl2_id.empty()) {
+		taction_tpl::to_cfg(cfg);
+
+	} else {
+		VALIDATE(action_tpl2s.count(action_tpl2_id) != 0, null_str);
+		const taction_tpl2& action_tpl2 = action_tpl2s.find(action_tpl2_id)->second;
+		taction_tpl::to_cfg_override(action_tpl2, cfg);
+	}
+
+	cfg["state"] = state_names[state];
+
+	if (!action_tpl2_id.empty()) {
+		VALIDATE(action_tpl2s.count(action_tpl2_id), null_str);
+		cfg["action_tpl2_id"] = action_tpl2_id;
+	}
+
+	next.to_cfg("next", state_names.size(), cfg);
+/*
+	if (is_setup) {
+		cfg["is_setup"].from_bool(is_setup);
+	}
+*/
+	if (debug_skip) {
+		cfg["debug_skip"].from_bool(debug_skip);
+	}
+/*
+	if (unsatisfied_threshold_ms != nposm) {
+		cfg["unsatisfied_threshold_ms"].from_int(unsatisfied_threshold_ms);
+	}
+	if (unsatisfied_2th_threshold_s != nposm) {
+		cfg["unsatisfied_2th_threshold_s"].from_int(unsatisfied_2th_threshold_s);
+	}
+
+	if (!unsatisfied_2th_msgstr.empty()) {
+		cfg["unsatisfied_2th_msgstr"].from_string(unsatisfied_2th_msgstr, true);
+	}
+*/
 }
 
 void twkoscript::tstate2::green()
@@ -1633,19 +2027,19 @@ void twkoscript::tstate2::green()
 	}
 }
 
-twkoscript::ttask_base* twkoscript::tstate2::new_task(int type)
+twkoscript::ttask_base* twkoscript::taction_tpl::new_task(int type, tstate2& state2)
 {
 	VALIDATE(wko_task_types.count(type) != 0, null_str);
 
 	ttask_base* task = nullptr;
 	if (type == tasktype_speak) {
-		task = new ttask_speak(*this);
+		task = new ttask_speak(state2);
 
 	} else if (type == tasktype_time_counter) {
-		task = new ttime_counter(*this);
+		task = new ttime_counter(state2);
 
 	} else if (type == tasktype_rep_counter) {
-		task = new trep_counter(*this);
+		task = new trep_counter(state2);
 
 	} else {
 		VALIDATE(false, null_str);
@@ -1697,7 +2091,7 @@ std::string twkoscript::tstate2::get_field_str(int type, int field)
 		if (field == fid_id) {
 			return "ID";
 		} else if (field == fid_name) {
-			return _("object^Name");
+			return _("Title");
 		} else if (field == fid_states) {
 			return _("State");
 		} else {
@@ -1707,6 +2101,8 @@ std::string twkoscript::tstate2::get_field_str(int type, int field)
 	} else if (type == typeid_global) {
 		if (field == fid_name) {
 			return _("object^Name");
+		} else if (field == fid_action_tpl2_id) {
+			return _("wko^action_tpl2_id label");
 		} else if (field == fid_is_setup) {
 			return _("wko^is_setup label");
 		} else if (field == fid_debug_skip) {
@@ -1785,8 +2181,6 @@ std::string twkoscript::tstate2::get_field_str(int type, int field)
 			return _("wko^pose_unsatisfied_msgstr label");
 		} else if (field == fid_pose_unsatisfied_rmax_msgstr) {
 			return _("wko^pose_unsatisfied_rmax_msgstr label");
-		} else if (field == fid_pose_legend) {
-			return _("wko^pose_legend label");
 		} else {
 			VALIDATE(false, null_str);
 		}
@@ -1797,7 +2191,7 @@ std::string twkoscript::tstate2::get_field_str(int type, int field)
 	return null_str;
 }
 
-std::string twkoscript::tstate2::get_placeholder_msg(int type, int field) const
+std::string twkoscript::tstate2::get_placeholder_msg(int type, int field)
 {
 	std::string placeholder;
 	if (type == typeid_script) {
@@ -1816,6 +2210,9 @@ std::string twkoscript::tstate2::get_placeholder_msg(int type, int field) const
 	} else if (type == typeid_global) {
 		if (field == fid_name) {
 			return i18n::freq_msgstr(i18n::msgid_notempty_and_utf8str);
+
+		} else if (field == fid_action_tpl2_id) {
+			return _("Value can not be empty.");
 
 		} else if (field == fid_is_setup) {
 
@@ -1903,8 +2300,6 @@ std::string twkoscript::tstate2::get_placeholder_msg(int type, int field) const
 		} else if (field == fid_pose_unsatisfied_rmax_msgstr) {
 			placeholder = i18n::freq_msgstr(i18n::msgid_empty_or_utf8str);
 
-		} else if (field == fid_pose_legend) {
-			placeholder = i18n::freq_msgstr(i18n::msgid_empty_or_utf8str);
 		} else {
 			VALIDATE(false, null_str);
 		}
@@ -1915,7 +2310,7 @@ std::string twkoscript::tstate2::get_placeholder_msg(int type, int field) const
 	return placeholder;
 }
 
-std::string twkoscript::tstate2::get_error_msg(const tcookie3f& cookie3f) const
+std::string twkoscript::tstate2::get_error_msg(const tcookie3f& cookie3f)
 {
 	utils::string_map symbols;
 	symbols["field"] = get_field_str(cookie3f.type, cookie3f.field);
@@ -2010,9 +2405,26 @@ uint64_t twkoscript::tpose::is_valid2_range(int index, std::string& err_msg) con
 	return TCOOKIE3F_CHECK_OK;
 }
 
+std::string twkoscript::tstate2::diff_id_err_msg(const std::string& field_str) const
+{
+	VALIDATE(!field_str.empty(), null_str);
+
+	utils::string_map symbols;
+	symbols["tpl2_id"] = get_field_str(typeid_global, fid_action_tpl2_id);
+	symbols["field"] = field_str;
+
+	return vgettext2("When $tpl2_id exists, cannot modify '$field' of pose judgment.", symbols);
+}
+
 uint64_t twkoscript::tstate2::is_valid2(int pose_states_parsed, std::string& err_msg, bool check_range) const
 {
 	err_msg.clear();
+
+	const taction_tpl2* p_tpl2 = nullptr;
+	if (!action_tpl2_id.empty()) {
+		VALIDATE(action_tpl2s.count(action_tpl2_id) != 0, null_str);
+		p_tpl2 = &action_tpl2s.find(action_tpl2_id)->second;
+	}
 
 	// common fields
 	if (task == nullptr) {
@@ -2044,6 +2456,13 @@ uint64_t twkoscript::tstate2::is_valid2(int pose_states_parsed, std::string& err
 	//
 	// base
 	//
+/*
+	if (!is_setup && action_tpl2_id.empty()) {
+		// symbols["ffield"] = get_field();
+		// The action ID needs to be set.
+		return tcookie3f(0, typeid_global, fid_action_tpl2_id).u64;
+	}
+*/
 	if (unsatisfied_threshold_ms <= 0) {
 		return tcookie3f(0, typeid_global, fid_unsatisfied_threshold_ms).u64;
 	}
@@ -2101,10 +2520,15 @@ uint64_t twkoscript::tstate2::is_valid2(int pose_states_parsed, std::string& err
 	//
 	// poses
 	//
+	if (p_tpl2 != nullptr && track_pose.poses.size() != p_tpl2->track_pose.poses.size()) {
+		err_msg = diff_id_err_msg(_("Count"));
+		return tcookie3f(0, typeid_track_pose, fid_typeself).u64;
+	}
 	const int max_phase_mask = BIT_IDX_MASK(WKO_MAX_PHASE_COUNT) - 1;
 	int index = 0;
 	for (std::vector<tpose>::const_iterator it = track_pose.poses.begin(); it != track_pose.poses.end(); ++ it, index ++) {
 		const tpose& pose = *it;
+		const tpose* tpl2_pose = p_tpl2 != nullptr? &p_tpl2->track_pose.poses[index]: nullptr;
 
 		if (pose.phase_mask < 1 || pose.phase_mask > max_phase_mask) {
 			return tcookie3f(index, typeid_pose, fid_pose_phase_mask).u64;
@@ -2152,44 +2576,29 @@ uint64_t twkoscript::tstate2::is_valid2(int pose_states_parsed, std::string& err
 			err_msg = vgettext2("When only one voice is required, just set the '$generic', no need to configure the '$max'.", symbols);
 			return tcookie3f(index, typeid_pose, fid_pose_unsatisfied_msgstr).u64;
 		}
-/*
-		if (!utils::is_utf8str(pose.legend.c_str(), pose.legend.size())) {
-			return tcookie3f(index, typeid_pose, fid_pose_legend).u64;
+
+		if (tpl2_pose != nullptr) {
+			if (pose.type != tpl2_pose->type) {
+				err_msg = diff_id_err_msg(get_field_str(typeid_pose, fid_type));
+				return tcookie3f(index, typeid_pose, fid_type).u64;
+			}
+			if (pose.operand_type != tpl2_pose->operand_type) {
+				err_msg = diff_id_err_msg(get_field_str(typeid_pose, fid_operand_type));
+				return tcookie3f(index, typeid_pose, fid_operand_type).u64;
+			}
+			if (memcmp(pose.operands, tpl2_pose->operands, sizeof(pose.operands)) != 0) {
+				err_msg = diff_id_err_msg(get_field_str(typeid_pose, fid_landmarks));
+				return tcookie3f(index, typeid_pose, fid_landmarks).u64;
+			}
+			if (pose.phase_mask != tpl2_pose->phase_mask) {
+				err_msg = diff_id_err_msg(get_field_str(typeid_pose, fid_pose_phase_mask));
+				return tcookie3f(index, typeid_pose, fid_pose_phase_mask).u64;
+			}
+			VALIDATE(tpl2_pose->id_can_diff(pose), null_str);
 		}
-*/
 	}
 
 	return TCOOKIE3F_CHECK_OK;
-}
-
-std::string twkoscript::tstate2::fomrat_is_valid2_result(uint64_t res, const std::string& err_msg) const
-{
-	VALIDATE(res != TCOOKIE3F_CHECK_OK, null_str);
-
-	tcookie3f cookie3f(res);
-
-	std::stringstream err;
-	if (err_msg.empty()) {
-		err << get_error_msg(cookie3f);
-	} else {
-		err << err_msg;
-	}
-
-	if (cookie3f.field >= aplt::twkoscript::fid_phase_min && cookie3f.field <= aplt::twkoscript::fid_phase_max) {
-		utils::string_map symbols;
-		symbols["number"] = str_cast(cookie3f.index + 1);
-		symbols["msg"] = err.str();
-		err.str("");
-		err << vgettext2("In $number phase, $msg", symbols);
-
-	} else if (cookie3f.type == aplt::twkoscript::typeid_pose) {
-		utils::string_map symbols;
-		symbols["number"] = str_cast(cookie3f.index + 1);
-		symbols["msg"] = err.str();
-		err.str("");
-		err << vgettext2("In $number pose, $msg", symbols);
-	}
-	return err.str();
 }
 
 bool twkoscript::tstate2::state_swap(int s1, int s2)
@@ -2356,6 +2765,8 @@ void twkoscript::tstate2::slice()
 		}
 	}
 
+	// action_tpl2's state2.state is nposm.
+	VALIDATE(task->state2_->state != nposm, null_str);
 	task->slice();
 }
 
@@ -2403,6 +2814,21 @@ void twkoscript::tstate2::sn_speak_unsatisfied_msg()
 	sn_update_next_unsatisfied_ticks(true);
 }
 
+const std::string& twkoscript::reserved_key_id2()
+{
+	static const std::string value = "__id2";
+	return value;
+}
+
+std::string twkoscript::id_to_filename(const std::string& _id)
+{
+	VALIDATE(!_id.empty(), null_str);
+	std::string result = _id;
+	result.append(".cfg");
+
+	return result;
+}
+
 std::string twkoscript::build_lmk33_png_basename(int state, int phase)
 {
 	VALIDATE(state >= 0 && phase >= 0, null_str);
@@ -2429,6 +2855,105 @@ std::string twkoscript::build_lmk33_png_filename3(const std::string& phase_surf_
 	return buf;
 }
 
+void twkoscript::init_wkoscript()
+{
+	VALIDATE(wko_task_types.empty(), null_str);
+	wko_task_types.insert(std::make_pair(tasktype_speak, tcode3(tasktype_speak, "speak", _("wko^tasktype_speak"))));
+	wko_task_types.insert(std::make_pair(tasktype_time_counter, tcode3(tasktype_time_counter, "time_counter", _("wko^tasktype_time_counter"))));
+	wko_task_types.insert(std::make_pair(tasktype_rep_counter, tcode3(tasktype_rep_counter, "rep_counter", _("wko^tasktype_rep_counter"))));
+	VALIDATE((int)wko_task_types.size() == tasktype_count, null_str);
+
+	VALIDATE(wko_pose_types.empty(), null_str);
+		wko_pose_types.insert(std::make_pair(posetype_angle3p, tcode3(posetype_angle3p, "angle3p", "")));
+		wko_pose_types.insert(std::make_pair(posetype_angle2p, tcode3(posetype_angle2p, "angle2p", "")));
+		wko_pose_types.insert(std::make_pair(posetype_diff, tcode3(posetype_diff, "diff", "")));
+	
+	VALIDATE((int)wko_pose_types.size() == posetype_count, null_str);
+
+	VALIDATE(wko_operand_types.empty(), null_str);
+		wko_operand_types.insert(std::make_pair(operandtype_point, tcode3(operandtype_point, "point", "")));
+		wko_operand_types.insert(std::make_pair(operandtype_x, tcode3(operandtype_x, "x", "")));
+		wko_operand_types.insert(std::make_pair(operandtype_y, tcode3(operandtype_y, "y", "")));
+		wko_operand_types.insert(std::make_pair(operandtype_dist_x, tcode3(operandtype_dist_x, "dist_x", "")));
+		wko_operand_types.insert(std::make_pair(operandtype_dist_y, tcode3(operandtype_dist_y, "dist_y", "")));
+	
+	VALIDATE((int)wko_operand_types.size() == operandtype_count, null_str);
+
+	VALIDATE(wko_ang_ranges.empty(), null_str);
+		wko_ang_ranges.insert(std::make_pair(angrange_180, tcode3(angrange_180, "180", "")));
+		wko_ang_ranges.insert(std::make_pair(angrange_360, tcode3(angrange_360, "360", "")));
+	
+	VALIDATE((int)wko_ang_ranges.size() == angrange_count, null_str);
+
+	VALIDATE(wko_time_rules.empty(), null_str);
+		wko_time_rules.insert(std::make_pair(timerule_total, tcode3(timerule_total, "total", _("wko^timerule_total"))));
+		wko_time_rules.insert(std::make_pair(timerule_satisfied, tcode3(timerule_satisfied, "satisfied", _("wko^timerule_satisfied"))));
+		wko_time_rules.insert(std::make_pair(timerule_strict, tcode3(timerule_strict, "strict", _("wko^timerule_strict"))));
+	
+	VALIDATE((int)wko_time_rules.size() == timerule_count, null_str);
+
+	VALIDATE(wko_time_tones.empty(), null_str);
+		wko_time_tones.insert(std::make_pair(timetone_full, tcode3(timetone_full, "full", _("wko^timetone_full"))));
+		wko_time_tones.insert(std::make_pair(timetone_split, tcode3(timetone_split, "split", _("wko^timetone_split"))));
+		wko_time_tones.insert(std::make_pair(timetone_silent, tcode3(timetone_silent, "silent", _("wko^timetone_silent"))));
+	VALIDATE((int)wko_time_tones.size() == timetone_count, null_str);
+
+	VALIDATE(pose_sides.empty(), null_str);
+		pose_sides.insert(std::make_pair(poseside_left, tcode3(poseside_left, "left", _("Left"))));
+		pose_sides.insert(std::make_pair(poseside_right, tcode3(poseside_right, "right", _("Right"))));
+		pose_sides.insert(std::make_pair(poseside_other, tcode3(poseside_other, "other", _("Other"))));
+	
+	VALIDATE((int)pose_sides.size() == poseside_count, null_str);
+
+	VALIDATE(pose_metrics.empty(), null_str);
+		pose_metrics.insert(std::make_pair(posemetric_body_tilt_angle, tcode3(posemetric_body_tilt_angle, 
+			"body_tilt_angle", _("wko^posemetric_body_tilt_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_header_tilt_angle, tcode3(posemetric_header_tilt_angle, 
+			"header_tilt_angle", _("wko^posemetric_header_tilt_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_upper_arm_angle, tcode3(posemetric_left_upper_arm_angle, 
+			"left_upper_arm_angle", _("wko^posemetric_left_upper_arm_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_upper_arm_angle, tcode3(posemetric_right_upper_arm_angle, 
+			"right_upper_arm_angle", _("wko^posemetric_right_upper_arm_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_elbow_angle, tcode3(posemetric_left_elbow_angle, 
+			"left_elbow_angle", _("wko^posemetric_left_elbow_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_elbow_angle, tcode3(posemetric_right_elbow_angle, 
+			"right_elbow_angle", _("wko^posemetric_right_elbow_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_forearm_angle, tcode3(posemetric_left_forearm_angle, 
+			"left_forearm_angle", _("wko^posemetric_left_forearm_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_forearm_angle, tcode3(posemetric_right_forearm_angle, 
+			"right_forearm_angle", _("wko^posemetric_right_forearm_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_wrist_on_right_shoulder, tcode3(posemetric_left_wrist_on_right_shoulder, 
+			"left_wrist_on_right_shoulder", _("wko^posemetric_left_wrist_on_right_shoulder"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_wrist_on_left_shoulder, tcode3(posemetric_right_wrist_on_left_shoulder, 
+			"right_wrist_on_left_shoulder", _("wko^posemetric_right_wrist_on_left_shoulder"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_thigh_angle, tcode3(posemetric_left_thigh_angle, 
+			"left_thigh_angle", _("wko^posemetric_left_thigh_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_thigh_angle, tcode3(posemetric_right_thigh_angle, 
+			"right_thigh_angle", _("wko^posemetric_right_thigh_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_knee_angle, tcode3(posemetric_left_knee_angle, 
+			"left_knee_angle", _("wko^posemetric_left_knee_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_knee_angle, tcode3(posemetric_right_knee_angle, 
+			"right_knee_angle", _("wko^posemetric_right_knee_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_lower_leg_angle, tcode3(posemetric_left_lower_leg_angle, 
+			"left_lower_leg_angle", _("wko^posemetric_left_lower_leg_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_lower_leg_angle, tcode3(posemetric_right_lower_leg_angle, 
+			"right_lower_leg_angle", _("wko^posemetric_right_lower_leg_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_left_leg_angle, tcode3(posemetric_left_leg_angle, 
+			"left_leg_angle", _("wko^posemetric_left_leg_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_leg_angle, tcode3(posemetric_right_leg_angle, 
+			"right_leg_angle", _("wko^posemetric_right_leg_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_hip_angle, tcode3(posemetric_right_hip_angle, 
+			"right_hip_angle", _("wko^posemetric_right_hip_angle"))));
+		pose_metrics.insert(std::make_pair(posemetric_right_torso_angle, tcode3(posemetric_right_torso_angle, 
+			"right_torso_angle", _("wko^posemetric_right_torso_angle"))));
+
+		for (std::map<int, tcode3>::const_iterator it = pose_metrics.begin(); it != pose_metrics.end(); ++ it) {
+			VALIDATE(it->first == it->second.code, null_str);
+		}
+	
+	VALIDATE((int)pose_metrics.size() == posemetric_count, null_str);
+}
+
 twkoscript::twkoscript()
 	: pinyin_(aplt::get_curr_pinyin())
 	, tone_(PINYIN_DEF_TONE)
@@ -2440,10 +2965,11 @@ twkoscript::twkoscript()
 	, reset_samples_threshold_ms_(5000) // 5s
 {
 	VALIDATE(WKO_MAX_ANTI_SHAKE_FIELDS	== WKO_MAX_POSES_PER_TRACK * 2, null_str);
+	VALIDATE(!action_tpl2s.empty(), null_str);
 
 	clear();
 	reset_anti_shike_samples(0);
-
+/*
 	if (wko_task_types.empty()) {
 		wko_task_types.insert(std::make_pair(tasktype_speak, tcode3(tasktype_speak, "speak", _("wko^tasktype_speak"))));
 		wko_task_types.insert(std::make_pair(tasktype_time_counter, tcode3(tasktype_time_counter, "time_counter", _("wko^tasktype_time_counter"))));
@@ -2541,9 +3067,132 @@ twkoscript::twkoscript()
 		}
 	}
 	VALIDATE((int)pose_metrics.size() == posemetric_count, null_str);
-
+*/
 
 	memset(&overlay_msg_, 0, sizeof(tuint8data2_C));
+}
+
+bool twkoscript::taction_tpl::from_cfg(const config& cfg, tstate2& state2)
+{
+	clear_action_tpl();
+
+	// [track_pose]
+	if (cfg.has_child("track_pose")) {
+		const config& track_pose_cfg = cfg.child("track_pose");
+		bool retval = track_pose.from_cfg(track_pose_cfg);
+		if (!retval) {
+			return false;
+		}
+	}
+
+	// [task]
+	if (cfg.has_child("task")) {
+		const config& task_cfg = cfg.child("task");
+		const std::string type_str = task_cfg["type"].str();
+		int type = wko_task_type_from_str(type_str);
+		if (type == nposm) {
+			return false;
+		}
+
+		VALIDATE(task == nullptr, null_str);
+		ttask_base* task_tmp = taction_tpl::new_task(type, state2);
+		if (!task_tmp->from_cfg(task_cfg)) {
+			delete task_tmp;
+			return false;
+		}
+		task = task_tmp;
+
+	} else {
+		return false;
+	}
+
+	if (track_pose.valid()) {
+		// track pose relative
+
+		is_setup = cfg["is_setup"].to_bool();
+
+		unsatisfied_threshold_ms = cfg["unsatisfied_threshold_ms"].to_int(nposm);
+		unsatisfied_2th_threshold_s = cfg["unsatisfied_2th_threshold_s"].to_int(nposm);
+		// state2.unsatisfied_msgstr = cfg["unsatisfied_msgstr"].str();
+		if (unsatisfied_threshold_ms == nposm) {
+			return false;
+		}
+
+		if (unsatisfied_2th_threshold_s * 1000 <= unsatisfied_threshold_ms) {
+			return false;
+		}
+
+		// allow 'unsatisfied_2th_msgstr' is empty.
+		unsatisfied_2th_msgstr = cfg["unsatisfied_2th_msgstr"].str();
+	}
+
+	return true;
+}
+
+bool twkoscript::taction_tpl::from_cfg_override(const config& cfg, tstate2& state2)
+{
+	VALIDATE(valid(), null_str);
+
+	// [track_pose]
+	if (cfg.has_child("track_pose")) {
+		const config& track_pose_cfg = cfg.child("track_pose");
+		bool retval = track_pose.from_cfg_override(track_pose_cfg);
+		if (!retval) {
+			return false;
+		}
+	}
+
+	// [task]
+	VALIDATE(task != nullptr, null_str);
+	if (cfg.has_child("task")) {
+		const config& task_cfg = cfg.child("task");
+		bool retval = false;
+		if (task->type == tasktype_time_counter) {
+			ttime_counter* task2 = static_cast<ttime_counter*>(task);
+			retval = task2->from_cfg_override(task_cfg);
+
+		} else {
+			VALIDATE(task->type == tasktype_rep_counter, null_str);
+			trep_counter* task2 = static_cast<trep_counter*>(task);
+			retval = task2->from_cfg_override(task_cfg);
+		}
+		if (!retval) {
+			delete task;
+			task = nullptr;
+			return false;
+		}
+	}
+
+	VALIDATE(track_pose.valid(), null_str);
+	if (track_pose.valid()) {
+		// track pose relative
+
+		if (cfg.has_attribute("is_setup")) {
+			is_setup = cfg["is_setup"].to_bool();
+		}
+
+		if (cfg.has_attribute("unsatisfied_threshold_ms")) {
+			unsatisfied_threshold_ms = cfg["unsatisfied_threshold_ms"].to_int(nposm);
+		}
+		if (cfg.has_attribute("unsatisfied_2th_threshold_s")) {
+			unsatisfied_2th_threshold_s = cfg["unsatisfied_2th_threshold_s"].to_int(nposm);
+		}
+		// state2.unsatisfied_msgstr = cfg["unsatisfied_msgstr"].str();
+		if (unsatisfied_threshold_ms == nposm) {
+			return false;
+		}
+
+		if (unsatisfied_2th_threshold_s * 1000 <= unsatisfied_threshold_ms) {
+			return false;
+		}
+
+		// allow 'unsatisfied_2th_msgstr' is empty.
+		if (cfg.has_attribute("unsatisfied_2th_msgstr")) {
+			unsatisfied_2th_msgstr = cfg["unsatisfied_2th_msgstr"].str();
+		}
+	}
+
+	return true;
 }
 
 bool twkoscript::from_state2_cfg(const config& cfg, const std::map<std::string, int>& _state_names_map, int pose_states_parsed, tstate2** state2_result)
@@ -2569,69 +3218,44 @@ bool twkoscript::from_state2_cfg(const config& cfg, const std::map<std::string, 
 	VALIDATE(ins.second, null_str);
 
 	tstate2& state2 = ins.first->second;
+
+	state2.action_tpl2_id = cfg["action_tpl2_id"].str();
+	if (!state2.action_tpl2_id.empty() && action_tpl2s.count(state2.action_tpl2_id) == 0) {
+		tb_api& b_api = get_b_api();
+
+		utils::string_map symbols;
+		symbols["name"] = title;
+		symbols["tpl2_id"] = state2.action_tpl2_id;
+		std::string err_msg = vgettext2("wko^load fail, $name, $tpl2_id", symbols);
+		b_api.aplt_add_msg_log(time(nullptr), err_msg, 0, false);
+		return false;
+	}
 	state2.debug_skip = cfg["debug_skip"].to_bool();
 
-	// [track_pose]
-	if (cfg.has_child("track_pose")) {
-		const config& track_pose_cfg = cfg.child("track_pose");
-		bool retval = state2.track_pose.from_cfg(track_pose_cfg);
-		if (!retval) {
+	if (state2.action_tpl2_id.empty()) {
+		if (!state2.taction_tpl::from_cfg(cfg, state2)) {
 			return false;
 		}
-	}
-
-	// [task]
-	if (cfg.has_child("task")) {
-		const config& task_cfg = cfg.child("task");
-		const std::string type_str = task_cfg["type"].str();
-		int type = wko_task_type_from_str(type_str);
-		if (type == nposm) {
-			return false;
-		}
-
-		VALIDATE(state2.task == nullptr, null_str);
-		ttask_base* task = state2.new_task(type);
-		if (!task->from_cfg(task_cfg)) {
-			delete task;
-			return false;
-		}
-		state2.task = task;
 
 	} else {
-		return false;
+		state2.clear_action_tpl();
+		const taction_tpl2& action_tpl2 = action_tpl2s.find(state2.action_tpl2_id)->second;
+		static_cast<taction_tpl&>(state2) = 
+			static_cast<const taction_tpl&>(action_tpl2);
+		state2.task->state2_ = &state2;
+		if (!state2.taction_tpl::from_cfg_override(cfg, state2)) {
+			return false;
+		}
 	}
 
 	// [next]
 	state2.next.from_cfg("next", state_names_map.size(), cfg);
 
-	if (state2.track_pose.valid()) {
-		// track pose relative
-/*
-		state2.satisfied_threshold_s = cfg["satisfied_threshold_s"].to_int(nposm);
-		state2.satisfied_msgstr = cfg["satisfied_msgstr"].str();
-*/
-		// 'state2.satisfied_msgstr' allow empty. when empty, don't update 'next_speak_satisfied_msg_ticks_'.
-		// 'state2.satisfied_threshold_s' only require >= 0.
-		state2.is_setup = cfg["is_setup"].to_bool();
-		if (state2.is_setup && pose_states_parsed != 0) {
-			// Setup can only be the first pose state.
-			return false;
-		}
-
-		state2.unsatisfied_threshold_ms = cfg["unsatisfied_threshold_ms"].to_int(nposm);
-		state2.unsatisfied_2th_threshold_s = cfg["unsatisfied_2th_threshold_s"].to_int(nposm);
-		// state2.unsatisfied_msgstr = cfg["unsatisfied_msgstr"].str();
-		if (state2.unsatisfied_threshold_ms == nposm) {
-			return false;
-		}
-
-		if (state2.unsatisfied_2th_threshold_s * 1000 <= state2.unsatisfied_threshold_ms) {
-			return false;
-		}
-
-		// allow 'unsatisfied_2th_msgstr' is empty.
-		state2.unsatisfied_2th_msgstr = cfg["unsatisfied_2th_msgstr"].str();
+	if (state2.is_setup && pose_states_parsed != 0) {
+		// Setup can only be the first pose state.
+		return false;
 	}
+
 	*state2_result = &state2;
 	return true;
 }
@@ -2651,9 +3275,13 @@ bool twkoscript::from_cfg(const config& cfg)
 	tauto_destruct_executor destruct_executor(std::bind(&twkoscript::did_from_cfg_quited, this, std::ref(err_msg)));
 
 	id = cfg["id"].str();
-	name = cfg["name"].str();
+	title = cfg["title"].str();
+	if (title.empty()) {
+		// 2026-9-25
+		title = cfg["name"].str();
+	}
 
-	if (!isvalid_normal_id_or_var_name224(id) || !isvalid_short_utf8_name216(name)) {
+	if (!isvalid_normal_id_or_var_name224(id) || !isvalid_short_utf8_name216(title)) {
 		err_msg = "[twkoscript cfg]id or name is invalid";
 		return false;
 	}
@@ -2701,7 +3329,7 @@ void twkoscript::to_cfg(config& cfg) const
 
 	VALIDATE(isvalid_normal_id_or_var_name224(id), null_str);
 	cfg["id"] = id;
-	cfg["name"] = name;
+	cfg["title"] = title;
 	if (!author.empty()) {
 		cfg["author"] = author;
 	}
@@ -2720,7 +3348,7 @@ void twkoscript::to_cfg(config& cfg) const
 
 bool twkoscript::equal(const aplt::twkoscript& that) const
 {
-	if (id != that.id || name != that.name || author != that.author || reference != that.reference ||
+	if (id != that.id || title != that.title || author != that.author || reference != that.reference ||
 		startup_state != that.startup_state) {
 		return false;
 	}
@@ -2743,7 +3371,7 @@ void twkoscript::assign(const aplt::twkoscript& that)
 	// cfg_str = that.cfg_str;
 
 	id = that.id;
-	name = that.name;
+	title = that.title;
 	author = that.author;
 	reference = that.reference;
 	startup_state = that.startup_state;
@@ -2761,7 +3389,7 @@ uint64_t twkoscript::is_valid2(std::string& err_msg, const tstate2** err_state, 
 	if (!isvalid_normal_id_or_var_name224(id)) {
 		return tcookie3f(0, typeid_script, fid_id).u64;
 	}
-	if (!isvalid_short_utf8_name216(name)) {
+	if (!isvalid_short_utf8_name216(title)) {
 		return tcookie3f(0, typeid_script, fid_name).u64;
 	}
 
@@ -2816,6 +3444,36 @@ uint64_t twkoscript::is_valid2(std::string& err_msg, const tstate2** err_state, 
 		}
 	}
 	return TCOOKIE3F_CHECK_OK;
+}
+
+std::string twkoscript::fomrat_is_valid2_result(uint64_t res, const std::string& err_msg)
+{
+	VALIDATE(res != TCOOKIE3F_CHECK_OK, null_str);
+
+	tcookie3f cookie3f(res);
+
+	std::stringstream err;
+	if (err_msg.empty()) {
+		err << tstate2::get_error_msg(cookie3f);
+	} else {
+		err << err_msg;
+	}
+
+	if (cookie3f.field >= aplt::twkoscript::fid_phase_min && cookie3f.field <= aplt::twkoscript::fid_phase_max) {
+		utils::string_map symbols;
+		symbols["number"] = str_cast(cookie3f.index + 1);
+		symbols["msg"] = err.str();
+		err.str("");
+		err << vgettext2("In $number phase, $msg", symbols);
+
+	} else if (cookie3f.type == aplt::twkoscript::typeid_pose) {
+		utils::string_map symbols;
+		symbols["number"] = str_cast(cookie3f.index + 1);
+		symbols["msg"] = err.str();
+		err.str("");
+		err << vgettext2("In $number pose, $msg", symbols);
+	}
+	return err.str();
 }
 
 int twkoscript::pose_state_count(bool* has_setup) const
@@ -2984,15 +3642,16 @@ twkoscript::tstate2& twkoscript::insert_state(int after_at, const std::string& _
 		state2.unsatisfied_threshold_ms = 1500;
 		state2.unsatisfied_2th_threshold_s = 5;
 
-		state2.track_pose.insert_pose(nposm, null_str);
+		tpose& new_pose = state2.track_pose.insert_pose(nposm, null_str);
 	}
 
-	state2.task = state2.new_task(task_type);
+	state2.task = state2.new_task(task_type, state2);
 	if (state2.task->type == tasktype_time_counter) {
 		ttime_counter* task2 = static_cast<ttime_counter*>(state2.task);
 		task2->rule = timerule_total;
 		task2->tone = timetone_full;
 		task2->satisfied_threshold_s = 3;
+		task2->max_count = 10;
 
 	} else if (state2.task->type == tasktype_rep_counter) {
 		// state2.unsatisfied_2th_msgstr = "fake";
@@ -3005,6 +3664,7 @@ twkoscript::tstate2& twkoscript::insert_state(int after_at, const std::string& _
 			phase.cooldowned_ms = 400;
 			phase.action_msg = str_cast(phase_at + 1);
 		}
+		task2->max_count = 10;
 	}
 
 	return state2;
@@ -3113,7 +3773,10 @@ void twkoscript::history_after_one_finish(const SDL_Range& range_ms, uint32_t& r
 		}
 	}
 
-	if (pose_state_count == 1) {
+	std::set<std::string> freq_action_tpl2_ids = {"plank_time", "pushup_rep"};
+
+	bool is_freq_action = freq_action_tpl2_ids.count(first_pose_state->action_tpl2_id) != 0;
+	if (pose_state_count == 1 || (pose_state_count == 2 && is_freq_action)) {
 		// For single-state scripts, distinguish between timing and rep.
 		VALIDATE(first_pose_state != nullptr, null_str);
 		const twkoscript::tstate2& state2 = *first_pose_state;
@@ -3131,6 +3794,48 @@ void twkoscript::history_after_one_finish(const SDL_Range& range_ms, uint32_t& r
 		// For multi-state scripts, directly add the duration of this workout session.
 		duration_s += (range_ms.max - range_ms.min) / 1000;
 	}
+}
+
+void twkoscript::apply_action_tpl2(tstate2& state2, const aplt::taction_tpl2& action_tpl2)
+{
+	VALIDATE(action_tpl2.valid(), null_str);
+
+	VALIDATE(state2.task != nullptr, null_str);
+	if (state2.task->type == tasktype_speak) {
+		ttask_speak* task2 = static_cast<ttask_speak*>(state2.task);
+		
+		if (!action_tpl2.is_setup) {
+			utils::string_map symbols;
+			symbols["name"] = action_tpl2.name;
+			symbols["msg"] = action_tpl2.msg;
+			task2->msgstr = vgettext2("action_tpl_msg_to_speak_msg, $name, $msg", symbols);
+
+		} else {
+			task2->msgstr = action_tpl2.msg;
+		}
+		
+	} else {
+		if (!action_tpl2.is_setup) {
+			state_names[state2.state] = action_tpl2.name;
+		}
+		static_cast<taction_tpl&>(state2) = 
+			static_cast<const taction_tpl&>(action_tpl2);
+	}
+}
+
+void twkoscript::copy_action_tpl2(const tstate2& state2, taction_tpl2& action_tpl2)
+{
+	static_cast<aplt::twkoscript::taction_tpl&>(action_tpl2) =
+		static_cast<const aplt::twkoscript::taction_tpl&>(state2);
+	if (!state_names[state2.state].empty()) {
+		action_tpl2.name = state_names[state2.state];
+
+	} else {
+		action_tpl2.name = "(";
+		action_tpl2.name.append(_("Untitle"));
+		action_tpl2.name.append(")");
+	}
+	action_tpl2.id = "__clip_action_tpl2";
 }
 
 void twkoscript::green()
@@ -4108,8 +4813,143 @@ void tpreset_pose::to_cfg(config& cfg) const
 	cfg["tolerance"].from_double(tolerance);
 }
 
+//
+// taction_tpl2
+//
+void taction_tpl2::did_from_cfg_quited(const std::string& err_msg)
+{
+	if (!err_msg.empty()) {
+		clear();
+	}
+}
 
+bool taction_tpl2::from_cfg(const config& cfg)
+{
+	clear();
+
+	std::string err_msg;
+	tauto_destruct_executor destruct_executor(std::bind(&taction_tpl2::did_from_cfg_quited, this, std::ref(err_msg)));
+
+	bool retbool = taction_tpl::from_cfg(cfg, state2_);
+	if (!retbool) {
+		err_msg = "invalid file in action_tpl";
+		return false;
+	}
+	VALIDATE(track_pose.valid(), null_str);
+	VALIDATE(!state2_.track_pose.valid(), null_str);
+
+	VALIDATE(task != nullptr, null_str);
+	VALIDATE(state2_.task == nullptr, null_str);
+
+	VALIDATE(unsatisfied_threshold_ms != nposm, null_str);
+	VALIDATE(state2_.unsatisfied_threshold_ms == nposm, null_str);
+
+	VALIDATE(unsatisfied_2th_threshold_s != nposm, null_str);
+	VALIDATE(state2_.unsatisfied_2th_threshold_s == nposm, null_str);
+
+	VALIDATE(state2_.unsatisfied_2th_msgstr.empty(), null_str);
+
+	id = cfg["id"].str();
+	SDL_Range id_chars{5, 40};
+	if (!utils::isvalid_underline_id(id, true, id_chars.min, id_chars.max)) {
+		err_msg = "invalid id";
+		return false;
+	}
+	name = cfg["name"].str();
+	if (!isvalid_normal_utf8_name224(name)) {
+		err_msg = "invalid name";
+		return false;
+	}
+
+	msg = cfg["msg"].str();
+	SDL_Range char_range = {4, 48};
+	bool is_setup = cfg["is_setup"].to_bool();
+	if (is_setup) {
+		char_range.max = 80;
+	}
+	if (!utils::isvalid_utf8_name(msg, char_range.min, char_range.max)) {
+		err_msg = "invalid msg";
+		return false;
+	}
+
+	return true;
+}
+
+void taction_tpl2::to_cfg(config& cfg) const
+{
+	VALIDATE(valid(), null_str);
+
+	taction_tpl::to_cfg(cfg);
+
+	cfg["id"] = id;
+	cfg["name"] = name;
+	cfg["msg"] = msg;
+}
+
+std::map<std::string, taction_tpl2> action_tpl2s;
 const std::string wko_new_dir_prefix = "__new_";
+
+static std::string wkoscript_extract_val(const std::string& cfg_str, const std::string& keyword)
+{
+	VALIDATE(keyword == "id" || keyword == twkoscript::reserved_key_id2(), null_str);
+
+	std::string id;
+    // const std::string keyword = "id";
+    const std::string equalSign = "=";
+    const std::string quote = "\"";
+    
+    size_t pos = 0;
+	while (true) {
+        // find "id"
+        size_t idPos = cfg_str.find(keyword, pos);
+        if (idPos == std::string::npos) {
+			break;
+		}
+        
+        // find "="
+        size_t eqPos = cfg_str.find(equalSign, idPos + keyword.length());
+        if (eqPos == std::string::npos) {
+			break;
+		}
+        
+        // find first quote
+        size_t quote1 = cfg_str.find(quote, eqPos + 1);
+        if (quote1 == std::string::npos) break;
+        
+        // find second quote
+        size_t quote2 = cfg_str.find(quote, quote1 + 1);
+        if (quote2 == std::string::npos) break;
+        
+        // extra 'id' value
+        id = cfg_str.substr(quote1 + 1, quote2 - quote1 - 1);
+		break;
+        // ids.push_back(id);
+        
+        // pos = quote2 + 1;
+    }
+    
+    return id;
+}
+
+std::string wkoscript_extract_id(const std::string& cfg_str, std::string* id2)
+{
+	const std::string& reserved_key_id2 = twkoscript::reserved_key_id2();
+
+	if (cfg_str.find(reserved_key_id2) == 0) {
+		const std::string _id2 = wkoscript_extract_val(cfg_str, reserved_key_id2);
+		if (id2 != nullptr) {
+			*id2 = _id2;
+		}
+		return utils::split_app_prefix_id(_id2).second;
+	}
+	std::string id = wkoscript_extract_val(cfg_str, "id");
+	if (id2 != nullptr && !id.empty()) {
+		// old version, @cfg_str hasn't @reserved_key_id2.
+		const std::string aplt = "aplt.leagor.khomelua";
+		*id2 = utils::join_app_prefix_id(aplt, id);
+	}
+	return id;
+}
 
 bool did_walk_wkoscript(const std::string& dir, const SDL_dirent2* dirent, int type, const std::set<std::string>& ext_names, 
 	std::set<std::string>& result_set, const std::string& root)
@@ -4163,47 +5003,6 @@ bool did_walk_wkoscript(const std::string& dir, const SDL_dirent2* dirent, int t
 		}
 	}
 	return true;
-}
-
-std::string wkoscript_extract_id(const std::string& cfg_str)
-{
-	// std::vector<std::string> ids;
-	std::string id;
-    const std::string keyword = "id";
-    const std::string equalSign = "=";
-    const std::string quote = "\"";
-    
-    size_t pos = 0;
-    while (true) {
-        // find "id"
-        size_t idPos = cfg_str.find(keyword, pos);
-        if (idPos == std::string::npos) {
-			break;
-		}
-        
-        // find "="
-        size_t eqPos = cfg_str.find(equalSign, idPos + keyword.length());
-        if (eqPos == std::string::npos) {
-			break;
-		}
-        
-        // find first quote
-        size_t quote1 = cfg_str.find(quote, eqPos + 1);
-        if (quote1 == std::string::npos) break;
-        
-        // find second quote
-        size_t quote2 = cfg_str.find(quote, quote1 + 1);
-        if (quote2 == std::string::npos) break;
-        
-        // extra 'id' value
-        id = cfg_str.substr(quote1 + 1, quote2 - quote1 - 1);
-		break;
-        // ids.push_back(id);
-        
-        // pos = quote2 + 1;
-    }
-    
-    return id;
 }
 
 void list_wkoscript_files_by_type(const std::string& wkoscript_dir2, int type, std::set<std::string>& result_set)

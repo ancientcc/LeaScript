@@ -1362,15 +1362,20 @@ class LIB3RDPARTY_DECL tbase_scene
 public:
 	tbase_scene();
 
-	void set_name(const std::string& name);
+	std::string get_id(bool exclude_wkocourse_id2 = false) const;
+	void set_name(const std::string& name, bool allow_empty = false);
 	const std::string& name() const { return name_; }
-	std::string id_for_gui(int max_chars = nposm) const;
 	std::string name_for_gui(int max_chars = nposm) const;
 	std::string file_var_val() const;
 
+	bool valid() const
+	{
+		return !name_.empty() && !task.empty() && is_bundleid(aplt);
+	}
+
 	void validate() const
 	{
-		VALIDATE(!id.empty() && !name_.empty() && utils::is_rose_bundleid(aplt, '.') && !task.empty(), null_str);
+		VALIDATE(!name_.empty() && is_bundleid(aplt) && !task.empty(), null_str);
 	}
 
 	std::string join_input_vars() const
@@ -1388,15 +1393,29 @@ public:
 		return ss.str();
 	}
 
+	void clear()
+	{
+		aplt.clear();
+		task.clear();
+		amp = ampmode_1x;
+		input_vars.clear();
+
+		py_name.clear();
+		wkocourse_id2.clear();
+
+		name_.clear();
+	}
+
 public:
 	std::string file_key;
-	std::string id;
 	std::string aplt;
 	std::string task;
 	int amp;
 	std::map<std::string, std::string> input_vars;
 
 	std::string py_name;
+
+	std::string wkocourse_id2;
 
 private:
 	std::string name_;
@@ -1409,10 +1428,83 @@ LIB3RDPARTY_DECL uint16_t split_log_tokens(uint64_t tokens, int* input_ptr, int*
 
 #define COURSEWARE_UPLOAD_UID			0
 #define is_valid_courseware_uid(uid)	(is_valid_uid(uid) || (uid) == COURSEWARE_UPLOAD_UID)
- 
+
+//
+// twkocourse_enroll
+//
+class DECLSPEC twkocourse_enroll
+{
+public:
+	twkocourse_enroll()
+		: purchase(nposm)
+		, active(nposm)
+	{
+	}
+
+	~twkocourse_enroll()
+	{
+		// clear();
+	}
+
+	bool valid() const { return !id.empty() && is_bundleid(aplt) && purchase != nposm; }
+
+	void to_cfg(config& cfg) const;
+	bool from_cfg(const config& cfg);
+
+	void do_purchase(const std::string& aplt, const std::string& id);
+	void do_active();
+
+	int64_t calc_force_active(int grace_period_days) const
+	{
+		// Purchase day is not day 1 of the grace period; the grace period starts from the next day.
+		// Force-active day = purchase day + grace_period_days days, ending at 23:59:59 of that day.
+		VALIDATE(purchase != nposm, null_str);
+		int64_t result = purchase + grace_period_days * ONE_DAY_SECONDS;
+		result = utils::calculate_0h0m0s_ts(result) + ONE_DAY_SECONDS - 1;
+		return result;
+	}
+
+	int64_t calc_expire(int total_days) const
+	{
+		// The activation day is the first day.
+		VALIDATE(active != nposm, null_str);
+		int64_t result = active + (total_days - 1) * ONE_DAY_SECONDS;
+		result = utils::calculate_0h0m0s_ts(result) + ONE_DAY_SECONDS - 1;
+		return result;
+	}
+
+	void clear()
+	{
+		id.clear();
+		aplt.clear();
+		id2.clear();
+		purchase = nposm;
+		active = nposm;
+	}
+
+	std::string id_to_filename() const
+	{
+		VALIDATE(!id.empty(), null_str);
+		std::string result = id;
+		result.append(".cfg");
+
+		return result;
+	}
+
+public:
+	std::string id;
+	std::string aplt;
+	std::string id2;
+
+	time_t purchase;
+	time_t active;
+};
+
 //
 // health
 //
+#define MAX_HEALTH_DAYS 30
+
 #define WKO_MAX_PHASE_COUNT		2
 
 enum {sitevttype_good, sitevttype_improper, sitevttype_noperson, sitevttype_sedentary, sitevttype_count,

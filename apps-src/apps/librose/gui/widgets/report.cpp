@@ -147,6 +147,14 @@ void treport::set_unit_size2(const std::string& label, const std::string& icon)
 	set_unit_size(unit_size);
 }
 
+void treport::set_fixed_cols(int cols)
+{
+	// VALIDATE(cols > 0, null_str);
+	// VALIDATE(fixed_cols_ == 0, null_str);
+
+	fixed_cols_ = cols;
+}
+
 tcontrol& treport::insert_item(const std::string& id, const std::string& label, int at)
 {
 	tdisable_invalidate_layout_lock lock;

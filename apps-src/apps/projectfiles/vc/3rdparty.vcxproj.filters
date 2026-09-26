@@ -3197,6 +3197,9 @@
     <ClCompile Include="..\..\external\3rdparty\base_slot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\external\3rdparty\wkocourse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\external\opencv\modules\calib3d\src\ap3p.h">
@@ -4061,6 +4064,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\external\3rdparty\base_slot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\3rdparty\wkocourse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

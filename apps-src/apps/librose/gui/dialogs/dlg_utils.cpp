@@ -7,7 +7,7 @@
 #include "gui/dialogs/edit_box.hpp"
 // #include "gui/dialogs/if_block2.hpp"
 #include "gui/dialogs/combo_box2.hpp"
-// #include "gui/dialogs/var_editor.hpp"
+#include "gui/dialogs/insert_scene.hpp"
 #include "gui/widgets/settings.hpp"
 #include "gui/widgets/window.hpp"
 #include "gui/widgets/label.hpp"
@@ -167,16 +167,8 @@ void thelper_klink::pre_scene(tgrid& grid)
 	list.enable_select(false);
 	list.set_did_can_drag(std::bind(&thelper_klink::did_scene_can_drag, this, _1, _2));
 
-	tbutton* button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("edit_id", true));
-	button->set_icon("misc/bg_f3f3f3.png");
-	connect_signal_mouse_left_click(
-		*button
-		, std::bind(
-			&thelper_klink::click_edit_scene_id_or_name
-			, this
-			, std::ref(list), etype_scene_id));
 
-	button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("edit_name", true));
+	tbutton* button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("edit_name", true));
 	button->set_icon("misc/bg_ff0000.png");
 	connect_signal_mouse_left_click(
 		*button
@@ -407,6 +399,10 @@ std::string unique_scene_id(const std::set<std::string>& ids)
 
 void thelper_klink::click_insert_scene(tbutton& widget)
 {
+	if (is_wkocourse_scene_ing(wkocourse_blocktype_insert_scene, true)) {
+		return;
+	}
+
 	std::vector<aplt::tbase_scene>& scenes = cfg_cpp_api_.mutable_base_scenes();
 	if (scenes.size() >= MAX_KLINK_BASE_SCENE) {
 		utils::string_map symbols;
@@ -416,22 +412,35 @@ void thelper_klink::click_insert_scene(tbutton& widget)
 		return;
 	}
 
-	std::set<std::string> ids;
-	for (std::vector<aplt::tbase_scene>::const_iterator it = scenes.begin(); it != scenes.end(); ++ it) {
-		const aplt::tbase_scene& scene = *it;
-		VALIDATE(ids.count(scene.id) == 0, null_str);
-		ids.insert(scene.id);
-	}
-
 	aplt::tbase_scene scene;
-	scene.id = unique_scene_id(ids);
-	scene.set_name(_("Untitle"));
-	if (game_config::app_code == aplt::app_launcher) {
-		scene.aplt = aplt::get_bundleid(aplt::bundleid_leagor_khome);
+	if (game_config::app_code == aplt::app_kdesktop) {
+		gui2::tinsert_scene dlg(var_editor_slot_, applets_, cfg_cpp_api_);
+		dlg.show(nposm, window_priv_->get_height() / 5);
+		if (dlg.get_retval() != twindow::OK) {
+			return;
+		}
+		scene = dlg.get_scene();
+
+		int scene_count = scenes.size();
+		for (int at = 0; at < scene_count; at ++) {
+			const aplt::tbase_scene& that = scenes[at];
+			VALIDATE(that.get_id() != scene.get_id(), null_str);
+			VALIDATE(that.name() != scene.name(), null_str);
+		}
+
 	} else {
-		scene.aplt = aplt::get_bundleid(aplt::bundleid_leagor_khomelua);
+		scene.set_name(_("Untitle"));
+		if (game_config::app_code == aplt::app_launcher) {
+			scene.aplt = aplt::get_bundleid(aplt::bundleid_leagor_khome);
+		} else {
+			scene.aplt = aplt::get_bundleid(aplt::bundleid_leagor_khomelua);
+		}
+		scene.task = aplt::reserved_tasks.find(aplt::taskid_workout)->second.id;
+
+		if (cfg_cpp_api_.base_scene_from_id(scene.get_id(), false) != nullptr) {
+			return;
+		}
 	}
-	scene.task = aplt::reserved_tasks.find(aplt::taskid_workout)->second.id;
 
 	scenes.push_back(scene);
 	cfg_cpp_api_.save_klink_pb(aplt::tbg_task::misc_cfg_base_scene);
@@ -482,7 +491,7 @@ void thelper_klink::click_scene_task(tlistbox& list, tbutton& widget, int at)
 		cur_ble_device_id = cur_item.device_id;
 	// }
 
-	bool is_me = scene.id == preferences::base_scene_id();
+	bool is_me = scene.get_id() == preferences::base_scene_id();
 	const bool restart = is_me;
 	if (restart && bg_task_.is_ing()) {
 		msg_running_not_modify(bg_task_, true);
@@ -537,18 +546,17 @@ void thelper_klink::reload_scene_list(tlistbox& list)
 		// data.clear();
 		const aplt::tbase_scene& scene = *it;
 
-		data["id"] = scene.id_for_gui(); // utils::truncate_to_max_chars2(scene.id, 15, true);
 		data["name"] = scene.name_for_gui(); // scene.name();
 		std::string label = task_name2_from_3id(applets_, scene.aplt, scene.task, null_str, true);
 		// when pc, at lest show: aplt.leagor.khomelua(studio)(x
 		int max_chars = game_config::mobile? 27: 30; 
 		data["task"] = utils::truncate_to_max_chars2(label, max_chars, false);
-		VALIDATE(scene.amp >= 0 && scene.amp < aplt::ampmode_count, null_str);
+		VALIDATE(scene.amp >= 0 && scene.amp < ampmode_count, null_str);
 		data["amp"] = aplt::amp_modes.find(scene.amp)->second.id;
 		data["input_vars"] = scene.join_input_vars();
 
 		std::string png = "misc/running_gray.png";
-		bool is_me = scene.id == driver_scene_id;
+		bool is_me = scene.get_id() == driver_scene_id;
 		if (is_me) {
 			png = sts_is_idle2(base_driver_.subtask_state())? "misc/running_green.png": "misc/running_red.png";
 		}
@@ -560,7 +568,7 @@ void thelper_klink::reload_scene_list(tlistbox& list)
 		} else if (is_me) {
 			state = aplt::base_subtask_states[base_driver_.subtask_state()];
 
-		} else if (scene.id == pref_scene_id && driver_scene_id.empty()) {
+		} else if (scene.get_id() == pref_scene_id && driver_scene_id.empty()) {
 			if (!base_driver_.slot->moveable()) {
 				state = _("Start fail");
 			}
@@ -607,7 +615,7 @@ bool thelper_klink::did_scene_can_drag(tlistbox& list, ttoggle_panel& row)
 		// visibles.insert(std::make_pair("edit_input_vars", twidget::INVISIBLE));
 	}
 
-	bool is_me = scene.id == base_driver_.scene_id();
+	bool is_me = scene.get_id() == base_driver_.scene_id();
 
 	std::string start_label = _("Start");
 	if (is_me) {
@@ -636,11 +644,10 @@ void thelper_klink::click_edit_scene_4item(tlistbox& list, tbutton& widget)
 	// first, require cancel left_drag grid.
 	list.cancel_drag();
 
-	enum {item_id, item_name, item_input_vals, item_amp_min = 50};
+	enum {item_name, item_input_vals, item_amp_min = 50};
 	std::vector<gui2::tmenu::titem> items;
 	int initial_sel = nposm;
 
-	items.push_back(gui2::tmenu::titem(_("Edit id"), item_id));
 	items.push_back(gui2::tmenu::titem(_("Edit name"), item_name));
 	items.push_back(gui2::tmenu::titem(_("Edit input vars"), item_input_vals));
 	items.back().separator = true;
@@ -677,10 +684,7 @@ void thelper_klink::click_edit_scene_4item(tlistbox& list, tbutton& widget)
 		sel_at = dlg.selected_val();
 	}
 
-	if (sel_at == item_id) {
-		click_edit_scene_id_or_name_internal(list, drag_at, etype_scene_id);
-
-	} else if (sel_at == item_name) {
+	if (sel_at == item_name) {
 		click_edit_scene_id_or_name_internal(list, drag_at, etype_scene_name);
 
 	} else if (sel_at == item_input_vals) {
@@ -694,18 +698,20 @@ void thelper_klink::click_edit_scene_4item(tlistbox& list, tbutton& widget)
 		click_edit_scene_input_vars_internal(list, drag_at);
 
 	} else {
-		VALIDATE(sel_at >= item_amp_min && sel_at < item_amp_min + aplt::ampmode_count, null_str);
+		VALIDATE(sel_at >= item_amp_min && sel_at < item_amp_min + ampmode_count, null_str);
 		ttoggle_panel& row = list.row_panel(drag_at);
 		sel_new_amp_mode_bh(scene, row, sel_at - item_amp_min);
 	}
 }
 
-std::string thelper_klink::auto_edit_scene_id_or_name(const aplt::ttask_pair& pair, const aplt::tbase_scene& scene, int scene_at, int type) const
+// std::string thelper_klink::auto_edit_scene_id_or_name(const aplt::ttask_pair& pair, const aplt::tbase_scene& scene, int scene_at, int type) const
+std::string auto_edit_scene_id_or_name(const aplt::ttask_pair& pair, const aplt::tbase_scene& scene, int scene_at, bool type_is_id)
 {
 	VALIDATE(pair.task->id == aplt::reserved_tasks.find(aplt::taskid_workout)->second.id, null_str);
-	VALIDATE(type == etype_scene_id || type == etype_scene_name, null_str);
 
-	const std::vector<aplt::tbase_scene>& scenes = cfg_cpp_api_.base_scenes();
+	// const std::vector<aplt::tbase_scene>& scenes = cfg_cpp_api_.base_scenes();
+	aplt::tb_api& b_api = aplt::get_b_api();
+	const std::vector<aplt::tbase_scene>& scenes = b_api.aplt_base_scenes();
 	int scene_count = scenes.size();
 
 	std::set<std::string> excludes;
@@ -714,8 +720,8 @@ std::string thelper_klink::auto_edit_scene_id_or_name(const aplt::ttask_pair& pa
 			continue;
 		}
 		const aplt::tbase_scene& scene = scenes[at];
-		if (type == etype_scene_id) {
-			excludes.insert(scene.id);
+		if (type_is_id) {
+			excludes.insert(scene.get_id());
 		} else {
 			excludes.insert(scene.name());
 		}
@@ -742,14 +748,14 @@ std::string thelper_klink::auto_edit_scene_id_or_name(const aplt::ttask_pair& pa
 
 	// -2 is used to ensure uniqueness. This also causes the resulting id to appear 2 bytes shorter than the actual id.
 	const int bytes_makesure_unique = 2;
-	if (type == etype_scene_id) {
+	if (type_is_id) {
 		int max_chars = MAX_NORMAL_ID_OR_VAR_NAME_BYTES - bytes_makesure_unique;
 		const std::string id2 = utils::truncate_to_max_chars(script.id.c_str(), script.id.size(), max_chars);
 		result = utils::unique_untitle_id(excludes, id2, null_str, 0);
 
 	} else {
 		int max_chars = MAX_NORMAL_UTF8_NAME_CHARS - bytes_makesure_unique;
-		const std::string name2 = utils::truncate_to_max_chars(script.name.c_str(), script.name.size(), max_chars);
+		const std::string name2 = utils::truncate_to_max_chars(script.title.c_str(), script.title.size(), max_chars);
 		result = utils::unique_untitle_name(excludes, name2, 0);
 	}
 	return result;
@@ -757,7 +763,7 @@ std::string thelper_klink::auto_edit_scene_id_or_name(const aplt::ttask_pair& pa
 
 void thelper_klink::click_edit_scene_id_or_name_internal(tlistbox& list, int drag_at, int type)
 {
-	VALIDATE(type == etype_scene_id || type == etype_scene_name, null_str);
+	VALIDATE(type == etype_scene_name, null_str);
 
 	// const int drag_at = list.drag_at();
 
@@ -772,19 +778,12 @@ void thelper_klink::click_edit_scene_id_or_name_internal(tlistbox& list, int dra
 	if (auto_edit_workout_id_or_name_) {
 		aplt::ttask_pair pair = aplt::task_pair_from_2_id(applets_, scene.aplt, scene.task, false, true);
 		if (pair.task != nullptr && pair.task->id == aplt::reserved_tasks.find(aplt::taskid_workout)->second.id) {
-			new_str = auto_edit_scene_id_or_name(pair, scene, drag_at, type);
+			new_str = auto_edit_scene_id_or_name(pair, scene, drag_at, false);
 			if (new_str.empty()) {
 				return;
 			}
-			if (type == etype_scene_id) {
-				if (new_str == scene.id) {
-					return;
-				}
-
-			} else {
-				if (new_str == scene.name()) {
-					return;
-				}
+			if (new_str == scene.name()) {
+				return;
 			}
 		}
 	}
@@ -795,9 +794,9 @@ void thelper_klink::click_edit_scene_id_or_name_internal(tlistbox& list, int dra
         std::string title = _("Edit scene ID");
 	    std::string prefix;
         std::string placeholder;
-        const std::string initial = type == etype_scene_id? scene.id: scene.name();
+        const std::string initial = scene.name();
 
-		int max_chars = type == etype_scene_id? MAX_NORMAL_ID_OR_VAR_NAME_BYTES: MAX_NORMAL_UTF8_NAME_CHARS;
+		int max_chars = MAX_NORMAL_UTF8_NAME_CHARS;
 		symbols["max_chars"] = str_cast(max_chars);
         std::string remark = vgettext2("Scene ID. Must be unique. Up to $max_chars characters, cannot contain Chinese.", symbols);
 
@@ -809,12 +808,8 @@ void thelper_klink::click_edit_scene_id_or_name_internal(tlistbox& list, int dra
 		std::set<std::string> excludes;
 		for (std::vector<aplt::tbase_scene>::const_iterator it = scenes.begin(); it != scenes.end(); ++ it) {
 			const aplt::tbase_scene& scene = *it;
-			if (type == etype_scene_id) {
-				excludes.insert(scene.id);
-			} else {
-				VALIDATE(type == etype_scene_name, null_str);
-				excludes.insert(scene.name());
-			}
+			VALIDATE(type == etype_scene_name, null_str);
+			excludes.insert(scene.name());
 		}
 
 	    {
@@ -831,35 +826,22 @@ void thelper_klink::click_edit_scene_id_or_name_internal(tlistbox& list, int dra
 	    }
 	}
 
-	if (type == etype_scene_id) {
-		VALIDATE(new_str != scene.id, null_str);
-		// const std::string original_id = scene.id;
-		if (scene.id == base_driver_.scene_id()) {
-			base_driver_.did_scene_id_changed(new_str);
-		}
+	VALIDATE(new_str != scene.name(), null_str);
+	scene.set_name(new_str);
 
-		scene.id = new_str;
-
-	} else {
-		VALIDATE(new_str != scene.name(), null_str);
-		scene.set_name(new_str);
-	}
 	cfg_cpp_api_.save_klink_pb(aplt::tbg_task::misc_cfg_base_scene);
 
 	// if want to execute below, require cancel left_drag grid.
 	ttoggle_panel& row = list.row_panel(drag_at);
 	std::string label;
-	if (type == etype_scene_id) {
-		label = scene.id_for_gui();
-	} else {
-		label = scene.name_for_gui();
-	}
-	row.set_child_label(type == etype_scene_id? "id": "name", label);
+	label = scene.name_for_gui();
+
+	row.set_child_label("name", label);
 }
 
 void thelper_klink::click_edit_scene_id_or_name(tlistbox& list, int type)
 {
-	VALIDATE(type == etype_scene_id || type == etype_scene_name, null_str);
+	VALIDATE(type == etype_scene_name, null_str);
 
 	const int drag_at = list.drag_at();
 
@@ -871,7 +853,7 @@ void thelper_klink::click_edit_scene_id_or_name(tlistbox& list, int type)
 
 void thelper_klink::sel_new_amp_mode_bh(aplt::tbase_scene& scene, ttoggle_panel& row, int new_mode)
 {
-	bool is_me = scene.id == base_driver_.scene_id();
+	bool is_me = scene.get_id() == base_driver_.scene_id();
 	if (is_me) {
 		int curr_mode = pinyin_.get_amp_mode();
 		if (base_driver_.subtask_state() == aplt::sts_ing) {
@@ -879,7 +861,7 @@ void thelper_klink::sel_new_amp_mode_bh(aplt::tbase_scene& scene, ttoggle_panel&
 			pinyin_.set_amp_mode(new_mode);
 
 		} else {
-			VALIDATE(curr_mode == aplt::ampmode_1x, null_str);
+			VALIDATE(curr_mode == ampmode_1x, null_str);
 		}
 	}
 
@@ -932,7 +914,7 @@ void thelper_klink::click_edit_amp(tlistbox& list, tbutton& widget)
 		}
 
 		new_mode = dlg.selected_val();
-		VALIDATE(new_mode >= 0 && new_mode < aplt::ampmode_count, null_str);
+		VALIDATE(new_mode >= 0 && new_mode < ampmode_count, null_str);
 	}
 
 	ttoggle_panel& row = list.row_panel(drag_at);
@@ -958,7 +940,8 @@ void thelper_klink::click_edit_amp(tlistbox& list, tbutton& widget)
 */
 }
 
-void thelper_klink::list_wkoscript_files_to_freq_vals(const aplt::tapplet& aplt, std::vector<std::string>& result) const
+// void thelper_klink::list_wkoscript_files_to_freq_vals(const aplt::tapplet& aplt, std::vector<std::string>& result) const
+void list_wkoscript_files_to_freq_vals(const aplt::tapplet& aplt, std::vector<std::string>& result)
 {
 	result.clear();
 
@@ -1020,7 +1003,7 @@ void thelper_klink::click_edit_scene_input_vars_internal(tlistbox& list, int dra
 	VALIDATE(scene.input_vars != map_vals, null_str);
 
 	const int original_sts = base_driver_.subtask_state();
-	bool is_me = scene.id == preferences::base_scene_id();
+	bool is_me = scene.get_id() == preferences::base_scene_id();
 	if (is_me && bg_task_.is_ing()) {
 		msg_running_not_modify(bg_task_, true);
 		return;
@@ -1048,7 +1031,7 @@ void thelper_klink::click_edit_scene_input_vars_internal(tlistbox& list, int dra
 
 	} else {
 		row.set_child_label("input_vars", scene.join_input_vars());
-		if (base_driver_.subtask_state() == aplt::sts_nposm && scene.id == preferences::base_scene_id()) {
+		if (base_driver_.subtask_state() == aplt::sts_nposm && scene.get_id() == preferences::base_scene_id()) {
 			row.set_child_label("state", null_str);
 		}
 	}
@@ -1088,7 +1071,7 @@ void thelper_klink::click_start_scene(tlistbox& list)
 		return;
 	}
 
-	bool is_me = scene.id == base_driver_.scene_id();
+	bool is_me = scene.get_id() == base_driver_.scene_id();
 
 	utils::string_map symbols;
 	symbols["name"] = scene.name();
@@ -1136,7 +1119,7 @@ void thelper_klink::click_erase_scene(tlistbox& list)
 	// first, require cancel left_drag grid.
 	list.cancel_drag();
 
-	bool is_me = base_driver_.scene_id() == scene.id;
+	bool is_me = base_driver_.scene_id() == scene.get_id();
 	if (is_me && bg_task_.is_ing()) {
 		return;
 	}
@@ -1148,11 +1131,15 @@ void thelper_klink::click_erase_scene(tlistbox& list)
 		return;
 	}
 
+	tbase_driver_core::tdisable_earase_wkocourse_scene_lock lock(base_driver_);
+
 	if (is_me) {
 		// preferences::set_base_scene_id(null_str);
 		base_driver_.stop_subtask(true);
 	}
 
+	cfg_cpp_api_.erase_scene(scene.get_id());
+/*
 	std::vector<aplt::tbase_scene>::iterator it = scenes.begin();
 	if (drag_at != 0) {
 		std::advance(it, drag_at);
@@ -1160,7 +1147,7 @@ void thelper_klink::click_erase_scene(tlistbox& list)
 	scenes.erase(it);
 
 	cfg_cpp_api_.save_klink_pb(aplt::tbg_task::misc_cfg_base_scene);
-
+*/
 	if (is_me) {
 		if (!scenes.empty()) {
 			int at = drag_at % scenes.size();
@@ -1197,10 +1184,7 @@ bool thelper_klink::verify_edit_alias_name(const std::string& label, const std::
 	}
 
 	bool valid = false;
-	if (etype == etype_scene_id) {
-		valid = isvalid_normal_id_or_var_name224(label);
-
-	} else if (etype == etype_var_name || etype == etype_scene_name || etype == etype_iot_alias) {
+	if (etype == etype_var_name || etype == etype_scene_name || etype == etype_iot_alias) {
 		valid = isvalid_normal_utf8_name224(label);	
 
 	} else {
@@ -1210,11 +1194,41 @@ bool thelper_klink::verify_edit_alias_name(const std::string& label, const std::
 	return valid;
 }
 
+bool thelper_klink::is_wkocourse_scene_ing(int type, bool show_dlg) const
+{
+	VALIDATE(type >= 0 && type < wkocourse_blocktype_count, null_str);
+	if (!base_driver_.scene_id().empty()) {
+		const aplt::tbase_scene* scene = cfg_cpp_api_.base_scene_from_id(base_driver_.scene_id(), true);
+		if (!scene->wkocourse_id2.empty()) {
+			utils::string_map symbols;
+			if (type == wkocourse_blocktype_insert_scene) {
+				// To avoid the case where scene(wkoscript_id2 isn't empty) is no longer the last one, 
+				// which could later cause an "unexpected" invalid memory access(scene) due to deletion.
+				symbols["action"] = _("Insert base scene");
+
+			} else if (type == wkocourse_blocktype_import) {
+				// Course tasks cannot be exported. Once imported, the current course tasks will definitely be lost.
+				symbols["action"] = _("Import");
+			}
+			if (show_dlg) {
+				std::string msg = vgettext2("A task is currently running in the wkocourse, cannot $action.", symbols);
+				gui2::show_message(null_str, msg);
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
 //
 // var_sensor layer
 //
 void thelper_klink::click_import(tbutton& widget)
 {
+	if (is_wkocourse_scene_ing(wkocourse_blocktype_import, true)) {
+		return;
+	}
+
 	std::set<std::string> files;
 	collect_klink_cfg_files(cfgtype_klink, files);
 

@@ -114,7 +114,7 @@ std::string twkocamera_task::start_task()
 
 	script_task_vars_ = clone_env_vars(false);
 	curr_state2_ = &script_.states.find(0)->second;
-	b_api_.health_push_str_event(workoutevt_str, workoutstr_start, script_.cfg_str, script_.id);
+	b_api_.health_push_str_event(workoutevt_str, workoutstr_start, script_.cfg_str, script_.id, aplt_.bundleid, script_.states.size() - 1);
 	// It is starting up and is not suitable for executing task operations. 
 	// For example, if the speak will stopped later, the 'task_speak' task will become invalid.
 	tasks_suspended_ = true;
@@ -296,6 +296,9 @@ bool twkocamera_task::slice(std::string& result_str, std::vector<std::pair<float
 			curr_state2_ = &new_state2;
 			if (slot_ != nullptr) {
 				slot_->did_enter_state_and_phase(new_state2.state, new_state2.track_pose.curr_phase_);
+			}
+			if (curr_state2_->state == (int)script_.states.size() - 1) {
+				b_api_.health_workout_finished(aplt_.bundleid, script_.id);
 			}
 		}
 	}

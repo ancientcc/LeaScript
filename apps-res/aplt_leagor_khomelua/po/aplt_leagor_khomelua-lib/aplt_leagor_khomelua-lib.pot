@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: aplt_leagor_khomelua-lib\n"
-"POT-Creation-Date: 2026-07-03 14:28+0800\n"
+"POT-Creation-Date: 2026-09-25 13:32+0800\n"
 "PO-Revision-Date: 2016-01-03 20:34+0800\n"
 "Last-Translator: service <service@leagor.com>\n"
 "Language-Team: \n"
@@ -17,18 +17,54 @@ msgstr ""
 "X-Poedit-SearchPath-0: lua\n"
 "X-Poedit-SearchPath-1: po/cfg-cpp/aplt_leagor_khomelua-lib\n"
 
-#: lua/home.lua:28 lua/home.lua:82
+#: lua/home.lua:33 lua/home.lua:152
 msgid "kHome Lua"
 msgstr ""
 
-#: lua/home.lua:38
-msgid "task^wokrout"
+#: lua/home.lua:44
+msgid "task^course"
 msgstr ""
 
-#: lua/home.lua:39
+#: lua/home.lua:45
+msgid "task^workout"
+msgstr ""
+
+#: lua/home.lua:46
 msgid "Me"
 msgstr ""
 
+#: lua/home.lua:196
+msgid "This course is free. Do you want to purchase it?"
+msgstr ""
+
+#: lua/home.lua:232
+msgid "Not a valid course script."
+msgstr ""
+
+#: lua/home.lua:241
+msgid "Expires on $expire. Purchase time: $purchase, Active time: $active."
+msgstr ""
+
+#: lua/home.lua:246
+msgid "Expired (expiration time: $expire). Purchase time: $purchase, Active time: $active."
+msgstr ""
+
+#: lua/home.lua:255
+msgid "Not activated. $purchase, $force_active, $first_day"
+msgstr ""
+
+#: lua/home.lua:268
+msgid "wkocourse^Free"
+msgstr ""
+
 #: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:1
+msgid "Open coure reference"
+msgstr ""
+
+#: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:3
 msgid "Open demo"
+msgstr ""
+
+#: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:5
+msgid "Purchase"
 msgstr ""

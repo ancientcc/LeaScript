@@ -489,6 +489,14 @@ struct tcode3
 enum bool_set_t {bool_set_none, bool_set_false, bool_set_true, bool_set_count};
 extern LIB3RDPARTY_DECL std::map<bool_set_t, tcode3> bool_set_types;
 
+enum {
+	ampmode_1x,		// 1m (1.0x)
+	ampmode_1_25x,	// 3~4m (1.25x)
+	ampmode_1_6x,	// 5m   (1.6x)
+	ampmode_2x,		// Outdoor / noisy environment. (2.0x)
+	ampmode_count,
+};
+
 // Holds a 2D point.
 struct tpoint
 {

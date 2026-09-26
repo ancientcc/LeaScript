@@ -661,13 +661,6 @@ bool tcfg_cpp_api_core::cfg_to_base_scenes(const config& root_cfg, std::vector<t
 	std::set<std::string> exist_names;
 	BOOST_FOREACH(const config::any_child &base_scene, root_cfg.all_children_range()) {
 		if (base_scene.key == "base_scene") {
-			std::string id = base_scene.cfg["id"].str();
-			if (!isvalid_normal_id_or_var_name224(id)) {
-				continue;
-			}
-			if (exist_ids.count(id) != 0) {
-				continue;
-			}
 			const std::string name = base_scene.cfg["name"].str();
 			if (!isvalid_normal_utf8_name224(name)) {
 				continue;
@@ -683,9 +676,14 @@ bool tcfg_cpp_api_core::cfg_to_base_scenes(const config& root_cfg, std::vector<t
 			if (task.empty()) {
 				continue;
 			}
+
+			const std::string wkocourse_id2 = base_scene.cfg["wkocourse_id2"].str();
+			if (!wkocourse_id2.empty()) {
+				continue;
+			}
+
 			result.push_back(tbase_scene());
 			tbase_scene& scene = result.back();
-			scene.id = id;
 			scene.set_name(name);
 			scene.aplt = aplt;
 			scene.task = task;
@@ -699,6 +697,12 @@ bool tcfg_cpp_api_core::cfg_to_base_scenes(const config& root_cfg, std::vector<t
 					const std::string& val = v.second;
 					scene.input_vars.insert(std::make_pair(key, val));
 				}
+			}
+
+			const std::string id = scene.get_id();
+			if (exist_ids.count(id) != 0) {
+				result.pop_back();
+				continue;
 			}
 
 			exist_ids.insert(id);
@@ -791,13 +795,15 @@ void tcfg_cpp_api_core::base_scenes_to_cfg(const std::vector<tbase_scene>& scene
 		scene.validate();
 
 		config& sensor_cfg = cfg.add_child("base_scene");
-		sensor_cfg["id"].from_string(scene.id, true);
 		sensor_cfg["name"].from_string(scene.name(), true);
 		sensor_cfg["aplt"].from_string(scene.aplt, true);
 		sensor_cfg["task"].from_string(scene.task, true);
 		VALIDATE(scene.amp >= 0 && scene.amp < ampmode_count, null_str);
 		if (scene.amp != ampmode_1x) {
 			sensor_cfg["amp"].from_string(aplt::amp_modes.find(scene.amp)->second.id, true);
+		}
+		if (!scene.wkocourse_id2.empty()) {
+			sensor_cfg["wkocourse_id2"].from_string(scene.wkocourse_id2, true);
 		}
 
 		if (scene.input_vars.empty()) {
@@ -1550,7 +1556,7 @@ const aplt::tbase_scene* tcfg_cpp_api_core::base_scene_from_id(const std::string
 
 	for (std::vector<tbase_scene>::const_iterator it = base_scenes_.begin(); it != base_scenes_.end(); ++ it) {
 		const tbase_scene& scene = *it;
-		if (scene.id == id) {
+		if (scene.get_id() == id) {
 			return &scene;
 		}
 	}
@@ -1558,6 +1564,24 @@ const aplt::tbase_scene* tcfg_cpp_api_core::base_scene_from_id(const std::string
 	VALIDATE(!must_exist, null_str);
 
 	return nullptr;
+}
+
+void tcfg_cpp_api_core::erase_scene(const std::string& id)
+{
+	VALIDATE(!id.empty(), null_str);
+
+	std::vector<tbase_scene>::iterator hit_it = base_scenes_.end();
+	for (std::vector<tbase_scene>::iterator it = base_scenes_.begin(); it != base_scenes_.end(); ++ it) {
+		const tbase_scene& scene = *it;
+		if (scene.get_id() == id) {
+			hit_it = it;
+			break;
+		}
+	}
+	VALIDATE(hit_it != base_scenes_.end(), null_str);
+
+	base_scenes_.erase(hit_it);
+	save_klink_pb(aplt::tbg_task::misc_cfg_base_scene);
 }
 
 void tcfg_cpp_api_core::set_base_scenes(const std::vector<tbase_scene>& base_scenes)

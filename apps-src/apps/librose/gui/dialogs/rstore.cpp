@@ -793,6 +793,8 @@ void trstore::tslot::rstore_did_applet_will_uninstall(int source, const std::str
 	const std::string scene_id = base_driver_.scene_id();
 	int subtask_state = nposm;
 	if (!scene_id.empty()) {
+		tbase_driver_core::tdisable_earase_wkocourse_scene_lock lock(base_driver_);
+
 		// Why dneed to enter here even when 'subtask_state == sts_idle'?
 		// -- when sts_idle, apltsotype_base2th's ref_count is 1. 
 		//    However, during uninstall, apltsotype_base2th maybe to uninstalled.

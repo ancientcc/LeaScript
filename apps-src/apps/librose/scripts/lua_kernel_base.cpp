@@ -57,6 +57,7 @@
 #include "lua/lauxlib.h"
 #include "lua/lualib.h"
 
+#include "wkocourse.hpp"
 #include "wkoscript.hpp"
 
 using namespace std::placeholders;
@@ -238,6 +239,194 @@ static int intf_open_url(lua_State* L)
 	return 0;
 }
 
+void wkocourse_lua_push_device(lua_State* L, const aplt::tapplet& aplt, const std::string& filename, std::map<std::string, aplt::twkoscript>& scripts)
+{
+	aplt::twkocourse course;
+	course.from_file(filename);
+
+	tstack_size_lock lock(L, 1);
+
+	// 11 hash fields: file/id/title/author/reference/total_days/grace_period_days/description/days
+	lua_createtable(L, 0, 11);
+
+	lua_pushstring(L, "file");
+	lua_pushstring(L, utils::extract_file(filename).c_str());
+	lua_rawset(L, -3);          // t["file"] = file
+
+	std::string id;
+	std::string title;
+	std::string description;
+	std::string author;
+	std::string reference;
+	int total_days = 0; // not nposm. convenient for determining invalidity.
+	int grace_period_days = 0; // not nposm. convenient for determining invalidity.
+	int price = 0;
+	std::string currency;
+
+	if (course.valid()) {
+		id = course.id;
+		title = course.title;
+		description = course.description;
+		author = course.author;
+		reference = course.reference;
+		total_days = course.total_days;
+		grace_period_days = course.grace_period_days;
+		price = course.price;
+		currency = course.currency;
+	}
+
+	lua_pushstring(L, "id");
+	lua_pushstring(L, id.c_str());
+	lua_rawset(L, -3);     // t["id"] = id
+
+	lua_pushstring(L, "title");
+	lua_pushstring(L, title.c_str());
+	lua_rawset(L, -3);     // t["title"] = title
+
+	lua_pushstring(L, "author");
+	lua_pushstring(L, author.c_str());
+	lua_rawset(L, -3);     // t["author"] = author
+
+	lua_pushstring(L, "reference");
+	lua_pushstring(L, reference.c_str());
+	lua_rawset(L, -3);     // t["reference"] = reference
+
+	lua_pushstring(L, "total_days");
+	lua_pushinteger(L, total_days);
+	lua_rawset(L, -3);     // t["total_days"] = total_days
+
+	lua_pushstring(L, "grace_period_days");
+	lua_pushinteger(L, grace_period_days);
+	lua_rawset(L, -3);     // t["grace_period_days"] = grace_period_days
+
+	lua_pushstring(L, "description");
+	lua_pushstring(L, description.c_str());
+	lua_rawset(L, -3);     // t["description"] = description
+
+	lua_pushstring(L, "price");
+	lua_pushinteger(L, price);
+	lua_rawset(L, -3);     // t["price"] = price
+
+	lua_pushstring(L, "currency");
+	lua_pushstring(L, currency.c_str());
+	lua_rawset(L, -3);     // t["currency"] = currency
+
+	// ---------- std::vector<tday> days ----------
+	lua_pushstring(L, "days");
+	lua_createtable(L, (int)course.days.size(), 0);   // days
+
+	for (int i = 0; i < (int)course.days.size(); i ++) {
+		const aplt::twkocourse::tday& day = course.days[i];
+
+		lua_createtable(L, 0, 3);   // day table: day_at / title / workouts
+
+		lua_pushstring(L, "day_at");
+		lua_pushinteger(L, day.day_at);
+		lua_rawset(L, -3);          // d["day_at"] = ...
+
+		lua_pushstring(L, "title");
+		lua_pushstring(L, day.title.c_str());
+		lua_rawset(L, -3);          // d["title"] = ...
+
+		// std::vector<tworkout> workouts;
+		lua_pushstring(L, "workouts");
+		lua_createtable(L, (int)day.workouts.size(), 0);
+
+		std::string wk_title;
+		std::string wk_reference;
+		for (int j = 0; j < (int)day.workouts.size(); j ++) {
+			const aplt::twkocourse::tworkout& wk = day.workouts[j];
+
+			lua_createtable(L, 0, 4 + 2);   // workout talbe: aplt / id / note / rounds
+
+			lua_pushstring(L, "aplt");
+			lua_pushstring(L, wk.aplt_.c_str());
+			lua_rawset(L, -3);          // w["aplt"] = ...
+
+			lua_pushstring(L, "id");
+			lua_pushstring(L, wk.id.c_str());
+			lua_rawset(L, -3);          // w["id"] = ...
+
+			lua_pushstring(L, "note");
+			lua_pushstring(L, wk.note.c_str());
+			lua_rawset(L, -3);          // w["note"] = ...
+
+			lua_pushstring(L, "rounds");
+			lua_pushinteger(L, wk.rounds);
+			lua_rawset(L, -3);          // w["rounds"] = ...
+
+			VALIDATE(!wk.id.empty(), null_str);
+			if (scripts.count(wk.id) == 0) {
+				std::pair<std::map<std::string, aplt::twkoscript>::iterator, bool> ins = 
+					scripts.insert(std::make_pair(wk.id, aplt::twkoscript()));
+				ins.first->second.from_aplt_file(aplt, aplt::twkoscript::id_to_filename(wk.id));
+			}
+			const aplt::twkoscript& script = scripts.find(wk.id)->second;
+
+			wk_title.clear();
+			wk_reference.clear();
+			if (script.valid()) {
+				wk_title = script.title;
+				wk_reference = script.reference;
+			}
+			lua_pushstring(L, "title");
+			lua_pushstring(L, wk_title.c_str());
+			lua_rawset(L, -3);          // w["title"] = ...
+
+			lua_pushstring(L, "reference");
+			lua_pushstring(L, wk_reference.c_str());
+			lua_rawset(L, -3);          // w["reference"] = ...
+
+			// workout table into 'workouts' array, index: j+1
+			lua_rawseti(L, -2, j + 1);
+		}
+
+		// workouts array 'day' table
+		lua_rawset(L, -3);          // d["workouts"] = {...}
+
+		// day table into days array, index: i+1
+		lua_rawseti(L, -2, i + 1);
+	}
+
+	// days array to wkocoruse
+	lua_rawset(L, -3);              // t["days"] = {...}
+}
+
+
+static int intf_wkocourse_list_files_metadata(lua_State* L)
+{
+	// tlua_block* v = *static_cast<tlua_block **>(lua_touserdata(L, 1));
+
+	const std::string aplt_id2 = luaL_checkstring(L, 1);
+	const aplt::tapplet* aplt = aplt::aplt_from_id(instance->applets(), aplt_id2);
+	VALIDATE(aplt != nullptr, null_str);
+
+	const std::string wkocourse_dir = luaL_checkstring(L, 2);
+	std::set<std::string> cfgfiles;
+	aplt::list_wkocourse_files_by_type(wkocourse_dir, aplt::type_wkocourse_cfgfiles, cfgfiles);
+
+	lua_pushinteger(L, cfgfiles.size());
+
+	// items
+	int lua_cfgfile_count = cfgfiles.size();
+	lua_createtable(L, lua_cfgfile_count, 0);
+
+	{
+		std::map<std::string, aplt::twkoscript> scripts;
+		tstack_size_lock lock(L, 0);
+		int at = 0;
+		for (std::set<std::string>::const_iterator it = cfgfiles.begin(); it != cfgfiles.end(); ++ it, at ++) {
+			std::string filename(wkocourse_dir);
+			filename.append("/" + *it);
+
+			wkocourse_lua_push_device(L, *aplt, filename, scripts);
+			lua_rawseti(L, -2, at + 1);
+		}
+	}
+
+	return 2;
+}
+
 void wkoscript_lua_push_device(lua_State* L, const std::string& filename)
 {
 	aplt::twkoscript script;
@@ -245,30 +434,33 @@ void wkoscript_lua_push_device(lua_State* L, const std::string& filename)
 
 	tstack_size_lock lock(L, 1);
 
-	lua_createtable(L, 4, 0);
-	lua_pushstring(L, utils::extract_file(filename).c_str());
-	lua_rawseti(L, -2, 1); // <== 0: file
+	lua_createtable(L, 0, 4);
 
-	std::string name;
+	lua_pushstring(L, "file");
+	lua_pushstring(L, utils::extract_file(filename).c_str());
+	lua_rawset(L, -3); // t["file"] <== file
+
+	std::string title;
 	std::string author;
 	std::string reference;
 
 	if (script.valid()) {
-		name = script.name;
+		title = script.title;
 		author = script.author;
 		reference = script.reference;
 	}
-	lua_pushstring(L, name.c_str());
-	lua_rawseti(L, -2, 2); // <== 1: name
 
+	lua_pushstring(L, "title");
+	lua_pushstring(L, title.c_str());
+	lua_rawset(L, -3); // <== t["title"] = title
+
+	lua_pushstring(L, "author");
 	lua_pushstring(L, author.c_str());
-	lua_rawseti(L, -2, 3); // <== 2: author
+	lua_rawset(L, -3); // <== t["author"] = author
 
+	lua_pushstring(L, "reference");
 	lua_pushstring(L, reference.c_str());
-	lua_rawseti(L, -2, 4); // <== 3: reference
-
-	// lua_pushstring(L, utils::join(item.brands, ";").c_str());
-	// lua_rawseti(L, -2, 5); // <== 4: brands
+	lua_rawset(L, -3); // <== t["reference"] = reference
 }
 
 static int intf_wkoscript_list_files_metadata(lua_State* L)
@@ -299,6 +491,107 @@ static int intf_wkoscript_list_files_metadata(lua_State* L)
 
 	return 2;
 }
+
+void wkocourse_enroll_lua_push(lua_State* L, const aplt::twkocourse_enroll& enroll)
+{
+	VALIDATE(enroll.valid(), null_str);
+	tstack_size_lock lock(L, 1);
+
+	lua_createtable(L, 0, 5);
+
+	lua_pushstring(L, "id2");
+	lua_pushstring(L, enroll.id2.c_str());
+	lua_rawset(L, -3); // <== "id2" = id2
+
+	lua_pushstring(L, "id");
+	lua_pushstring(L, enroll.id.c_str());
+	lua_rawset(L, -3); // <== "id" = id
+
+	lua_pushstring(L, "aplt");
+	lua_pushstring(L, enroll.aplt.c_str());
+	lua_rawset(L, -3); // <== "aplt" = aplt
+
+	lua_pushstring(L, "purchase");
+	lua_pushinteger(L, enroll.purchase);
+	lua_rawset(L, -3); // <== "purchase" = purchase
+
+	lua_pushstring(L, "active");
+	lua_pushinteger(L, enroll.active);
+	lua_rawset(L, -3); // <== "active" = active
+}
+
+
+static int intf_wkocourse_enrolls_metadata(lua_State* L)
+{
+	const std::map<std::string, aplt::twkocourse_enroll>& enrolls = instance->wkocourse_enrolls();
+	lua_pushinteger(L, enrolls.size());
+	lua_createtable(L, enrolls.size(), 0);
+
+	{
+		int at = 0;
+		tstack_size_lock lock(L, 0);
+		for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = enrolls.begin(); it != enrolls.end(); ++ it, at ++) {
+			const aplt::twkocourse_enroll& enroll = it->second;
+
+			wkocourse_enroll_lua_push(L, enroll);
+			lua_rawseti(L, -2, at + 1);
+		}
+	}
+
+	return 2;
+}
+
+extern void wkocourse_enrolls_to_pref(const std::map<std::string, aplt::twkocourse_enroll>& enrolls);
+
+static int intf_wkocourse_purchase(lua_State* L)
+{
+	const std::string aplt = luaL_checkstring(L, 1);
+	const std::string id = luaL_checkstring(L, 2);
+
+	if (!is_bundleid(aplt)) {
+		return luaL_argerror(L, 1, "must be bundleid format");
+	}
+	if (id.empty()) {
+		return luaL_argerror(L, 2, "can be empty");
+	}
+
+	instance->purchase_wkocourse(aplt, id);
+
+	bool retbool = true;
+	lua_pushboolean(L, retbool);
+
+	return 1;
+}
+
+enum {enrollcalctype_force_active, enrollcalctype_expire, enrollcalctype_count};
+static int intf_wkocourse_enroll_calc_int64(lua_State* L)
+{
+	const std::string id2 = luaL_checkstring(L, 1);
+	const int type = luaL_checkinteger(L, 2);
+
+	const std::map<std::string, aplt::twkocourse_enroll>& enrolls = instance->wkocourse_enrolls();
+	if (enrolls.count(id2) == 0) {
+		return luaL_argerror(L, 1, "unknown enroll's id2");
+	}
+
+	int64_t result = nposm;
+	const aplt::twkocourse_enroll& enroll = enrolls.find(id2)->second;
+	if (type == enrollcalctype_force_active) {
+		int grace_period_days = luaL_checkinteger(L, 3);
+		result = enroll.calc_force_active(grace_period_days);
+
+	} else if (type == enrollcalctype_expire) {
+		int total_days = luaL_checkinteger(L, 3);
+		result = enroll.calc_expire(total_days);
+
+	} else {
+		return luaL_argerror(L, 2, "unknown calculate type");
+	}
+
+	lua_pushinteger(L, result);
+	return 1;
+}
+
 
 /**
 * Dumps a wml table or userdata wml object into a pretty string.
@@ -393,6 +686,8 @@ static int intf_mk_integer(lua_State* L)
 	return 1;
 }
 
+enum {FMT_APLT_IOT_ALIAS_ID = FMT_ELAPSE + 1, FMT_TIME_ymdhms};
+
 static int intf_integer_tostr(lua_State* L)
 {
 	int64_t val = luaL_checkinteger(L, 1);
@@ -408,12 +703,16 @@ static int intf_integer_tostr(lua_State* L)
 	} else if (type == FMT_TIME_HHcMMcSS) {
 		result = utils::format_time_hms(val);
 
+	} else if (type == FMT_TIME_ymdhms) {
+		result = utils::format_time_ymdhms(val);
+
 	} else if (type == FMT_ELAPSE) {
 		result = utils::format_elapse_hms(val);
 
 	} else {
 		return luaL_argerror(L, 2, "unknown type");
 	}
+
 	lua_pushstring(L, result.c_str());
 	return 1;
 }
@@ -497,7 +796,7 @@ static int intf_normalize_path(lua_State* L)
 }
 
 // ==> rose.convert_string
-enum {STRCVT_EXTRACT_DIRECTORY, STRCVT_STRIP};
+enum {STRCVT_EXTRACT_DIRECTORY, STRCVT_STRIP, STRCVT_JOIN_APP_PREFIX_ID};
 
 static int intf_convert_string(lua_State* L)
 {
@@ -511,6 +810,10 @@ static int intf_convert_string(lua_State* L)
 	} else if (code == STRCVT_STRIP) {
 		dst = src;
 		utils::strip(dst);
+
+	} else if (code == STRCVT_JOIN_APP_PREFIX_ID) {
+		const std::string id = luaL_checkstring(L, 3);
+		dst = utils::join_app_prefix_id(src, id);
 
 	} else {
 		char buf[128];
@@ -550,8 +853,6 @@ static int intf_truncate_to_max_chars(lua_State* L)
 
 	return 1;
 }
-
-enum {FMT_APLT_IOT_ALIAS_ID = FMT_ELAPSE + 1};
 
 static int intf_is_format(lua_State* L)
 {
@@ -1151,7 +1452,12 @@ lua_kernel_base::lua_kernel_base()
 		{ "webrtc_post",              &intf_webrtc_post},
 		{ "open_url",                 &intf_open_url},
 
+		{ "wkocourse_list_files_metadata",	&intf_wkocourse_list_files_metadata},
 		{ "wkoscript_list_files_metadata",	&intf_wkoscript_list_files_metadata},
+		{ "wkocourse_enrolls_metadata",		&intf_wkocourse_enrolls_metadata},
+		{ "wkocourse_purchase",				&intf_wkocourse_purchase},
+		{ "wkocourse_enroll_calc_int64",	&intf_wkocourse_enroll_calc_int64},
+
 		//
 		// aplt
 		//
@@ -1218,6 +1524,7 @@ void lua_kernel_base::register_rose_const_value()
 	// STRingChangeType
 	values.insert(std::make_pair("STRCVT_EXTRACT_DIRECTORY", STRCVT_EXTRACT_DIRECTORY));
 	values.insert(std::make_pair("STRCVT_STRIP", STRCVT_STRIP));
+	values.insert(std::make_pair("STRCVT_JOIN_APP_PREFIX_ID", STRCVT_JOIN_APP_PREFIX_ID));
 
 	values.insert(std::make_pair("FMT_UUID", FMT_UUID));
 	values.insert(std::make_pair("FMT_IPV4", FMT_IPV4));
@@ -1225,6 +1532,7 @@ void lua_kernel_base::register_rose_const_value()
 	values.insert(std::make_pair("FMT_TIME_HHcMMcSS", FMT_TIME_HHcMMcSS));
 	values.insert(std::make_pair("FMT_ELAPSE", FMT_ELAPSE));
 	values.insert(std::make_pair("FMT_APLT_IOT_ALIAS_ID", FMT_APLT_IOT_ALIAS_ID));
+	values.insert(std::make_pair("FMT_TIME_ymdhms", FMT_TIME_ymdhms));
 
 	// path type
 	values.insert(std::make_pair("PATHTYPE_ABS", PATHTYPE_ABS));
@@ -1317,6 +1625,10 @@ void lua_kernel_base::register_rose_const_value()
 
 	// applet
 	values.insert(std::make_pair("cpp_id_aplt_min", aplt::cpp_id_aplt_min));
+
+	// wkocourse_enroll
+	values.insert(std::make_pair("enrollcalctype_force_active", enrollcalctype_force_active));
+	values.insert(std::make_pair("enrollcalctype_expire", enrollcalctype_expire));
 
 	for (std::map<std::string, int>::const_iterator it = values.begin(); it != values.end(); ++ it) {
 		lua_pushinteger(L, it->second);
