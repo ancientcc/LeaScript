@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesktop-lib\n"
 "Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
-"POT-Creation-Date: 2026-08-22 13:57+0800\n"
-"PO-Revision-Date: 2026-08-22 13:58+0800\n"
+"POT-Creation-Date: 2026-09-25 08:43+0800\n"
+"PO-Revision-Date: 2026-09-25 08:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: zh_CN\n"
@@ -44,8 +44,8 @@ msgid "Dbg"
 msgstr ""
 
 #: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:13
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:167
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:425
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:209
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:943
 msgid "Enter desktop"
 msgstr "进入桌面"
 
@@ -122,34 +122,30 @@ msgid "Workout chart"
 msgstr "数据复盘"
 
 #: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:51
-msgid "Workout items"
-msgstr "跟练项目"
-
-#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:53
 msgid "Workout name"
 msgstr "健身操名称"
 
-#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:55
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:53
 msgid "Workout settings"
 msgstr "跟练设置"
 
-#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:57
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:55
 msgid "Workout summary"
 msgstr "训练小结"
 
-#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:59
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:57
 msgid "camera^Snapshot"
 msgstr "拍照 "
 
-#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:61
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:59
 msgid "page^active"
 msgstr "跟练阶段"
 
-#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:63
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:61
 msgid "page^finish"
 msgstr "结束阶段"
 
-#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:65
+#: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:63
 msgid "page^start"
 msgstr "开始阶段"
 
@@ -224,47 +220,48 @@ msgstr "删除"
 msgid "Update IP"
 msgstr "修改IP"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:89
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:175
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:125
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:546
 msgid "home^rdp_layer"
 msgstr "首页"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:92
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:128
 msgid "Remote IP"
 msgstr "远程IP"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:95
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:176
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:131
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:308
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:547
 msgid "home^apps_layer"
 msgstr "应用"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:98
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:134
 msgid "Event"
 msgstr "事件"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:101
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:137
 msgid "Me"
 msgstr "我"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:147
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:420
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:189
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:938
 msgid "Landscape"
 msgstr "横屏"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:147
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:420
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:189
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:938
 msgid "Portrait"
 msgstr "竖屏"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:162
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:205
 msgid "When switching mode, can select '$item'"
 msgstr "切换模式时，可以选“$item”"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:168
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:210
 msgid "Applet"
 msgstr "小程序"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:171
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:213
 msgid ""
 "If '$desktop', and connect fails, you may enter the '$store' in '$applet' "
 "and let connect to network. Then come back to this interface."
@@ -272,7 +269,58 @@ msgstr ""
 "如果“$desktop”后，连接失败，或许可进入“$applet”中的“$store”。让连一次网络，然"
 "后再回到此界面。"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:180
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:234
+msgid "Single workout"
+msgstr "单个健身操"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:263
+msgid "Install"
+msgstr "安装"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:275
+msgid ""
+"A maximum of $days days of logs can be stored, and no more than $max_logs "
+"logs can be stored"
+msgstr "最多存储$days天内日志，并且不会超过$max_logs条"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:309
+msgid "workout help, $apps_layer"
+msgstr ""
+"传统跟练app，用户跟着视频做操，动作标不标准凭自觉。kDesktop则是健身博主把健身"
+"操动作标准提炼成一套符合LeaScript规范的“可执行脚本”：跟练时，手机会执行脚本逻"
+"辑，实时捕捉骨骼点（不联网，纯本地离线计算），把“看视频”变成“姿态检测”。一旦"
+"你的动作偏离设定标准，App立刻语音提示并直接锁定下一步，相当于教练就站在旁边盯"
+"着你，不标准就重来。\n"
+"\n"
+"用户还是须要看下健身博主对这操的演示视频，从而知道这操是怎么个过程。要看演"
+"示，可去「$apps_layer」，运行该操所在小程序，像“kHome Lua”。在健身操脚本文件"
+"行，对应会有个“演示”按钮，单击它便可观看。\n"
+"\n"
+"如何添加课程？——运行提供课程的小程序，对指定课程，点击“购买”。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:465
+msgid "Expires on $expire. Purchase time: $purchase, Active time: $active."
+msgstr "$expire到期。购买时间：$purchase，激活时间：$active。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:467
+msgid "Expires on $expire. Purchase time: $purchase."
+msgstr "$expire到期。购买时间：$purchase。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:471
+msgid ""
+"Expired (expiration time: $expire). Purchase time: $purchase, Active time: "
+"$active."
+msgstr "已到期（到期时间：$expire）。购买时间：$purchase，激活时间：$active。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:479
+msgid "Not activated. $purchase, $force_active, $first_day"
+msgstr ""
+"课程未激活。完成下方任意一套健身操即可激活。若未在 $force_active 前激活，课程"
+"将自动从 $first_day 开始计算 Day 1。\n"
+"\n"
+"购买时间：$purchase"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:551
 msgid "scene_list remark $rdp_layer, $apps_layer, $import_cfg"
 msgstr ""
 "1、打开 「$apps_layer」 → 「商店」，下载两个小程序：Basic Lua 和 kHome "
@@ -282,32 +330,43 @@ msgstr ""
 "4、在 「$apps_layer」 页，进入「kLink」。点击页面右上角的 「导入」 按钮，在弹"
 "出的菜单中选择「$import_cfg 」。导入成功后，列表中会显示 kHome Lua 自带的动作"
 "脚本，如平板撑、俯卧撑等。\n"
-"5、返回 「$rdp_layer」，页面将同步显示「kLink」 中已有的项目。"
+"5、返回 「$rdp_layer」，页面将同步显示「kLink」 中已有的项目。\n"
+"6、如何添加课程？——运行提供课程的小程序，对指定课程，点击“购买”。"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:206
-msgid "When workout starts, it will automatically enter the '$dcamera'."
-msgstr "跟练开始后，自动进入“$dcamera”。"
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:631
+msgid "wkocourse^Enroll"
+msgstr "课程订阅信息"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:231
-msgid "Install"
-msgstr "安装"
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:829
+msgid "Course"
+msgstr "课程"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:243
-msgid ""
-"A maximum of $days days of logs can be stored, and no more than $max_logs "
-"logs can be stored"
-msgstr "最多存储$days天内日志，并且不会超过$max_logs条"
-
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:397
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:483
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:891
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1002
 msgid "$driver not installed."
 msgstr "未安装底盘驱动。"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:480
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:954
+msgid "workout help"
+msgstr ""
+"传统跟练app，用户跟着视频做操，动作标不标准凭自觉。kDesktop则是健身博主把健身"
+"操动作标准提炼成一套符合LeaScript规范的“可执行脚本”：跟练时，手机会执行脚本逻"
+"辑，实时捕捉骨骼点（不联网，纯本地离线计算），把“看视频”变成“姿态检测”。一旦"
+"你的动作偏离设定标准，App立刻语音提示并直接锁定下一步，相当于教练就站在旁边盯"
+"着你，不标准就重来。\n"
+"\n"
+"用户还是须要看下健身博主对这操的演示视频，从而知道这操是怎么过程。每个脚本文"
+"件都是在哪个含有“跟练”任务小程序中，像“kHome Lua”。要看该操的演示视频，可去"
+"“中心”，运行该小程序，会看到含有的健身操脚本文件，对应会个“演示”按钮，单击它"
+"便可观看演示视频。\n"
+"\n"
+"如何添加课程？——运行提供课程的小程序，对指定课程，点击“购买”。"
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:999
 msgid "$driver installed: $aplt"
 msgstr "已安装底盘驱动：$aplt"
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:502
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1021
 msgid "Please go to the store and download '$name' first."
 msgstr "请先去商店下载“$name”。"
 
@@ -367,57 +426,57 @@ msgid "Starting Camera"
 msgstr "正在开启摄像头"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2158
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2171
 msgid "$count days"
 msgstr "$count天"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2158
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2171
 msgid "Total check-ins"
 msgstr "累计打卡"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2160
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2173
 msgid "$count times"
 msgstr "$count次"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2160
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2173
 msgid "Total workouts"
 msgstr "累计做操"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2163
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2356
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2176
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2369
 msgid "$count reps"
 msgstr "$count个"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2163
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2176
 msgid "Total reps"
 msgstr "累计个数"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1990
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2165
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2178
 msgid "Total duration"
 msgstr "累计时长"
 
 #: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1994
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2171
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2184
 msgid "Last check-in"
 msgstr "上次打卡"
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2108
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2121
 msgid "Duration $time"
 msgstr "用时$time"
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2274
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2287
 msgid "vlog rec toast"
 msgstr ""
 "Vlog模式已开启。\n"
 "如需录制，下滑控制中心启动录屏"
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2350
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2363
 msgid "time^s"
 msgstr "秒"
 
@@ -589,49 +648,49 @@ msgstr "<未设置>"
 msgid "Edit $name text"
 msgstr "编辑$name文本"
 
-#: apps-src/apps/kdesktop/main.cpp:523
+#: apps-src/apps/kdesktop/main.cpp:425
 msgid "Scale to screen"
 msgstr "拉伸到满区域"
 
-#: apps-src/apps/kdesktop/main.cpp:524
+#: apps-src/apps/kdesktop/main.cpp:426
 msgid "Keep aspect ratio"
 msgstr "保持宽高比"
 
-#: apps-src/apps/kdesktop/main.cpp:525
+#: apps-src/apps/kdesktop/main.cpp:427
 msgid "Partial"
 msgstr "部分显示"
 
-#: apps-src/apps/kdesktop/main.cpp:713
+#: apps-src/apps/kdesktop/main.cpp:618
 msgid ""
 "A base task is running. Do you want to stop the task and enter '$module'?"
 msgstr "有底盘任务正在运行。要停止任务，从而进入“$module”吗？"
 
-#: apps-src/apps/kdesktop/main.cpp:715
+#: apps-src/apps/kdesktop/main.cpp:620
 msgid "To enter $module, stop the base task"
 msgstr "要进入“$module”，结束底盘任务"
 
-#: apps-src/apps/kdesktop/main.cpp:902
+#: apps-src/apps/kdesktop/main.cpp:807
 msgid ""
 "$driver failed to create slot. Navigate to '$center' to check the cause."
 msgstr "$driver创建对像失败。可转去“$center”查看原因。"
 
-#: apps-src/apps/kdesktop/main.cpp:1055
+#: apps-src/apps/kdesktop/main.cpp:994
 msgid "Base node not started"
 msgstr "底盘驱动节点未启动"
 
-#: apps-src/apps/kdesktop/main.cpp:1059
+#: apps-src/apps/kdesktop/main.cpp:998
 msgid "Base is in moveable mode"
 msgstr "底盘正工作在可移动模式"
 
-#: apps-src/apps/kdesktop/main.cpp:1064
+#: apps-src/apps/kdesktop/main.cpp:1003
 msgid "A background task using the camera is currently running"
 msgstr "有用到相机的后台任务正在运行"
 
-#: apps-src/apps/kdesktop/main.cpp:1090
+#: apps-src/apps/kdesktop/main.cpp:1029
 msgid "No scenes available to suspend"
 msgstr "没有可挂起的场景"
 
-#: apps-src/apps/kdesktop/main.cpp:1103
+#: apps-src/apps/kdesktop/main.cpp:1042
 msgid "Unable to start scene"
 msgstr "无法启动场景"
 
@@ -674,6 +733,15 @@ msgstr "关闭网络连接"
 #: apps-src/apps/kdesktop/rdp_client.cc:960
 msgid "Hasn't received RTT Measure Request over $time, think as disconnect"
 msgstr "已持续$time没收到RTT Measure Request，认为连接已断开"
+
+#~ msgid "When workout starts, it will automatically enter the '$dcamera'."
+#~ msgstr "跟练开始后，自动进入“$dcamera”。"
+
+#~ msgid "Workout items"
+#~ msgstr "跟练项目"
+
+#~ msgid "Day $day"
+#~ msgstr "Day $day"
 
 #~ msgid "Misc"
 #~ msgstr "其它"

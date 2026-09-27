@@ -53,6 +53,7 @@ private:
 	//
 	// state2_base layer
 	//
+	void click_action_tpl2_id(tbutton& widget);
 	void did_state2_bool_field_changed(ttoggle_button& widget, int fid);
 	void update_unsatisfied_remark_label() const;
 	void update_satisfied_remark_label() const;
@@ -167,6 +168,7 @@ private:
 	aplt::twkoscript::tstate2 state2_;
 	// const std::string state_name_;
 	const std::map<int, aplt::tpreset_pose>& preset_poses_;
+	const std::map<std::string, aplt::taction_tpl2> action_tpl2s_;
 	const int sdl_field_small_font_size_;
 	const std::string phase_surf_dir_;
 	// mediapipe::tpose_tracking_api& mediapipe_api_;

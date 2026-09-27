@@ -197,20 +197,6 @@ void set_ratioswitchable(bool value)
 	preferences::set_bool("ratioswitchable", value);
 }
 
-bool auto_enter_dcamera()
-{
-	{
-		// now always auto enter dcamera.
-		return true;
-	}
-	return preferences::get_bool("auto_enter_dcamera", true);
-}
-
-void set_auto_enter_dcamera(bool value)
-{
-	preferences::set_bool("auto_enter_dcamera", value);
-}
-
 std::string currentremote()
 {
 	std::string value = preferences::get_str("currentremote");

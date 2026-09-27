@@ -276,77 +276,7 @@ void tklink::pre_device(tgrid& grid)
 			, this
 			, std::ref(list)));
 }
-/*
-void tklink::pre_scene(tgrid& grid)
-{
-	utils::string_map symbols;
-	// symbols["online_minute"] = str_cast(online_threshold_minute_);
-	// find_widget<tlabel>(&grid, "remark", false, true)->set_label(vgettext2("klink's scene layer remark, $online_minute", symbols));
 
-	scene_list_ = find_widget<tlistbox>(&grid, "scene_list", false, true);
-	tlistbox& list = *scene_list_;
-	list.enable_select(false);
-	list.set_did_can_drag(std::bind(&tklink::did_scene_can_drag, this, _1, _2));
-
-	tbutton* button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("edit_id", true));
-	button->set_icon("misc/bg_ff0000.png");
-	connect_signal_mouse_left_click(
-		*button
-		, std::bind(
-			&tklink::click_edit_scene_id_or_name
-			, this
-			, std::ref(list), etype_scene_id));
-
-	button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("edit_name", true));
-	button->set_icon("misc/bg_f3f3f3.png");
-	connect_signal_mouse_left_click(
-		*button
-		, std::bind(
-			&tklink::click_edit_scene_id_or_name
-			, this
-			, std::ref(list), etype_scene_name));
-
-	button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("edit_input_vars", true));
-	button->set_icon("misc/bg_ff0000.png");
-	connect_signal_mouse_left_click(
-		*button
-		, std::bind(
-			&tklink::click_edit_scene_input_vars
-			, this
-			, std::ref(list)));
-
-	button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("erase", true));
-	button->set_icon("misc/bg_f3f3f3.png");
-	connect_signal_mouse_left_click(
-		*button
-		, std::bind(
-			&tklink::click_erase_scene
-			, this
-			, std::ref(list)));
-
-	button = dynamic_cast<tbutton*>(list.left_drag_grid()->find("start", true));
-	button->set_icon("misc/bg_ff0000.png");
-	connect_signal_mouse_left_click(
-		*button
-		, std::bind(
-			&tklink::click_start_scene
-			, this
-			, std::ref(list)));
-}
-
-void tklink::pre_env_var(tgrid& grid)
-{
-	utils::string_map symbols;
-	symbols["prefix"] = aplt::fake_aplt.bundleid + "__";
-	std::string msg = vgettext2("For variable name, the prefix '$prefix' is omitted when displayed here", symbols);
-	find_widget<tlabel>(&grid, "remark", false, true)->set_label(msg);
-
-	env_var_list_ = find_widget<tlistbox>(&grid, "var_list", false, true);
-	tlistbox& list = *env_var_list_;
-	list.enable_select(false);
-	// list.set_did_can_drag(std::bind(&tklink::did_var_sensors_can_drag, this, _1, _2));
-}
-*/
 void tklink::pre_add_timed_task(tgrid& grid)
 {
 	find_widget<tlabel>(&grid, "remark", false, true)->set_label(_("klink's add_timed_task layer remark"));
@@ -2073,41 +2003,7 @@ std::string tklink::edit_device_id(const std::string& initial, bool& cancel) con
 		return param.result;
 	}
 }
-/*
-bool tklink::verify_edit_alias_name(const std::string& label, const std::string& initial, int etype, const std::set<std::string>& excludes) const
-{
-	if (label == initial) {
-		return false;
-	}
 
-	if (label.empty()) {
-		if (etype != etype_iot_alias) {
-			return false;
-		}
-		return true;
-	}
-	if (utils::has_portable_space_2end(label)) {
-		return false;
-	}
-
-	if (excludes.count(label) != 0) {
-		return false;
-	}
-
-	bool valid = false;
-	if (etype == etype_scene_id) {
-		valid = isvalid_normal_id_or_var_name224(label);
-
-	} else if (etype == etype_var_name || etype == etype_scene_name || etype == etype_iot_alias) {
-		valid = isvalid_normal_utf8_name224(label);	
-
-	} else {
-		VALIDATE(false, null_str);
-	}
-
-	return valid;
-}
-*/
 void tklink::click_edit_alias_name(tlistbox& list)
 {
 	const int drag_at = list.drag_at();

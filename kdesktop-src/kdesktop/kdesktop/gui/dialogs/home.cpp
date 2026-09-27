@@ -9,6 +9,7 @@
 #include "gui/widgets/listbox.hpp"
 #include "gui/widgets/report.hpp"
 #include "gui/widgets/stack.hpp"
+#include "gui/widgets/scroll_text_box.hpp"
 #include "gui/widgets/window.hpp"
 #include "gui/dialogs/menu.hpp"
 #include "gui/dialogs/message.hpp"
@@ -28,6 +29,9 @@
 #include "sound.hpp"
 #include "net.hpp"
 #include "base_instance.hpp"
+#include "wkoscript.hpp"
+#include "wkocourse.hpp"
+#include "health.hpp"
 
 #include "chinese.hpp"
 
@@ -35,13 +39,19 @@ using namespace std::placeholders;
 
 extern bool will_enter_landscape_module(tbase_driver_core& base_driver, const std::string& module);
 
+extern void wkocourse_enrolls_to_pref(const std::map<std::string, aplt::twkocourse_enroll>& enrolls);
+extern void wkocourse_enrolls_to_courses(const std::map<std::string, aplt::twkocourse_enroll>& enrolls, std::map<std::string, aplt::twkocourse>& wkocourses);
+extern std::string wkocourse_enroll_miss_course_msg(const std::map<aplt::taplt_key, aplt::tapplet>& applets, const std::string& enroll_id2);
+
 namespace gui2 {
 
 REGISTER_DIALOG(kdesktop, home)
 
 
 thome::thome(gui2::trstore::tslot& slot, tpbremotes& pbremotes, tble2& ble, std::map<aplt::taplt_key, aplt::tapplet>& applets,
-	tbase_driver_core& base_driver, tdrivers_core& drivers, aplt::tcfg_cpp_api_core& cfg_cpp_api, int startup_layer)
+	tbase_driver_core& base_driver, tdrivers_core& drivers, aplt::tcfg_cpp_api_core& cfg_cpp_api,
+	std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, std::map<std::string, aplt::twkocourse>& wkocourses, 
+	aplt::thealth& health, int startup_layer)
 	: tscan(ble)
 	, aplt::tdesktop(*this, slot, applets, APPLET0)
 	, trcswamp_login(current_user)
@@ -50,16 +60,26 @@ thome::thome(gui2::trstore::tslot& slot, tpbremotes& pbremotes, tble2& ble, std:
 	, base_driver_(base_driver)
 	, drivers_(drivers)
 	, cfg_cpp_api_(cfg_cpp_api)
+	, wkocourse_enrolls_(wkocourse_enrolls)
+	, wkocourses_(wkocourses)
+	, health_(health)
 	, startup_layer_(startup_layer)
 	, current_layer_(nposm)
+	, visible_rdp_widget_(nullptr)
 	, body_widget_(nullptr)
 	, navigation_report_(nullptr)
+	, curr_rdp_at_(nposm)
 	, ipaddr_(nullptr)
+	, rdp_report_(nullptr)
+	, rdp_stack_(nullptr)
+	, wkocourse_enroll_widget_(nullptr)
+	, workout_list_(nullptr)
 	, scene_list_(nullptr)
 	, battery_widget_(nullptr)
 	, start_base_node_widget_(nullptr)
 	, scroll_logs_to_bottom_(true)
 	, event_list_(nullptr)
+	, devel_widget_(nullptr)
 {
 	set_timer_interval(800);
 }
@@ -75,6 +95,14 @@ void thome::pre_show()
 
 	find_widget<tlabel>(window_, "title", false).set_label(game_config::get_app_msgstr(null_str));
 
+	tbutton* button = find_widget<tbutton>(window_, "visible_rdp", false, true);
+	connect_signal_mouse_left_click(
+				*button
+			, std::bind(
+			&thome::click_visible_rdp
+			, this));
+	visible_rdp_widget_ = button;
+
 	body_widget_ = find_widget<tstack>(window_, "body", false, true);
 	pre_rdp(*body_widget_->layer(RDP_LAYER));
 	pre_scan(*body_widget_->layer(SCAN_LAYER), *this);
@@ -87,7 +115,7 @@ void thome::pre_show()
 	tcontrol* item;
 	// const bool english_error = false;
 	item = &report->insert_item(null_str, _("home^rdp_layer"));
-	item->set_icon("misc/rdp.png");
+	item->set_icon("misc/home.png");
 
 	item = &report->insert_item(null_str, _("Remote IP"));
 	item->set_icon("misc/scan.png");
@@ -105,6 +133,9 @@ void thome::pre_show()
 	report->set_did_item_changed(std::bind(&thome::did_navigation_changed, this, _1, _2));
 	report->select_item(startup_layer_);
 	navigation_report_ = report;
+
+	// At first, invisible 'rdp_grid'.
+	toggle_visible_rdp();
 }
 
 void thome::post_show()
@@ -130,6 +161,9 @@ void thome::pre_rdp(tgrid& grid)
 	std::stringstream ss;
 	utils::string_map symbols;
 
+	//
+	// rdp panel
+	//
 	const int max_ipv4_str_chars = 3 + 1 + 3 + 1 + 3 + 1 + 3;
 	// ip addr
 	ipaddr_ = find_widget<ttext_box>(&grid, "ipaddr", false, true);
@@ -154,13 +188,13 @@ void thome::pre_rdp(tgrid& grid)
 			, this, std::ref(*button)));
 	button->set_active(can_rdp());
 
+
 	ttoggle_button* toggle = find_widget<ttoggle_button>(&grid, "ratio_switchable", false, true);
 	toggle->set_value(preferences::ratioswitchable());
 	toggle->set_did_state_changed(std::bind(&thome::did_ratio_switchable_changed, this, _1));
 	symbols.clear();
 	symbols["item"] = game_config::screen_modes.find(screenmode_ratio)->second;
 	toggle->set_label(vgettext2("When switching mode, can select '$item'", symbols));
-
 
 	tlabel* label = nullptr;
 	if (game_config::os == os_ios) {
@@ -171,47 +205,37 @@ void thome::pre_rdp(tgrid& grid)
 		label->set_label(vgettext2("If '$desktop', and connect fails, you may enter the '$store' in '$applet' and let connect to network. Then come back to this interface.", symbols));
 	}
 
-	if (cfg_cpp_api_.base_scenes().empty()) {
-		symbols["rdp_layer"] = _("home^rdp_layer");
-		symbols["apps_layer"] = _("home^apps_layer");
-		symbols["import_cfg"] = "klink_phone(default)(zh_CN).cfg";
+	//
+	// workout relative
+	//
+	treport* report = find_widget<treport>(&grid, "rdp_report", false, true);
+	// aplt::twkocourse course;
+	for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = wkocourse_enrolls_.begin(); it != wkocourse_enrolls_.end(); ++ it) {
+		const aplt::twkocourse_enroll& enroll = it->second;
+		VALIDATE(enroll.valid(), null_str);
+		std::string label;
 
-		label = find_widget<tlabel>(&grid, "scene_list_remark", false, true);
-		label->set_label(vgettext2("scene_list remark $rdp_layer, $apps_layer, $import_cfg", symbols));
+		if (wkocourses_.count(enroll.id2) != 0) {
+			label = wkocourses_.find(enroll.id2)->second.title;
+		} else {
+			label = enroll.id;
+		}
 
-		tbutton* button = find_widget<tbutton>(&grid, "vlog_example", false, true);
-		button->set_icon("misc/start.png");
-		connect_signal_mouse_left_click(
-					*button
-				, std::bind(
-				&thome::click_open_url
-				, this, std::ref(*button), true));
-
-		button = find_widget<tbutton>(&grid, "user_guide", false, true);
-		button->set_icon("misc/start.png");
-		connect_signal_mouse_left_click(
-					*button
-				, std::bind(
-				&thome::click_open_url
-				, this, std::ref(*button), false));
-	} else {
-		find_widget<tgrid>(&grid, "url_grid", false, true)->set_visible(twidget::INVISIBLE);
+		report->insert_item(null_str, label);
 	}
-	// during running, scene_list maybe empty later, auto_enter_dcamera require dynmic.
-	toggle = find_widget<ttoggle_button>(&grid, "auto_enter_dcamera", false, true);
-	toggle->set_value(preferences::auto_enter_dcamera());
-	toggle->set_did_state_changed(std::bind(&thome::did_auto_enter_dcamera_changed, this, _1));
+	report->insert_item(null_str, _("Single workout"));
 
-	symbols["dcamera"] = aplt::all_fake_applets.find(aplt::builtinid_dcamera)->second.name;
-	std::string msg = vgettext2("When workout starts, it will automatically enter the '$dcamera'.", symbols);
-	find_widget<tlabel>(&grid, "auto_enter_dcamera_label", false, true)->set_label(msg);
+	// report->set_did_item_pre_change(std::bind(&twko_settings::did_main_report_pre_change, this, _1, _2, _3));
+	report->set_did_item_changed(std::bind(&thome::did_rdp_report_changed, this, _1, _2));
+	rdp_report_ = report;
 
-	tlistbox* list = find_widget<tlistbox>(&grid, "scene_list", false, true);
-	list->enable_select(false);
-	// list->set_did_can_drag(std::bind(&thelper_klink::did_scene_can_drag, this, _1, _2));
-	scene_list_ = list;
+	tstack* stack = find_widget<tstack>(&grid, "rdp_stack", false, true);
+	rdp_stack_ = stack;
 
-	// reload_scene_list(*scene_list_);
+	pre_rdp_course(*rdp_stack_->layer(RDP_COURSE_LAYER));
+	pre_rdp_single(*rdp_stack_->layer(RDP_SINGLE_LAYER));
+
+	rdp_report_->select_item(0);
 }
 
 void thome::pre_applet(tgrid& grid)
@@ -270,6 +294,11 @@ void thome::pre_more(tgrid& grid)
 			, this, std::ref(*button)));
 	button->set_visible(twidget::INVISIBLE);
 
+	utils::string_map symbols;
+
+	tlabel* label = find_widget<tlabel>(&grid, "help", false, true);
+	symbols["apps_layer"] = _("home^apps_layer");
+	label->set_label(vgettext2("workout help, $apps_layer", symbols));
 
 	button = find_widget<tbutton>(&grid, "upgrade", false, true);
 	connect_signal_mouse_left_click(
@@ -288,7 +317,17 @@ void thome::pre_more(tgrid& grid)
 	ss << " fullscreen_awlays: " << (game_config::fullscreen_awlays? "true": "fasle");
 	SDL_Rect rect = video_.bound();
 	ss << " video_.bound: (" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << ")";
-	find_widget<tlabel>(&grid, "devel", false).set_label(ss.str());
+	label = find_widget<tlabel>(&grid, "devel", false, true);
+	label->set_label(ss.str());
+	label->set_visible(twidget::INVISIBLE);
+	devel_widget_ = label;
+
+	button = find_widget<tbutton>(&grid, "icon", false, true);
+	connect_signal_mouse_left_click(
+				*button
+			, std::bind(
+			&thome::click_me_icon
+			, this, std::ref(*button)));
 
 	ss.str("");
 	ss << " V" << game_config::version.str(true) << (game_config::b64? "-b64": "-b32");
@@ -319,7 +358,15 @@ void thome::did_navigation_changed(treport& report, ttoggle_button& row)
 
 	current_layer_ = row.at();
 
+	visible_rdp_widget_->set_visible(current_layer_ == RDP_LAYER? twidget::VISIBLE: twidget::HIDDEN);
+
 	if (row.at() == RDP_LAYER) {
+		int rdp_layer = is_rdp_course_layer()? RDP_COURSE_LAYER: RDP_SINGLE_LAYER;
+		tgrid* grid = rdp_stack_->layer(rdp_layer);
+
+		if (rdp_layer == RDP_COURSE_LAYER) {
+			update_course_ui(*grid);
+		}
 		reload_scene_list(*scene_list_);
 
 	} else if (row.at() == SCAN_LAYER) {
@@ -342,7 +389,384 @@ void thome::did_navigation_changed(treport& report, ttoggle_button& row)
 	}
 }
 
-// extern std::string scene_name_for_gui(const aplt::tbase_scene& scene);
+//
+// rdp layer
+//
+void thome::update_course_ui(tgrid& grid)
+{
+	VALIDATE(curr_rdp_at_ < (int)wkocourse_enrolls_.size(), null_str);
+	course_workout_names_.clear();
+
+	std::map<std::string, aplt::twkocourse_enroll>::const_iterator curr_it = wkocourse_enrolls_.begin();
+	if (curr_rdp_at_ != 0) {
+		std::advance(curr_it, curr_rdp_at_);
+	}
+	const aplt::twkocourse_enroll& enroll = curr_it->second;
+	VALIDATE(enroll.valid(), null_str);
+
+	utils::string_map symbols;
+
+	bool clear_list = true;
+	tlistbox& list = *workout_list_;
+	const aplt::twkocourse* wkocourse = nullptr;
+	if (wkocourses_.count(enroll.id2) != 0) {
+		wkocourse = &wkocourses_.find(enroll.id2)->second;
+	}
+
+	std::string day_msg;
+	std::string day_title_msg;
+	std::string enroll_msg;
+
+	bool is_unactive = false;
+	bool is_expired = false;
+
+	int course_day_at = nposm;
+	bool course_day_at_is_valid = false;
+	if (wkocourse != nullptr) {
+		if (enroll.active != nposm) {
+			course_day_at = aplt::today_day_at_to_course_day_at(enroll.active, wkocourse->total_days);
+
+		} else {
+			// Allow practicing the workout on the first day, so that it can be activated.
+			course_day_at = 0;
+			is_unactive = true;
+		}
+		course_day_at_is_valid = course_day_at >= 0 && course_day_at < wkocourse->total_days;
+	}
+
+	if (wkocourse != nullptr) {
+		if (course_day_at_is_valid) {
+			char buf[128];
+			SDL_snprintf(buf, sizeof(buf), "%i/%i", course_day_at + 1, wkocourse->total_days);
+			symbols["day"] = buf;
+
+			day_msg = buf;
+			day_title_msg = wkocourse->days[course_day_at].title;
+		}
+
+		symbols["purchase"] = utils::format_time_ymdhms(enroll.purchase);
+		if (enroll.active != nposm) {
+			int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
+
+			symbols["active"] = utils::format_time_ymdhms(enroll.active);
+			symbols["expire"] = utils::format_time_ymdhms(expire_ts);
+
+			if (course_day_at_is_valid) {
+				bool show_active_time = true;
+				if (show_active_time) {
+					enroll_msg = vgettext2("Expires on $expire. Purchase time: $purchase, Active time: $active.", symbols);
+				} else {
+					enroll_msg = vgettext2("Expires on $expire. Purchase time: $purchase.", symbols);
+				}
+
+			} else if (time(nullptr) > expire_ts) {
+				enroll_msg = vgettext2("Expired (expiration time: $expire). Purchase time: $purchase, Active time: $active.", symbols);
+				is_expired = true;
+			}
+
+		} else {
+			int64_t force_acive_ts = enroll.calc_force_active(wkocourse->grace_period_days);
+			symbols["force_active"] = utils::format_time_ymdhms(force_acive_ts);
+			symbols["first_day"] = utils::format_time_ymd3(force_acive_ts + 1);
+			enroll_msg = vgettext2("Not activated. $purchase, $force_active, $first_day", symbols);
+		}
+	} else {
+		enroll_msg = wkocourse_enroll_miss_course_msg(applets_, enroll.id2);
+/*
+		const std::string id2 = enroll.id2;
+		std::pair<std::string, std::string> pair = utils::split_app_prefix_id(id2);
+		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets_, pair.first);
+		if (aplt == nullptr) {
+			msg = vgettext2("wko^miss course, no aplt, $course", symbols);
+
+		} else {
+			symbols["aplt"] = aplt->name2();
+			msg = vgettext2("wko^miss course, aplt hasn't course, $course, $aplt", symbols);
+		}
+*/
+	}
+
+	find_widget<tlabel>(&grid, "day", false, true)->set_label(day_msg);
+	find_widget<tlabel>(&grid, "day_title", false, true)->set_label(day_title_msg);
+	find_widget<tlabel>(&grid, "enroll", false, true)->set_label(enroll_msg);
+
+	bool allow_erase = wkocourse == nullptr || is_expired;
+	wkocourse_enroll_widget_->set_visible(allow_erase? twidget::VISIBLE: twidget::INVISIBLE);
+
+	if (course_day_at_is_valid) {
+		VALIDATE(wkocourse != nullptr, null_str);
+		reload_course_workout_list(list, enroll, wkocourse->days[course_day_at]);
+
+	} else {
+		list.clear();
+	}
+}
+
+void thome::click_course_workout_start(tlistbox& list, tbutton& widget, const std::string& course_id2, const aplt::twkocourse::tday& wkoday, int wokrout_at)
+{
+	VALIDATE(wokrout_at < (int)wkoday.workouts.size(), null_str);
+
+	const std::string wkocourse_id2 = course_id2;
+	const aplt::twkocourse::tworkout& workout = wkoday.workouts[wokrout_at];
+	start_wkocourse_script(wkocourse_id2, wkoday, workout);
+}
+
+void thome::pre_rdp_course(tgrid& grid)
+{
+	tbutton* button = find_widget<tbutton>(&grid, "erase", false, true);
+	connect_signal_mouse_left_click(
+			*button
+		, std::bind(
+		&thome::click_erase_enroll
+		, this, std::ref(*button)));
+	wkocourse_enroll_widget_ = button;
+
+	tlistbox* list = find_widget<tlistbox>(&grid, "workout_list", false, true);
+	list->enable_select(false);
+	// list->set_did_can_drag(std::bind(&thelper_klink::did_scene_can_drag, this, _1, _2));
+	workout_list_ = list;
+}
+
+void thome::pre_rdp_single(tgrid& grid)
+{
+	utils::string_map symbols;
+	tlabel* label;
+
+	if (cfg_cpp_api_.base_scenes().empty()) {
+		// find_widget<tbutton>(&grid, "workout_help", false, true)->set_visible(twidget::INVISIBLE);
+
+		symbols["rdp_layer"] = _("home^rdp_layer");
+		symbols["apps_layer"] = _("home^apps_layer");
+		symbols["import_cfg"] = "klink_phone(default)(zh_CN).cfg";
+
+		label = find_widget<tlabel>(&grid, "scene_list_remark", false, true);
+		label->set_label(vgettext2("scene_list remark $rdp_layer, $apps_layer, $import_cfg", symbols));
+
+		tbutton* button = find_widget<tbutton>(&grid, "vlog_example", false, true);
+		button->set_icon("misc/start.png");
+		connect_signal_mouse_left_click(
+					*button
+				, std::bind(
+				&thome::click_open_url
+				, this, std::ref(*button), true));
+
+		button = find_widget<tbutton>(&grid, "user_guide", false, true);
+		button->set_icon("misc/start.png");
+		connect_signal_mouse_left_click(
+					*button
+				, std::bind(
+				&thome::click_open_url
+				, this, std::ref(*button), false));
+	} else {
+		find_widget<tgrid>(&grid, "url_grid", false, true)->set_visible(twidget::INVISIBLE);
+
+	}
+
+	tlistbox* list = find_widget<tlistbox>(&grid, "scene_list", false, true);
+	list->enable_select(false);
+	// list->set_did_can_drag(std::bind(&thelper_klink::did_scene_can_drag, this, _1, _2));
+	scene_list_ = list;
+
+	// reload_scene_list(*scene_list_);
+}
+
+bool thome::is_rdp_course_layer() const
+{
+	return curr_rdp_at_ < (int)wkocourse_enrolls_.size();
+}
+
+void thome::did_rdp_report_changed(treport& report, ttoggle_button& row)
+{
+	curr_rdp_at_ = row.at();
+
+	int desire_rdp_layer = is_rdp_course_layer()? RDP_COURSE_LAYER: RDP_SINGLE_LAYER;
+	rdp_stack_->set_radio_layer(desire_rdp_layer);
+	tgrid* grid = rdp_stack_->layer(desire_rdp_layer);
+
+	if (is_rdp_course_layer()) {
+		update_course_ui(*grid);
+
+	} else {
+
+	}
+/*
+	if (row.at() == VLOG_LAYER) {
+
+	} else {
+		VALIDATE(row.at() == MISC_LAYER, null_str);
+	}
+*/
+}
+
+void thome::click_erase_enroll(tbutton& widget)
+{
+	VALIDATE(is_rdp_course_layer(), null_str);
+
+	std::map<std::string, aplt::twkocourse_enroll>::iterator enroll_it = wkocourse_enrolls_.begin();
+	if (curr_rdp_at_ != 0) {
+		std::advance(enroll_it, curr_rdp_at_);
+	}
+	aplt::twkocourse_enroll& enroll = enroll_it->second;
+
+	std::string title = enroll.id2;
+	const aplt::twkocourse* wkocourse = nullptr;
+	if (wkocourses_.count(enroll.id2) != 0) {
+		VALIDATE(enroll.active != nposm, null_str);
+
+		wkocourse = &wkocourses_.find(enroll.id2)->second;
+		int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
+		VALIDATE(time(nullptr) > expire_ts, null_str);
+
+		title = wkocourse->title;
+	}
+
+	const std::string msg = i18n::freq_msgstr_2str(i18n::msgid_confirm_delete_2str, _("wkocourse^Enroll"), title);
+	if (gui2::show_message2(null_str, msg, gui2::tmessage::yes_no_buttons) != gui2::twindow::OK) {
+		return;
+	}
+
+	wkocourse_enrolls_.erase(enroll_it);
+	wkocourse_enrolls_to_courses(wkocourse_enrolls_, wkocourses_);
+
+	wkocourse_enrolls_to_pref(wkocourse_enrolls_);
+
+	rdp_report_->erase_item(curr_rdp_at_);
+}
+
+bool to_scene(const std::string& name, const std::string& filename, const std::string& bundleid, const std::string& wkocourse_id2, aplt::tbase_scene& scene)
+{
+	// VALIDATE(!wkoscript_id.empty(), null_str);
+	VALIDATE(is_bundleid(bundleid), null_str);
+	VALIDATE(!wkocourse_id2.empty(), null_str);
+
+	scene.clear();
+/*
+	const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets, bundleid);
+	if (aplt == nullptr) {
+		return false;
+	}
+	std::string filename = aplt::twkoscript::id_to_filename(wkoscript_id);
+	aplt::twkoscript script;
+	script.from_aplt_file(*aplt, filename);
+	if (!script.valid()) {
+		return false;
+	}
+*/
+	scene.set_name(name);
+	scene.aplt = bundleid;
+	scene.task = aplt::reserved_tasks.find(aplt::taskid_workout)->second.id;
+	scene.input_vars.insert(std::make_pair(scene.file_key, filename));
+	scene.wkocourse_id2 = wkocourse_id2;
+	return true;
+}
+
+uint32_t get_color(int actual, int plan)
+{
+	if (actual == 0) {
+		return color_to_uint32(font::BAD_COLOR);
+	} else if (actual < plan) {
+		// return color_to_uint32(font::YELLOW_COLOR);
+		return color_to_uint32(font::BLUE_COLOR);
+	}
+	return color_to_uint32(font::GOOD_COLOR);
+}
+
+void thome::reload_course_workout_list(tlistbox& list, const aplt::twkocourse_enroll& enroll, const aplt::twkocourse::tday& wkoday)
+{
+	list.clear();
+
+	std::map<std::string, int> actual_workout_id2s;
+	for (std::vector<aplt::twkocourse::tworkout>::const_iterator it = wkoday.workouts.begin(); it != wkoday.workouts.end(); ++ it) {
+		const aplt::twkocourse::tworkout& workout = *it;
+		const std::string id2 = workout.get_id2(enroll.aplt);
+		VALIDATE(actual_workout_id2s.count(id2) == 0, null_str);
+		actual_workout_id2s.insert(std::make_pair(id2, 0));
+	}
+
+	aplt::thealth::thealth_result2 result2;
+	bool retbool = health_.load_health_data_4_report(time(nullptr), result2);
+	for (int workout_at = 0; retbool && workout_at < (int)result2.workouts.size(); workout_at ++) {
+		const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at];
+		const std::string id2 = utils::join_app_prefix_id(workout.aplt, workout.id);
+		if (actual_workout_id2s.count(id2) == 0) {
+			continue;
+		}
+		// if (script.states.size() != workout.flow_states2.size()) {
+		// If can be add 1, it must be completed.
+		if (workout.history.final_state_at != (int)workout.flow_states2.size() - 1) {
+			continue;
+		}
+		actual_workout_id2s.find(id2)->second ++;
+
+	}
+
+	const std::string& driver_scene_id = base_driver_.scene_id();
+
+	const std::string& task =aplt::reserved_tasks.find(aplt::taskid_workout)->second.id;
+
+	const std::vector<aplt::tbase_scene>& scenes = cfg_cpp_api_.base_scenes();
+	std::stringstream ss;
+	std::map<std::string, std::string> data;
+	aplt::tbase_scene scene;
+	char buf[256];
+	aplt::twkoscript script;
+	for (std::vector<aplt::twkocourse::tworkout>::const_iterator it = wkoday.workouts.begin(); it != wkoday.workouts.end(); ++ it) {
+		const aplt::twkocourse::tworkout& workout = *it;
+		const std::string id2 = workout.get_id2(enroll.aplt);
+
+		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets_, workout.aplt(enroll.aplt));
+		scene.clear();
+		if (aplt != nullptr) {
+			std::string filename = aplt::twkoscript::id_to_filename(workout.id);
+			script.from_aplt_file(*aplt, filename);
+			if (script.valid()) {
+				to_scene(script.title, filename, workout.aplt(enroll.aplt), enroll.id2, scene);
+			}
+		} else {
+			VALIDATE(false, null_str);
+		}
+		course_workout_names_.insert(std::make_pair(id2, scene.name()));
+
+		ss.str("");
+		int actual_count = actual_workout_id2s.find(id2)->second;
+		SDL_snprintf(buf, sizeof(buf), "(%i/%i)",
+			actual_count, workout.rounds);
+		ss << ht::generate_format(buf, get_color(actual_count, workout.rounds));
+		ss << scene.name_for_gui(18);
+		data["name"] = ss.str();
+		ss.str("");
+		ss << task_name2_from_3id(applets_, scene.aplt, task, null_str, true);
+		data["task"] = ss.str();
+		data["amp"] = aplt::amp_modes.find(scene.amp)->second.id;
+		data["input_vars"] = scene.join_input_vars();
+
+		std::string png = "misc/start.png";
+
+		std::set<std::string> me_ids = {scene.get_id(), scene.get_id(true)};
+
+		bool is_me = me_ids.count(driver_scene_id) != 0;
+		if (is_me) {
+			png = base_driver_.subtask_state() == aplt::sts_ing? "misc/stop.png": "misc/start.png";
+		}
+
+		data["start"] = png;
+		
+		ttoggle_panel& row = list.insert_row(data);
+
+		find_widget<tlabel>(&row, "input_vars", false, true)->set_border("label12_f2");
+
+		tbutton* button = find_widget<tbutton>(&row, "start", false, true);
+		connect_signal_mouse_left_click(
+			*button
+			, std::bind(
+				&thome::click_course_workout_start
+				, this
+				, std::ref(list), std::ref(*button), std::ref(enroll.id2), std::ref(wkoday), row.at()));
+	}
+
+	// find_widget<tgrid>(window_, "auto_enter_dcamera_grid", false, true)->set_visible(twidget::INVISIBLE);
+
+}
 
 void thome::reload_scene_list(tlistbox& list)
 {
@@ -367,7 +791,7 @@ void thome::reload_scene_list(tlistbox& list)
 		data["input_vars"] = scene.join_input_vars();
 
 		std::string png = "misc/start.png";
-		bool is_me = scene.id == driver_scene_id;
+		bool is_me = scene.get_id() == driver_scene_id;
 		if (is_me) {
 			png = base_driver_.subtask_state() == aplt::sts_ing? "misc/stop.png": "misc/start.png";
 		}
@@ -385,9 +809,75 @@ void thome::reload_scene_list(tlistbox& list)
 				, this
 				, std::ref(list), std::ref(*button), row.at()));
 	}
+}
 
-	// find_widget<tgrid>(window_, "auto_enter_dcamera_grid", false, true)->set_visible(scenes.empty()? twidget::INVISIBLE: twidget::VISIBLE);
-	find_widget<tgrid>(window_, "auto_enter_dcamera_grid", false, true)->set_visible(twidget::INVISIBLE);
+void thome::start_wkocourse_script(const std::string& wkocourse_id2, const aplt::twkocourse::tday& wkoday, const aplt::twkocourse::tworkout& workout)
+{
+	VALIDATE(!workout.id.empty(), null_str);
+
+	const std::string course_aplt = utils::split_app_prefix_id(wkocourse_id2).first;
+	std::vector<aplt::tbase_scene>& scenes = cfg_cpp_api_.mutable_base_scenes();
+
+	const std::string workout_id2 = utils::join_app_prefix_id(workout.aplt(course_aplt), workout.id);
+	VALIDATE(course_workout_names_.count(workout_id2) != 0, null_str);
+
+	aplt::tbase_scene scene;
+	std::string name("(");
+	name.append(_("Course")).append(")").append(course_workout_names_.find(workout_id2)->second);
+	to_scene(name, aplt::twkoscript::id_to_filename(workout.id), workout.aplt(course_aplt), wkocourse_id2, scene);
+
+	const std::string& driver_scene_id = base_driver_.scene_id();
+	std::set<std::string> me_ids = {scene.get_id(), scene.get_id(true)};
+	bool is_me = me_ids.count(driver_scene_id) != 0;
+
+
+	std::string start_scene_id;
+	const int sts = base_driver_.subtask_state();
+
+	bool insert = false;
+	if (sts == aplt::sts_ing) {
+		// A scene-subtask is currently running; stop it.
+		base_driver_.start_or_stop_subtask(*cfg_cpp_api_.base_scene_from_id(driver_scene_id, true), false);
+
+		// If the task being ended belongs to me, then this start/stop can complete its work.
+		insert = !is_me;
+
+	} else if (sts != aplt::sts_nposm) {
+		VALIDATE(sts == aplt::sts_idle, null_str);
+		VALIDATE(!driver_scene_id.empty(), null_str);
+		// VALIDATE(sts == aplt::sts_idle || sts == aplt::sts_preempted, null_str);
+
+		if (is_me) {
+			// It merely resumes the current task from a idle state.
+			start_scene_id = driver_scene_id;
+
+		} else {
+			insert = true;
+		}
+
+	} else {
+		insert = true;
+	}
+
+	if (insert) {
+		scenes.push_back(scene);
+		cfg_cpp_api_.save_klink_pb(aplt::tbg_task::misc_cfg_base_scene);
+
+		start_scene_id = scenes.back().get_id();
+	}
+
+	if (!start_scene_id.empty()) {
+		// start
+		const aplt::tbase_scene& scene2 = *cfg_cpp_api_.base_scene_from_id(start_scene_id, true);
+		base_driver_.start_or_stop_subtask(scene2, false);
+	}
+
+	VALIDATE(wkocourse_enrolls_.count(wkocourse_id2) != 0, null_str);
+	reload_course_workout_list(*workout_list_, wkocourse_enrolls_.find(wkocourse_id2)->second, wkoday);
+
+	if (base_driver_.subtask_state() == aplt::sts_ing) {
+		window_->set_retval(APPLET0 + aplt::builtinid_dcamera);
+	}
 }
 
 void thome::click_scene_start(tlistbox& list, tbutton& widget, int row_at)
@@ -410,9 +900,33 @@ void thome::click_scene_start(tlistbox& list, tbutton& widget, int row_at)
 
 	reload_scene_list(*scene_list_);
 
-	if (base_driver_.subtask_state() == aplt::sts_ing && preferences::auto_enter_dcamera()) {
+	if (base_driver_.subtask_state() == aplt::sts_ing) {
 		window_->set_retval(APPLET0 + aplt::builtinid_dcamera);
 	}
+}
+
+void thome::toggle_visible_rdp()
+{
+	tpanel* rdp_panel = find_widget<tpanel>(window_, "rdp_panel", false, true);
+
+	twidget::tvisible curr_visible = rdp_panel->get_visible();
+	twidget::tvisible desire_visible = twidget::VISIBLE;
+
+	if (curr_visible == twidget::VISIBLE) {
+		desire_visible = twidget::INVISIBLE;
+
+	} else if (curr_visible == twidget::INVISIBLE) {
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+	rdp_panel->set_visible(desire_visible);
+}
+
+void thome::click_visible_rdp()
+{
+	VALIDATE(current_layer_ == RDP_LAYER, null_str);
+	toggle_visible_rdp();
 }
 
 void thome::click_orientation(tbutton& widget)
@@ -460,11 +974,6 @@ void thome::did_text_box_changed(tgrid& grid, ttext_box& widget)
 
 	tbutton* button = find_widget<tbutton>(&grid, "desktop", false, true);
 	button->set_active(can_rdp());
-}
-
-void thome::did_auto_enter_dcamera_changed(ttoggle_button& widget)
-{
-	preferences::set_auto_enter_dcamera(widget.get_value());
 }
 
 void thome::refresh_battery_label()
@@ -630,6 +1139,13 @@ void thome::click_me_upgrade(tbutton& widget)
 	const version_info curr_version = game_config::version;
 	const version_info new_version;
 	net::upgrade_app(aplt::file_kdesktop_android, curr_version, new_version, NULL, false);
+}
+
+void thome::click_me_icon(tbutton& widget)
+{
+	twidget::tvisible desire_visible = devel_widget_->get_visible() == twidget::VISIBLE? 
+		twidget::INVISIBLE: twidget::VISIBLE;
+	devel_widget_->set_visible(desire_visible);
 }
 
 // === magic section

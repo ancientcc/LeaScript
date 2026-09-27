@@ -132,16 +132,21 @@ std::string handle_browse_file(bool read_only, const std::string& _title, const 
 	return param.result;
 }
 
-std::string handle_browse_file2(bool read_only, const std::string& title, bool set_pref)
+std::string handle_browse_file2(bool wkoscript, bool read_only, const std::string& title, bool set_pref)
 {
 	std::string filename = handle_browse_file(read_only, title, "cfg");
 	if (!filename.empty() && set_pref) {
-		preferences::set_last_wkoscript_file(filename);
+		if (wkoscript) {
+			preferences::set_last_wkoscript_file(filename);
+
+		} else {
+			preferences::set_last_wkocourse_file(filename);
+		}
 	}
 	return filename;
 }
 
-bool is_valid_wkoscript_path(const std::string& path)
+bool is_valid_wkoscript_or_wkocoruse_path(bool wkoscript, const std::string& path)
 {
 	std::string path2 = utils::normalize_path(path);
 
@@ -153,12 +158,17 @@ bool is_valid_wkoscript_path(const std::string& path)
 	if (v_str.size() != 2) {
 		return false;
 	}
-	if (v_str[1] != "wkoscript") {
+
+	const std::string dir_name = wkoscript? "wkoscript": "wkocourse";
+	if (v_str[1] != dir_name) {
 		return false;
 	}
 
 	// aplt_leagor_khome__documents/wkoscript
-	std::string aplt_documents = utils::join_app_prefix_id(bundleid_2_lua_bundleid(aplt::get_bundleid(aplt::bundleid_leagor_khome)), "documents");
+	// aplt_leagor_khomelua__documents/wkocourse
+	int type = wkoscript? aplt::bundleid_leagor_khome: aplt::bundleid_leagor_khomelua;
+
+	std::string aplt_documents = utils::join_app_prefix_id(bundleid_2_lua_bundleid(aplt::get_bundleid(type)), "documents");
 	if (v_str[0] != aplt_documents) {
 		return false;
 	}
@@ -351,6 +361,19 @@ void mkscript_controller::tpose_state::app_create_label_surf(int max_width, surf
 			
 	} else if (state2.task->type == aplt::twkoscript::tasktype_rep_counter) {
 		aplt::twkoscript::trep_counter* rep_counter = static_cast<aplt::twkoscript::trep_counter*>(state2.task);
+		for (int phase_at = 0; phase_at < (int)rep_counter->phases.size(); phase_at ++) {
+			const aplt::twkoscript::tphase& phase = rep_counter->phases[phase_at];
+			if (phase_at != 0) {
+				special_ss << "\n";
+			}
+			symbols["number"] = str_cast(phase_at + 1);
+			symbols["action_msg"] = phase.action_msg;
+			symbols["min_duration_ms"] = str_cast(phase.min_duration_ms);
+			symbols["cooldowned_ms"] = str_cast(phase.cooldowned_ms);
+			special_ss << vgettext2("tasktype_rep_counter, line desc, $number, $action_msg, $min_duration_ms, $cooldowned_ms", symbols);
+		}
+		special_ss << "\n";
+
 		special_ss << state2.get_field_str(script.typeid_task, script.fid_rep_counter_max_count);
 		special_ss << ": " << rep_counter->max_count;
 	}
@@ -654,6 +677,7 @@ mkscript_controller::mkscript_controller(net::trdpd_manager& rdpd_mgr, tpble2& p
 	// state_margin.x/y do not contain text, so there is no need to use hdpi_scale.
 	, flowchart_margin_{32, 32}
 	, shape_text_font_size_(font::SIZE_SMALL) // font::SIZE_DEFAULT
+	, add_to_working_dir_msgstr_(_("Add to working"))
 	, gui_(nullptr)
 	, dlg_(nullptr)
 	, window_(nullptr)
@@ -672,7 +696,9 @@ mkscript_controller::mkscript_controller(net::trdpd_manager& rdpd_mgr, tpble2& p
 	, sel_obj_(nullptr)
 	, obj_may_click_(nullptr)
 	, nposm_when_down_(false)
+	, action_tpl2s_(aplt::action_tpl2s)
 {
+	VALIDATE(!action_tpl2s_.empty(), null_str);
 	VALIDATE(shape_types_.size() == visio::shape_count, null_str);
 	visio::SHAPE_MARGIN = 6.4 * gui2::twidget::hdpi_scale;
 
@@ -706,6 +732,7 @@ void mkscript_controller::app_post_initialize()
 	status_widget_ = gui2::find_widget<gui2::tlabel>(window_, "status", false, true);
 
 	load_preset_poses_cfg();
+
 /*
 	api_ptr_.reset(mediapipe::rose_create_pose_tracking_api());
 	bool retbool = api_ptr_->graph_initialized();
@@ -766,6 +793,14 @@ void mkscript_controller::app_execute_command(int command, const std::string& sp
 		click_next_state();
 		break;
 
+	case HOTKEY_COPY:
+		click_copy_action_tpl();
+		break;
+
+	case HOTKEY_PASTE:
+		click_paste_action_tpl();
+		break;
+
 	case tmkscript_scene::HOTKEY_CLONE:
 		click_clone();
 		break;
@@ -779,6 +814,10 @@ void mkscript_controller::app_execute_command(int command, const std::string& sp
 		click_erase();
 		break;
 
+	case tmkscript_scene::HOTKEY_ADD_TO_WORKING_DIR:
+		click_add_to_working_dir();
+		break;
+
 	case tmkscript_scene::HOTKEY_WORKING_DIR:
 		win_ShellExecuteW_open(wkoscript_dir_);
 		// click_edit_state_name();
@@ -786,7 +825,6 @@ void mkscript_controller::app_execute_command(int command, const std::string& sp
 
 	case gui2::tmkscript_scene::HOTKEY_SHARE:
 		click_share();
-		// generate_wkoscript_from_benchmarks(wkoscript_dir_);
 		break;
 
 	default:
@@ -823,14 +861,17 @@ bool mkscript_controller::app_in_context_menu(const std::string& id) const
 	case gui2::tmkscript_scene::HOTKEY_SETTING: // setting
 	case gui2::tmkscript_scene::HOTKEY_NEXT_STATE:
 		return is_wkoscript_path && sel_obj_ != nullptr;
-/*
+
 	case HOTKEY_COPY:
-		return can_copy(u, false);
-	case HOTKEY_CUT:
-		return can_copy(u, true);
+		if (is_wkoscript_path && sel_obj_ != nullptr) {
+			const aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+			return wko_is_pose_state2_from_task_type(state2.task->type);
+		}
+		return false;
+
+	// case HOTKEY_CUT:
 	case HOTKEY_PASTE:
-		return can_paste(u);
-*/
+		return is_wkoscript_path && sel_obj_ != nullptr;
 
 	case gui2::tmkscript_scene::HOTKEY_CLONE:
 		return is_wkoscript_path && sel_obj_ != nullptr;
@@ -842,6 +883,9 @@ bool mkscript_controller::app_in_context_menu(const std::string& id) const
 	// unit
 	case gui2::tmkscript_scene::HOTKEY_ERASE: // erase
 		return is_wkoscript_path && sel_obj_ != nullptr && calculate_edge_count(*sel_obj_, nullptr, nullptr) == 0;
+
+	case gui2::tmkscript_scene::HOTKEY_ADD_TO_WORKING_DIR:
+		return !is_wkoscript_path;
 
 	case gui2::tmkscript_scene::HOTKEY_WORKING_DIR:
 		return game_config::os == os_windows;
@@ -855,7 +899,6 @@ bool mkscript_controller::app_in_context_menu(const std::string& id) const
 
 	// column
 	case gui2::tmkscript_scene::HOTKEY_INSERT_RIGHT:
-	case gui2::tmkscript_scene::HOTKEY_ERASE_COLUMN:
 		return !preview() && u && u->type() == unit::COLUMN && can_adjust_column(u);
 
 	case gui2::tmkscript_scene::HOTKEY_INSERT_CHILD: // add a page
@@ -919,7 +962,8 @@ void mkscript_controller::app_first_drawn()
 		aplt::twkoscript script;
 		script.from_file(filename);
 
-		if (script.valid()) {
+		std::string err_msg;
+		if (script.is_valid2(err_msg, nullptr) == TCOOKIE3F_CHECK_OK) {
 			draw_flowchart_from_script(filename, script);
 		}
 	}
@@ -963,7 +1007,9 @@ void mkscript_controller::update_status_label(bool valid)
 		msg.append(os_normalize_path(wkoscript_dir_));
 
 	} else {
-		msg = _("invalid wkoscript_dir remark");
+		utils::string_map symbols;
+		symbols["add_to_working_dir"] = add_to_working_dir_msgstr_;
+		msg = vgettext2("invalid wkoscript_dir remark, $add_to_working_dir", symbols);
 	}
 	status_widget_->set_label(msg);
 }
@@ -1055,7 +1101,7 @@ void mkscript_controller::draw_fix_text_shapes()
 	// name
 	const int max_textid_id_width = 208 * gui2::twidget::hdpi_scale;
 	offset.x += max_textid_id_width;
-	text_obj = insert_text(visio::textid_name, offset, script_.name);
+	text_obj = insert_text(visio::textid_name, offset, script_.title);
 	// text_obj->rect.y = text_obj->rect.y - text_obj->rect.h / 2;
 
 	// author
@@ -1215,7 +1261,7 @@ void mkscript_controller::draw_flowchart_from_script(const std::string& filename
 	update_title_label();
 
 	const std::string path = utils::extract_directory(filename);
-	bool valid = is_valid_wkoscript_path(path);
+	bool valid = is_valid_wkoscript_or_wkocoruse_path(true, path);
 	if (valid) {
 		wkoscript_dir_ = path;
 		preferences::set_wkoscript_dir(path);
@@ -1236,206 +1282,6 @@ void mkscript_controller::new_empty_flowchart()
 	draw_fix_text_shapes();
 
 	update_title_label();
-}
-/*
-bool did_walk_wkoscript(const std::string& dir, const SDL_dirent2* dirent, int type, std::set<std::string>& result_set, const std::string& root)
-{
-	bool isdir = SDL_DIRENT_DIR(dirent->mode);
-	if (!isdir) {
-		std::string name = utils::lowercase(dirent->name);
-		if (type == type_wkoscript_ids || type == type_wkoscript_cfgfiles) {
-			std::string ext_name = utils::file_ext_name(name);
-			if (ext_name == "cfg") {
-				std::string stem_name = name.substr(0, name.size() - 4);
-				if (type == type_wkoscript_ids) {
-					result_set.insert(stem_name);
-
-				} else if (type == type_wkoscript_cfgfiles) {
-					result_set.insert(name);
-				}
-			}
-		}
-	} else {
-	}
-	return true;
-}
-*/
-void mkscript_controller::generate_wkoscript_from_benchmarks(const std::string wkoscript_dir)
-{
-/*
-	bool camera_front = true;
-	std::string new_dir_name = "__new";
-	std::string new_dir = wkoscript_dir + "/" + new_dir_name;
-
-	std::set<std::string> benchmarks;
-	list_wkoscript_files_by_type(new_dir, type_wkoscript_new_benchmarks, benchmarks);
-	std::vector<std::string> v_benchmarks;
-	for (std::set<std::string>::const_iterator it = benchmarks.begin(); it != benchmarks.end(); ++ it) {
-		v_benchmarks.push_back(*it);
-	}
-
-	struct taction
-	{
-	public:
-		taction()
-		{
-			clear();
-		}
-
-		void clear()
-		{
-			task_type = nposm;
-			pngs.clear();
-		}
-
-	public:
-		int task_type;
-		std::vector<std::string> pngs;
-		// SDL_FPoint landmarks[WKO_MAX_PHASE_COUNT][mediapipe::kNumPoseLandmarks];
-		// bool landmarks_valid[WKO_MAX_PHASE_COUNT];
-	};
-
-	int max_action_count = aplt::workoutn32_max_states / 2;
-	char buf[32];
-	int benchmar_at = 0;
-	taction tmp_action;
-	std::vector<taction> actions;
-	for (int at = 1; at < max_action_count; at ++) {
-		tmp_action.clear();
-		int phase_at = 0;
-		for (; phase_at < WKO_MAX_PHASE_COUNT; phase_at ++) {
-			SDL_snprintf(buf, sizeof(buf), "%i_%i.", at, phase_at);
-			const std::string& benchmark = v_benchmarks[benchmar_at];
-			if (benchmark.find(buf) != 0) {
-				break;
-			}
-			tmp_action.pngs.push_back(benchmark);
-			benchmar_at ++;
-		}
-
-		VALIDATE((int)tmp_action.pngs.size() == phase_at, null_str);
-		if (phase_at == 0) {
-			// is end
-			break;
-		} else {
-			tmp_action.task_type = phase_at == 1? aplt::twkoscript::tasktype_time_counter: aplt::twkoscript::tasktype_rep_counter;
-			actions.push_back(tmp_action);
-		}
-	}
-
-	if (actions.empty()) {
-		return;
-	}
-
-	aplt::twkoscript::tstate2* new_state2 = nullptr;
-	aplt::twkoscript::ttask_speak* speak_task = nullptr;
-	aplt::twkoscript::ttime_counter* time_counter = nullptr;
-	aplt::twkoscript::trep_counter* rep_counter = nullptr;
-
-	aplt::twkoscript script;
-	std::set<std::string> existed;
-	list_wkoscript_files_by_type(wkoscript_dir, type_wkoscript_ids, existed);
-
-	script.id = utils::unique_untitle_id(existed, "workout", null_str, 1);
-	script.name = utils::unique_untitle_name(std::set<std::string>(), null_str, 1);
-	const std::string phase_surf_dir = script.build_phase_surf_dir(wkoscript_dir);
-	SDL_MakeDirectory(phase_surf_dir.c_str());
-	mediapipe::tpose_tracking_api& api = *api_ptr_.get();
-	SDL_FPoint landmark2s[WKO_MAX_PHASE_COUNT][mediapipe::kNumPoseLandmarks];
-	bool landmark2_valid[WKO_MAX_PHASE_COUNT];
-	for (std::vector<taction>::const_iterator it = actions.begin(); it != actions.end(); ++ it) {
-		const taction& action = *it;
-		// make this script can update lmk33_png. requrie set statd2.lmk33_png_at
-		new_state2 = &script.insert_state(nposm, null_str, aplt::twkoscript::tasktype_speak, script.states.size());
-		speak_task = static_cast<aplt::twkoscript::ttask_speak*>(new_state2->task);
-		speak_task->msgstr = "testing";
-
-		new_state2 = &script.insert_state(nposm, null_str, action.task_type, script.states.size());
-		// copy lmk33.png
-		int png_count = action.pngs.size();
-		for (int at = 0; at < png_count; at ++) {
-			const std::string src_png = new_dir + "/" + action.pngs[at];
-			surface surf = image::get_image(src_png);
-			if (surf.get() != nullptr) {
-				landmark2_valid[at] = calc_surf_landmarks(api, surf, landmark2s[at]);
-				save_lmk33_png_from_surf(surf, *new_state2, phase_surf_dir, at);
-
-			} else {
-				landmark2_valid[at] = false;
-			}
-		}
-		// insert poses
-#define MAX_METRICS		8
-		int recommand_metrics[MAX_METRICS];
-		int metric_count = 0;
-		if (camera_front) {
-			recommand_metrics[metric_count ++] = aplt::posemetric_body_tilt_angle;
-			recommand_metrics[metric_count ++] = aplt::posemetric_header_tilt_angle;
-
-			recommand_metrics[metric_count ++] = aplt::posemetric_left_elbow_angle;
-			recommand_metrics[metric_count ++] = aplt::posemetric_right_elbow_angle;
-
-			recommand_metrics[metric_count ++] = aplt::posemetric_left_forearm_angle;
-			recommand_metrics[metric_count ++] = aplt::posemetric_right_forearm_angle;
-
-			recommand_metrics[metric_count ++] = aplt::posemetric_left_wrist_on_right_shoulder;
-			recommand_metrics[metric_count ++] = aplt::posemetric_right_wrist_on_left_shoulder;
-
-		} else {
-			recommand_metrics[metric_count ++] = aplt::posemetric_right_upper_arm_angle;
-			recommand_metrics[metric_count ++] = aplt::posemetric_right_elbow_angle;
-		}
-		new_state2->track_pose.poses.clear();
-
-		for (int phase_at = 0; phase_at < png_count; phase_at ++) {
-			for (int metric_at = 0; metric_at < metric_count; metric_at ++) {
-				VALIDATE(preset_poses_.count(metric_at) != 0, null_str);
-				int metric = recommand_metrics[metric_at];
-				const aplt::tpreset_pose& preset = preset_poses_.find(metric)->second;
-
-				SDL_Log("{dbg-preset}state: %i, phase_at: %i, metric; %i", new_state2->state, phase_at, preset.metric);
-				aplt::twkoscript::tpose& new_pose = insert_preset_pose(preset, landmark2s[phase_at], landmark2_valid[phase_at], *new_state2);
-				new_pose.phase_mask = BIT_IDX_MASK(phase_at);
-			}
-		}
-
-		if (new_state2->task->type == aplt::twkoscript::tasktype_time_counter) {
-			new_state2->unsatisfied_2th_msgstr = "unsatisfied_2th";
-			time_counter = static_cast<aplt::twkoscript::ttime_counter*>(new_state2->task);
-			time_counter->max_count = 10;
-
-		} else {
-			VALIDATE(new_state2->task->type == aplt::twkoscript::tasktype_rep_counter, null_str);
-			rep_counter = static_cast<aplt::twkoscript::trep_counter*>(new_state2->task);
-			rep_counter->max_count = 10;
-		}
-	}
-
-	new_state2 = &script.insert_state(nposm, null_str, aplt::twkoscript::tasktype_speak, script.states.size());
-	speak_task = static_cast<aplt::twkoscript::ttask_speak*>(new_state2->task);
-	speak_task->msgstr = "end";
-	speak_task->repeat_s = 10;
-
-	for (std::map<int, aplt::twkoscript::tstate2>::iterator it = script.states.begin(); it != script.states.end(); ++ it) {
-		aplt::twkoscript::tstate2& state2 = it->second;
-		if (state2.state < (int)(script.states.size() - 1)) {
-			state2.set_next_to_state(state2.state + 1);
-		}
-	}
-
-	std::string err_msg;
-	VALIDATE(script.is_valid2(err_msg, nullptr) == TCOOKIE3F_CHECK_OK, null_str);
-
-	std::string filename = script.build_script_filename(wkoscript_dir);
-	script.to_file(filename);
-
-	draw_flowchart_from_script(filename, script);
-
-	preferences::set_last_wkoscript_file(filename_);
-	gui_->redraw_minimap();
-
-	gui_->show_context_menu();
-*/
 }
 
 void mkscript_controller::modify_item_rect(tdraw_item_C& item, const SDL_Rect& _new_rect)
@@ -2248,6 +2094,31 @@ std::string gettext_load_file_fail(const std::string& file_type, const std::stri
 	return msgstr;
 }
 
+void mkscript_controller::open_cfg_file_bh(const std::string& filename)
+{
+	aplt::twkoscript script;
+	script.from_file(filename, false);
+	std::string err_msg;
+	if (script.is_valid2(err_msg, nullptr) != TCOOKIE3F_CHECK_OK || !script.is_id_same_filename(filename)) {
+		std::string reason;
+		if (script.valid()) {
+			reason = _("The filename and ID are different.");
+		}
+		const std::string msg = i18n::freq_msgstr_3str(i18n::msgid_load_file_fail, _("Action script"), filename, reason);
+		gui2::show_message(null_str, msg);
+		return;
+	}
+	if (!confirm_file_op(file_open)) {
+		return;
+	}
+	preferences::set_last_wkoscript_file(filename);
+
+	select_object(nullptr);
+	draw_flowchart_from_script(filename, script);
+
+	gui_->show_context_menu();
+}
+
 void mkscript_controller::handle_file_op(int sel)
 {
 	if (sel == file_new_empty) {
@@ -2292,36 +2163,18 @@ void mkscript_controller::handle_file_op(int sel)
 		gui_->show_context_menu();
 
 	} else if (sel == file_open) {
-		const std::string filename = handle_browse_file2(true, null_str, false);
+		const std::string filename = handle_browse_file2(true, true, null_str, false);
 		if (filename.empty()) {
 			return;
 		}
-		aplt::twkoscript script;
-		script.from_file(filename, false);
-		if (!script.valid() || !script.is_id_same_filename(filename)) {
-			std::string reason;
-			if (script.valid()) {
-				reason = _("The filename and ID are different.");
-			}
-			const std::string msg = i18n::freq_msgstr_3str(i18n::msgid_load_file_fail, _("Action script"), filename, reason);
-			gui2::show_message(null_str, msg);
-			return;
-		}
-		if (!confirm_file_op(sel)) {
-			return;
-		}
-		preferences::set_last_wkoscript_file(filename);
 
-		select_object(nullptr);
-		draw_flowchart_from_script(filename, script);
-
-		gui_->show_context_menu();
+		open_cfg_file_bh(filename);
 
 	} else if (sel == file_save_as) {
 		if (wkoscript_dirty() && !handle_pre_save()) {
 			return;
 		}
-		std::string filename = handle_browse_file2(false, null_str, true);
+		std::string filename = handle_browse_file2(true, false, null_str, true);
 		if (filename.empty()) {
 			return;
 		}
@@ -2420,7 +2273,7 @@ bool mkscript_controller::handle_pre_save()
 	const aplt::twkoscript::tstate2* err_state2 = nullptr;
 	uint64_t res = script.is_valid2(err_msg, &err_state2);
 	if (res != TCOOKIE3F_CHECK_OK) {
-		err_msg = err_state2->fomrat_is_valid2_result(res, err_msg);
+		err_msg = aplt::twkoscript::fomrat_is_valid2_result(res, err_msg);
 
 		if (err_state2 != nullptr) {
 			err_item = find_draw_item_for_state(err_state2->state);
@@ -2742,9 +2595,9 @@ void mkscript_controller::handle_edit_text(int type)
 		}
 
 	} else if (type == edittype_name) {
-		type_name = _("object^Name");
+		type_name = _("Title");
 		max_chars = MAX_SHORT_UTF8_NAME_CHARS;
-		target = &script.name;
+		target = &script.title;
 
 	} else if (type == edittype_author) {
 		type_name = _("Author");
@@ -2759,7 +2612,7 @@ void mkscript_controller::handle_edit_text(int type)
 
 	} else if (type == edittype_state_name) {
 		type_name = _("State name");
-		aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+		aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
 		target = &tmp_script_.state_names[state2.state];
 		for (std::vector<std::string>::const_iterator it = tmp_script_.state_names.begin(); it != tmp_script_.state_names.end(); ++ it) {
 			const std::string& name = *it;
@@ -2841,7 +2694,7 @@ void mkscript_controller::click_edit_state_name()
 
 void mkscript_controller::click_setting()
 {
-	aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+	aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
 	const std::string state_name = tmp_script_.state_names[state2.state];
 	if (state2.task->type == aplt::twkoscript::tasktype_speak) {
 		VALIDATE(!state2.track_pose.valid(), null_str);
@@ -2893,7 +2746,7 @@ void mkscript_controller::click_next_state()
 	// gui2::tcontrol* widget = menu.report->item(
 
 	aplt::twkoscript& script = tmp_script_;
-	aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+	aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
 	int original_to_state = nposm;
 	if (!state2.next.branches.empty()) {
 		original_to_state = state2.next.branches[0].do_to_state;
@@ -2985,7 +2838,7 @@ void mkscript_controller::click_next_state()
 void mkscript_controller::click_clone()
 {
 	aplt::twkoscript& script = tmp_script_;
-	aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+	aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
 
 	script.clone_state(state2.state);
 	aplt::twkoscript::tstate2& new_state2 = script.states.find(script.states.size() - 1)->second;
@@ -3018,7 +2871,7 @@ void mkscript_controller::click_clone()
 void mkscript_controller::click_switch_state(bool add1)
 {
 	aplt::twkoscript& script = tmp_script_;
-	aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+	aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
 
 	select_object(nullptr);
 
@@ -3062,7 +2915,7 @@ void mkscript_controller::click_erase()
 	VALIDATE(downing_obj_ == nullptr, null_str);
 	VALIDATE(calculate_edge_count(*sel_obj_, nullptr, nullptr) == 0, null_str);
 
-	aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+	aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
 
 	const std::string& state_name = tmp_script_.state_names[state2.state];
 	const std::string msg = i18n::freq_msgstr_2str(i18n::msgid_confirm_delete_2str, _("State"), state_name);
@@ -3122,6 +2975,105 @@ void mkscript_controller::click_erase()
 
 	gui_->redraw_minimap();
 	gui_->show_context_menu();
+}
+
+void mkscript_controller::click_copy_action_tpl()
+{
+	aplt::twkoscript& script = tmp_script_;
+	const aplt::twkoscript::tstate2& state2 = state2_from_sel_obj_with_validate();
+
+	VALIDATE(state2.task != nullptr, null_str);
+	VALIDATE(wko_is_pose_state2_from_task_type(state2.task->type), null_str);
+
+	aplt::taction_tpl2& action_tpl2 = clipboard_action_tpl2_;
+	script.copy_action_tpl2(state2, action_tpl2);
+
+	utils::string_map symbols;
+	symbols["name"] = action_tpl2.name;
+	gui2::show_message(null_str, vgettext2("Action copied to clipboard: $name", symbols));
+}
+
+void mkscript_controller::click_paste_action_tpl()
+{
+	std::vector<gui2::tmenu::titem> items;
+	int initial_sel = nposm;
+	// std::stringstream ss;
+
+	aplt::twkoscript& script = tmp_script_;
+	aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
+
+	if (clipboard_action_tpl2_.valid() && wko_is_pose_state2_from_task_type(state2.task->type)) {
+		// why not use to non-pose_state2?
+		// --clipboard save taction_tpl only, no msg.
+		std::string name(_("Clipboard"));
+		name.append(": ");
+		name.append(clipboard_action_tpl2_.name);
+
+		items.push_back(gui2::tmenu::titem(name, action_tpl2s_.size()));
+		items.back().separator = true;
+	}
+
+	int action_tlp2_at = 0;
+	for (std::map<std::string, aplt::taction_tpl2>::const_iterator it = action_tpl2s_.begin(); it != action_tpl2s_.end(); ++ it, action_tlp2_at ++) {
+		const aplt::taction_tpl2& action_tpl = it->second;
+		items.push_back(gui2::tmenu::titem(action_tpl.name2(), action_tlp2_at));
+	}
+
+	if (items.empty()) {
+		return;
+	}
+
+	int new_sel = nposm;
+	{
+		gui2::tmenu dlg(items, initial_sel);
+		// dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * twidget::hdpi_scale);
+		dlg.show();
+		if (dlg.get_retval() != gui2::twindow::OK) {
+			return;
+		}
+
+		new_sel = dlg.selected_val();
+	}
+
+	const aplt::taction_tpl2* p_action_tpl2 = nullptr;
+	if (new_sel < (int)action_tpl2s_.size()) {
+		std::map<std::string, aplt::taction_tpl2>::const_iterator sel_it = action_tpl2s_.begin();
+		if (new_sel != 0) {
+			std::advance(sel_it, new_sel);
+		}
+		p_action_tpl2 = &sel_it->second;
+
+	} else {
+		p_action_tpl2 = &clipboard_action_tpl2_;
+	}
+	script.apply_action_tpl2(state2, *p_action_tpl2);
+
+	sel_obj_->obj->fresh_2surf(sel_obj_->rect.w, sel_obj_->rect.h);
+
+	// validate_draw_items();
+
+	gui_->redraw_minimap();
+	gui_->show_context_menu();
+}
+
+void mkscript_controller::click_add_to_working_dir()
+{
+	const std::string short_filename = utils::extract_file(filename_);
+
+	std::string new_filename = wkoscript_dir_ + "/" + short_filename;
+	if (SDL_IsFile(new_filename.c_str())) {
+		std::string msg = _("A file with the same name exists in the working directory. Do you want to overwrite it?");
+		const int res = gui2::show_message2(null_str, msg, gui2::tmessage::yes_no_buttons);
+		if (res == gui2::twindow::CANCEL) {
+			return;
+		}
+	}
+	SDL_CopyFiles(filename_.c_str(), new_filename.c_str());
+
+	VALIDATE(!wkoscript_dirty(), null_str);
+	open_cfg_file_bh(new_filename);
+
+	preferences::set_last_browse_file_path(utils::extract_directory(new_filename));
 }
 
 void mkscript_controller::click_share()

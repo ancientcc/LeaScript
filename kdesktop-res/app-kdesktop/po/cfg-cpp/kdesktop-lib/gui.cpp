@@ -48,8 +48,6 @@ _("View");
 
 _("Workout chart");
 
-_("Workout items");
-
 _("Workout name");
 
 _("Workout settings");

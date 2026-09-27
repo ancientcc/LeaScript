@@ -92,7 +92,6 @@ private:
 	
 	bool verify_edit_device_id(const std::string& label, const std::string& initial, int min_chars) const;
 /*
-	enum {etype_var_name, etype_iot_alias, etype_scene_id, etype_scene_name, edit_count};
 	bool verify_edit_alias_name(const std::string& label, const std::string& initial, int etype, const std::set<std::string>& excludes) const;
 */
 	std::string edit_device_id(const std::string& src, bool& cancel) const;

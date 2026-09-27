@@ -7974,6 +7974,9 @@
     <ClCompile Include="..\..\launcher\gui\dialogs\var_editor.cpp">
       <Filter>gui\dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\launcher\gui\dialogs\mkcourse.cpp">
+      <Filter>gui\dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\launcher\gui\dialogs\home.hpp">
@@ -8664,6 +8667,9 @@
       <Filter>gui\dialogs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\launcher\gui\dialogs\var_editor.hpp">
+      <Filter>gui\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\launcher\gui\dialogs\mkcourse.hpp">
       <Filter>gui\dialogs</Filter>
     </ClInclude>
   </ItemGroup>

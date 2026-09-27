@@ -1,15 +1,12 @@
 #ifndef GUI_DIALOGS_RDCAMERA_HPP_INCLUDED
 #define GUI_DIALOGS_RDCAMERA_HPP_INCLUDED
-/*
-#include "gui/dialogs/statusbar.hpp"
-#include "moveit_calculator.hpp"
-#include "bg_task2.hpp"
-*/
+
 #include "base_instance.hpp"
 #include "rose_mediapipe_api.hpp"
 #include "base_driver_core.hpp"
 #include "wkoscript.hpp"
 #include "health.hpp"
+#include "wkocourse.hpp"
 
 struct tvlog_cfg;
 
@@ -155,7 +152,8 @@ public:
 	};
 
 	trdcamera(tslot& slot, aplt::thealth& health, std::map<aplt::taplt_key, aplt::tapplet>& applets, /*net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, tdcamera_driver& dcamera_driver, tdrivers_core& drivers,*/ tbase_driver_core& base_driver,
-		/*aplt::tbg_task2& bg_task2, tros_instance& ros_instance,*/ tcamera& camera/*, std::unique_ptr<tmoveit_aplt_task>& moveit_aplt_task*/, tvlog_cfg& vlog_cfg, int sdl_field_small_font_size);
+		const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, const std::map<std::string, aplt::twkocourse>& wkocourses,
+		tcamera& camera/*, std::unique_ptr<tmoveit_aplt_task>& moveit_aplt_task*/, tvlog_cfg& vlog_cfg, int sdl_field_small_font_size);
 	~trdcamera();
 
 private:
@@ -178,6 +176,7 @@ private:
 	void use_no_swap_wh_tex_render_finish(SDL_Renderer* renderer, const aplt::twkoscript& script,
 		const SDL_Rect& video_dst, const SDL_Size& margin, double radius);
 	void finish_render_chart(SDL_Renderer* renderer, const SDL_Rect& video_dst);
+	std::string get_xxx_caption_msg(bool start) const;
 /*
 	void click_start(tbutton& widget);
 	void click_moveit_aplt(tbutton& widget);
@@ -278,6 +277,8 @@ private:
 	aplt::tbg_task2& bg_task2_;
 	tros_instance& ros_instance_;
 */
+	const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls_;
+	const std::map<std::string, aplt::twkocourse>& wkocourses_;
 	tcamera& camera_;
 	tvlog_cfg& vlog_cfg_;
 	const int sdl_field_small_font_size_;

@@ -4664,6 +4664,9 @@ copy $(SolutionDir)..\..\..\linker\windows\dll\x64\OrbbecSDK.dll $(TargetDir)Orb
     <ClCompile Include="..\..\launcher\gui\dialogs\new_wkoscript.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\launcher\gui\dialogs\mkcourse.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\external\miktex\Libraries\3rd\fontconfig\source\src\android_uuid.h">
@@ -4898,6 +4901,7 @@ copy $(SolutionDir)..\..\..\linker\windows\dll\x64\OrbbecSDK.dll $(TargetDir)Orb
     <ClInclude Include="..\..\launcher\gui\dialogs\pose_state2.hpp" />
     <ClInclude Include="..\..\launcher\gui\dialogs\speak_state2.hpp" />
     <ClInclude Include="..\..\launcher\gui\dialogs\new_wkoscript.hpp" />
+    <ClInclude Include="..\..\launcher\gui\dialogs\mkcourse.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\launcher\resource.rc" />

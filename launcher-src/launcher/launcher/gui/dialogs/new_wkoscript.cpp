@@ -267,34 +267,46 @@ void tnew_wkoscript::click_generate(tbutton& widget)
 	aplt::list_wkoscript_files_by_type(wkoscript_dir, aplt::type_wkoscript_ids, existed);
 
 	script.id = utils::unique_untitle_id(existed, "workout", null_str, 1);
-	script.name = utils::unique_untitle_name(std::set<std::string>(), null_str, 1);
+	script.title = utils::unique_untitle_name(std::set<std::string>(), null_str, 1);
 	const std::string phase_surf_dir = script.build_phase_surf_dir(wkoscript_dir);
 	SDL_MakeDirectory(phase_surf_dir.c_str());
 	mediapipe::tpose_tracking_api& api = *api_ptr_.get();
 	// SDL_FPoint landmark2s[WKO_MAX_PHASE_COUNT][mediapipe::kNumPoseLandmarks];
 	// bool landmark2_valid[WKO_MAX_PHASE_COUNT];
+	
+	// 0: speak opening
+	new_state2 = &script.insert_state(nposm, _("wko^Speak opening"), aplt::twkoscript::tasktype_speak, script.states.size());
+	speak_task = static_cast<aplt::twkoscript::ttask_speak*>(new_state2->task);
+	std::string msgstr;
+	if (cam_pos_ == cam_pos_front) {
+		speak_task->msgstr = _("wko^speak opening msgstr, cam_pos_front");
+	} else if (cam_pos_ == cam_pos_right) {
+		speak_task->msgstr = _("wko^speak opening msgstr, cam_pos_right");
+	}
+	// 1: setup
+	new_state2 = &script.insert_state(nposm, _("wko^Setup"), aplt::twkoscript::tasktype_time_counter, script.states.size());
+	{
+		time_counter = static_cast<aplt::twkoscript::ttime_counter*>(new_state2->task);
+		time_counter->rule = aplt::twkoscript::timerule_strict;
+		time_counter->tone = aplt::twkoscript::timetone_full;
+		// time_counter->max_count = 5;
+/*
+		const aplt::tpreset_pose& preset = preset_poses_.find(aplt::posemetric_body_tilt_angle)->second;
+		const taction& action0 = actions[0];
+		aplt::twkoscript::tpose& new_pose = insert_preset_pose(preset, action0.landmarks[0], action0.landmark_valid[0], *new_state2);
+		new_pose.phase_mask = BIT_IDX_MASK(0);
+*/
+	}
+
 	for (std::vector<taction>::iterator it = actions.begin(); it != actions.end(); ++ it) {
 		taction& action = *it;
 		// make this script can update lmk33_png. requrie set statd2.lmk33_png_at
-		std::string state_name;
-		std::string msgstr;
-		if (script.states.empty()) {
-			state_name = _("wko^Speak opening");
-			if (cam_pos_ == cam_pos_front) {
-				msgstr = _("wko^speak opening msgstr, cam_pos_front");
-			} else if (cam_pos_ == cam_pos_right) {
-				msgstr = _("wko^speak opening msgstr, cam_pos_right");
-			}
-		} else {
-			symbols["number"] = str_cast(script.states.size() / 2 + 1);
-			state_name = vgettext2("wko^$number action opening", symbols);
-			msgstr = vgettext2("wko^$number action msgstr", symbols);
-		}
-		VALIDATE(!state_name.empty() && !msgstr.empty(), null_str);
 
-		if (symbols.count("number") == 0) {
-			symbols["number"] = str_cast(script.states.size() / 2 + 1);
-		}
+		symbols["number"] = str_cast(script.states.size() / 2);
+		std::string state_name = vgettext2("wko^$number action opening", symbols);
+		std::string msgstr = vgettext2("wko^$number action msgstr", symbols);
+		
+		VALIDATE(!state_name.empty() && !msgstr.empty(), null_str);
 		new_state2 = &script.insert_state(nposm, state_name, aplt::twkoscript::tasktype_speak, script.states.size());
 		speak_task = static_cast<aplt::twkoscript::ttask_speak*>(new_state2->task);
 		speak_task->msgstr = msgstr;
@@ -383,6 +395,8 @@ void tnew_wkoscript::click_generate(tbutton& widget)
 	}
 
 	std::string err_msg;
+	uint64_t retval = script.is_valid2(err_msg, nullptr, false);
+
 	VALIDATE(script.is_valid2(err_msg, nullptr, false) == TCOOKIE3F_CHECK_OK, null_str);
 
 	reload_action_list(*action_list_);

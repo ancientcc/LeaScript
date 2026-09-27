@@ -20,6 +20,7 @@
 #include "gui/dialogs/rdnn.hpp"
 // #include "gui/dialogs/pose_state2.hpp"
 #include "gui/dialogs/var_editor.hpp"
+#include "gui/dialogs/mkcourse.hpp"
 #include "gui/widgets/window.hpp"
 #include "map_controller.hpp"
 #include "mkscript_controller.hpp"
@@ -61,7 +62,7 @@
 // using namespace std::placeholders;
 extern uint32_t ReceivingInterfaceAddr;
 
-extern bool is_valid_wkoscript_path(const std::string& path);
+extern bool is_valid_wkoscript_or_wkocoruse_path(bool wkoscript, const std::string& path);
 
 std::string label_state_nposm;
 
@@ -162,6 +163,9 @@ public:
 
 	aplt::thealth& health() { return health_; }
 
+	// std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls() { return wkocourse_enrolls_; }
+	std::map<std::string, aplt::twkocourse>& wkocourses() { return wkocourses_; }
+
 private:
 	void app_load_settings_config(const config& cfg) override;
 	void app_pre_setmode(tpre_setmode_settings& settings) override;
@@ -259,8 +263,9 @@ private:
 	void push_floating_window_task(const std::string& msg, int duration_ms) override;
 
 	void health_push_n32_event(int type, int ctx) override;
-	void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str) override;
+	void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str, const std::string& aux_str2, int aux_int) override;
 	void health_push_landmarks(const SDL_U16Point* landmarks, int unsatisfied_reason) override;
+	void health_workout_finished(const std::string& aplt, const std::string& id) override;
 
 	bool cswamp_addevent(int64_t ts, const std::string& desc, const std::vector<timage_pair>& images, bool quiet) override;
 	bool cswamp_querytablecooking(int table, net::tcswamp_table_result& result, bool quiet) override;
@@ -403,6 +408,9 @@ private:
 	tcountdown_klink_aplt_task countdown_klink_aplt_task_;
 
 	aplt::thealth health_;
+
+	// std::map<std::string, aplt::twkocourse_enroll> wkocourse_enrolls_;
+	std::map<std::string, aplt::twkocourse> wkocourses_;
 };
 
 static void did_net_receive_broadcast(int argc, const char** argv, void* user)
@@ -693,14 +701,17 @@ void game_instance::app_pre_setmode(tpre_setmode_settings& settings)
 	// settings.silent_background = false;
 	if (game_config::os == os_windows) {
 		settings.min_width = 880;
-		settings.min_height = 498; // 478 is tool small
+		// settings.min_height = 498; // 478 is tool small
+		settings.min_height = 508;
 	}
 	// settings.startup_servers = server_httpd;
 }
 
 void game_instance::app_load_pb()
 {
+	load_action_tpl2s_cfg();
 	sdl_field_small_font_size_ = game_config::os == os_windows? font::SIZE_SMALLER: font::SIZE_SMALLEST;
+	wkocourse_enrolls_from_pref(wkocourse_enrolls_, &wkocourses_);
 
 	load_logs_pb(LOGS_PB, LOGS_PB_MAX_DAYS, LOGS_PB_MAX_LOGS);
 	bg_task_.app_load_pb(KLINK_PB);
@@ -1586,7 +1597,7 @@ bool game_instance::show_gui_center(const tstart_aiagent* start_aiagent)
 
 void game_instance::start_mkscript_controller()
 {
-	if (!is_valid_wkoscript_path(wkoscript_dir_)) {
+	if (!is_valid_wkoscript_or_wkocoruse_path(true, wkoscript_dir_)) {
 		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets_, aplt::get_bundleid(aplt::bundleid_leagor_khome));
 		VALIDATE(aplt != nullptr, null_str);
 		wkoscript_dir_ = aplt->preferences_dir + "/wkoscript";
@@ -1621,7 +1632,8 @@ void game_instance::start_health_controller()
 	thealth_scene_slot scene_slot(rdpd_mgr(), pble(), privacy());
 
 	hotkey::scope_changer changer(core_cfg(), "hotkey_health");
-	health_controller chart(scene_slot, core_cfg(), video_, health_, sdl_field_small_font_size_);
+	health_controller chart(scene_slot, core_cfg(), video_, health_, wkocourse_enrolls_, 
+		wkocourses_, sdl_field_small_font_size_);
 	chart.initialize(chart_unit::initial_zoom);
 	chart.main_loop();
 }
@@ -2295,14 +2307,19 @@ void game_instance::health_push_n32_event(int type, int ctx)
 	health_.health_push_n32_event(type, ctx);
 }
 
-void game_instance::health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str)
+void game_instance::health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str, const std::string& aux_str2, int aux_int)
 {
-	health_.health_push_str_event(type, ctx, str, aux_str);
+	health_.health_push_str_event(type, ctx, str, aux_str, aux_str2, aux_int);
 }
 
 void game_instance::health_push_landmarks(const SDL_U16Point* landmarks, int unsatisfied_reason)
 {
 	health_.health_push_landmarks(landmarks, unsatisfied_reason);
+}
+
+void game_instance::health_workout_finished(const std::string& aplt, const std::string& id)
+{
+	health_.health_workout_finished(aplt, id);
 }
 
 bool game_instance::cswamp_addevent(int64_t ts, const std::string& desc, const std::vector<timage_pair>& images, bool quiet)
@@ -2345,13 +2362,13 @@ const aplt::tbase_scene* game_instance::aplt_set_base_scene(const aplt::tbase_sc
 	// above 'if()' block can validate below statement.
 	VALIDATE(base_driver_.subtask_state() != aplt::sts_preempted, null_str);
 
-	const aplt::tbase_scene* found_scene = cfg_cpp_api_.base_scene_from_id(scene.id, true);
+	const std::string desire_scene_id = scene.get_id();
+	const aplt::tbase_scene* found_scene = cfg_cpp_api_.base_scene_from_id(desire_scene_id, true);
 	VALIDATE(found_scene == &scene, null_str);
-	const std::string desire_scene_id = scene.id;
 
 	tbase_driver::tallow_restart_subtask_when_bg_ing_lock lock(base_driver_);
 
-	bool is_me = scene.id == base_driver_.scene_id();
+	bool is_me = scene.get_id() == base_driver_.scene_id();
 	if (is_me) {
 		if (base_driver_.subtask_state() == aplt::sts_ing) {
 			// this scene is ing
@@ -2368,7 +2385,7 @@ const aplt::tbase_scene* game_instance::aplt_set_base_scene(const aplt::tbase_sc
 			err_msg = _("No scenes available to suspend");
 			return nullptr;
 		}
-		preferences::set_base_scene_id(scene.id);
+		preferences::set_base_scene_id(scene.get_id());
 		base_driver_.restart_subtask();
 	}
 	
@@ -3755,11 +3772,11 @@ static int do_gameloop(int argc, char** argv)
 				gui2::ttask2 dlg(game.rdpd_mgr(), game.pble(), game.privacy(), game.applets(), game.curmap(), game.cfg_cpp_api(), game.bg_task());
 				dlg.show();
 
-			} else if (at == aplt::builtinid_courseware) {
+			} else if (at == aplt::builtinid_artifact) {
 				gui2::tcourseware2 dlg(game.rdpd_mgr(), game.pble(), game.privacy(), game, game.applets(), game.cfg_cpp_api(), game.speech_driver(), game.saves_courseware_dir());
 				dlg.show();
 
-			} else if (at == aplt::builtinid_mkscript) {
+			} else if (at == aplt::builtinid_mkscript || at == aplt::builtinid_mkcourse) {
 				const aplt::tapplet* desire_aplt = aplt::aplt_from_bundleid(game.applets(), aplt::get_bundleid(aplt::bundleid_leagor_khome));
 				if (desire_aplt == nullptr) {
 					utils::string_map symbols;
@@ -3769,7 +3786,14 @@ static int do_gameloop(int argc, char** argv)
 					gui2::show_message(null_str, vgettext2("Before using the '$target', please install the '$aplt' first. You can download and install it from the $store.", symbols));
 					continue;
 				}
-				game.start_mkscript_controller();
+
+				if (at == aplt::builtinid_mkscript) {
+					game.start_mkscript_controller();
+
+				} else {
+					gui2::tmkcourse dlg(game.rdpd_mgr(), game.pble(), game.privacy(), game.applets());
+					dlg.show();
+				}
 
 			} else if (at == aplt::builtinid_health) {
 				game.start_health_controller();

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: launcher-lib\n"
-"POT-Creation-Date: 2026-09-03 12:05+0800\n"
+"POT-Creation-Date: 2026-09-26 14:17+0800\n"
 "PO-Revision-Date: 2016-01-03 20:34+0800\n"
 "Last-Translator: service <service@leagor.com>\n"
 "Language-Team: \n"
@@ -22,7 +22,7 @@ msgid "launcher"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:1
-#: apps-src/apps/launcher/main.cpp:734 apps-src/apps/launcher/main.cpp:1575
+#: apps-src/apps/launcher/main.cpp:745 apps-src/apps/launcher/main.cpp:1586
 msgid "AI driver"
 msgstr ""
 
@@ -44,7 +44,7 @@ msgid "Angle"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:11
-#: apps-src/apps/launcher/main.cpp:728
+#: apps-src/apps/launcher/main.cpp:739
 msgid "Base driver"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:23
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:137
-#: apps-src/apps/launcher/main.cpp:731
+#: apps-src/apps/launcher/main.cpp:742
 msgid "DCamera driver"
 msgstr ""
 
@@ -155,7 +155,7 @@ msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:61
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:143
-#: apps-src/apps/launcher/main.cpp:732
+#: apps-src/apps/launcher/main.cpp:743
 msgid "IoT driver"
 msgstr ""
 
@@ -164,7 +164,7 @@ msgid "Landmark"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:65
-#: apps-src/apps/launcher/main.cpp:729
+#: apps-src/apps/launcher/main.cpp:740
 msgid "Laser driver"
 msgstr ""
 
@@ -178,7 +178,7 @@ msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:71
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:138
-#: apps-src/apps/launcher/main.cpp:730 apps-src/apps/launcher/main.cpp:3660
+#: apps-src/apps/launcher/main.cpp:741 apps-src/apps/launcher/main.cpp:3677
 msgid "Moveit driver"
 msgstr ""
 
@@ -205,12 +205,13 @@ msgstr ""
 #: apps-src/apps/launcher/gui/dialogs/home.cpp:393
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:908
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:1117
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1353
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2063
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2144
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1283
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1993
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2040
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1529
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:453
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:585
-#: apps-src/apps/launcher/mkscript_controller.cpp:2784
+#: apps-src/apps/launcher/mkscript_controller.cpp:2637
 msgid "OK"
 msgstr ""
 
@@ -232,8 +233,9 @@ msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:89
 #: apps-src/apps/launcher/gui/dialogs/base_courseware.cpp:170
-#: apps-src/apps/launcher/mkscript_controller.cpp:1031
-#: apps-src/apps/launcher/mkscript_controller.cpp:2755
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:298
+#: apps-src/apps/launcher/mkscript_controller.cpp:1077
+#: apps-src/apps/launcher/mkscript_controller.cpp:2608
 msgid "Reference"
 msgstr ""
 
@@ -262,19 +264,19 @@ msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:101
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:144
-#: apps-src/apps/launcher/main.cpp:733 apps-src/apps/launcher/main.cpp:3716
+#: apps-src/apps/launcher/main.cpp:744 apps-src/apps/launcher/main.cpp:3733
 msgid "Speech driver"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:103
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:58
-#: apps-src/apps/launcher/mkscript_controller.cpp:3068
+#: apps-src/apps/launcher/mkscript_controller.cpp:2921
 msgid "State"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:105
 #: apps-src/apps/launcher/gui/dialogs/statusbar.cpp:245
-#: apps-src/apps/launcher/mkscript_controller.cpp:2761
+#: apps-src/apps/launcher/mkscript_controller.cpp:2614
 msgid "State name"
 msgstr ""
 
@@ -335,13 +337,20 @@ msgid "exam^Points"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:131
-#: apps-src/apps/launcher/mkscript_controller.cpp:1025
-#: apps-src/apps/launcher/mkscript_controller.cpp:1100
-#: apps-src/apps/launcher/mkscript_controller.cpp:2745
-msgid "object^Name"
+msgid "misc/arrow_down.png"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:133
+msgid "misc/erase.png"
+msgstr ""
+
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:135
+#: apps-src/apps/launcher/mkscript_controller.cpp:1071
+#: apps-src/apps/launcher/mkscript_controller.cpp:1146
+msgid "object^Name"
+msgstr ""
+
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:137
 msgid "pose_unsatisfied_msgstr label"
 msgstr ""
 
@@ -447,8 +456,8 @@ msgstr ""
 msgid "Start charging"
 msgstr ""
 
-#: apps-src/apps/launcher/cfg_cpp_api.cpp:831
-#: apps-src/apps/launcher/cfg_cpp_api.cpp:838
+#: apps-src/apps/launcher/cfg_cpp_api.cpp:261
+#: apps-src/apps/launcher/cfg_cpp_api.cpp:268
 msgid "Start task '$task' fail. State '$state' needs to use '$position', but isn't existed in cur map."
 msgstr ""
 
@@ -474,7 +483,7 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: apps-src/apps/launcher/game_config.cpp:587
+#: apps-src/apps/launcher/game_config.cpp:623
 msgid "As long as this window is displayed, no new $klink task will run."
 msgstr ""
 
@@ -622,6 +631,9 @@ msgid "Tex tail"
 msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/base_courseware.cpp:162
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:282
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1478
+#: apps-src/apps/launcher/mkscript_controller.cpp:2598
 msgid "Title"
 msgstr ""
 
@@ -1000,7 +1012,8 @@ msgid "Teacher Version"
 msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2664
-#: apps-src/apps/launcher/mkscript_controller.cpp:3181
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1403
+#: apps-src/apps/launcher/mkscript_controller.cpp:3133
 msgid ""
 "$type file has been generated.\n"
 "Path: $file"
@@ -1131,8 +1144,8 @@ msgid "New courseware title"
 msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3214
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1349
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2139
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1279
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2035
 msgid "Easy name, can be Chinese, and maximum $max_chars characters"
 msgstr ""
 
@@ -1353,14 +1366,15 @@ msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:117
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:1212
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1842
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1111
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1797
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1772
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:691
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1166
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1857
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:358
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:223
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:431
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:2759
-#: apps-src/apps/launcher/mkscript_controller.cpp:2917
+#: apps-src/apps/launcher/mkscript_controller.cpp:2770
 msgid "Empty"
 msgstr ""
 
@@ -1404,7 +1418,7 @@ msgid "Do you want to erase if judge($judge)"
 msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:1144
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1456
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1386
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:68
 msgid "Variable"
 msgstr ""
@@ -1451,157 +1465,157 @@ msgstr ""
 msgid "klink's device layer remark, $online_minute"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:352
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:282
 msgid "klink's add_timed_task layer remark"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:514
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:444
 msgid "$src$evt"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:523
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:453
 msgid "$src2|($alias)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:533
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:463
 msgid "$src$evt|($alias)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:559
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:489
 msgid "$src$evt|[iot_device_id absent: $device_id]"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:565
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:495
 msgid "$src|[iot_evt absent. evt: $evt]"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:571
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:501
 msgid "[iot_src absent. src: $src]"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:588
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:518
 msgid "[speech_id absent. id: $id]"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:863
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:793
 msgid "Supports up to $max variable tasks"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:873
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:803
 msgid "New var sensor"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1011
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:941
 msgid "Env_vars to be synchronized"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1036
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:966
 msgid "Pre-assigned input variable"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1063
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:993
 msgid "[Task absent]"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1067
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:997
 msgid "[Unloaded]"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1092
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1511
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1022
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1441
 msgid "Var $number"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1341
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1271
 msgid "Edit var $number's name"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1369
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1299
 msgid "Env_vars to be synchronized after the task is finished"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1387
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1317
 msgid "select sync_vars in var trigger remark"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1459
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1389
 msgid "remark^edit scene's input vars, $prefix"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1530
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1460
 msgid "The task associated with this trigger is currently running and cannot be modified."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1595
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1525
 msgid "Do you want to stop task: $task?"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1620
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1550
 msgid "Task '$task' is running and cannot be modified"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1637
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1567
 msgid "tasks^event"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1643
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1573
 msgid "tasks^speech"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1647
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1577
 msgid "tasks^var"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1651
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1581
 msgid "tasks^Timed"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1654
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1584
 msgid "Do you want to delete $type task: $task?"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2051
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1981
 msgid "Input device ID"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2054
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1984
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:78
 msgid "Device ID"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2060
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:1990
 msgid "A device ID is used to uniquely identify the device, and provided by the device manufacturer. It is generally a string of letters and numbers, characters is in [$min, $max]."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2132
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2028
 msgid "Edit $src($device_id)'s name"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2192
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2088
 msgid "Do you want to delete device '$src($device_id)'?"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2429
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2325
 msgid "clear add timed task list"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2434
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2330
 msgid "A bg task is running and it needs to be stopped first. Do you want to continue $action?"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2435
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2331
 msgid "To $action, stop the task"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2441
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2337
 msgid "Do you want to $action?"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2503
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2399
 msgid "Added"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2503
+#: apps-src/apps/launcher/gui/dialogs/klink.cpp:2399
 msgid "Deleted"
 msgstr ""
 
@@ -1623,6 +1637,159 @@ msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/map_scene.cpp:628
 msgid "Move"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:38
+#: apps-src/apps/launcher/mkscript_controller.cpp:669
+msgid "file^From benchmark..."
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:39
+#: apps-src/apps/launcher/mkscript_controller.cpp:670
+msgid "file^Empty script"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:40
+#: apps-src/apps/launcher/mkscript_controller.cpp:671
+msgid "file^Open"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:41
+#: apps-src/apps/launcher/mkscript_controller.cpp:672
+msgid "file^Save as"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:42
+#: apps-src/apps/launcher/mkscript_controller.cpp:673
+msgid "file^Exit"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:277
+msgid "ID"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:287
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1483
+#: apps-src/apps/launcher/mkscript_controller.cpp:1074
+#: apps-src/apps/launcher/mkscript_controller.cpp:2603
+msgid "Author"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:292
+msgid "wkocourse^Description"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:305
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:329
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:715
+msgid "$name: $value"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:552
+msgid "$count rounds"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:681
+msgid "Workout"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:723
+#: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:41
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:67
+#: apps-src/apps/launcher/mkscript_controller.cpp:1005
+msgid "Working directory"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:731
+#: apps-src/apps/launcher/mkscript_controller.cpp:1012
+msgid "invalid wkoscript_dir remark, $add_to_working_dir"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:856
+#: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:82
+msgid "file^New"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:892
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:54
+#: apps-src/apps/launcher/mkscript_controller.cpp:2042
+msgid "file^New from benchmark"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:895
+#: apps-src/apps/launcher/mkscript_controller.cpp:2045
+msgid "file^New empty script"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:900
+#: apps-src/apps/launcher/mkscript_controller.cpp:2050
+msgid "Are you sure you want to $action?"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:904
+#: apps-src/apps/launcher/mkscript_controller.cpp:2054
+msgid "The file has been modified. Do you want to $action without saving?"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:924
+#: apps-src/apps/launcher/mkscript_controller.cpp:2105
+msgid "The filename and ID are different."
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:926
+msgid "Course script"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1049
+#: apps-src/apps/launcher/mkscript_controller.cpp:2311
+msgid "There is a data error, and cannot save."
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1076
+#: apps-src/apps/launcher/mkscript_controller.cpp:2477
+msgid "The target location already contains '$file'. Do you want to replace this file?"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1204
+msgid "noun^Workout"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1206
+msgid "todo^workout"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1249
+msgid "$count seconds"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1255
+msgid "$count reps"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1266
+msgid "todo^miss action"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1277
+msgid "Course"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1279
+msgid "todo^course"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1401
+msgid "Task to-do items"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1466
+#: apps-src/apps/launcher/mkscript_controller.cpp:2586
+msgid "It will be used as the stem name of the script file."
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1522
+#: apps-src/apps/launcher/mkscript_controller.cpp:2630
+msgid "Edit $type"
 msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:28
@@ -1657,18 +1824,8 @@ msgstr ""
 msgid "Insert right"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:38
-msgid "Erase column"
-msgstr ""
-
 #: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:40
 msgid "Insert child"
-msgstr ""
-
-#: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:41
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:67
-#: apps-src/apps/launcher/mkscript_controller.cpp:961
-msgid "Working directory"
 msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:42
@@ -1681,10 +1838,6 @@ msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:45
 msgid "Pack"
-msgstr ""
-
-#: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:82
-msgid "file^New"
 msgstr ""
 
 #: apps-src/apps/launcher/gui/dialogs/moveit.cpp:323
@@ -1707,11 +1860,6 @@ msgstr ""
 msgid "cam^pos_right"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:54
-#: apps-src/apps/launcher/mkscript_controller.cpp:2196
-msgid "file^New from benchmark"
-msgstr ""
-
 #: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:68
 msgid "generate_wkoscript_from_benchmarks remark, $working_dir"
 msgstr ""
@@ -1724,235 +1872,240 @@ msgstr ""
 msgid "There are images where landmarks could not be recognized. Please replace them first."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:282
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:278
 msgid "wko^Speak opening"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:284
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:282
 msgid "wko^speak opening msgstr, cam_pos_front"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:286
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:284
 msgid "wko^speak opening msgstr, cam_pos_right"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:290
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:287
+#: apps-src/apps/launcher/mkscript_controller.cpp:212
+msgid "wko^Setup"
+msgstr ""
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:306
 msgid "wko^$number action opening"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:291
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:307
 msgid "wko^$number action msgstr"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:302
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:314
 msgid "wko^$number action"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:373
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:385
 msgid "Already ended"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:375
+#: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:387
 msgid "wko^speak ended msgstr"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:116
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:117
 msgid "desc^timerule_total"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:117
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:118
 msgid "desc^timerule_satisfied"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:118
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:119
 msgid "desc^timerule_strict"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:121
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:122
 msgid "desc^timetone_full"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:122
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:123
 msgid "desc^timetone_split"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:123
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:124
 msgid "desc^timetone_silent"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:152
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:153
 msgid "desc^angle3p(180)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:153
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:154
 msgid "desc^angle3p(360)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:154
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:155
 msgid "desc^angle2p"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:155
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:156
 msgid "desc^diff(point)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:156
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:157
 msgid "desc^diff(x)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:157
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:158
 msgid "desc^diff(y)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:158
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:159
 msgid "desc^diff(dist_x)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:159
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:160
 msgid "desc^diff(dist_y)"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:221
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:222
 msgid "ime warning"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:263
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:264
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:625
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:862
 msgid "There is a data error, and cannot save. Do you want to keep exiting without saving?"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:324
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:325
 msgid "wko^is_setup label"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:334
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:335
 #: apps-src/apps/launcher/gui/dialogs/speak_state2.cpp:49
 msgid "wko^debug_skip label"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:344
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:357
 msgid "rep_counter, unsatisfied_threshold_ms label"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:374
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:387
 msgid "$type task"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:408
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:421
 msgid "track_pose remark"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:526
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:533
 msgid "pose_unsatisfied_msgstr remark, $generic, $max"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:541
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:548
 msgid "rep_counter, unsatisfied_2th_msgstr placeholder"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:664
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:668
 msgid "Angle in degrees. Can be empty"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:666
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:670
 msgid "Length as a float, typically < 2.0. Can be empty"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:669
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:673
 msgid "Angle in degrees, or length as a float (<2.0). Can be empty"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:703
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:762
 msgid "unsatisfied remark, tasktype_rep_counter, $unsatisfied_threshold_ms, $unsatisfied_2th_threshold_s, $unsatisfied_2th_msgstr"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:706
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:765
 msgid "unsatisfied remark, tasktype_time_counter, $unsatisfied_threshold_ms"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:710
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:769
 msgid "unsatisfied remark, tasktype_time_counter, 2th is empty, $unsatisfied_threshold_ms, $unsatisfied_2th_threshold_s, $unsatisfied_2th_msgstr"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:712
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:771
 msgid "unsatisfied remark, tasktype_time_counter, 2th isn't empty, $unsatisfied_threshold_ms, $unsatisfied_2th_threshold_s, $unsatisfied_2th_msgstr"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:727
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:786
 msgid "satisfied remark, $satisfied_threshold_s, $satisfied_2th_msgstr"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:871
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:930
 msgid "task_time_counter remark, $max_count"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:878
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:937
 msgid "task_rep_counter remark, $max_count"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1156
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1211
 msgid "At least one pose judgment is required; this item cannot be deleted."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1161
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1216
 msgid "track_pose^pose"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1545
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1552
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1559
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1605
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1612
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1619
 msgid "Point x, y coordinates"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1547
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1554
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1561
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1607
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1614
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1621
 msgid "Midpoint x, y coordinates"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1565
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1625
 msgid "Point x coordinates"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1567
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1627
 msgid "Midpoint x coordinates"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1571
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1631
 msgid "Point y coordinates"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1573
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1633
 msgid "Midpoint y coordinates"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1577
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1583
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1637
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1643
 msgid "A second landmark must be added"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1579
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1639
 msgid "Horizontal (x) distance between two points"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1585
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1645
 msgid "Vertical (y) distance between two points"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1617
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1677
 msgid "The image did not detect enough landmark."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1634
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1694
 msgid "Calculation failed. Not enough landmarks have been set."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1874
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1934
 msgid "Operand $number"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1883
+#: apps-src/apps/launcher/gui/dialogs/pose_state2.cpp:1943
 msgid "Real-time value"
 msgstr ""
 
@@ -2298,11 +2451,11 @@ msgstr ""
 msgid "To install '$aplt', stop the current one"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/store.cpp:165
+#: apps-src/apps/launcher/gui/dialogs/store.cpp:89
 msgid "A bg task is running and it needs to be stopped first. Do you want to continue uninstalling '$aplt'?"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/store.cpp:166
+#: apps-src/apps/launcher/gui/dialogs/store.cpp:90
 msgid "To uninstall '$aplt', stop the current one"
 msgstr ""
 
@@ -2527,281 +2680,281 @@ msgstr ""
 msgid "strategy^strategy_finished $state"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:709
+#: apps-src/apps/launcher/main.cpp:720
 msgid "_Idle"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:711
+#: apps-src/apps/launcher/main.cpp:722
 msgid "name^lubancat3"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:712
+#: apps-src/apps/launcher/main.cpp:723
 msgid "name^lubancat4"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:713
+#: apps-src/apps/launcher/main.cpp:724
 msgid "name^roc_rk3588s_pc"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:718 apps-src/apps/launcher/main.cpp:720
-#: apps-src/apps/launcher/main.cpp:722
+#: apps-src/apps/launcher/main.cpp:729 apps-src/apps/launcher/main.cpp:731
+#: apps-src/apps/launcher/main.cpp:733
 msgid "$count minutes"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:724
+#: apps-src/apps/launcher/main.cpp:735
 msgid "$count hours"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:725
+#: apps-src/apps/launcher/main.cpp:736
 msgid "No restrictions"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:735
+#: apps-src/apps/launcher/main.cpp:746
 msgid "Foreground applet"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:736
+#: apps-src/apps/launcher/main.cpp:747
 msgid "Base2th applet"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:737
+#: apps-src/apps/launcher/main.cpp:748
 msgid "Aiagent task applet"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:752
+#: apps-src/apps/launcher/main.cpp:763
 msgid "velocity^slower"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:753
+#: apps-src/apps/launcher/main.cpp:764
 msgid "velocity^slow"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:754
+#: apps-src/apps/launcher/main.cpp:765
 msgid "velocity^normal"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:755
+#: apps-src/apps/launcher/main.cpp:766
 msgid "velocity^fast"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:756
+#: apps-src/apps/launcher/main.cpp:767
 msgid "velocity^custom"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:759
+#: apps-src/apps/launcher/main.cpp:770
 msgid "marker^virtual"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:760
+#: apps-src/apps/launcher/main.cpp:771
 msgid "marker^wall"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:768
+#: apps-src/apps/launcher/main.cpp:779
 msgid "task^Move"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:774
+#: apps-src/apps/launcher/main.cpp:785
 msgid "task^task"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:780
+#: apps-src/apps/launcher/main.cpp:791
 msgid "task^Move+task"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:786
+#: apps-src/apps/launcher/main.cpp:797
 msgid "task^Move2+task"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:794
+#: apps-src/apps/launcher/main.cpp:805
 msgid "task^Charge"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:799
+#: apps-src/apps/launcher/main.cpp:810
 msgid "Chat"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:804
+#: apps-src/apps/launcher/main.cpp:815
 msgid "Buildmap"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:806
+#: apps-src/apps/launcher/main.cpp:817
 msgid "Buildmap(rosbag record)"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:807
+#: apps-src/apps/launcher/main.cpp:818
 msgid "Buildmap(rosbag play)"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:809 apps-src/apps/launcher/main.cpp:1524
+#: apps-src/apps/launcher/main.cpp:820 apps-src/apps/launcher/main.cpp:1535
 msgid "Navigation"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:810
+#: apps-src/apps/launcher/main.cpp:821
 msgid "Position"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:813
+#: apps-src/apps/launcher/main.cpp:824
 msgid "klink_cfg"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:814
+#: apps-src/apps/launcher/main.cpp:825
 msgid "task_cpp_cfg"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:815
+#: apps-src/apps/launcher/main.cpp:826
 msgid "speech_cfg"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1135
+#: apps-src/apps/launcher/main.cpp:1146
 msgid "Not implete 'aplt_create_task_api' method, or aplt::tcamera_api object."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1152
+#: apps-src/apps/launcher/main.cpp:1163
 msgid "Cannot reach the '$position' position. Not charging"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1160
+#: apps-src/apps/launcher/main.cpp:1171
 #: apps-src/apps/launcher/map_controller.cpp:4126
 msgid "Start charge fail. Please set a valid charging pile width first."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1181
+#: apps-src/apps/launcher/main.cpp:1192
 msgid "Not implete 'aplt_create_task_api' method, or aplt::tnonblock_api object."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1198
+#: apps-src/apps/launcher/main.cpp:1209
 msgid "block task finished"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1202
+#: apps-src/apps/launcher/main.cpp:1213
 msgid "Not implete 'aplt_create_task_api' method, or aplt::tblock_api object."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1577 apps-src/apps/launcher/main.cpp:3662
-#: apps-src/apps/launcher/main.cpp:3718
+#: apps-src/apps/launcher/main.cpp:1588 apps-src/apps/launcher/main.cpp:3679
+#: apps-src/apps/launcher/main.cpp:3735
 msgid "To enter '$target', first select a valid $driver in '$settings'."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1661
+#: apps-src/apps/launcher/main.cpp:1673
 msgid "One driver to be uninstalled"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1947
+#: apps-src/apps/launcher/main.cpp:1959
 msgid "$driver failed to create slot. Navigate to '$center' to check the cause."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2135
+#: apps-src/apps/launcher/main.cpp:2147
 msgid "The AI agent task is terminating and cannot run new applet task."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2143
+#: apps-src/apps/launcher/main.cpp:2155
 msgid "To run a temporary task, stop the current one"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2173 apps-src/apps/launcher/main.cpp:2177
+#: apps-src/apps/launcher/main.cpp:2185 apps-src/apps/launcher/main.cpp:2189
 msgid "There is no position: $position"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2182
+#: apps-src/apps/launcher/main.cpp:2194
 msgid "If poisition1 is empty, position2 must be empty"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2189
+#: apps-src/apps/launcher/main.cpp:2201
 msgid "Cannot execute $task. $reason"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2333
+#: apps-src/apps/launcher/main.cpp:2350
 msgid "Base node not started"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2337
+#: apps-src/apps/launcher/main.cpp:2354
 msgid "Base is in moveable mode"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2342
+#: apps-src/apps/launcher/main.cpp:2359
 msgid "A background task using the camera is currently running"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2368
+#: apps-src/apps/launcher/main.cpp:2385
 msgid "No scenes available to suspend"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2381
+#: apps-src/apps/launcher/main.cpp:2398
 msgid "Unable to start scene"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2425
+#: apps-src/apps/launcher/main.cpp:2442
 msgid "The AI driver is not installed."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2429
+#: apps-src/apps/launcher/main.cpp:2446
 msgid "The AI agent task is terminating and cannot send new NLP request."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2486
+#: apps-src/apps/launcher/main.cpp:2503
 msgid "device: $device"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2526
+#: apps-src/apps/launcher/main.cpp:2543
 msgid "Receive a IoT event, but timing is not right, it cannot be executed"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2559
+#: apps-src/apps/launcher/main.cpp:2576
 msgid "For voice chat, first select a aiagent drive in '$settings'"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2563
+#: apps-src/apps/launcher/main.cpp:2580
 msgid "The large language model is answering the question. Please wait to ask your question by voice."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2578
+#: apps-src/apps/launcher/main.cpp:2595
 msgid "$question. Keep your response under $max words."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2643
+#: apps-src/apps/launcher/main.cpp:2660
 msgid "The timing is not right, and speech commands cannot be executed at this time"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2648
+#: apps-src/apps/launcher/main.cpp:2665
 msgid "What you say satisfies speech command: $speech. But the applet or task associated with this command does not exist"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2654
+#: apps-src/apps/launcher/main.cpp:2671
 msgid "Unsupported speech commands"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2694
+#: apps-src/apps/launcher/main.cpp:2711
 msgid "function^distance desc"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2759
+#: apps-src/apps/launcher/main.cpp:2776
 #: apps-src/apps/launcher/map_controller.cpp:1585
 #: apps-src/apps/launcher/map_controller.cpp:4067
 msgid "icon^Settings"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2760
+#: apps-src/apps/launcher/main.cpp:2777
 msgid "To perform '$task', first select a base drive in '$settings'"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:2762
+#: apps-src/apps/launcher/main.cpp:2779
 msgid "To perform '$task', select valid serial and baudrate for base drive"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:3635
+#: apps-src/apps/launcher/main.cpp:3652
 msgid "Base works in unmovable mode and cannot enter '$map'."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:3644
+#: apps-src/apps/launcher/main.cpp:3661
 msgid "It is operating '$moveit' and cannot enter '$map'. To view the camera video, go to '$dcamera'"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:3767
+#: apps-src/apps/launcher/main.cpp:3784
 #: apps-src/apps/launcher/mkscript_controller.cpp:112
 msgid "kHome"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:3769
+#: apps-src/apps/launcher/main.cpp:3786
 msgid "Before using the '$target', please install the '$aplt' first. You can download and install it from the $store."
 msgstr ""
 
@@ -3022,129 +3175,84 @@ msgstr ""
 msgid "The file extension must be '.$ext_name'."
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:197
+#: apps-src/apps/launcher/mkscript_controller.cpp:207
 msgid "SKIP"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:202
-msgid "wko^Setup"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:268
+#: apps-src/apps/launcher/mkscript_controller.cpp:278
 msgid "voice_state's label surf msg, $msgstr"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:271
+#: apps-src/apps/launcher/mkscript_controller.cpp:281
 msgid "The state lasts at least $min_duration."
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:276
+#: apps-src/apps/launcher/mkscript_controller.cpp:286
 msgid "Repeat the voice every $repeat_s seconds."
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:361
+#: apps-src/apps/launcher/mkscript_controller.cpp:373
+msgid "tasktype_rep_counter, line desc, $number, $action_msg, $min_duration_ms, $cooldowned_ms"
+msgstr ""
+
+#: apps-src/apps/launcher/mkscript_controller.cpp:384
 msgid "pose_state's label surf msg, $tast_type, $pose_count, $special"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:639
+#: apps-src/apps/launcher/mkscript_controller.cpp:662
 msgid "shape^voice state"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:640
-#: apps-src/apps/launcher/mkscript_controller.cpp:641
+#: apps-src/apps/launcher/mkscript_controller.cpp:663
+#: apps-src/apps/launcher/mkscript_controller.cpp:664
 msgid "shape^pose state"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:642
+#: apps-src/apps/launcher/mkscript_controller.cpp:665
 msgid "shape^edge"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:643
+#: apps-src/apps/launcher/mkscript_controller.cpp:666
 msgid "shape^text"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:646
-msgid "file^From benchmark..."
+#: apps-src/apps/launcher/mkscript_controller.cpp:680
+msgid "Add to working"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:647
-msgid "file^Empty script"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:648
-msgid "file^Open"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:649
-msgid "file^Save as"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:650
-msgid "file^Exit"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:966
-msgid "invalid wkoscript_dir remark"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:1028
-#: apps-src/apps/launcher/mkscript_controller.cpp:2750
-msgid "Author"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:1040
+#: apps-src/apps/launcher/mkscript_controller.cpp:1086
 msgid "$key: $value"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2199
-msgid "file^New empty script"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:2204
-msgid "Are you sure you want to $action?"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:2208
-msgid "The file has been modified. Do you want to $action without saving?"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:2240
+#: apps-src/apps/launcher/mkscript_controller.cpp:2086
 msgid "load file fail. $type, $filename"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2246
+#: apps-src/apps/launcher/mkscript_controller.cpp:2092
 msgid "load file fail. $type, $short_filename, $full_filename"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2304
-msgid "The filename and ID are different."
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:2306
+#: apps-src/apps/launcher/mkscript_controller.cpp:2107
 msgid "Action script"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2449
+#: apps-src/apps/launcher/mkscript_controller.cpp:2302
 msgid "Any state appears at most once as the next state of another state."
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2458
-msgid "There is a data error, and cannot save."
+#: apps-src/apps/launcher/mkscript_controller.cpp:2993
+msgid "Action copied to clipboard: $name"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2624
-msgid "The target location already contains '$file'. Do you want to replace this file?"
+#: apps-src/apps/launcher/mkscript_controller.cpp:3008
+msgid "Clipboard"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2733
-msgid "It will be used as the stem name of the script file."
+#: apps-src/apps/launcher/mkscript_controller.cpp:3065
+msgid "A file with the same name exists in the working directory. Do you want to overwrite it?"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2777
-msgid "Edit $type"
-msgstr ""
-
-#: apps-src/apps/launcher/mkscript_controller.cpp:3179
+#: apps-src/apps/launcher/mkscript_controller.cpp:3131
 msgid "Action flowchart"
 msgstr ""
 

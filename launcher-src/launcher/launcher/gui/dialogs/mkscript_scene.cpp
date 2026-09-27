@@ -35,7 +35,7 @@ void tmkscript_scene::pre_show()
 	hotkey::insert_hotkey(HOTKEY_ERASE, "erase", _("Erase"));
 	hotkey::insert_hotkey(HOTKEY_ERASE_ROW, "erase_row", _("Erase row"));
 	hotkey::insert_hotkey(HOTKEY_INSERT_RIGHT, "insert_right", _("Insert right"));
-	hotkey::insert_hotkey(HOTKEY_ERASE_COLUMN, "erase_column", _("Erase column"));
+	hotkey::insert_hotkey(HOTKEY_ADD_TO_WORKING_DIR, "add_to_working_dir", controller_.add_to_working_dir_msgstr());
 
 	hotkey::insert_hotkey(HOTKEY_INSERT_CHILD, "insert_child", _("Insert child"));
 	hotkey::insert_hotkey(HOTKEY_WORKING_DIR, "working_dir", _("Working directory"));
@@ -70,7 +70,7 @@ void tmkscript_scene::click_file(tbutton& widget)
 	std::vector<gui2::tmenu::titem> items;
 	int initial_sel = nposm;
     
-	const std::map<int, std::string>& ops = controller_.shape_ops();
+	const std::map<int, std::string>& ops = controller_.file_ops();
 
 	std::vector<gui2::tmenu::titem> new_items;
 	std::set<int> new_codes{mkscript_controller::file_new_empty, mkscript_controller::file_new_from_benchmark};

@@ -128,6 +128,10 @@ _("camera^Snapshot");
 
 _("exam^Points");
 
+_("misc/arrow_down.png");
+
+_("misc/erase.png");
+
 _("object^Name");
 
 _("pose_unsatisfied_msgstr label");

@@ -721,8 +721,9 @@ std::vector<aplt::tbuildin> thome::rapplets_get_fake_applets()
 	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_klink)->second);
 	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_speech)->second);
 	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_task)->second);
-	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_courseware)->second);
+	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_artifact)->second);
 	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_mkscript)->second);
+	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_mkcourse)->second);
 	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_health)->second);
 	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_center)->second);
 	ret.push_back(aplt::all_fake_applets.find(aplt::builtinid_map)->second);

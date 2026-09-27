@@ -109,6 +109,7 @@ tpose_state2::tpose_state2(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy&
 	, state2_(state2)
 	// , state_name_(state_name)
 	, preset_poses_(preset_poses)
+	, action_tpl2s_(aplt::action_tpl2s)
 	, sdl_field_small_font_size_(sdl_field_small_font_size)
 	, phase_surf_dir_(phase_surf_dir)
 	, pose_report_name_max_chars_(10)
@@ -250,7 +251,7 @@ void xxx_state2_click_back(twko_state2& wko_state2, aplt::twkoscript::tstate2& s
 	if (err_msg.empty()) {
 		uint64_t res = state2.is_valid2(0, err_msg);
 		if (res != TCOOKIE3F_CHECK_OK) {
-			err_msg = state2.fomrat_is_valid2_result(res, err_msg);
+			err_msg = aplt::twkoscript::fomrat_is_valid2_result(res, err_msg);
 		}
 	}
 
@@ -335,6 +336,18 @@ void tpose_state2::pre_state2_base(tgrid& grid)
 	toggle->set_value(state2_.debug_skip);
 	toggle->set_did_state_changed(std::bind(&tpose_state2::did_state2_bool_field_changed, this, _1,
 		aplt::twkoscript::fid_debug_skip));
+
+	tbutton* button = find_widget<tbutton>(&grid, "action_tpl2_id", false, true);
+	connect_signal_mouse_left_click(
+		*button
+		, std::bind(
+			&tpose_state2::click_action_tpl2_id
+			, this
+			, std::ref(*button)));
+	if (!state2_.action_tpl2_id.empty()) {
+		VALIDATE(action_tpl2s_.count(state2_.action_tpl2_id) != 0, null_str);
+		button->set_label(action_tpl2s_.find(state2_.action_tpl2_id)->second.name2());
+	}
 
 	//
 	// base
@@ -514,12 +527,6 @@ void tpose_state2::pre_state2_pose(tgrid& grid)
 	set_did_text_changed2(*text_box, aplt::twkoscript::typeid_pose, aplt::twkoscript::fid_pose_max);
 	max_widget_ = text_box;
 
-	text_box = find_widget<ttext_box>(&grid, "pose_legend", false, true);
-	set_did_text_changed2(*text_box, aplt::twkoscript::typeid_pose, aplt::twkoscript::fid_pose_legend);
-	{
-		find_widget<tgrid>(&grid, "pose_legend_grid", false, true)->set_visible(twidget::INVISIBLE);
-	}
-
 	utils::string_map symbols;
 	symbols["generic"] = state2_.get_field_str(aplt::twkoscript::typeid_pose, aplt::twkoscript::fid_pose_unsatisfied_msgstr);
 	symbols["max"] = state2_.get_field_str(aplt::twkoscript::typeid_pose, aplt::twkoscript::fid_pose_unsatisfied_rmax_msgstr);
@@ -636,9 +643,6 @@ void tpose_state2::did_fid_text_changed(ttext_box& widget, int index, int fid)
 	} else if (fid == aplt::twkoscript::fid_pose_unsatisfied_rmax_msgstr) {
 		pose.unsatisfied_rmax_msgstr = label;
 
-	} else if (fid == aplt::twkoscript::fid_pose_legend) {
-		pose.legend = label;
-
 	} else {
 		VALIDATE(false, null_str);
 	}
@@ -678,6 +682,61 @@ void tpose_state2::set_min_max_placeholder(int pose_type)
 //
 // state2_base layer
 //
+void tpose_state2::click_action_tpl2_id(tbutton& widget)
+{
+	std::vector<gui2::tmenu::titem> items;
+	int initial_sel = nposm;
+
+	{
+		items.push_back(gui2::tmenu::titem(_("Empty"), action_tpl2s_.size()));
+		items.back().separator = true;
+
+		if (state2_.action_tpl2_id.empty()) {
+			initial_sel = items.back().val;
+		}
+	}
+
+	int action_tlp2_at = 0;
+	for (std::map<std::string, aplt::taction_tpl2>::const_iterator it = action_tpl2s_.begin(); it != action_tpl2s_.end(); ++ it, action_tlp2_at ++) {
+		const aplt::taction_tpl2& action_tpl = it->second;
+		items.push_back(gui2::tmenu::titem(action_tpl.name2(), action_tlp2_at));
+
+		if (state2_.action_tpl2_id == action_tpl.id) {
+			initial_sel = action_tlp2_at;
+		}
+	}
+
+	if (items.empty()) {
+		return;
+	}
+
+	int new_sel = nposm;
+	{
+		gui2::tmenu dlg(items, initial_sel);
+		// dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * twidget::hdpi_scale);
+		dlg.show();
+		if (dlg.get_retval() != gui2::twindow::OK) {
+			return;
+		}
+
+		new_sel = dlg.selected_val();
+	}
+
+	const aplt::taction_tpl2* p_action_tpl2 = nullptr;
+	if (new_sel < (int)action_tpl2s_.size()) {
+		std::map<std::string, aplt::taction_tpl2>::const_iterator sel_it = action_tpl2s_.begin();
+		if (new_sel != 0) {
+			std::advance(sel_it, new_sel);
+		}
+
+		p_action_tpl2 = &sel_it->second;
+	}
+
+	state2_.action_tpl2_id = p_action_tpl2 != nullptr? p_action_tpl2->id: null_str;
+
+	widget.set_label(p_action_tpl2 != nullptr? p_action_tpl2->name2(): null_str);
+}
+
 void tpose_state2::did_state2_bool_field_changed(ttoggle_button& widget, int fid)
 {
 	if (fid == aplt::twkoscript::fid_is_setup) {
@@ -992,10 +1051,6 @@ void tpose_state2::did_pose_report_item_changed(tgrid& grid, ttoggle_button& wid
 	// unsatisfied_rmax_msgstr
 	text_box = find_widget<ttext_box>(&grid, "pose_unsatisfied_rmax_msgstr", false, true);
 	text_box->set_label(pose.unsatisfied_rmax_msgstr);
-
-	// legend
-	text_box = find_widget<ttext_box>(&grid, "pose_legend", false, true);
-	text_box->set_label(pose.legend);
 
 	bool is_first_pose = curr_pose_at_ == 0;
 	move_left_widget_->set_visible(is_first_pose? twidget::INVISIBLE: twidget::VISIBLE);

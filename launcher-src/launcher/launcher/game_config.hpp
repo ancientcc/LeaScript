@@ -83,96 +83,6 @@ struct tgui_mode
 	std::string name;
 	int rosbag;
 };
-/*
-#define PRIVACY_AUTO_PROTECT_THRESHOLD_S		90
-
-class tprivacy
-{
-public:
-	tprivacy(tbase_driver_core& base_driver)
-		: base_driver_(base_driver)
-		, protect_(false)
-		, rdp_(true)
-		, ble_discovery_(true)
-		, upload_img_(true)
-		, auto_protect_threshold_s_(nposm)
-		, next_protect_ticks_(0)
-		, disable_slice_(false)
-	{}
-
-	// Prevent the presence of a second tprivacy in the system.
-	posix_noncopyable(tprivacy);
-
-	void set_protect(bool enable);
-	bool protect() const;
-	std::string auto_protect_msgstr(int threshold_s) const;
-	std::string desc() const;
-	bool is_nposm() const
-	{
-		return !protect_ && auto_protect_threshold_s_ == nposm && next_protect_ticks_ == 0;
-	}
-
-	void set_auto_protect_threshold_s(int threshold_s) 
-	{ 
-		VALIDATE(threshold_s == nposm || threshold_s >= 30, null_str);
-		auto_protect_threshold_s_ = threshold_s;
-	}
-	int auto_protect_threshold_s() const { return auto_protect_threshold_s_; }
-
-	void set_next_protect_ticks()
-	{
-		VALIDATE(auto_protect_threshold_s_ != nposm, null_str);
-		next_protect_ticks_ = SDL_GetTicks() + auto_protect_threshold_s_ * 1000;
-	}
-
-	void reset_next_protect_ticks()
-	{
-		VALIDATE(next_protect_ticks_ != 0, null_str);
-		next_protect_ticks_ = 0;
-	}
-	uint32_t next_protect_ticks() const { return next_protect_ticks_; }
-
-	class tdisable_slice_lock
-	{
-	public:
-		tdisable_slice_lock(tprivacy& privacy)
-			: privacy_(privacy)
-		{
-			VALIDATE(!privacy_.disable_slice_, null_str);
-			privacy_.disable_slice_ = true;
-		}
-
-		~tdisable_slice_lock()
-		{
-			VALIDATE(privacy_.disable_slice_, null_str);
-			privacy_.disable_slice_ = false;
-		}
-
-	private:
-		tprivacy& privacy_;
-	};
-	bool disable_slice() const { return disable_slice_; }
-
-	void validate() const 
-	{
-		if (protect_ || auto_protect_threshold_s_ == nposm) {
-			VALIDATE(next_protect_ticks_ == 0, null_str);
-		}
-	}
-
-private:
-	tbase_driver_core& base_driver_;
-	bool protect_; // is enable/disable protect?
-
-	bool rdp_;
-	bool ble_discovery_;
-	bool upload_img_;
-	int auto_protect_threshold_s_; // if nposm, not auto enter protection.
-	uint32_t next_protect_ticks_;
-
-	bool disable_slice_;
-};
-*/
 
 struct tstart_aiagent
 {
@@ -266,6 +176,12 @@ std::string last_browse_file_path();
 void set_last_browse_file_path(const std::string& value);
 std::string wkoscript_dir();
 void set_wkoscript_dir(const std::string& value);
+std::string last_wkocourse_file();
+void set_last_wkocourse_file(const std::string& value);
+std::string wkocourse_dir();
+void set_wkocourse_dir(const std::string& value);
+bool skip_action_tpl2_id_check();
+void set_skip_action_tpl2_id_check(bool value);
 }
 
 int board_model_str_2_int(const std::string& str);

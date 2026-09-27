@@ -46,9 +46,10 @@ public:
 	void do_right_click();
 
 	const std::map<int, visio::tshape>& shape_types() const { return shape_types_; }
+	const std::string& add_to_working_dir_msgstr() const { return add_to_working_dir_msgstr_; }
 
 	enum {file_new_from_benchmark, file_new_empty, file_open, file_save_as, file_exit};
-	const std::map<int, std::string>& shape_ops() const { return file_ops_; }
+	const std::map<int, std::string>& file_ops() const { return file_ops_; }
 
 	class tedge;
 
@@ -275,7 +276,7 @@ public:
 		return nullptr;
 	}
 
-	aplt::twkoscript::tstate2& state2_from_sel_obj_with_validate()
+	int sel_obj_at_with_validate() const
 	{
 		VALIDATE(sel_obj_ != nullptr, null_str);
 		VALIDATE(sel_obj_->obj->obj_at != nposm, null_str);
@@ -285,6 +286,20 @@ public:
 		VALIDATE(item == sel_obj_, null_str);
 
 		VALIDATE(tmp_script_.states.count(obj_at) != 0, null_str);
+		return obj_at;
+	}
+
+	const aplt::twkoscript::tstate2& state2_from_sel_obj_with_validate() const
+	{
+		const int obj_at = sel_obj_at_with_validate();
+		const aplt::twkoscript::tstate2& state2 = tmp_script_.states.find(obj_at)->second;
+		VALIDATE(state2.state == obj_at, null_str);
+		return state2;
+	}
+
+	aplt::twkoscript::tstate2& mutable_state2_from_sel_obj_with_validate()
+	{
+		const int obj_at = sel_obj_at_with_validate();
 		aplt::twkoscript::tstate2& state2 = tmp_script_.states.find(obj_at)->second;
 		VALIDATE(state2.state == obj_at, null_str);
 		return state2;
@@ -305,13 +320,13 @@ private:
 	void update_title_label();
 	void update_status_label(bool valid);
 	void load_preset_poses_cfg();
+	void load_action_tpl2s_cfg();
 
 	void reload_map(int w, int h);
 	void draw_fix_text_shapes();
 	void draw_flowchart_from_script(const std::string& filename, const aplt::twkoscript& script);
 	void script_clear_and_set_valid_id();
 	void new_empty_flowchart();
-	void generate_wkoscript_from_benchmarks(const std::string wkoscript_dir);
 
 	void clear_draw_items();
 	tobject* create_derived_obj(const visio::tshape& shape, int obj_at, const SDL_Rect& item_rect);
@@ -339,6 +354,7 @@ private:
 
 	void click_system();
 	bool confirm_file_op(int sel);
+	void open_cfg_file_bh(const std::string& filename);
 	void handle_file_op(int sel);
 	bool handle_pre_save();
 	void click_save();
@@ -352,6 +368,9 @@ private:
 	void click_clone();
 	void click_switch_state(bool add1);
 	void click_erase();
+	void click_copy_action_tpl();
+	void click_paste_action_tpl();
+	void click_add_to_working_dir();
 	void click_share();
 
 private:
@@ -370,6 +389,7 @@ private:
 	const SDL_Size min_map_size_;
 	const SDL_Size flowchart_margin_;
 	const int shape_text_font_size_;
+	const std::string add_to_working_dir_msgstr_;
 	mkscript_display* gui_;
 	gui2::tmkscript_scene* dlg_;
 	gui2::twindow* window_;
@@ -493,6 +513,10 @@ private:
 
 	// preset pose
 	std::map<int, aplt::tpreset_pose> preset_poses_;
+
+	// action tpl2
+	const std::map<std::string, aplt::taction_tpl2>& action_tpl2s_;
+	aplt::taction_tpl2 clipboard_action_tpl2_;
 
 	// std::unique_ptr<mediapipe::tpose_tracking_api> api_ptr_;
 };

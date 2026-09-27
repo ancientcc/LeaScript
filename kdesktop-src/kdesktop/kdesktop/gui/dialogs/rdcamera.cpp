@@ -307,6 +307,7 @@ namespace gui2 {
 REGISTER_DIALOG(kdesktop, rdcamera)
 
 trdcamera::trdcamera(tslot& slot, aplt::thealth& health, std::map<aplt::taplt_key, aplt::tapplet>& applets, /*net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, tdcamera_driver& dcamera_driver, tdrivers_core& drivers, */ tbase_driver_core& base_driver,
+	const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, const std::map<std::string, aplt::twkocourse>& wkocourses,
 	/*aplt::tbg_task2& bg_task2, tros_instance& ros_instance,*/ tcamera& camera/*, std::unique_ptr<tmoveit_aplt_task>& moveit_aplt_task*/, tvlog_cfg& vlog_cfg, int sdl_field_small_font_size)
 	: slot_(slot)
 	, b_api_(aplt::get_b_api())
@@ -321,6 +322,8 @@ trdcamera::trdcamera(tslot& slot, aplt::thealth& health, std::map<aplt::taplt_ke
 	, ros_instance_(ros_instance)
 */
 	, base_driver_(base_driver)
+	, wkocourse_enrolls_(wkocourse_enrolls)
+	, wkocourses_(wkocourses)
 	, camera_(camera)
 	, vlog_cfg_(vlog_cfg)
 	, sdl_field_small_font_size_(sdl_field_small_font_size)
@@ -709,7 +712,7 @@ void trdcamera::click_switch_scene(tbutton& widget)
 	int initial_sel = nposm;
 
 	std::pair<const aplt::tbase_scene*, int> curr_scene = b_api_.aplt_curr_base_scene();
-	const std::string current_scene_id = curr_scene.first != nullptr? curr_scene.first->id: null_str;
+	const std::string current_scene_id = curr_scene.first != nullptr? curr_scene.first->get_id(): null_str;
 	const std::vector<aplt::tbase_scene>& scenes = b_api_.aplt_base_scenes();
 	const int scene_count = scenes.size();
 
@@ -722,7 +725,7 @@ void trdcamera::click_switch_scene(tbutton& widget)
 	for (int at = 0; at < scene_count; at ++) {
 		const aplt::tbase_scene& scene = scenes[at];
 
-		if (scene.id == current_scene_id) {
+		if (scene.get_id() == current_scene_id) {
 			initial_sel = at;
 			continue;
 		}
@@ -1907,6 +1910,29 @@ SDL_Rect use_no_swap_wh_tex_render_surf(SDL_Renderer* renderer, int drawitem, co
 	return dstrect;
 }
 
+std::string trdcamera::get_xxx_caption_msg(bool start) const
+{
+	std::string caption_msg = start? vlog_cfg_.start_caption_msg: vlog_cfg_.finish_caption_msg;
+	std::pair<const aplt::tbase_scene*, int> curr_scene = b_api_.aplt_curr_base_scene();
+	VALIDATE(curr_scene.first != nullptr, null_str);
+	if (!curr_scene.first->wkocourse_id2.empty()) {
+		VALIDATE(wkocourses_.count(curr_scene.first->wkocourse_id2) != 0, null_str);
+		const aplt::twkocourse& course = wkocourses_.find(curr_scene.first->wkocourse_id2)->second;
+			
+		VALIDATE(wkocourse_enrolls_.count(curr_scene.first->wkocourse_id2) != 0, null_str);
+		const aplt::twkocourse_enroll& enroll = wkocourse_enrolls_.find(curr_scene.first->wkocourse_id2)->second;
+		int course_day_at = 0;
+		if (enroll.active != nposm) {
+			course_day_at = aplt::today_day_at_to_course_day_at(enroll.active, course.total_days);
+		}
+		char buf[256];
+		SDL_snprintf(buf, sizeof(buf), "%s . Day %i/%i", course.title.c_str(), course_day_at + 1, course.total_days);
+
+		caption_msg = buf;
+	}
+	return caption_msg;
+}
+
 void trdcamera::use_no_swap_wh_tex_render_start(SDL_Renderer* renderer, const aplt::twkoscript& script,
 	const SDL_Rect& video_dst, const SDL_Size& margin, double radius)
 {
@@ -1941,13 +1967,15 @@ void trdcamera::use_no_swap_wh_tex_render_start(SDL_Renderer* renderer, const ap
 	}
 
 	font_size = font::SIZE_LARGEST + font::SIZE_SMALLEST;
-	surface title_surf = font::get_rendered_text(script.name, 0, font_size, font::BIGMAP_COLOR);
+	surface title_surf = font::get_rendered_text(script.title, 0, font_size, font::BIGMAP_COLOR);
 	const SDL_Size title_size{title_surf->w, title_surf->h};
 
-	if (!vlog_cfg_.hides[vlog_cfg_.hid_start_caption] && !vlog_cfg_.start_caption_msg.empty()) {
+	std::string start_caption_msg = get_xxx_caption_msg(true);
+
+	if (!vlog_cfg_.hides[vlog_cfg_.hid_start_caption] && !start_caption_msg.empty()) {
 		// start_caption
 		font_size = font::SIZE_DEFAULT;
-		text_surf = font::get_rendered_text(vlog_cfg_.start_caption_msg, 0, font_size, font::GOOD_COLOR);
+		text_surf = font::get_rendered_text(start_caption_msg, 0, font_size, font::GOOD_COLOR);
 
 		int icon_s = text_surf->h * 4 / 5;
 		surface icon_surf = scale_surface(start_caption_surf_, icon_s, icon_s);
@@ -2113,7 +2141,7 @@ void trdcamera::use_no_swap_wh_tex_render_finish(SDL_Renderer* renderer, const a
 	}
 
 	utils::string_map symbols;
-	std::string title = script.name;
+	std::string title = script.title;
 	if (wko_tlv_history_is_valid(vlog_.finished_tlv_history)) {
 		title.append(" . ");
 		int elapse = (vlog_.finished_tlv_history.last_range_ms.max - vlog_.finished_tlv_history.last_range_ms.min) / 1000;
@@ -2125,9 +2153,10 @@ void trdcamera::use_no_swap_wh_tex_render_finish(SDL_Renderer* renderer, const a
 	const SDL_Size title_size{title_surf->w, title_surf->h};
 
 	// finish_caption
-	if (!vlog_cfg_.hides[vlog_cfg_.hid_finish_caption] && !vlog_cfg_.finish_caption_msg.empty()) {
+	const std::string finish_caption_msg = get_xxx_caption_msg(false);
+	if (!vlog_cfg_.hides[vlog_cfg_.hid_finish_caption] && !finish_caption_msg.empty()) {
 		font_size = font::SIZE_LARGEST + font::SIZE_SMALLEST;
-		text_surf = font::get_rendered_text(vlog_cfg_.finish_caption_msg, 0, font_size, font::YELLOW_COLOR);
+		text_surf = font::get_rendered_text(finish_caption_msg, 0, font_size, font::YELLOW_COLOR);
 
 		fill_color = SDL_DColor{1.0, 1.0, 0.0, 0.5};
 		line_color = SDL_DColor{1.0, 1.0, 0.0, 1.0};

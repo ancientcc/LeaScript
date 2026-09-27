@@ -192,9 +192,6 @@ void set_visiblepercent(int value);
 bool ratioswitchable();
 void set_ratioswitchable(bool value);
 
-bool auto_enter_dcamera();
-void set_auto_enter_dcamera(bool value);
-
 std::string currentremote();
 void set_currentremote(const std::string& value);
 

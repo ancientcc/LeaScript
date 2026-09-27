@@ -103,8 +103,10 @@ class tstore_slot: public gui2::trstore::tslot
 {
 public:
 	tstore_slot(std::map<aplt::taplt_key, aplt::tapplet>& applets, aplt::tbg_task& bg_task, aplt::tcfg_cpp_api_core& cfg_cpp_api, tdrivers_core& drivers,
-		tbase_driver_core& base_driver)
+		tbase_driver_core& base_driver, const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, std::map<std::string, aplt::twkocourse>& wkocourses)
 		: gui2::trstore::tslot(applets, bg_task, cfg_cpp_api, drivers, base_driver)
+		, wkocourse_enrolls_(wkocourse_enrolls)
+		, wkocourses_(wkocourses)
 	{
 		recommend_aplts_.push_back("aplt.leagor.basiclua");
 		recommend_aplts_.push_back("aplt.leagor.khomelua");
@@ -115,136 +117,18 @@ public:
 private:
 	void rstore_did_applet_installed(const aplt::tapplet& applet) override
 	{
-		// SDL_Log("rstore_did_applet_installed");
+		wkocourse_enrolls_to_courses(wkocourse_enrolls_, wkocourses_);
 	}
 	void rstore_did_applet_uninstalled(int source, const std::string& bundleid) override
 	{
-		// SDL_Log("rstore_did_applet_uninstalled");
+		wkocourse_enrolls_to_courses(wkocourse_enrolls_, wkocourses_);
 	}
-};
-/*
-class trpy_sensor
-{
-public:
-    trpy_sensor();
-    ~trpy_sensor();
-    
-	// Initialize the sensor.
-    bool init();
-    
-    // Update sensor data (call in the main loop).
-    void update();
-    
-    // Determine whether it is perpendicular to the ground.
-    bool is_vertical(float threshold = 70.0f) const;
-    
-    // Get the angle.
-    float getPitch() const { return pitch_; }
-    float getRoll() const { return roll_; }
-    bool has_data() const { return has_data_; }
-    
-    // Clean up resources.
-    void quit();
-    
+
 private:
-    SDL_Sensor* accel_sensor_;
-    float pitch_;
-    float roll_;
-    bool has_data_;
-    bool initialized_;
+	const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls_;
+	std::map<std::string, aplt::twkocourse>& wkocourses_;
 };
 
-trpy_sensor::trpy_sensor()
-    : accel_sensor_(nullptr)
-    , pitch_(0.0f)
-    , roll_(0.0f)
-    , has_data_(false)
-    , initialized_(false)
-{
-}
-
-trpy_sensor::~trpy_sensor()
-{
-    quit();
-}
-
-bool trpy_sensor::init()
-{
-    // If already initialized, clean up first.
-    if (initialized_) {
-        quit();
-    }
-    
-    // Find and open the accelerometer.
-    int sensorCount = SDL_NumSensors();
-    if (sensorCount <= 0) {
-        SDL_Log("No sensors found.");
-        return false;
-    }
-    
-    for (int i = 0; i < sensorCount; i++) {
-        SDL_SensorType type = SDL_SensorGetDeviceType(i);
-        if (type == SDL_SENSOR_ACCEL) {
-            accel_sensor_ = SDL_SensorOpen(i);
-            if (accel_sensor_) {
-                SDL_Log("Accelerometer opened: %s", SDL_SensorGetDeviceName(i));
-                initialized_ = true;
-                has_data_ = false;
-                pitch_ = 0.0f;
-                roll_ = 0.0f;
-                return true;
-            }
-        }
-    }
-    
-    SDL_Log("Accelerometer not found.");
-    return false;
-}
-
-void trpy_sensor::update()
-{
-    if (!initialized_ || accel_sensor_ == nullptr) {
-        return;
-    }
-    
-    float data[3];
-    int num = SDL_SensorGetData(accel_sensor_, data, 3);
-    if (num == 3) {
-        float ax = data[0];
-        float ay = data[1];
-        float az = data[2];
-        
-        // Calculate Pitch (tilt angle): rotation around the X-axis.
-        pitch_ = atan2f(-ax, sqrtf(ay * ay + az * az)) * 180.0f / M_PI;
-        
-        // Calculate Roll (bank angle): rotation around the Y-axis.
-        roll_ = atan2f(ay, az) * 180.0f / M_PI;
-        
-        has_data_ = true;
-    }
-}
-
-bool trpy_sensor::is_vertical(float threshold) const
-{
-    if (!has_data_) return false;
-    
-    float abs_pitch = fabsf(pitch_);
-    return (abs_pitch > threshold && abs_pitch < (180.0f - threshold));
-}
-
-void trpy_sensor::quit()
-{
-    if (accel_sensor_ != nullptr) {
-        SDL_SensorClose(accel_sensor_);
-        accel_sensor_ = nullptr;
-    }
-    
-    initialized_ = false;
-    has_data_ = false;
-    pitch_ = 0.0f;
-    roll_ = 0.0f;
-}
-*/
 
 class game_instance: public base_instance, /*public gui2::trstore::tslot,*/
 	public gui2::trdnn::tslot, public aplt::tb_api, public aplt::tfunction, public aplt::tnlp_4_aiagent
@@ -266,6 +150,9 @@ public:
 	aplt::thealth& health() { return health_; }
 	tvlog_cfg& vlog_cfg() { return vlog_cfg_; }
 
+	// std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls() { return wkocourse_enrolls_; }
+	std::map<std::string, aplt::twkocourse>& wkocourses() { return wkocourses_; }
+
 	void start_health_controller();
 	void makesure_deviceid();
 	// bool will_enter_landscape_module(const std::string& reason);
@@ -285,6 +172,8 @@ private:
 
 	int sdl_GetTtyUSB(SDL_ttyUSB** ppttyUSB) override;
 	int get_serial_path(int driver_type, std::string& path, std::string& model) override;
+
+	void purchase_wkocourse(const std::string& aplt, const std::string& id) override;
 
 	// aplt::tb_api
 	std::string request_task(const aplt::treq_task& req_task, const aplt::ttask_vars& task_vars,
@@ -404,8 +293,9 @@ private:
 	}
 
 	void health_push_n32_event(int type, int ctx) override;
-	void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str) override;
+	void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str, const std::string& aux_str2, int aux_int) override;
 	void health_push_landmarks(const SDL_U16Point* landmarks, int unsatisfied_reason) override;
+	void health_workout_finished(const std::string& aplt, const std::string& id) override;
 
 	bool cswamp_addevent(int64_t ts, const std::string& desc, const std::vector<timage_pair>& images, bool quiet) override
 	{
@@ -459,6 +349,9 @@ private:
 
 	aplt::thealth health_;
 	tvlog_cfg vlog_cfg_;
+
+	// std::map<std::string, aplt::twkocourse_enroll> wkocourse_enrolls_;
+	std::map<std::string, aplt::twkocourse> wkocourses_;
 };
 
 game_instance::game_instance(rtc::PhysicalSocketServer& ss, int argc, char** argv)
@@ -470,8 +363,12 @@ game_instance::game_instance(rtc::PhysicalSocketServer& ss, int argc, char** arg
 	, privacy_(base_driver_)
 	, cfg_cpp_api_(applets_, bg_task_, base_driver_)
 	, bg_task2_(applets_, drivers_, cfg_cpp_api_, bg_task_, camera_, def_script_, def_tflite_, base_driver_)
-	, store_slot_(applets_, bg_task_, cfg_cpp_api_, drivers_, base_driver_)
+	, store_slot_(applets_, bg_task_, cfg_cpp_api_, drivers_, base_driver_, wkocourse_enrolls_, wkocourses_)
 {
+	// To avoid accidents, always enable them every time.
+	preferences::set_sound(true);
+	preferences::set_music(true);
+
 	// mediapipe::rose_set_create_pose_tracking_api(mediapipe::create_pose_tracking_api);
 /*
 	recommend_aplts_.push_back("aplt.leagor.basiclua");
@@ -554,7 +451,9 @@ void game_instance::app_pre_setmode(tpre_setmode_settings& settings)
 
 void game_instance::app_load_pb()
 {
+	load_action_tpl2s_cfg();
 	sdl_field_small_font_size_ = game_config::os == os_windows? font::SIZE_SMALLER: font::SIZE_SMALLEST;
+	wkocourse_enrolls_from_pref(wkocourse_enrolls_, &wkocourses_);
 
 	load_logs_pb(LOGS_PB, LOGS_PB_MAX_DAYS, LOGS_PB_MAX_LOGS);
 	bg_task_.app_load_pb(KLINK_PB);
@@ -690,7 +589,8 @@ void game_instance::start_health_controller()
 	trhealth_scene_slot scene_slot;
 
 	hotkey::scope_changer changer(core_cfg(), "hotkey_health");
-	health_controller chart(scene_slot, core_cfg(), video_, health_, sdl_field_small_font_size_);
+	health_controller chart(scene_slot, core_cfg(), video_, health_, wkocourse_enrolls_, 
+		wkocourses_, sdl_field_small_font_size_);
 	chart.initialize(initial_zoom);
 	chart.main_loop();
 }
@@ -1018,6 +918,40 @@ int game_instance::get_serial_path(int driver_type, std::string& path, std::stri
     return nposm;
 }
 
+void game_instance::purchase_wkocourse(const std::string& aplt, const std::string& id)
+{
+	std::string id2 = utils::join_app_prefix_id(aplt, id);
+	// std::map<std::string, aplt::twkocourse_enroll>& enrolls = instance->wkocourse_enrolls();
+	std::map<std::string, aplt::twkocourse_enroll>& enrolls = wkocourse_enrolls_;
+	VALIDATE(enrolls.count(id2) == 0, null_str);
+
+	// 1/3: update enroll
+	std::pair<std::map<std::string, aplt::twkocourse_enroll>::iterator, bool> ins = enrolls.insert(std::make_pair(id2, aplt::twkocourse_enroll()));
+	aplt::twkocourse_enroll& enroll = ins.first->second;
+	enroll.do_purchase(aplt, id);
+
+	// 2/3: update wkocourses in pref.
+	wkocourse_enrolls_to_pref(enrolls);
+
+	// 3/3: update wkocourses
+	VALIDATE(wkocourses_.count(id2) == 0, null_str);
+
+	const aplt::tapplet* aplt2 = aplt::aplt_from_bundleid(applets_, enroll.aplt);
+	VALIDATE(aplt2 != nullptr, null_str);
+
+	std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins2 =
+		wkocourses_.insert(std::make_pair(enroll.id2, aplt::twkocourse()));
+
+	aplt::twkocourse& wkocourse = ins2.first->second;
+	std::string err_msg = wkocourse.from_aplt_file(*aplt2, enroll.id_to_filename());
+	VALIDATE(wkocourse.valid(), null_str);
+/*
+	if (!wkocourse.valid()) {
+		wkocourses_.erase(ins.first);
+	}
+*/
+}
+
 lua_State* game_instance::get_lua_State() const
 {
 	return lua_->get_state();
@@ -1072,13 +1006,13 @@ const aplt::tbase_scene* game_instance::aplt_set_base_scene(const aplt::tbase_sc
 	// above 'if()' block can validate below statement.
 	VALIDATE(base_driver_.subtask_state() != aplt::sts_preempted, null_str);
 
-	const aplt::tbase_scene* found_scene = cfg_cpp_api_.base_scene_from_id(scene.id, true);
+	const std::string desire_scene_id = scene.get_id();
+	const aplt::tbase_scene* found_scene = cfg_cpp_api_.base_scene_from_id(desire_scene_id, true);
 	VALIDATE(found_scene == &scene, null_str);
-	const std::string desire_scene_id = scene.id;
 
 	tbase_driver_core::tallow_restart_subtask_when_bg_ing_lock lock(base_driver_);
 
-	bool is_me = scene.id == base_driver_.scene_id();
+	bool is_me = scene.get_id() == base_driver_.scene_id();
 	if (is_me) {
 		if (base_driver_.subtask_state() == aplt::sts_ing) {
 			// this scene is ing
@@ -1095,7 +1029,7 @@ const aplt::tbase_scene* game_instance::aplt_set_base_scene(const aplt::tbase_sc
 			err_msg = _("No scenes available to suspend");
 			return nullptr;
 		}
-		preferences::set_base_scene_id(scene.id);
+		preferences::set_base_scene_id(scene.get_id());
 		base_driver_.restart_subtask();
 	}
 	
@@ -1115,14 +1049,47 @@ void game_instance::health_push_n32_event(int type, int ctx)
 	health_.health_push_n32_event(type, ctx);
 }
 
-void game_instance::health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str)
+void game_instance::health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str, const std::string& aux_str2, int aux_int)
 {
-	health_.health_push_str_event(type, ctx, str, aux_str);
+	health_.health_push_str_event(type, ctx, str, aux_str, aux_str2, aux_int);
 }
 
 void game_instance::health_push_landmarks(const SDL_U16Point* landmarks, int unsatisfied_reason)
 {
 	health_.health_push_landmarks(landmarks, unsatisfied_reason);
+}
+
+void game_instance::health_workout_finished(const std::string& aplt, const std::string& id)
+{
+	VALIDATE(is_bundleid(aplt), null_str);
+	VALIDATE(!id.empty(), null_str);
+	const std::string id2 = utils::join_app_prefix_id(aplt, id);
+
+	// std::vector<aplt::twkocourse_enroll>* desire_enrolls;
+	bool dirty = false;
+	for (std::map<std::string, aplt::twkocourse_enroll>::iterator it = wkocourse_enrolls_.begin(); it != wkocourse_enrolls_.end(); ++ it) {
+		aplt::twkocourse_enroll& enroll = it->second;
+		if (enroll.active != nposm) {
+			continue;
+		}
+		if (wkocourses_.count(enroll.id2) == 0) {
+			continue;
+		}
+		const aplt::twkocourse& course = wkocourses_.find(enroll.id2)->second;
+
+		std::map<std::string, int> workout_id2s;
+		course.get_workout_id2s(aplt, workout_id2s);
+		if (workout_id2s.count(id2) != 0) {
+			enroll.do_active();
+			dirty = true;
+		}
+	}
+
+	if (dirty) {
+		wkocourse_enrolls_to_pref(wkocourse_enrolls_);
+	}
+
+	// health_.health_workout_finished(aplt, id);
 }
 
 bool game_instance::calculate2(const aplt::ttask_vars& task_vars, int func_code, const std::vector<std::string>& params, tresult& result)
@@ -1223,7 +1190,8 @@ static int do_gameloop(int argc, char** argv)
 			int res;
 			trdpcookie rdpcookie;
 			{
-				gui2::thome dlg(game.store_slot(), game.pbremotes(), game.ble(), game.applets(), game.base_driver(), game.drivers(), game.cfg_cpp_api(), startup_layer);
+				gui2::thome dlg(game.store_slot(), game.pbremotes(), game.ble(), game.applets(), game.base_driver(), game.drivers(), game.cfg_cpp_api(), 
+					game.wkocourse_enrolls(), game.wkocourses(), game.health(), startup_layer);
 				dlg.show();
 				res = static_cast<gui2::thome::tresult>(dlg.get_retval());
 				rdpcookie = dlg.rdpcookie();
@@ -1298,7 +1266,7 @@ static int do_gameloop(int argc, char** argv)
 
 				} else if (at == aplt::builtinid_dcamera) {
 					gui2::trdcamera::tslot slot;
-					gui2::trdcamera dlg(slot, game.health(), game.applets(), game.base_driver(), game.camera(), game.vlog_cfg(), game.sdl_field_small_font_size());
+					gui2::trdcamera dlg(slot, game.health(), game.applets(), game.base_driver(), game.wkocourse_enrolls(), game.wkocourses(), game.camera(), game.vlog_cfg(), game.sdl_field_small_font_size());
 					dlg.show();
 
 				} else if (at == aplt::builtinid_dnn) {

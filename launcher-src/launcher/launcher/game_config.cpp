@@ -557,6 +557,42 @@ void set_wkoscript_dir(const std::string& value)
 	}
 }
 
+std::string last_wkocourse_file()
+{
+	return preferences::get_str("last_wkocourse_file");
+}
+
+void set_last_wkocourse_file(const std::string& value)
+{
+	VALIDATE(!value.empty(), null_str);
+	if (last_wkocourse_file() != value) {
+		preferences::set_str("last_wkocourse_file", value);
+	}
+}
+
+std::string wkocourse_dir()
+{
+	return preferences::get_str("wkocourse_dir");
+}
+
+void set_wkocourse_dir(const std::string& value)
+{
+	VALIDATE(!value.empty(), null_str);
+	if (wkocourse_dir() != value) {
+		preferences::set_str("wkocourse_dir", value);
+	}
+}
+
+bool skip_action_tpl2_id_check()
+{
+	return preferences::get_bool("skip_action_tpl2_id_check", true);
+}
+
+void skip_action_tpl2_id_check(bool value)
+{
+	preferences::set_bool("skip_action_tpl2_id_check", value);
+}
+
 } // namespace preferences
 
 int board_model_str_2_int(const std::string& str)
@@ -777,73 +813,3 @@ bool is_valid_charge_width(int width_mm)
 }
 
 int tspecial_mapop_mode_lock::mode = nposm;
-/*
-bool did_walk_wkoscript(const std::string& dir, const SDL_dirent2* dirent, int type, const std::set<std::string>& ext_names, 
-	std::set<std::string>& result_set, const std::string& root)
-{
-	bool isdir = SDL_DIRENT_DIR(dirent->mode);
-	if (!isdir) {
-		std::string name = utils::lowercase(dirent->name);
-		if (type == type_wkoscript_ids || type == type_wkoscript_cfgfiles) {
-			std::string ext_name = utils::file_ext_name(name);
-			if (ext_names.count(ext_name) != 0) {
-				if (type == type_wkoscript_ids) {
-					std::string stem_name = name.substr(0, name.size() - 4);
-					result_set.insert(stem_name);
-
-				} else if (type == type_wkoscript_cfgfiles) {
-					result_set.insert(dirent->name);
-				}
-			}
-		} else if (type == type_wkoscript_new_benchmarks) {
-			std::string ext_name = utils::file_ext_name(name);
-			if (ext_names.count(ext_name) != 0) {
-				std::string stem_name = name.substr(0, name.size() - 4);
-				std::vector<std::string> v_str = utils::split(stem_name, '_');
-				if (v_str.size() != 2 || v_str[1].size() != 1) {
-					return true;
-				}
-				// 12_0.png
-				const char* c_str = v_str[0].c_str();
-				int s = v_str[0].size();
-
-				for (int at = 0; at < s; at ++) {
-					char ch = c_str[at];
-					if (ch < '0' || ch > '9') {
-						return true;
-					}
-				}
-
-				c_str = v_str[1].c_str();
-				if (c_str[0] != '0' && c_str[0] != '1') {
-					return true;
-				}
-				result_set.insert(dirent->name);
-			}
-		}
-	} else {
-		std::string name = utils::lowercase(dirent->name);
-		if (type == type_wkoscript_new_dirs) {
-			if (name.size() > wko_new_dir_prefix.size() && name.find(wko_new_dir_prefix) == 0) {
-				result_set.insert(dirent->name);
-			}
-		}
-	}
-	return true;
-}
-
-void collect_wkoscript_files(const std::string& wkoscript_dir2, int type, std::set<std::string>& result_set)
-{
-	result_set.clear();
-
-	std::set<std::string> ext_names;
-	if (type == type_wkoscript_ids || type == type_wkoscript_cfgfiles) {
-		ext_names.insert("cfg");
-
-	} else if (type == type_wkoscript_new_benchmarks) {
-		ext_names.insert("png");
-		ext_names.insert("jpg");
-	}
-	walk_dir(wkoscript_dir2, false, std::bind(&did_walk_wkoscript, _1, _2, type, std::ref(ext_names), std::ref(result_set), std::ref(wkoscript_dir2)));
-}
-*/

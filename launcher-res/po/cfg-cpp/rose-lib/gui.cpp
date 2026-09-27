@@ -166,13 +166,13 @@ _("state");
 
 _("text^Reset");
 
+_("wko^action_tpl2_id label");
+
 _("wko^phase, action_msg label");
 
 _("wko^phase, cooldowned_ms label");
 
 _("wko^phase, min_duration_ms label");
-
-_("wko^pose_legend label");
 
 _("wko^rep_counter, max_count label");
 
