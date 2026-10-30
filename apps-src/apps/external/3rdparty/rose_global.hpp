@@ -52,6 +52,21 @@ enum {os_windows, os_ios, os_android};
 enum var_type_t {var_type_nposm = -1, var_type_bool, var_type_integer, var_type_double, var_type_string, 
 	var_type_tstring, var_type_array, var_type_count};
 
+// Originates from <librose>/gui/widgets/grid.hpp.
+enum {
+	valign_edge		= 1,
+	valign_top		= 2,
+	valign_center	= 3,
+	valign_bottm	= 4,
+	valign_mask		= 7,
+    
+	halign_edge		= 1 << 3,
+	halign_left		= 2 << 3,
+	halign_center	= 3 << 3,
+	halign_right	= 4 << 3,
+	halign_mask		= 7 << 3,    
+};
+
 // npos macro
 #define nposm				-1
 // some scenario, -1 is valid. they maybe use secondary_nposm

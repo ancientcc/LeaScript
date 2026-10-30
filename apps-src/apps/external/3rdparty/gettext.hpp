@@ -200,6 +200,8 @@ enum {msgid_notempty_and_utf8str, msgid_empty_or_utf8str,
     msgid_greater_than_0, msgid_greater_than_equal_to_0, msgid_empty_or_greater_than_0, 
     msgid_isvalid_normal_id_or_var_name,
     msgid_open_file, msgid_save_file_as_from_no, msgid_save_file_as,
+    // 1str
+    msgid_not_logged_in, sent_xx_not_undone,
     // 2str
     msgid_confirm_delete_2str,
     // 3str
@@ -208,6 +210,7 @@ enum {msgid_notempty_and_utf8str, msgid_empty_or_utf8str,
     msgid_value_range
 };
 LIB3RDPARTY_DECL std::string freq_msgstr(int msgid);
+LIB3RDPARTY_DECL std::string freq_msgstr_1str(int msgid, const std::string& str);
 LIB3RDPARTY_DECL std::string freq_msgstr_2str(int msgid, const std::string& str1, const std::string& str2);
 LIB3RDPARTY_DECL std::string freq_msgstr_3str(int msgid, const std::string& str1, const std::string& str2, const std::string& str3);
 LIB3RDPARTY_DECL std::string freq_msgstr_1str_2int(int msgid, const std::string& str, int int1, int int2);

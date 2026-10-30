@@ -418,6 +418,7 @@ void hex_encode2(uint8_t* data, int len, char* out);
 // chinese idnumber
 bool is_valid_idnumber(const std::string& value);
 bool is_valid_phone(const std::string& phone);
+bool is_valid_mobile(const std::string& mobile, bool china_only = true);
 bool is_valid_plateno(const std::string& plateno);
 std::string desensitize_idnumber(const std::string& idnumber);
 std::string desensitize_phone(const std::string& phone);

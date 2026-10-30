@@ -588,6 +588,7 @@ void tcontrol::set_label(const std::string& label)
 		return;
 	}
 
+	bool orginal_is_empty = label_.empty();
 	label_ = label;
 	update_canvas();
 	set_dirty();
@@ -602,11 +603,21 @@ void tcontrol::set_label(const std::string& label)
 		return;
 	}
 	twindow* window = get_window();
-	if (!window || !window->layouted()) {
+	if (window == nullptr || !window->layouted()) {
 		// when called by tbuilder_control, window will be nullptr.
 		return;
 	}
-
+/*
+	if (!orginal_is_empty) {
+		twidget* tmp = this;
+		while (tmp) {
+			if (tmp->gc_handle_height_may_changed(*this)) {
+				break;
+			}
+			tmp = tmp->parent();
+		}
+	}
+*/
 	// why must not use me_or_parent_has_invisible(...), see book's 5.2.5 
 	// if (me_or_parent_has_invisible(*this)) {
 	if (visible_ == twidget::INVISIBLE) {

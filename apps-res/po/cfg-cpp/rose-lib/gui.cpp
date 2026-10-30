@@ -28,6 +28,8 @@ _("Date");
 
 _("Device ID");
 
+_("Don't have an account yet?");
+
 _("Done");
 
 _("Download");
@@ -52,9 +54,15 @@ _("Find");
 
 _("Follow");
 
+_("Forgot password?");
+
 _("Formula debugger");
 
+_("Get");
+
 _("Help");
+
+_("I have read and agreed to Sesame User Agreement");
 
 _("I have read and agreed to agreement");
 
@@ -98,6 +106,10 @@ _("Quit");
 
 _("Recognize");
 
+_("Register");
+
+_("Register now");
+
 _("Relay");
 
 _("Require test");
@@ -131,6 +143,8 @@ _("Welcome");
 _("file^Size");
 
 _("ime^fullwidth");
+
+_("login^Erase user");
 
 _("misc/arrow_left.png");
 

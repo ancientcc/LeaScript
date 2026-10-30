@@ -139,6 +139,15 @@ void twkocourse::tday::to_cfg(config& cfg) const
 	}
 }
 
+std::string twkocourse::id_to_filename(const std::string& _id)
+{
+	VALIDATE(!_id.empty(), null_str);
+	std::string result = _id;
+	result.append(".cfg");
+
+	return result;
+}
+
 bool twkocourse::from_cfg(const config& cfg)
 {
 	clear();
@@ -146,11 +155,12 @@ bool twkocourse::from_cfg(const config& cfg)
 	tauto_destruct_executor destruct_executor(std::bind(&twkocourse::clear, this));
 
 	id = cfg["id"].str();
-	if (id.empty()) {
+	if (!isvalid_normal_id_or_var_name224(id)) {
 		return false;
 	}
+
 	title = cfg["title"].str();
-	if (title.empty()) {
+	if (!isvalid_short_utf8_name216(title)) {
 		return false;
 	}
 
@@ -164,6 +174,15 @@ bool twkocourse::from_cfg(const config& cfg)
 	// if (reference.empty()) {
 	//	return false;
 	// }
+	prerequisite = cfg["prerequisite"].str();
+	if (!prerequisite.empty()) {
+		if (!isvalid_normal_id_or_var_name224(prerequisite)) {
+			return false;
+		}
+		if (prerequisite == id) {
+			return false;
+		}
+	}
 
 	total_days = cfg["total_days"].to_int(nposm);
 	if (!is_valid_total_days(total_days)) {
@@ -189,6 +208,13 @@ bool twkocourse::from_cfg(const config& cfg)
 		return false;
 	}
 
+	version = version_info(cfg["version"].str());
+/*
+	if (!version.is_rose_recommended()) {
+		err_msg = "[twkoscript cfg]version is invalid.";
+		return false;
+	}
+*/
 	days.resize(total_days);
 	std::set<int> existed_days;
 	std::vector<std::string> v_str;
@@ -214,6 +240,16 @@ bool twkocourse::from_cfg(const config& cfg)
 		VALIDATE(day_at == day.day_at, null_str);
 	}
 
+	for (int day_at = 0; day_at < total_days; day_at ++) {
+		const tday& day = days[day_at];
+		if (day.day_at == nposm) {
+			return false;
+		}
+		if (day.title.empty() || day.workouts.empty()) {
+			return false;
+		}
+	}
+
 	destruct_executor.cancel_execute();
 	return true;
 }
@@ -233,11 +269,16 @@ void twkocourse::to_cfg(config& cfg) const
 	if (!reference.empty()) {
 		cfg["reference"] = reference;
 	}
+	if (!prerequisite.empty()) {
+		cfg["prerequisite"] = prerequisite;
+	}
 
 	cfg["total_days"].from_int(total_days);
 	cfg["grace_period_days"].from_int(grace_period_days);
 	cfg["price"].from_int(price);
 	cfg["currency"].from_string(currency, true);
+
+	cfg["version"] = game_config::rose_version.str(true);
 
 	for (std::vector<tday>::const_iterator it = days.begin(); it != days.end(); ++ it) {
 		const tday& day = *it;
@@ -372,6 +413,9 @@ bool twkocourse::equal(const aplt::twkocourse& that) const
 		reference != that.reference) {
 		return false;
 	}
+	if (prerequisite != that.prerequisite) {
+		return false;
+	}
 	// don't compare 'version'.
 
 	if (total_days != that.total_days || grace_period_days != that.grace_period_days) {
@@ -399,6 +443,7 @@ void twkocourse::assign(const aplt::twkocourse& that)
 	author = that.author;
 	description = that.description;
 	reference = that.reference;
+	prerequisite = that.prerequisite;
 	total_days = that.total_days;
 	grace_period_days = that.grace_period_days;
 	price = that.price;
@@ -464,6 +509,8 @@ std::string twkocourse::get_field_str(int type, int field)
 			return _("wkocourse^author label");
 		} else if (field == fid_reference) { 
 			return _("wkocourse^reference label");
+		} else if (field == fid_prerequisite) { 
+			return _("wkocourse^prerequisite label");
 		} else if (field == fid_total_days) {
 			return _("wkocourse^total_days label");
 		} else if (field == fid_grace_period_days) {

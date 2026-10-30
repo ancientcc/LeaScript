@@ -109,7 +109,6 @@ class trcswamp_login
 {
 public:
 	enum {LOGIN_LAYER, LOGOUT_LAYER};
-	enum {LOGIN_TYPE_PASSWORD_LAYER, LOGIN_TYPE_COOKIE_LAYER};
 
 	trcswamp_login(net::truser& current_user);
 	
@@ -120,14 +119,17 @@ private:
 	void pre_login(tgrid& grid);
 	void pre_logout(tgrid& grid);
 	void pre_login_type_password(tgrid& grid);
-	void pre_login_type_cookie(tgrid& grid);
-	void did_login_type_changed(treport& report, ttoggle_button& row);
-	void did_username_changed(ttext_box& widget, int layer);
-	void did_password_changed(ttext_box& widget, int layer);
-	void click_password(int layer);
+	void did_username_type_changed(treport& report, ttoggle_button& row);
+	void did_username_changed(ttext_box& widget);
+	void did_password_changed(ttext_box& widget);
+	void click_password();
 	void set_login_active(const std::string& username, const std::string& password);
 	void click_login(tbutton& widget);
 	void click_logout(tbutton& widget);
+	bool did_verify_username(const std::string& _label) const;
+	void click_logged_in_username(tbutton& widget);
+
+	void click_register(int type);
 
 	virtual void app_did_login_status_changed(bool login) = 0;
 
@@ -135,9 +137,7 @@ protected:
 	net::truser& current_user_;
 
 	tstack* login_stack_;
-	treport* login_type_report_;
-	tstack* login_type_stack_;
-	int current_login_layer_;
+	treport* username_type_report_;
 	bool use_text_box2_;
 	ttext_box2* pd_username_;
 	ttext_box2* pd_password_;
@@ -149,6 +149,9 @@ protected:
 	ttext_box* password_text_;
 
 	tbutton* login_widget_;
+
+	tbutton* logged_in_username_widget_;
+	tlabel* logged_in_uid_widget_;
 
 private:
 	twindow* window_priv_;

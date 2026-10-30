@@ -122,6 +122,11 @@ extern DECLSPEC void SDL_StartScreenRecording(const char* filename);
 extern DECLSPEC SDL_bool SDL_StopScreenRecording(char* filename, int maxlen);
 extern DECLSPEC SDL_bool SDL_IsScreenRecording(void);
 
+typedef void (*IAPPurchaseCallback)(int status, const char* message, int transactionId, const char* jws, void* userdata);
+extern DECLSPEC void SDL_IAP_SetCallback(IAPPurchaseCallback callback, void* userdata);
+extern DECLSPEC void SDL_IAP_Purchase(const char* productID, int transactionId);
+extern DECLSPEC void SDL_IAP_Restore(void);
+
 typedef struct {
 	char manufacturer[48];
 	char model[48];

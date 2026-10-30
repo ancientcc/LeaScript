@@ -24,41 +24,73 @@
 #include "gui/widgets/window.hpp"
 #include "rose_config.hpp"
 
-#include <boost/foreach.hpp>
+// #include <boost/foreach.hpp>
+
+using namespace std::placeholders;
 
 namespace gui2 {
 
 REGISTER_DIALOG(rose, messagefs)
 
-tmessagefs::tmessagefs(const std::string& message, const std::string& ok_caption, const std::string& cancel_caption)
-	: message_(message)
+tmessagefs::tmessagefs(const std::string& msg, int msg_halign, const std::string& ok_caption, const std::string& cancel_caption, const std::string& extra_caption)
+	: msg_(msg)
+	, msg_halign_(msg_halign)
+	, extra_caption_(extra_caption)
 	, ok_caption_(ok_caption.empty()? _("OK"): ok_caption)
 	, cancel_caption_(cancel_caption.empty()? _("Cancel"): cancel_caption)
-{}
+{
+	VALIDATE(msg_halign_ == halign_left || msg_halign_ == halign_center, null_str);
+}
 
 void tmessagefs::pre_show()
 {
 	window_->set_canvas_variable("border", variant("default_border"));
 
 	// ***** ***** ***** ***** Set up the widgets ***** ***** ***** *****
-	tcontrol& label = find_widget<tcontrol>(window_, "label", false);
-	label.set_label(message_);
+	tlabel* label_widget = nullptr;
+	if (msg_halign_ == halign_left) {
+		label_widget = find_widget<tlabel>(window_, "left_label", false, true);
+		find_widget<tlabel>(window_, "center_label", false, true)->set_visible(twidget::INVISIBLE);
+
+	} else {
+		// When using 'halign_center', the caller must ensure that msg_ can fits on a single line.
+		find_widget<tlabel>(window_, "left_label", false, true)->set_visible(twidget::INVISIBLE);
+		label_widget = find_widget<tlabel>(window_, "center_label", false, true);
+	}
+	label_widget->set_label(msg_);
 
 	// The label might not always be a scroll_label but the capturing
 	// shouldn't hurt.
-	window_->keyboard_capture(&label);
+	// window_->keyboard_capture(label_widget);
 
-	tcontrol& ok = find_widget<tcontrol>(window_, "ok", false);
+	tbutton& ok = find_widget<tbutton>(window_, "ok", false);
 	ok.set_label(ok_caption_);
 
-	tcontrol& cancel = find_widget<tcontrol>(window_, "cancel", false);
+	tbutton& cancel = find_widget<tbutton>(window_, "cancel", false);
 	cancel.set_label(cancel_caption_);
+
+	tbutton& extra = find_widget<tbutton>(window_, "extra", false);
+	if (!extra_caption_.empty()) {
+		connect_signal_mouse_left_click(
+				extra
+			, std::bind(
+			&tmessagefs::click_extra
+			, this, std::ref(extra)));
+		extra.set_label(extra_caption_);
+
+	} else {
+		find_widget<tgrid>(window_, "extra_grid", false).set_visible(twidget::INVISIBLE);
+	}
 }
 
-
-int show_messagefs(const std::string& message, const std::string& ok_caption, const std::string& cancel_caption)
+void tmessagefs::click_extra(tbutton& widget)
 {
-	tmessagefs dlg(message, ok_caption, cancel_caption);
+	window_->set_retval(twindow::EXTRA1_BUTTON);
+}
+
+int show_messagefs(const std::string& msg, const std::string& ok_caption, const std::string& cancel_caption, const std::string& extra_caption, int msg_halign)
+{
+	tmessagefs dlg(msg, msg_halign, ok_caption, cancel_caption, extra_caption);
 	dlg.show();
 	return dlg.get_retval();
 }

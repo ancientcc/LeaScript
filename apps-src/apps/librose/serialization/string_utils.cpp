@@ -1745,6 +1745,7 @@ bool is_valid_idnumber(const std::string& value)
 	return true;
 }
 
+// phone: Mobile number and phone number
 bool is_valid_phone(const std::string& phone)
 {
 	const int size = phone.size();
@@ -1759,6 +1760,34 @@ bool is_valid_phone(const std::string& phone)
 		}
 	}
 	return true;
+}
+
+// mobile: only mobile number
+bool is_valid_mobile(const std::string& mobile, bool china_only)
+{
+	VALIDATE(china_only, null_str);
+	// Mainland China mobile number: 11 digits, starting with 1, with the second digit being 3¨C9.
+	const int size = mobile.size();
+    if (size != 11) {
+		return false;
+	}
+
+	const char* c_str = mobile.c_str();
+    if (c_str[0] != '1') {
+		return false;
+	}
+
+    char second = c_str[1];
+    if (second < '3' || second > '9') {
+		return false;
+	}
+
+    for (int at = 0; at < size; at ++) {
+		if (!isdigit(c_str[at]) && c_str[at] != '-') {
+			return false;
+		}
+	}
+    return true;
 }
 
 bool is_valid_plateno(const std::string& plateno)

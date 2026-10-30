@@ -3290,7 +3290,7 @@ static surface create_position_surf(const tmap_position& position, SDL_Point& fi
 {
     const SDL_Color& color = position.uuid == charge_pos_uuid? font::GOOD_COLOR: font::BLUE_COLOR;
     surface text_surf = font::get_rendered_text(position.name, 0, font::SIZE_DEFAULT, color);
-    surface icon = image::get_image(is_float_nposm(position.theta)? "misc/red_circle.png": "misc/map_position.png");
+    surface icon = image::get_image(is_float_nposm(position.theta)? "misc/circle_red.png": "misc/map_position.png");
 
     SDL_Point fix_pt;
     if (!is_float_nposm(position.theta)) {

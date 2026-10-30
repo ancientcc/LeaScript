@@ -26,17 +26,63 @@
 #include "filesystem.hpp"
 #include <opencv2/imgproc.hpp>
 #include "base_instance.hpp"
+#include "aplt_net.hpp"
 
 
 using namespace std::placeholders;
-
-// extern std::string scene_get_file_val(const aplt::tbase_scene& scene);
 
 #ifdef _WIN32
 #include <shellapi.h>
 #endif
 
-static SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int mat_width, bool hide_cairo_share,
+void twkocourse_helper::purchase_wkocourse(const std::string& aplt, const std::string& id, int price)
+{
+	std::string id2 = utils::join_app_prefix_id(aplt, id);
+
+	std::map<std::string, aplt::twkocourse_enroll>::iterator enroll_it;
+	std::map<std::string, aplt::twkocourse_enroll>& enrolls = wkocourse_enrolls_;
+	if (enrolls.count(id2) != 0) {
+		VALIDATE(wkocourses_.count(id2) != 0, null_str);
+		std::map<std::string, aplt::twkocourse>::iterator course_it = wkocourses_.find(id2);
+
+		enroll_it = enrolls.find(id2);
+		aplt::twkocourse_enroll& enroll = enroll_it->second;
+		VALIDATE(time(nullptr) > enroll.calc_expire(course_it->second.total_days), null_str);
+		enroll.clear();
+
+		wkocourses_.erase(course_it);
+
+	} else {
+		// 1/3: update enroll
+		std::pair<std::map<std::string, aplt::twkocourse_enroll>::iterator, bool> ins = enrolls.insert(std::make_pair(id2, aplt::twkocourse_enroll()));
+		enroll_it = ins.first;
+	}
+	aplt::twkocourse_enroll& enroll = enroll_it->second;
+	enroll.do_purchase(aplt, id, price);
+
+	// 2/3: update wkocourse_enrolls in pref.
+	wkocourse_enrolls_to_pref(enrolls);
+
+	// 3/3: update wkocourses
+	VALIDATE(wkocourses_.count(id2) == 0, null_str);
+
+	const aplt::tapplet* aplt2 = aplt::aplt_from_bundleid(applets_, enroll.aplt);
+	VALIDATE(aplt2 != nullptr, null_str);
+
+	std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins2 =
+		wkocourses_.insert(std::make_pair(enroll.id2, aplt::twkocourse()));
+
+	aplt::twkocourse& wkocourse = ins2.first->second;
+	std::string err_msg = wkocourse.from_aplt_file(*aplt2, enroll.id_to_filename());
+	VALIDATE(wkocourse.valid(), null_str);
+/*
+	if (!wkocourse.valid()) {
+		wkocourses_.erase(ins.first);
+	}
+*/
+}
+
+static SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int mat_width, bool hide_cairo_share, bool draw_comment_btn,
 	const aplt::thealth::thealth_result2& result2, int workout_at, const health_controller::tworkout_mat2_C& workout_mat2, 
 	SDL_Rect* btn_rects_result, trectdata_C* tip_rects_result, int* rep_steps_result, SDL_Point* chart_margin_lr_result, cv::Mat* result_mat);
 
@@ -125,7 +171,7 @@ int64_t start_of_file_day_from_filename(const std::string& filename, bool* is_ba
 	return start_of_file_day;
 }
 
-bool is_valid_health_dat_name(const char* name, int64_t start_of_today, int max_days)
+bool is_valid_health_dat_name(const char* name, int64_t start_of_today, int max_days, bool bak_is_valid)
 {
 	// health20260323.dat or health20260323.dat.bak
 	if (name == nullptr) {
@@ -181,6 +227,9 @@ bool is_valid_health_dat_name(const char* name, int64_t start_of_today, int max_
 	}
 
 	if (is_bak) {
+		if (!bak_is_valid) {
+			return false;
+		}
 		if (start_of_file_day != start_of_today) {
 			return false;
 		}
@@ -189,11 +238,11 @@ bool is_valid_health_dat_name(const char* name, int64_t start_of_today, int max_
 	return true;
 }
 
-static bool did_walk_health_dat(const std::string& dir, const SDL_dirent2* dirent, int64_t start_of_today, int max_days, bool valid, std::set<std::string>& filenames, const std::string& root)
+static bool did_walk_health_dat(const std::string& dir, const SDL_dirent2* dirent, int64_t start_of_today, int max_days, bool valid, bool bak_is_valid, std::set<std::string>& filenames, const std::string& root)
 {
 	bool isdir = SDL_DIRENT_DIR(dirent->mode);
 	if (!isdir) {
-		bool curr_formatted = is_valid_health_dat_name(dirent->name, start_of_today, max_days);
+		bool curr_formatted = is_valid_health_dat_name(dirent->name, start_of_today, max_days, bak_is_valid);
 
 		if (valid && curr_formatted) {
 			filenames.insert(root + "/" + dirent->name);
@@ -209,21 +258,8 @@ static bool did_walk_health_dat(const std::string& dir, const SDL_dirent2* diren
 	}
 	return true;
 }
-/*
-bool did_walk_health_dat_formatted(const std::string& dir, const SDL_dirent2* dirent, int64_t start_of_today, int max_days, std::set<std::string>& formatted_filenames, const std::string& root)
-{
-	bool isdir = SDL_DIRENT_DIR(dirent->mode);
-	if (!isdir) {
-		if (!is_valid_health_dat_name(dirent->name, start_of_today, max_days)) {
-		} else {
-			formatted_filenames.insert(root + "/" + dirent->name);
-		}
-	} else {
-	}
-	return true;
-}
-*/
-void collect_health_files(const std::string& saves_health_dir, int max_days, bool valid, std::set<std::string>& filenames)
+
+void collect_health_files(const std::string& saves_health_dir, int max_days, bool valid, bool bak_is_valid, std::set<std::string>& filenames)
 {
 	VALIDATE(max_days > 0, null_str);
 	filenames.clear();
@@ -231,7 +267,7 @@ void collect_health_files(const std::string& saves_health_dir, int max_days, boo
 
 	const int64_t start_of_today = utils::calculate_0h0m0s_ts(time(nullptr));
 	std::map<std::string, std::string> full_images;
-	walk_dir(saves_dir, false, std::bind(&did_walk_health_dat, _1, _2, start_of_today, max_days, valid, std::ref(filenames), std::ref(saves_dir)));
+	walk_dir(saves_dir, false, std::bind(&did_walk_health_dat, _1, _2, start_of_today, max_days, valid, bak_is_valid, std::ref(filenames), std::ref(saves_dir)));
 }
 
 const std::map<int, std::string> dynchart_types = {
@@ -396,18 +432,21 @@ std::string health_controller::unsatisfied_absend_landmark_msgstr;
 
 health_controller::health_controller(trhealth_scene_slot& scene_slot, const config& app_cfg, CVideo& video,
 	aplt::thealth& health, std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, 
-	std::map<std::string, aplt::twkocourse>& wkocourses, int sdl_field_small_font_size)
+	std::map<std::string, aplt::twkocourse>& wkocourses, net::truser& current_user, const std::string& launcher_user_dir, int sdl_field_small_font_size)
 	: base_controller(SDL_GetTicks(), app_cfg, video)
 	, tchart_metrics(sdl_field_small_font_size)
 	, scene_slot_(scene_slot)
 	, health_(health)
 	, wkocourse_enrolls_(wkocourse_enrolls)
 	, wkocourses_(wkocourses)
+	, current_user_(current_user)
+	, launcher_user_dir_(launcher_user_dir)
 	, map_(null_str)
 	, units_(*this, map_, false)
 	, gui_(nullptr)
 	, dlg_(nullptr)
 	, window_(nullptr)
+	, key_dyn_charts_("dyn_charts")
 	, applets_(instance->applets())
 	// , vert_locs_(posix_align_ceil2(24, HEAL_UNIT_LOCS))
 	, vert_locs_(posix_align_ceil2(48, HEAL_UNIT_LOCS))
@@ -504,11 +543,10 @@ health_controller::health_controller(trhealth_scene_slot& scene_slot, const conf
 			mselapse, str_timesep_i18n.c_str(), str_timesep_unit.c_str(), str_timesep_colon.c_str());
 	}
 */
+	VALIDATE(health_.curr_health_dir() == health_.me_health_dir(), null_str);
+
 	VALIDATE(IS_MULTIPLE_OF_4(map_margin_.x), null_str);
 	VALIDATE(IS_MULTIPLE_OF_4(map_margin_.y), null_str);
-
-	// std::string str = preferences::dyn_charts();
-	// preferences::set_dyn_charts(str);
 
 	// C array cannot evaluate in struct-list.
 	fake_workouts_[0] = &header_mat_;
@@ -526,7 +564,9 @@ health_controller::health_controller(trhealth_scene_slot& scene_slot, const conf
 	int original_width = 12;
 	map_ = tmap(generate_map_data2(original_width, vert_locs_, false));
 
-	const std::string& health_dir = health_.health_dir();
+	switch_user_data(true);
+/*
+	const std::string& health_dir = health_.curr_health_dir();
 	const int max_days = health_.max_save_days();
 
 	std::set<std::string> filenames;
@@ -536,41 +576,54 @@ health_controller::health_controller(trhealth_scene_slot& scene_slot, const conf
 		const std::string& file = *it;
 		SDL_DeleteFiles(file.c_str());
 	}
-/*
-	surface surf;
-	std::vector<tcode2> fake_mats = {{fake_workout_to_top, "misc/to_top.png"}, 
-		{fake_workout_erase, "misc/erase.png"}};
-	for (std::vector<tcode2>::const_iterator it = fake_mats.begin(); it != fake_mats.end(); ++ it) {
-		const tcode2& code2 = *it;
-		surf = image::get_image(code2.id);
-		VALIDATE(surf.get() != nullptr, null_str);
-		tsingle_mat& fake = *fake_workouts_[code2.code - fake_workout_min];
-		fake.mat = create_neutral_mat_from_surf(surf);
-	}
-*/
+
 	dyn_charts_from_pref(dyn_chartsels_);
-/*
-	wkoscript_enrolls_from_pref(wkocourse_enrolls_);
-
-	VALIDATE(wkocourses_.empty(), null_str);
-	for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = wkocourse_enrolls_.begin(); it != wkocourse_enrolls_.end(); ++ it) {
-		const aplt::twkocourse_enroll& enroll = it->second;
-		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets_, enroll.aplt);
-		if (aplt == nullptr) {
-			continue;
-		}
-
-		std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins =
-			wkocourses_.insert(std::make_pair(enroll.id, aplt::twkocourse()));
-
-		aplt::twkocourse& wkocourse = ins.first->second;
-		std::string err_msg = wkocourse.from_aplt_file(*aplt, enroll.id_to_filename());
-
-		if (!wkocourse.valid()) {
-			wkocourses_.erase(ins.first);
-		}
-	}
 */
+}
+
+void health_controller::switch_user_data(bool is_initial)
+{
+	const std::string& curr_health_dir = health_.curr_health_dir();
+	const std::string& me_health_dir = health_.me_health_dir();
+	const int max_days = health_.max_save_days();
+
+	std::set<std::string> filenames;
+	collect_health_files(curr_health_dir, max_days, false, curr_health_dir == me_health_dir, filenames);
+
+	for (std::set<std::string>::const_iterator it = filenames.begin(); it != filenames.end(); ++ it) {
+		const std::string& file = *it;
+		SDL_DeleteFiles(file.c_str());
+	}
+
+	fan_prefs_.clear();
+	if (!health_.curr_health_dir_is_me()) {
+		std::string uid_dir = health_.curr_uid_dir();
+		fan_prefs_.load_prefs(uid_dir + "/preferences");
+	}
+
+	dyn_chartsels_.clear();
+	dyn_charts_from_pref(dyn_chartsels_);
+
+	if (is_initial) {
+		return;
+	}
+
+	VALIDATE(allow_draw_, null_str);
+
+	gui2::treport& report = dlg_->main_report();
+	dlg_->reload_main_report(report);
+	VALIDATE(report.cursel() == nullptr, null_str);
+
+	int desire_sel = 0;
+	// if (curr_chartsel_ == desire_sel) {
+	if (report.cursel() != nullptr && curr_chartsel_ == desire_sel) {
+		VALIDATE(false, null_str);
+		refresh_chart_by_sel_ex(desire_sel);
+
+	} else {
+		dlg_->main_report().select_item(desire_sel);
+	}
+
 }
 
 health_controller::~health_controller()
@@ -586,6 +639,7 @@ health_controller::~health_controller()
 		delete gui_;
 		gui_ = nullptr;
 	}
+	health_.set_curr_health_dir(health_.me_health_dir());
 }
 
 void health_controller::app_create_display(int initial_zoom)
@@ -806,6 +860,7 @@ void health_controller::app_left_mouse_up(const int x, const int y, const bool c
 
 	if (interest_hiting_.click.type == clicktype_btn) {
 		VALIDATE(misc_btn_open_url == pl_btn_stop, null_str);
+		VALIDATE(misc_btn_do_comment == pl_btn_step_backward, null_str);
 		if (interest_hiting_.click.ctx == pl_btn_play) {
 			if (!player_.is_ing() || player_.workout_at_in_page() != interest_hiting_.click.workout_at_in_page) {
 				if (player_.is_ing()) {
@@ -832,8 +887,27 @@ void health_controller::app_left_mouse_up(const int x, const int y, const bool c
 			}
 
 		} else if (interest_hiting_.click.ctx == pl_btn_step_backward) {
-			if (!player_.is_0()) {
-				player_.step_one(true);
+			if (player_.is_ing()) {
+				if (!player_.is_0()) {
+					player_.step_one(true);
+				}
+
+			} else {
+				VALIDATE(misc_btn_do_comment == pl_btn_step_backward, null_str);
+				// const tworkout_mat2_C* mat2 = (tworkout_mat2_C*)workout_mat2s_.elem(interest_hiting_.click.workout_at_in_page);
+
+				gui2::thealth_scene::tmsg_data_do_comment* pdata = 
+					new gui2::thealth_scene::tmsg_data_do_comment(interest_hiting_.click.workout_at_in_page);
+				rtc::Thread::Current()->Post(RTC_FROM_HERE, dlg_, gui2::thealth_scene::MSG_DO_COMMENT, pdata);
+/*
+				const config& wkoscript_cfg = *mat2->wkoscript_cfg;
+				const std::string reference = wkoscript_cfg["reference"].str();
+				if (!reference.empty()) {
+					SDL_OpenUrl(reference.c_str());
+					// win_ShellExecuteW_open(reference);
+				}
+*/
+
 			}
 
 		} else if (interest_hiting_.click.ctx == pl_btn_step_forward) {
@@ -2707,6 +2781,19 @@ SDL_Color health_controller::day_label_color(int day_at, const cairo::tsdl_field
 	return !field->val.empty() && odd? color: font::GRAY_COLOR;
 }
 
+bool health_controller::can_do_comment() const
+{
+	return !health_.curr_health_dir_is_me();
+}
+
+bool health_controller::can_upload_health_dat() const
+{
+	// The server does not support looking up 'course_up'.
+	return false;
+
+	return health_.curr_health_dir_is_me();
+}
+
 health_controller::ttip6 health_controller::parse_tip_at(int workout_at, const aplt::thealth::tworkout_result2& workout, const tworkout_mat2_C& mat2, int tip_at) const
 {
 	VALIDATE(workout_at >= 0, null_str);
@@ -3262,7 +3349,7 @@ bool health_controller::start_player(int workout_at)
 	return true;
 }
 
-const aplt::thealth::thealth_result2& health_controller::calc_result2_and_workout_at(int workout_at_in_page, int& workout_at_in_result2)
+const aplt::thealth::thealth_result2& health_controller::calc_result2_and_workout_at(int workout_at_in_page, int& workout_at_in_result2) const
 {
 	const aplt::thealth::thealth_result2* result2_ptr = &curr_day_result2_;
 	workout_at_in_result2 = workout_at_in_page;
@@ -3323,7 +3410,7 @@ void health_controller::stop_player()
 		int width = map_.w() * gui_->zoom();
 		VALIDATE(mat2.workout_mat->cols == width - map_margin_.x * 2, null_str);
 		cv::Mat mat;
-		draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+		draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_, can_do_comment(),
 				result2, workout_at_in_result2, mat2, mat2.btn_rects, &mat2.tip_rects, mat2.rep_steps, &mat2.chart_margin_lr, &mat);
 		VALIDATE(!mat.empty(), null_str);
 		*mat2.workout_mat = mat;
@@ -4029,7 +4116,7 @@ void push_col2_to_bar_4labels(const cairo::tworkout_fields::tcol2_C& col2,
 	last_state_name_label_width = bar_4label.day.val_text_size.x;
 }
 
-SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int mat_width, bool hide_cairo_share,
+SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int mat_width, bool hide_cairo_share, bool draw_comment_btn,
 	const aplt::thealth::thealth_result2& result2, int workout_at, const health_controller::tworkout_mat2_C& workout_mat2, 
 	SDL_Rect* btn_rects_result, trectdata_C* tip_rects_result, int* rep_steps_result, SDL_Point* chart_margin_lr_result, cv::Mat* result_mat)
 {
@@ -4564,6 +4651,22 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 			name = name_ss.str();
 			name_font_size = small_font_size;
 
+		} else if (at == fields.fid_comment) {
+			if (workout.comment.empty()) {
+				continue;
+			}
+			name = workout.comment;
+			name_font_size = small_font_size;
+
+		} else if (at == fields.fid_do_comment) {
+			continue;
+/*
+			name = _("wko^Comment");
+			name_font_size = small_font_size;
+
+			SDL_Color color{0xdc, 0x35, 0x45, 255};
+            cairo_color = SDL_DColor{color.r / 255.0, color.g / 255.0, color.b / 255.0, 1.0};
+*/
 		} else {
 			VALIDATE(false, null_str);
 		}
@@ -4592,12 +4695,15 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 		fields.day_labels_height += fields.unsatisfied_msg_to_chart_remark_gap_y;
 	}
 	fields.day_labels_height += fields.chart_remark.name_text_size.y;
+	fields.day_labels_height += fields.comment.name_text_size.y;
 
 	const int chart_height = metrics.chart_height_;
 	const int mat_height = metrics.chart_margin_.y + fields.title_height + fields.legend_height +
 		chart_height + fields.day_labels_height + metrics.chart_margin_.y;
 
-	fields.cairo_draw_start_btn = workout_mat2.zip_workout.len != 0;
+	fields.draw_start_btn = workout_mat2.zip_workout.len != 0;
+	fields.draw_comment_btn = draw_comment_btn && (workout_mat2.share == bool_set_none);
+	// fields.draw_comment_btn = workout_mat2.share == bool_set_none;
 
 	fields.share = hide_cairo_share? bool_set_none: workout_mat2.share;
 	SDL_Rect btn_rects_tmp[pl_btn_count];
@@ -4666,6 +4772,35 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 
 			} else if (at == fields.fid_unsatisfied_msg) {
 				font_color = font::BLACK_COLOR;
+
+			} else if (at == fields.fid_comment) {
+				if (field.name.empty()) {
+					continue;
+				}
+				surface img_surf = image::get_image("misc/comment.png");
+				VALIDATE(img_surf.get() != nullptr, null_str);
+				img_surf = scale_surface(img_surf, field.name_text_size.y, field.name_text_size.y);
+				dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+				sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+				x_start += img_surf->w;
+
+				// font_color = SDL_Color{58, 110, 165, 255}; // 3A6EA5
+				font_color = SDL_Color{43, 108, 176, 255}; // 2B6CB0
+
+			} else if (at == fields.fid_do_comment) {
+				if (!fields.draw_comment_btn) {
+					continue;
+				}
+
+				SDL_Size btn_size{(int)(36 * gui2::twidget::hdpi_scale), (int)(36 * gui2::twidget::hdpi_scale)};
+				surface img_surf = image::get_image("misc/comment.png");
+				VALIDATE(img_surf.get() != nullptr, null_str);
+				img_surf = scale_surface(img_surf, btn_size.w, btn_size.h);
+				dst_rect = ::create_rect(x_start, field.offset.y, img_surf->w, img_surf->h);
+				sdl_blit(img_surf, nullptr, surf, &dst_rect);
+
+				continue;
 			}
 
 			if (!fields.has_seg) {
@@ -4811,7 +4946,7 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 			}
 		}
 /*
-		if (workout_mat2.zip_workout.len != 0 && !fields.cairo_draw_start_btn) {
+		if (workout_mat2.zip_workout.len != 0 && !fields.draw_start_btn) {
 			surface img_surf = image::get_image("misc/start.png");
 			VALIDATE(img_surf.get() != nullptr, null_str);
 			img_surf = scale_surface(img_surf, fields.play_icon_rect.w, fields.play_icon_rect.h);
@@ -4825,7 +4960,7 @@ SDL_Size draw_workout_mat(const tchart_metrics& metrics, int mat_type, const int
 }
 
 SDL_Size draw_workout_mat2(const tchart_metrics& metrics, int mat_type, int mat_width,
-	bool hide_cairo_share, const aplt::thealth::thealth_result2& result2, int workout_at, health_controller::tworkout_mat2_C& workout_mat2, cv::Mat* mat_result)
+	bool hide_cairo_share, bool draw_comment_btn, const aplt::thealth::thealth_result2& result2, int workout_at, health_controller::tworkout_mat2_C& workout_mat2, cv::Mat* mat_result)
 {
 	VALIDATE(IS_MULTIPLE_OF_4(mat_width), null_str);
 
@@ -4845,7 +4980,7 @@ SDL_Size draw_workout_mat2(const tchart_metrics& metrics, int mat_type, int mat_
 	workout_mat2.range_ms = workout.range_ms;
 
 	// cv::Mat mat;
-	SDL_Size mat_size = draw_workout_mat(metrics, mat_type, mat_width, hide_cairo_share, 
+	SDL_Size mat_size = draw_workout_mat(metrics, mat_type, mat_width, hide_cairo_share, draw_comment_btn,
 		result2, workout_at, workout_mat2, workout_mat2.btn_rects, 
 		&workout_mat2.tip_rects, workout_mat2.rep_steps, &workout_mat2.chart_margin_lr, mat_result);
 
@@ -4865,10 +5000,11 @@ SDL_Size draw_workout_mat3(const tchart_metrics& metrics, int mat_type, int mat_
 	VALIDATE(IS_MULTIPLE_OF_4(mat_width), null_str);
 
 	bool hide_cairo_share = false;
+	bool draw_comment_btn = false;
 	health_controller::tworkout_mat2_C mat2;
 	memset(&mat2, 0, sizeof(mat2));
 
-	SDL_Size mat_size = draw_workout_mat2(metrics, mat_type, mat_width, hide_cairo_share, result2, workout_at, mat2, mat_result);
+	SDL_Size mat_size = draw_workout_mat2(metrics, mat_type, mat_width, hide_cairo_share, draw_comment_btn, result2, workout_at, mat2, mat_result);
 	
 	health_controller::free_mat2_data(mat2);
 
@@ -4904,7 +5040,7 @@ void health_controller::draw_workout_mat_from_cache(int item_at)
 	const aplt::thealth::thealth_result2& result2 = *dyn_chartsel.result2s[at2.day_at];
 	cv::Mat mat;
 
-	SDL_Size mat_size = draw_workout_mat(*this, cairo::wkomattype_health, mat2.cache_mat_size.w, hide_cairo_share_,
+	SDL_Size mat_size = draw_workout_mat(*this, cairo::wkomattype_health, mat2.cache_mat_size.w, hide_cairo_share_, can_do_comment(),
 		result2, at2.workout_at, mat2, mat2.btn_rects, &mat2.tip_rects, mat2.rep_steps, &mat2.chart_margin_lr, &mat);
 	VALIDATE(mat_size.w == mat.cols && mat_size.h == mat.rows, null_str);
 
@@ -5050,6 +5186,7 @@ void health_controller::adjust_rects_after_draw_workout_mat(const SDL_Point& off
 	int count = 0;
 	adjust_rects[count ++] = mat2.btn_rects + pl_btn_play;
 	adjust_rects[count ++] = mat2.btn_rects + misc_btn_open_url;
+	adjust_rects[count ++] = mat2.btn_rects + misc_btn_do_comment;
 	if (is_sharing_) {
 		adjust_rects[count ++] = mat2.btn_rects + pl_btn_share;
 	}
@@ -5203,14 +5340,14 @@ void health_controller::refresh_day_chart(time_t t, bool redraw_only, const SDL_
 				if (is_sharing_) {
 					mat2->share = workout_shares[workout_at];
 				}
-				draw_workout_mat2(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+				draw_workout_mat2(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_, can_do_comment(),
 					result2, workout_at, *mat2, &mat);
 				VALIDATE(!mat.empty(), null_str);
 
 				mat2->workout_mat = new cv::Mat(mat);
 
 			} else {
-				draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+				draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_, can_do_comment(),
 					result2, workout_at, *mat2, mat2->btn_rects, &mat2->tip_rects, mat2->rep_steps, &mat2->chart_margin_lr, &mat);
 				VALIDATE(!mat.empty(), null_str);
 
@@ -5668,7 +5805,7 @@ void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, boo
 					if (is_sharing_) {
 						mat2->share = workout_shares[workout_at_in_page];
 					}
-					mat_size = draw_workout_mat2(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+					mat_size = draw_workout_mat2(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_, can_do_comment(),
 						result2, workout_at, *mat2, nullptr);
 					// VALIDATE(!mat.empty(), null_str);
 					VALIDATE(mat_size.w > 0 && mat_size.h > 0, null_str);
@@ -5678,7 +5815,7 @@ void health_controller::refresh_idcontain_chart(tdyn_chartsel& dyn_chartsel, boo
 					mat2->cache_mat_size = mat_size;
 
 				} else {
-					mat_size = draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_,
+					mat_size = draw_workout_mat(*this, cairo::wkomattype_health, width - map_margin_.x * 2, hide_cairo_share_, can_do_comment(),
 						result2, workout_at, *mat2, mat2->btn_rects, &mat2->tip_rects, mat2->rep_steps, &mat2->chart_margin_lr, nullptr);
 					// VALIDATE(!mat.empty(), null_str);
 					VALIDATE(mat_size.w == mat2->cache_mat_size.w && mat_size.h == mat2->cache_mat_size.h, null_str);
@@ -5832,6 +5969,7 @@ void health_controller::refresh_chart_by_sel(int64_t sel)
 	curr_day_result2_.clear();
 	clear_fake_workouts_rects();
 	empty_all_mat2_rects();
+	dlg_->flt_upload_widget().set_visible(is_can_upload_chartsel(sel) && can_upload_health_dat());
 	dlg_->flt_erase_widget().set_visible(sel >= chartsel_dyn_min);
 	dlg_->set_status_label(default_status_msg());
 
@@ -5856,6 +5994,14 @@ void health_controller::refresh_chart_by_sel(int64_t sel)
 	// SDL_Log("{dbg-vsize}refresh_chart_by_sel, pose fresh_xxx_chart, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
 
 	make_sure_map();
+}
+
+void health_controller::refresh_chart_by_sel_ex(int64_t sel)
+{
+	clear_tip_mat2();
+	// MUST not call 'controller_.clear_workout_mat2s()' here.
+	// controller_.clear_workout_mat2s();
+	refresh_chart_by_sel(sel);
 }
 
 void health_controller::do_save_workout_mat2s_and_tip(int bg_width, const tdyn_chartsel* dyn_chartsel, int header_hide_height, int cvt_code, surface& bg_surf, int& y_offset)
@@ -5901,7 +6047,7 @@ void health_controller::do_save_workout_mat2s_and_tip(int bg_width, const tdyn_c
 			mat = *mat2.landmarks_mat;
 
 		} else {
-			draw_workout_mat(*this, cairo::wkomattype_image, bg_width, hide_cairo_share_,
+			draw_workout_mat(*this, cairo::wkomattype_image, bg_width, hide_cairo_share_, can_do_comment(),
 					result2, at2.workout_at, mat2, nullptr, nullptr, nullptr, nullptr, &mat);
 			VALIDATE(!mat.empty(), null_str);
 		}
@@ -6356,6 +6502,123 @@ void health_controller::do_save_image(const std::string& watermark_msg)
 	gui2::show_message(null_str, msg);
 }
 
+bool is_app_prefix_id(const std::string& id2, bool app_is_uid)
+{
+	size_t pos = id2.find("___");
+	if (pos != nposm) {
+		return false;
+	}
+
+	pos = id2.find("__");
+	if (pos == std::string::npos) {
+		return false;
+	}
+
+	int s = id2.size();
+	if (pos == 0 || pos == s - 2) {
+		return false;
+	}
+
+	if (app_is_uid) {
+		const char* c_str = id2.c_str();
+		for (int at = 0; at < (int)pos; at ++) {
+			const char ch = c_str[at];
+			if (ch < '0' || ch > '9') {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+static bool did_walk_curr_dir_uid_subdirs(const std::string& dir, const SDL_dirent2* dirent, std::set<std::string>& files, const std::string& root, bool include_root)
+{
+	bool isdir = SDL_DIRENT_DIR(dirent->mode);
+	if (isdir) {
+		const std::string name = dirent->name;
+		if (is_app_prefix_id(name, true)) {
+			if (include_root) {
+				files.insert(root + "/" + name);
+			} else {
+				files.insert(name);
+			}
+		}
+	}
+	return true;
+}
+
+void collect_curr_dir_uid_dirs(const std::string& root, std::set<std::string>& files, bool include_root)
+{
+	files.clear();
+
+	walk_dir(root, false, std::bind(&did_walk_curr_dir_uid_subdirs, _1, _2, std::ref(files), std::ref(root), include_root));
+}
+
+void health_controller::click_switch_user(gui2::tbutton& widget)
+{
+	const std::string& curr_health_dir = health_.curr_health_dir();
+	const std::string& me_health_dir = health_.me_health_dir();
+	const std::string& slash_health = health_.slash_health();
+
+	std::string fans_dir = launcher_user_dir_ + "/__fans";
+	std::set<std::string> dirs;
+
+	collect_curr_dir_uid_dirs(fans_dir, dirs, true);
+
+	if (dirs.empty()) {
+		return;
+	}
+
+	std::vector<gui2::tmenu::titem> items;
+	int initial_sel = nposm;
+
+	items.push_back(gui2::tmenu::titem(_("Me"), dirs.size()));
+	if (curr_health_dir == me_health_dir) {
+		initial_sel = dirs.size();
+	}
+	if (!dirs.empty()) {
+		items.back().separator = true;
+	}
+
+	for (std::set<std::string>::const_iterator it = dirs.begin(); it != dirs.end(); ++ it) {
+		const std::string& dir = *it;
+
+		std::pair<std::string, std::string> p = utils::split_app_prefix_id(utils::extract_file(dir));
+		std::string label = p.second;
+		label.append("(UID: " + p.first + ")");
+
+		items.push_back(gui2::tmenu::titem(label, items.size() - 1));
+		if (dir + slash_health == curr_health_dir) {
+			initial_sel = items.back().val;
+		}
+	}
+
+	if (items.empty()) {
+		return;
+	}
+
+	gui2::tmenu dlg(items, initial_sel);
+	dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * gui2::twidget::hdpi_scale);
+	if (dlg.get_retval() != gui2::twindow::OK) {
+		return;
+	}
+
+	int cursel = dlg.selected_val();
+
+	if (cursel < (int)dirs.size()) {
+		std::set<std::string>::const_iterator sel_it = dirs.begin();
+		if (cursel != 0) {
+			std::advance(sel_it, cursel);
+		}
+		health_.set_curr_health_dir(*sel_it + health_.slash_health());
+
+	} else {
+		health_.set_curr_health_dir(me_health_dir);
+	}
+
+	switch_user_data(false);
+}
+
 #define WKO_MIN_ID_CHARS		5
 
 bool health_controller::verify_dyn_chart_inc_id(const std::string& label) const
@@ -6507,7 +6770,7 @@ void health_controller::click_test_lrn_cache()
 	{
 		int max_days = 30;
 		std::set<std::string> filenames;
-		collect_health_files(health_.health_dir(), max_days, true, filenames);
+		collect_health_files(health_.me_health_dir(), max_days, true, false, filenames);
 
 		for (std::set<std::string>::const_iterator it = filenames.begin(); it != filenames.end(); ++ it) {
 			const std::string& filename = *it;
@@ -6527,7 +6790,7 @@ void health_controller::click_test_lrn_cache()
 	}
 */
 	{
-		const std::string filename = health_.health_dir() + "/health20260703.dat"; 
+		const std::string filename = health_.me_health_dir() + "/health20260703.dat"; 
 		health_.upgrade_health_file(filename);
 		return;
 	}
@@ -6567,6 +6830,65 @@ void health_controller::click_test_lrn_cache()
 	}
 }
 
+#define ancientcc_uid		11112
+void health_controller::click_flt_upload(gui2::tbutton& widget)
+{
+	utils::string_map symbols;
+	if (!current_user_.valid()) {
+		std::string msg = i18n::freq_msgstr_1str(i18n::msgid_not_logged_in, _("Upload healthxx.dat"));
+		gui2::show_message(null_str, msg);
+		return;
+	}
+
+	VALIDATE(is_can_upload_chartsel(curr_chartsel_), null_str);
+
+	int sel = curr_chartsel_;
+
+	time_t ts = nposm;
+	if (is_day_chartsel(sel)) {
+		ts = day_chartsel_2_t(sel);
+	} else {
+		VALIDATE(false, null_str);
+	}
+
+	const std::string warning_msg = i18n::freq_msgstr_1str(i18n::sent_xx_not_undone, _("wko^healthxx.dat"));
+	if (gui2::show_message2(null_str, warning_msg, gui2::tmessage::yes_no_buttons) != gui2::twindow::OK) {
+		return;
+	}
+
+	aplt::twkorevise revise;
+	int64_t evt_ts = time(nullptr);
+	revise.set_upload_health_dat(evt_ts, current_user_.uid, ts);
+
+	// 11259: cwa_133696802123
+	// 11112: ancientcc
+	int64_t receiver_uid = ancientcc_uid;
+	Json::Value json_event;
+	revise.to_json(json_event);
+	int image_format = nposm;
+	std::vector<timage_pair> images;
+
+	{
+		std::string src = health_.health_dat_filename(false, revise.ts);
+		tfile file(src, GENERIC_READ, OPEN_EXISTING);
+		int fsize = file.read_2_data();
+		VALIDATE(fsize > 0, null_str);
+		images.push_back(timage_pair(revise.msg, (const uint8_t* )file.data, fsize));
+	}
+	bool ret = net::cswamp_addevent2(current_user_, evt_ts, net::cswamp_evttype_courseup_to_fan, receiver_uid, json_event, image_format, images, false);
+	if (!ret) {
+		return;
+	}
+/*
+	std::string log = revise.to_string();
+*/
+	std::string log = "send health.dat to course up";
+	aplt::tb_api& b_api = aplt::get_b_api();
+	b_api.aplt_add_msg_log(time(nullptr), log, 0, false);
+
+	gui2::show_message(null_str, _("Sent"));
+}
+
 void health_controller::click_flt_erase(gui2::tbutton& widget)
 {
 	VALIDATE(curr_chartsel_ >= chartsel_dyn_min, null_str);
@@ -6601,6 +6923,136 @@ void health_controller::click_flt_erase(gui2::tbutton& widget)
 	// report.select_item(sel);
 
 	SDL_Log("{dbg-vsize}click_flt_erase, pose report.select_item, workout_mat2s_.vsize: %i", workout_mat2s_.vsize);
+}
+
+#define WKO_MIN_COMMENT_CHARS	2
+
+bool health_controller::verify_comment(const std::string& label, const std::string& initial) const
+{
+	int s = label.size();
+	if (s == 0 || s > WKO_MAX_COMMENTBYTES) {
+		return false;
+	}
+
+	if (label == initial) {
+		return false;
+	}
+
+	if (utils::has_portable_space_2end(label)) {
+		return false;
+	}
+
+	if (label.find_first_of("\r\n") != std::string::npos) {
+		return false;
+	}
+
+	int chars = utils::utf8str_len(label);
+	if (chars < WKO_MIN_COMMENT_CHARS) {
+		return false;
+	}
+	return true;
+}
+
+void health_controller::do_comment(int mat2_at) const
+{
+	VALIDATE(can_do_comment(), null_str);
+
+	utils::string_map symbols;
+	if (!current_user_.valid()) {
+		std::string msg = i18n::freq_msgstr_1str(i18n::msgid_not_logged_in, _("Do comment"));
+		gui2::show_message(null_str, msg);
+		return;
+	}
+
+	const tworkout_mat2_C* mat2 = (const tworkout_mat2_C*)workout_mat2s_.elem(mat2_at);
+
+	int workout_at_in_result2 = nposm;
+	const aplt::thealth::thealth_result2& result2 = calc_result2_and_workout_at( 
+			mat2_at, workout_at_in_result2);
+
+	VALIDATE(workout_at_in_result2 >= 0 && workout_at_in_result2 < (int)result2.workouts.size(), null_str);
+	const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at_in_result2];
+
+	// std::string title = _("wko^Do comment");
+
+	VALIDATE(mat2->wkoscript_cfg != nullptr, null_str);
+	const config& wkoscript_cfg = *mat2->wkoscript_cfg;
+	const std::string title = wkoscript_cfg["title"].str();
+	symbols["wko_title"] = title;
+
+	std::string start = utils::format_time_ymd4(result2.start_of_today, true, true, true);
+	start.append(" " + utils::format_elapse_hms2(workout.range_ms.min / 1000));
+	symbols["wko_start"] = start;
+	std::string dlg_title = vgettext2("wko^do comment title, $wko_title, $wko_start", symbols);
+	std::string prefix;
+	std::string placeholder = _("wko^Comment");
+	const std::string initial = workout.comment;
+
+	int max_chars = WKO_MAX_COMMENTBYTES;
+	symbols["min_chars"] = str_cast(WKO_MIN_COMMENT_CHARS);
+	symbols["max_chars"] = str_cast(WKO_MAX_COMMENTBYTES / 3);
+	symbols["bytes"] = str_cast(WKO_MAX_COMMENTBYTES);
+	std::string remark = vgettext2("wko^do comment remrk, $wko_title, $wko_start, $min_charts, $max_chars, $bytes", symbols);
+
+	std::vector<std::pair<std::string, std::string> > freq_vals;
+	freq_vals.push_back(std::make_pair(_("wko^comment sample1"), null_str));
+	freq_vals.push_back(std::make_pair(_("wko^comment sample2"), null_str));
+	freq_vals.push_back(std::make_pair(_("wko^comment sample3"), null_str));
+	freq_vals.push_back(std::make_pair(_("wko^comment sample4"), null_str));
+
+	std::string msg;
+	{
+		gui2::tedit_box_param param(dlg_title, prefix, placeholder, initial, remark, null_str, _("OK"), max_chars, gui2::tedit_box_param::show_cancel, true);
+		param.freq_vals = freq_vals;
+		param.did_text_changed = std::bind(&health_controller::verify_comment, this, _1, std::ref(workout.comment));
+		{
+			gui2::tedit_box dlg(param);
+			// it is in landscape, on android/ios, soft-keyboard is almost height.
+			int explicit_y = game_config::os == os_windows? nposm: window_->get_height() / 30;
+			dlg.show(nposm, explicit_y); // / 5
+			if (dlg.get_retval() != gui2::twindow::OK) {
+				return;
+			}
+		}
+		msg = param.result;
+	}
+
+	const std::string warning_msg = i18n::freq_msgstr_1str(i18n::sent_xx_not_undone, _("wko^Comment"));
+	if (gui2::show_message2(null_str, warning_msg, gui2::tmessage::yes_no_buttons) != gui2::twindow::OK) {
+		return;
+	}
+
+	aplt::twkorevise wkorevise;
+	int64_t evt_ts = time(nullptr);
+	wkorevise.set_comment(evt_ts, current_user_.uid, workout.aplt, workout.id, result2.start_of_today + workout.start_s, title, workout.range_ms, msg);
+
+	std::string node = utils::extract_directory(health_.curr_health_dir());
+	node = utils::extract_file(node);
+	std::string uid_str = utils::split_app_prefix_id(node).first;
+	int64_t receiver_uid = utils::to_int64(uid_str);
+
+	// 11259: cwa_133696802123
+	// 11112: ancientcc
+	// int64_t receiver_uid = 11259;
+	Json::Value json_event;
+	wkorevise.to_json(json_event);
+	int image_format = nposm;
+	std::vector<timage_pair> images;
+	bool ret = net::cswamp_addevent2(current_user_, evt_ts, net::cswamp_evttype_courseup_to_fan, receiver_uid, json_event, image_format, images, false);
+	if (!ret) {
+		return;
+	}
+/*
+	std::string log = wkorevise.to_string();
+	aplt::tb_api& b_api = aplt::get_b_api();
+	b_api.aplt_add_msg_log(time(nullptr), log, 0, false);
+*/
+	// std::string log = wkorevise.to_string();
+	std::string log = "Send a comment to fan";
+	aplt::tb_api& b_api = aplt::get_b_api();
+	b_api.aplt_add_msg_log(time(nullptr), log, 0, false);
+
+	gui2::show_message(null_str, _("Sent"));
 }
 
 SDL_Size health_controller::calculate_snapshot_size(bool conside_share) const
@@ -6792,7 +7244,7 @@ void health_controller::update_which_charts_label()
 		VALIDATE(sel - chartsel_dyn_min < (int)dyn_chartsels_.size(), null_str);
 
 		int count0 = summary_mat_.share == bool_set_false? 0: 1;
-		SDL_snprintf(buf, sizeof(buf), "%i + %i", count0, share_workouts);
+		SDL_snprintf(buf, sizeof(buf), "%i + %i/%i", count0, share_workouts, workout_mat2s_.vsize);
 		total = count0 + share_workouts;
 	}
 	dlg_->ok2_widget().set_active(total != 0);
@@ -6836,6 +7288,22 @@ void health_controller::calculate_share_workout_count(tdyn_chartsel& dyn_chartse
 	}
 }
 
+std::string health_controller::curr_health_dir_msg() const
+{
+	if (health_.curr_health_dir_is_me()) {
+		return _("Me");
+	}
+
+	const std::string& health_dir = health_.curr_health_dir();
+	const std::string uid_dir = health_dir.substr(0, health_dir.rfind(health_.slash_health()));
+	std::pair<std::string, std::string> p = utils::split_app_prefix_id(utils::extract_file(uid_dir));
+	int max_chars = 9;
+	std::string result = utils::truncate_to_max_chars2(p.second, max_chars, true);
+	result.append("(UID: " + p.first + ")");
+
+	return result;
+}
+
 std::string health_controller::consecutive_checkin_rule_msg() const
 {
 	utils::string_map symbols;
@@ -6863,12 +7331,24 @@ void health_controller::dyn_charts_to_pref(const std::vector<tdyn_chartsel*>& dy
 
 		aplt::write_config(out, top_cfg);
 	}
-	preferences::set_dyn_charts(out.str());
+
+	if (health_.curr_health_dir_is_me()) {
+		preferences::set_dyn_charts(out.str());
+
+	} else {
+		fan_prefs_.set_str(key_dyn_charts_, out.str());
+	}
 }
 
 void health_controller::dyn_charts_from_pref(std::vector<tdyn_chartsel*>& dyn_chartsels)
 {
-	std::string dyn_charts_str = preferences::dyn_charts();
+	std::string dyn_charts_str;
+	if (health_.curr_health_dir_is_me()) {
+		dyn_charts_str = preferences::dyn_charts();
+
+	} else {
+		dyn_charts_str = fan_prefs_.get_str(key_dyn_charts_);
+	}
 
 	config top_cfg2;
 	bool ret = aplt::read_config_ex(dyn_charts_str, true, top_cfg2);
@@ -6954,28 +7434,6 @@ void wkocourse_enrolls_from_pref(std::map<std::string, aplt::twkocourse_enroll>&
 		return;
 	}
 	wkocourse_enrolls_to_courses(enrolls, *p_wkocourses);
-/*
-	std::map<aplt::taplt_key, aplt::tapplet>& applets = instance->applets();
-	std::map<std::string, aplt::twkocourse>& wkocourses = *p_wkocourses;
-	VALIDATE(wkocourses.empty(), null_str);
-	for (std::map<std::string, aplt::twkocourse_enroll>::const_iterator it = enrolls.begin(); it != enrolls.end(); ++ it) {
-		const aplt::twkocourse_enroll& enroll = it->second;
-		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets, enroll.aplt);
-		if (aplt == nullptr) {
-			continue;
-		}
-
-		std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins =
-			wkocourses.insert(std::make_pair(enroll.id2, aplt::twkocourse()));
-
-		aplt::twkocourse& wkocourse = ins.first->second;
-		std::string err_msg = wkocourse.from_aplt_file(*aplt, enroll.id_to_filename());
-
-		if (!wkocourse.valid()) {
-			wkocourses.erase(ins.first);
-		}
-	}
-*/
 }
 
 void wkocourse_enrolls_to_courses(const std::map<std::string, aplt::twkocourse_enroll>& enrolls,
@@ -6998,8 +7456,30 @@ void wkocourse_enrolls_to_courses(const std::map<std::string, aplt::twkocourse_e
 		aplt::twkocourse& wkocourse = ins.first->second;
 		std::string err_msg = wkocourse.from_aplt_file(*aplt, enroll.id_to_filename());
 
+		bool correct = false;
+
 		if (!wkocourse.valid()) {
 			wkocourses.erase(ins.first);
+			if (enroll.active_day_at != WKO_DFLT_ACTIVE_DAY_AT) {
+				correct = true;
+			}
+		} else {
+			if (enroll.active_day_at != WKO_DFLT_ACTIVE_DAY_AT) {
+				VALIDATE(enroll.active == nposm, null_str);
+
+				// Correct possible contamination of 'active_day_at'.
+				if (wkocourse.prerequisite.empty()) {
+					correct = true;
+				}
+				if (!correct && (enroll.active_day_at < 0 || enroll.active_day_at >= wkocourse.total_days)) {
+					correct = true;
+				}
+			}
+		}
+
+		if (correct) {
+			aplt::twkocourse_enroll& mutable_enroll = *const_cast<aplt::twkocourse_enroll*>(&enroll);
+			mutable_enroll.active_day_at = WKO_DFLT_ACTIVE_DAY_AT;
 		}
 	}
 }

@@ -228,6 +228,12 @@ void set_keyboard_style(int value);
 std::string usingcamera();
 void set_usingcamera(const std::string& value);
 
+std::string login_username_type();
+void set_login_username_type(const std::string& value);
+
+std::string login_mobile();
+void set_login_mobile(const std::string& value);
+
 std::string login_username();
 void set_login_username(const std::string& value);
 

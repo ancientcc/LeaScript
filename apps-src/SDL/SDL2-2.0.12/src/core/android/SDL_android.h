@@ -171,6 +171,7 @@ int Android_GetPublicDirectory(SDL_PublicDir type, char* name, int maxlen);
 void Android_StartScreenRecording(const char* filename);
 void Android_StopScreenRecording(char* filename, int maxlen);
 SDL_bool Android_IsScreenRecording(void);
+void Android_PayWithAlipay(const char* orderinfo);
 void Android_JNI_GetOsInfo(SDL_OsInfo* info);
 SDL_bool Android_JNI_PrintText(const uint8_t* bytes, int size);
 void Android_EnableRelay(SDL_bool enable);

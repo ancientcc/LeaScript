@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: aplt_leagor_khomelua-lib\n"
-"POT-Creation-Date: 2026-09-25 13:32+0800\n"
+"POT-Creation-Date: 2026-10-28 20:24+0800\n"
 "PO-Revision-Date: 2016-01-03 20:34+0800\n"
 "Last-Translator: service <service@leagor.com>\n"
 "Language-Team: \n"
@@ -11,60 +11,72 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 "X-Poedit-KeywordsList: _;vgettext2\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: lua\n"
 "X-Poedit-SearchPath-1: po/cfg-cpp/aplt_leagor_khomelua-lib\n"
 
-#: lua/home.lua:33 lua/home.lua:152
+#: lua/home.lua:34 lua/home.lua:174
 msgid "kHome Lua"
 msgstr ""
 
-#: lua/home.lua:44
+#: lua/home.lua:45
 msgid "task^course"
 msgstr ""
 
-#: lua/home.lua:45
+#: lua/home.lua:46
 msgid "task^workout"
 msgstr ""
 
-#: lua/home.lua:46
+#: lua/home.lua:47
 msgid "Me"
 msgstr ""
 
-#: lua/home.lua:196
+#: lua/home.lua:212
 msgid "This course is free. Do you want to purchase it?"
 msgstr ""
 
-#: lua/home.lua:232
+#: lua/home.lua:215
+msgid "The price of this course is $price yuan. Do you want to purchase it?"
+msgstr ""
+
+#: lua/home.lua:256
 msgid "Not a valid course script."
 msgstr ""
 
-#: lua/home.lua:241
+#: lua/home.lua:265
 msgid "Expires on $expire. Purchase time: $purchase, Active time: $active."
 msgstr ""
 
-#: lua/home.lua:246
+#: lua/home.lua:270
 msgid "Expired (expiration time: $expire). Purchase time: $purchase, Active time: $active."
 msgstr ""
 
-#: lua/home.lua:255
+#: lua/home.lua:281
 msgid "Not activated. $purchase, $force_active, $first_day"
 msgstr ""
 
-#: lua/home.lua:268
+#: lua/home.lua:303
 msgid "wkocourse^Free"
 msgstr ""
 
+#: lua/home.lua:316
+msgid "Extension"
+msgstr ""
+
 #: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:1
-msgid "Open coure reference"
+msgid "Extension course"
 msgstr ""
 
 #: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:3
-msgid "Open demo"
+msgid "Open coure reference"
 msgstr ""
 
 #: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:5
+msgid "Open demo"
+msgstr ""
+
+#: po/cfg-cpp/aplt_leagor_khomelua-lib/aplt.cpp:7
 msgid "Purchase"
 msgstr ""

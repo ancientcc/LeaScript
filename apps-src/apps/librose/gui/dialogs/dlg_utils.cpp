@@ -29,18 +29,7 @@ namespace aplt {
 extern void iot_device_to_cfg(const aplt::tiot_device& device, config& cfg);
 
 }
-/*
-std::string scene_get_file_val(const aplt::tbase_scene& scene)
-{
-	const std::string file_key = "file";
-	std::string file;
 
-	if (scene.input_vars.count(file_key) != 0) {
-		file = scene.input_vars.find(file_key)->second;
-	}
-	return file;
-}
-*/
 namespace gui2 {
 
 #define MAX_USE_SIMPLE_SCNE_DRAG_MENU_DOTS		450

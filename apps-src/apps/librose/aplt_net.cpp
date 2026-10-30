@@ -16,8 +16,8 @@
 #include <iomanip>
 #include <openssl/sha.h>
 
-
 #include "minizip/minizip.hpp"
+#include "wkoscript.hpp"
 
 #define ERRCODE_LOW_VERSION		-2
 #define ERRCODE_NO_MOBILE		-3
@@ -58,15 +58,25 @@ static int material_type_from_id(const std::string& id)
 namespace net {
 // int agbox_minus_local = 0;
 
+const int max_vericode_size = 6;
+const int vericode_reserve_secs = 60;
+
+bool check_vericode_size(const int size)
+{
+	return size == 4 || size == 6;
+}
+
 truser::truser()
-	: keepalive(10)
-	, uid(nposm)
+	: uid(nposm)
+	, expire_time(nposm)
+	, keepalive(10)
 {}
 
 void truser::did_logout()
 {
 	sessionid.clear();
 	uid = nposm;
+	expire_time = nposm;
 
 	pwcookie.clear();
 	preferences::set_login_pwcookie(null_str);
@@ -92,7 +102,7 @@ static std::string generic_handle_response(const int code, Json::Value& json_obj
 		handled = true;
 
 	} else */ if (code == ERRCODE_PASSWORD_ERROR) {
-		err << _("Password error");
+		err << _("Incorrect account or password");
 		handled = true;
 
 	} else if (code == ERRCODE_LOW_VERSION) {
@@ -190,6 +200,9 @@ bool cswamp_did_pre_agbox(net::HttpRequestHeaders& headers, std::string& body, c
 		const std::string json_str = writer.write(json_root);
 		const int prefix_size = 4;
 
+		// int ii = 0;
+		// SDL_Log("json_str: %s", json_str.c_str());
+
 		const size_t size = prefix_size + json_str.size() + buf.vsize + SHA_DIGEST_LENGTH;
 		char* buf2 = (char*)malloc(size);
 
@@ -214,6 +227,22 @@ bool cswamp_did_pre_agbox(net::HttpRequestHeaders& headers, std::string& body, c
 
 	headers.SetHeader(net::HttpRequestHeaders::kContentType, "application/json; charset=UTF-8");
 	return true;
+}
+
+static std::map<std::string, std::string> err_aliases;
+
+void initial()
+{
+	VALIDATE(cswamp_login_usernametypes.empty(), null_str);
+
+	cswamp_login_usernametypes.insert(std::make_pair(cswamp_login_usernametype_mobile, 
+		tcode3(cswamp_login_usernametype_mobile, "mobile", _("net^usernamtype, mobile"))));
+	cswamp_login_usernametypes.insert(std::make_pair(cswamp_login_usernametype_username, 
+		tcode3(cswamp_login_usernametype_username, "username", _("net^usernamtype, username"))));
+	VALIDATE(cswamp_login_usernametypes.size() == (int)cswamp_login_usernametype_count, null_str);
+
+	VALIDATE(err_aliases.empty(), null_str);
+	err_aliases.insert(std::make_pair("Password error", _("Incorrect account or password")));
 }
 
 bool cswamp_did_post_agbox(const net::RoseDelegate& delegate, int status, gui2::tprogress_& progress, bool quiet, ihttp_cswamp& entity)
@@ -258,7 +287,9 @@ bool cswamp_did_post_agbox(const net::RoseDelegate& delegate, int status, gui2::
 						msg = std::string("Empty error-msg, code: ") + str_cast(code);
 					}
 					symbols["msg"] = msg;
-					err << vgettext2("method: $method\n$msg", symbols);
+					// err << vgettext2("method: $method\n$msg", symbols);
+
+					err << msg;
 				} else {
 					Json::Value& results = json_object["results"];
 					if (results.isObject()) {
@@ -276,7 +307,13 @@ bool cswamp_did_post_agbox(const net::RoseDelegate& delegate, int status, gui2::
 
 	if (!err.str().empty()) {
 		if (!quiet) {
-			gui2::show_message(null_str, err.str());
+			std::string err_msg = err.str();
+/*
+			if (err_aliases.count(err_msg) != 0) {
+				err_msg = err_aliases.find(err_msg)->second;
+			}
+*/
+			gui2::show_message(null_str, err_msg);
 		}
 		return false;
 	}
@@ -317,6 +354,10 @@ bool cswamp_did_post_with_binary(const net::RoseDelegate& delegate, int status, 
 
 	try {
 		std::string json_str(content + prefix_size, json_size);
+		{
+			// int ii = 0;
+			// SDL_Log("post, json_str: %s", json_str.c_str());
+		}
 		Json::Reader reader;
 		Json::Value json_object;
 		if (!reader.parse(json_str, json_object)) {
@@ -346,14 +387,19 @@ bool cswamp_did_post_with_binary(const net::RoseDelegate& delegate, int status, 
 						err << entity.post(results);
 
 						if (err.str().empty()) {
-							const uint8_t* binary = (const uint8_t*)content + prefix_size + json_str.size();
 							int binary_size = content_size - prefix_size - json_size;
-							if (binary_size <= SHA_DIGEST_LENGTH) {
+							if (binary_size == 0) {
+
+							} else if (binary_size < SHA_DIGEST_LENGTH) {
 								err << _("SHA1 fail. not enoth bytes for SHA1 verify");
+
 							} else {
+								// When there is no binary data, the server may still send a 20-byte hash checksum; 
+								// in that case, just discard it.
 								binary_size -= SHA_DIGEST_LENGTH;
 							}
-							if (err.str().empty()) {
+							const uint8_t* binary = (const uint8_t*)content + prefix_size + json_str.size();							
+							if (err.str().empty() && binary_size != 0) {
 								std::unique_ptr<uint8_t[]> md = utils::sha1(binary, binary_size);
 								if (memcmp(binary + binary_size, md.get(), SHA_DIGEST_LENGTH) != 0) {
 									err << _("SHA1 fail. verify data fail");
@@ -1196,15 +1242,92 @@ bool do_downloadfile(gui2::tprogress_& progress, const version_info& curr_versio
 	return ret;
 }
 
-// agbox/village --> getInfo
-class thttp_cswamp_device_login: public ihttp_cswamp
+// cswamp --> device/vericode
+class thttp_cswamp_device_vericode: public ihttp_cswamp
 {
 public:
-	thttp_cswamp_device_login(gui2::tprogress_& progress, int type, const std::string& username, const std::string& password, const std::string& deviceid, const std::string& devicename, int timeout, bool quiet, tcswamp_login_result& result)
-		: ihttp_cswamp(progress, form_url2("cswamp/device/login"), quiet)
+	thttp_cswamp_device_vericode(gui2::tprogress_& progress, const std::string& mobile, int type, int timeout, bool quiet)
+		: ihttp_cswamp(progress, form_url2("cswamp/device/vericode"), quiet)
+		, mobile_(mobile)
 		, type_(type)
+		, timeout_(timeout)
+		, quiet_(false)
+	{}
+
+private:
+	void verify_param() override;
+	int timeout_ms() const override { return timeout_; }
+	bool pre(Json::Value& json_params) const override;
+	std::string post(Json::Value& results) override;
+
+private:
+	const std::string mobile_;
+	int type_;
+	const int timeout_;
+	const bool quiet_;
+};
+
+void thttp_cswamp_device_vericode::verify_param()
+{
+	VALIDATE(!mobile_.empty(), null_str);
+	VALIDATE(type_ >= 0 && type_ < cswamp_vericodetype_count, null_str);
+}
+
+
+static std::map<int, std::string> cswamp_vericode_types;
+
+bool thttp_cswamp_device_vericode::pre(Json::Value& json_params) const
+{
+	if (cswamp_vericode_types.empty()) {
+		cswamp_vericode_types.insert(std::make_pair(cswamp_vericodetype_register, "register"));
+		cswamp_vericode_types.insert(std::make_pair(cswamp_vericodetype_resetpwd, "resetpwd"));
+		cswamp_vericode_types.insert(std::make_pair(cswamp_vericodetype_eraseuser, "eraseuser"));
+	}
+	json_params["mobile"] = mobile_;
+	json_params["type"] = cswamp_vericode_types.find(type_)->second;
+
+	return true;
+}
+
+std::string thttp_cswamp_device_vericode::post(Json::Value& results)
+{
+	return null_str;
+}
+
+bool cswamp_vericode(gui2::tprogress_& progress, const std::string& mobile, int type,
+	int timeout, bool quiet)
+{
+	VALIDATE(type >= 0 && type < cswamp_vericodetype_count, null_str);
+	thttp_cswamp_device_vericode entity(progress, mobile, type, timeout == nposm? TIMEOUT_NORMAL: timeout, quiet);
+	return cswamp_do_agbox(progress, entity, false, false);
+}
+
+
+bool cswamp_vericode2(truser& user, const std::string& mobile, int type, int timeout, bool quiet)
+{
+	VALIDATE(!mobile.empty(), null_str);
+
+	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_vericode, _1, mobile, type, 
+			timeout, quiet));
+	bool ret = gui2::run_with_progress(slot, null_str, _("Get vericode"), 1500);
+	if (!ret) {
+		return false;
+	}
+
+	return ret;
+}
+
+// cswamp --> device/register
+class thttp_cswamp_device_register: public ihttp_cswamp
+{
+public:
+	thttp_cswamp_device_register(gui2::tprogress_& progress, const std::string& username, const std::string& password, const std::string& vericode, const std::string& deviceid, const std::string& devicename, int timeout, bool quiet, tcswamp_login_result& result)
+		: ihttp_cswamp(progress, form_url2("cswamp/device/register"), quiet)
+		, username_type_(net::cswamp_login_usernametype_mobile)
+		, type_(net::cswamp_login_passwordtype_password)
 		, username_(username)
 		, password_(password)
+		, vericode_(vericode)
 		, deviceid_(deviceid)
 		, devicename_(devicename)
 		, timeout_(timeout)
@@ -1219,9 +1342,11 @@ private:
 	std::string post(Json::Value& results) override;
 
 private:
+	int username_type_;
 	int type_;
 	const std::string username_;
 	const std::string password_;
+	const std::string vericode_;
 	const std::string deviceid_;
 	const std::string devicename_;
 	const int timeout_;
@@ -1230,46 +1355,74 @@ private:
 	tcswamp_login_result& result_;
 };
 
-void thttp_cswamp_device_login::verify_param()
+void thttp_cswamp_device_register::verify_param()
 {
-	VALIDATE(type_ >= 0 && type_ < cswamp_login_type_count, null_str);
+	VALIDATE(username_type_ == net::cswamp_login_usernametype_mobile, null_str);
+	VALIDATE(type_ == net::cswamp_login_passwordtype_password, null_str);
 	VALIDATE(!username_.empty(), null_str);
 	VALIDATE(!password_.empty(), null_str);
+	VALIDATE(!vericode_.empty(), null_str);
 	VALIDATE(!deviceid_.empty(), null_str);
 	VALIDATE(!devicename_.empty(), null_str);
 }
 
+std::map<int, tcode3> cswamp_login_usernametypes;
 static std::map<int, std::string> cswamp_login_types;
-bool thttp_cswamp_device_login::pre(Json::Value& json_params) const
+
+int cswamp_login_usernametype_from_str(const std::string& str)
+{
+	for (std::map<int, tcode3>::const_iterator it = cswamp_login_usernametypes.begin(); it != cswamp_login_usernametypes.end(); ++ it) {
+		const std::string& type = it->second.id;
+		if (type == str) {
+			return it->first;
+		}
+	}
+	return nposm;
+}
+
+int cswamp_username_type(bool keep_nposm)
+{
+	int result = net::cswamp_login_usernametype_from_str(preferences::login_username_type());
+	if (result == nposm && !keep_nposm) {
+		result = net::cswamp_login_usernametype_mobile;
+	}
+	return result;
+}
+
+bool thttp_cswamp_device_register::pre(Json::Value& json_params) const
 {
 	if (cswamp_login_types.empty()) {
-		cswamp_login_types.insert(std::make_pair(cswamp_login_type_password, "password"));
-		cswamp_login_types.insert(std::make_pair(cswamp_login_type_cookie, "cookie"));
+		cswamp_login_types.insert(std::make_pair(cswamp_login_passwordtype_password, "password"));
+		cswamp_login_types.insert(std::make_pair(cswamp_login_passwordtype_cookie, "cookie"));
 	}
-	json_params["type"] = cswamp_login_types.find(type_)->second;
-	json_params["username"] = username_;
+	json_params["mobile"] = username_;
 	json_params["password"] = password_;
+	json_params["vericode"] = vericode_;
 	json_params["deviceid"] = deviceid_;
 	json_params["devicename"] = devicename_;
-	SDL_Log("[chromium]thttp_cswamp_device_login::pre, type: %s, username_: %s, password: %s", 
-		cswamp_login_types.find(type_)->second.c_str(), username_.c_str(), password_.c_str());
 
 	return true;
 }
 
-std::string thttp_cswamp_device_login::post(Json::Value& results)
+std::string thttp_cswamp_device_register::post(Json::Value& results)
 {
 	result_.sessionid = results["sessionid"].asString();
 	result_.pwcookie = results["pwcookie"].asString();
 	result_.uid = results["uid"].asInt64();
-	SDL_Log("[chromium]thttp_cswamp_device_login::post, sessionid: %s, pwcookie: %s", result_.sessionid.c_str(), result_.pwcookie.c_str());
+	result_.expire_time = results["expire_time"].asInt64();
+
+	result_.username = results["username"].asString();
+	result_.mobile = results["mobile"].asString();
+
+	SDL_Log("[chromium]thttp_cswamp_device_register::post, sessionid: %s, pwcookie: %s, valid period: %i", 
+		result_.sessionid.c_str(), result_.pwcookie.c_str(), (int)(result_.expire_time - time(nullptr)));
 	return null_str;
 }
 
-bool cswamp_login(gui2::tprogress_& progress, int type, const std::string& username, const std::string& password, 
+bool cswamp_register(gui2::tprogress_& progress, const std::string& username, const std::string& password, const std::string& vericode,
 	const std::string& deviceid, const std::string& devicename, int timeout, bool quiet, tcswamp_login_result& result)
 {
-	thttp_cswamp_device_login entity(progress, type, username, password, deviceid, devicename, timeout == nposm? TIMEOUT_NORMAL: timeout, quiet, result);
+	thttp_cswamp_device_register entity(progress, username, password, vericode, deviceid, devicename, timeout == nposm? TIMEOUT_NORMAL: timeout, quiet, result);
 	return cswamp_do_agbox(progress, entity, false, false);
 }
 
@@ -1287,7 +1440,131 @@ static std::string login_devicename()
 	return devicename;
 }
 
-bool cswamp_login2(truser& user, int type, const std::string& username, const std::string& password, int timeout, bool quiet)
+bool cswamp_register2(truser& user, const std::string& mobile, const std::string& password, const std::string& vericode, int timeout, bool quiet)
+{
+	VALIDATE(!mobile.empty(), null_str);
+	VALIDATE(!password.empty(), null_str);
+	VALIDATE(!vericode.empty(), null_str);
+	VALIDATE(!user.deviceid.empty(), null_str);
+
+	// net::tcswamp_login_result result;
+	const std::string devicename = login_devicename();
+
+	user.clear();
+
+	tcswamp_login_result result;
+	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_register, _1,
+			mobile, password, vericode, user.deviceid, devicename, timeout, quiet, std::ref(result)));
+	bool ret = gui2::run_with_progress(slot, null_str, _("Register"), 1500);
+	if (!ret) {
+		return false;
+	}
+	VALIDATE(result.mobile == mobile, null_str);
+
+	user.sessionid = result.sessionid;
+	user.pwcookie = result.pwcookie;
+	user.uid = result.uid;
+	user.expire_time = result.expire_time;
+
+	user.username = result.username;
+	user.mobile = result.mobile;
+
+	preferences::set_login_username(user.username);
+	preferences::set_login_mobile(user.mobile);
+
+	preferences::set_login_username_type(cswamp_login_usernametypes.find(net::cswamp_login_usernametype_mobile)->second.id);
+	preferences::set_login_pwcookie(user.pwcookie);
+
+	return ret;
+}
+
+// cswamp --> device/login
+class thttp_cswamp_device_login: public ihttp_cswamp
+{
+public:
+	thttp_cswamp_device_login(gui2::tprogress_& progress, int username_type, int password_type, const std::string& username, const std::string& password, const std::string& deviceid, const std::string& devicename, int timeout, bool quiet, tcswamp_login_result& result)
+		: ihttp_cswamp(progress, form_url2("cswamp/device/login"), quiet)
+		, username_type_(username_type)
+		, type_(password_type)
+		, username_(username)
+		, password_(password)
+		, deviceid_(deviceid)
+		, devicename_(devicename)
+		, timeout_(timeout)
+		, quiet_(false)
+		, result_(result)
+	{}
+
+private:
+	void verify_param() override;
+	int timeout_ms() const override { return timeout_; }
+	bool pre(Json::Value& json_params) const override;
+	std::string post(Json::Value& results) override;
+
+private:
+	int username_type_;
+	int type_;
+	const std::string username_;
+	const std::string password_;
+	const std::string deviceid_;
+	const std::string devicename_;
+	const int timeout_;
+	const bool quiet_;
+
+	tcswamp_login_result& result_;
+};
+
+void thttp_cswamp_device_login::verify_param()
+{
+	VALIDATE(username_type_ >= 0 && username_type_ < cswamp_login_usernametype_count, null_str);
+	VALIDATE(type_ >= 0 && type_ < cswamp_login_passwordtype_count, null_str);
+	VALIDATE(!username_.empty(), null_str);
+	VALIDATE(!password_.empty(), null_str);
+	VALIDATE(!deviceid_.empty(), null_str);
+	VALIDATE(!devicename_.empty(), null_str);
+}
+
+bool thttp_cswamp_device_login::pre(Json::Value& json_params) const
+{
+	if (cswamp_login_types.empty()) {
+		cswamp_login_types.insert(std::make_pair(cswamp_login_passwordtype_password, "password"));
+		cswamp_login_types.insert(std::make_pair(cswamp_login_passwordtype_cookie, "cookie"));
+	}
+	json_params["logintype"] = cswamp_login_usernametypes.find(username_type_)->second.id;
+	json_params["type"] = cswamp_login_types.find(type_)->second;
+	json_params["username"] = username_;
+	json_params["password"] = password_;
+	json_params["deviceid"] = deviceid_;
+	json_params["devicename"] = devicename_;
+	SDL_Log("[chromium]thttp_cswamp_device_login::pre, type: %s, username_: %s, password: %s", 
+		cswamp_login_types.find(type_)->second.c_str(), username_.c_str(), password_.c_str());
+
+	return true;
+}
+
+std::string thttp_cswamp_device_login::post(Json::Value& results)
+{
+	result_.sessionid = results["sessionid"].asString();
+	result_.pwcookie = results["pwcookie"].asString();
+	result_.uid = results["uid"].asInt64();
+	result_.expire_time = results["expire_time"].asInt64();
+
+	result_.username = results["username"].asString();
+	result_.mobile = results["mobile"].asString();
+
+	SDL_Log("[chromium]thttp_cswamp_device_login::post, sessionid: %s, pwcookie: %s, valid period: %i", 
+		result_.sessionid.c_str(), result_.pwcookie.c_str(), (int)(result_.expire_time - time(nullptr)));
+	return null_str;
+}
+
+bool cswamp_login(gui2::tprogress_& progress, int username_type, int password_type, const std::string& username, const std::string& password, 
+	const std::string& deviceid, const std::string& devicename, int timeout, bool quiet, tcswamp_login_result& result)
+{
+	thttp_cswamp_device_login entity(progress, username_type, password_type, username, password, deviceid, devicename, timeout == nposm? TIMEOUT_NORMAL: timeout, quiet, result);
+	return cswamp_do_agbox(progress, entity, false, false);
+}
+
+bool cswamp_login2(truser& user, int username_type, int password_type, const std::string& username, const std::string& password, int timeout, bool quiet)
 {
 	VALIDATE(!username.empty(), null_str);
 	VALIDATE(!password.empty(), null_str);
@@ -1298,32 +1575,53 @@ bool cswamp_login2(truser& user, int type, const std::string& username, const st
 
 	user.clear();
 
-	if (type == cswamp_login_type_password) {
+	if (password_type == cswamp_login_passwordtype_password) {
 		
 	} else {
-		VALIDATE(type == cswamp_login_type_cookie, null_str);
-		VALIDATE(username == user.username, null_str);
+		VALIDATE(password_type == cswamp_login_passwordtype_cookie, null_str);
+		if (username_type == cswamp_login_usernametype_username) {
+			VALIDATE(username == user.username, null_str);
+		} else {
+			VALIDATE(username == user.mobile, null_str);
+		}
 		VALIDATE(password == user.pwcookie, null_str);
 	}
 
 	tcswamp_login_result result;
-	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_login, _1, type, 
+	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_login, _1, username_type, password_type, 
 			username, password, user.deviceid, devicename, timeout, quiet, std::ref(result)));
 	bool ret = gui2::run_with_progress(slot, null_str, _("Login"), 1500);
 	if (!ret) {
 		return false;
 	}
 
-	if (username != user.username) {
-		user.username = username;
-		preferences::set_login_username(user.username);
-	}
 	user.sessionid = result.sessionid;
 	user.pwcookie = result.pwcookie;
 	user.uid = result.uid;
 	preferences::set_login_pwcookie(user.pwcookie);
 
+	user.username = result.username;
+	user.mobile = result.mobile;
+
+	preferences::set_login_username(user.username);
+	preferences::set_login_mobile(user.mobile);
+
 	return ret;
+}
+
+void cswamp_login3(truser& user)
+{
+	if (preferences::login_pwcookie().empty()) {
+		return;
+	}
+
+	int username_type = net::cswamp_username_type();
+	std::string username = username_type == net::cswamp_login_usernametype_mobile? 
+		preferences::login_mobile(): preferences::login_username();
+	std::string cookie = preferences::login_pwcookie();
+	if (username_type != nposm && !username.empty() && !cookie.empty()) {
+		net::cswamp_login2(user, username_type, net::cswamp_login_passwordtype_cookie, username, cookie, nposm, true);
+	}
 }
 
 // cswamp/device --> logout
@@ -1372,6 +1670,212 @@ bool cswamp_logout(gui2::tprogress_& progress, const std::string& sessionid, boo
 	return cswamp_do_agbox(progress, entity, false, false);
 }
 
+// cswamp --> device/resetpwd
+class thttp_cswamp_device_resetpwd: public ihttp_cswamp
+{
+public:
+	thttp_cswamp_device_resetpwd(gui2::tprogress_& progress, const std::string& mobile, const std::string& vericode, const std::string& password, int timeout, bool quiet)
+		: ihttp_cswamp(progress, form_url2("cswamp/device/resetpwd"), quiet)
+		, mobile_(mobile)
+		, vericode_(vericode)
+		, password_(password)
+		, timeout_(timeout)
+		, quiet_(false)
+	{}
+
+private:
+	void verify_param() override;
+	int timeout_ms() const override { return timeout_; }
+	bool pre(Json::Value& json_params) const override;
+	std::string post(Json::Value& results) override;
+
+private:
+	const std::string mobile_;
+	const std::string vericode_;
+	const std::string password_;
+	const int timeout_;
+	const bool quiet_;
+};
+
+void thttp_cswamp_device_resetpwd::verify_param()
+{
+	VALIDATE(!mobile_.empty(), null_str);
+	VALIDATE(!vericode_.empty(), null_str);
+	VALIDATE(!password_.empty(), null_str);
+}
+
+bool thttp_cswamp_device_resetpwd::pre(Json::Value& json_params) const
+{
+	json_params["mobile"] = mobile_;
+	json_params["vericode"] = vericode_;
+	json_params["password"] = password_;
+	return true;
+}
+
+std::string thttp_cswamp_device_resetpwd::post(Json::Value& results)
+{
+	return null_str;
+}
+
+bool cswamp_resetpwd(gui2::tprogress_& progress, const std::string& mobile, const std::string& vericode, const std::string& password, 
+	int timeout, bool quiet)
+{
+	thttp_cswamp_device_resetpwd entity(progress, mobile, vericode, password, timeout == nposm? TIMEOUT_NORMAL: timeout, quiet);
+	return cswamp_do_agbox(progress, entity, false, false);
+}
+
+bool cswamp_resetpwd2(truser& user, const std::string& mobile, const std::string& vericode, const std::string& password, int timeout, bool quiet)
+{
+	VALIDATE(!vericode.empty(), null_str);
+	VALIDATE(!password.empty(), null_str);
+
+	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_resetpwd, _1, 
+			mobile, vericode, password, timeout, quiet));
+	bool ret = gui2::run_with_progress(slot, null_str, _("Reset password"), 1500);
+	if (!ret) {
+		return false;
+	}
+	return ret;
+}
+
+// cswamp --> device/updateusername
+class thttp_cswamp_device_updateusername: public ihttp_cswamp
+{
+public:
+	thttp_cswamp_device_updateusername(gui2::tprogress_& progress, const std::string& sessionid, const std::string& username, int timeout, bool quiet)
+		: ihttp_cswamp(progress, form_url2("cswamp/device/updateusername"), quiet)
+		, sessionid_(sessionid)
+		, username_(username)
+		, timeout_(timeout)
+		, quiet_(false)
+	{}
+
+private:
+	void verify_param() override;
+	int timeout_ms() const override { return timeout_; }
+	bool pre(Json::Value& json_params) const override;
+	std::string post(Json::Value& results) override;
+
+private:
+	const std::string sessionid_;
+	const std::string username_;
+	const int timeout_;
+	const bool quiet_;
+};
+
+void thttp_cswamp_device_updateusername::verify_param()
+{
+	VALIDATE(!sessionid_.empty(), null_str);
+	VALIDATE(!username_.empty(), null_str);
+}
+
+bool thttp_cswamp_device_updateusername::pre(Json::Value& json_params) const
+{
+	json_params["sessionid"] = sessionid_;
+	json_params["username"] = username_;
+	return true;
+}
+
+std::string thttp_cswamp_device_updateusername::post(Json::Value& results)
+{
+	return null_str;
+}
+
+bool cswamp_updateusername(gui2::tprogress_& progress, const std::string& sessionid, const std::string& username, 
+	int timeout, bool quiet)
+{
+	thttp_cswamp_device_updateusername entity(progress, sessionid, username, timeout == nposm? TIMEOUT_NORMAL: timeout, quiet);
+	return cswamp_do_agbox(progress, entity, false, false);
+}
+
+bool cswamp_updateusername2(truser& user, const std::string& username, int timeout, bool quiet)
+{
+	VALIDATE(user.valid(), null_str);
+	VALIDATE(user.username != username, null_str);
+
+	VALIDATE(!user.sessionid.empty(), null_str);
+	VALIDATE(!username.empty(), null_str);
+
+	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_updateusername, _1, 
+			user.sessionid, username, timeout, quiet));
+	bool ret = gui2::run_with_progress(slot, null_str, _("Update username"), 1500);
+	if (!ret) {
+		return false;
+	}
+	user.username = username;
+	preferences::set_login_username(user.username);
+
+	return ret;
+}
+
+// cswamp --> device/eraseuser
+class thttp_cswamp_device_eraseuser: public ihttp_cswamp
+{
+public:
+	thttp_cswamp_device_eraseuser(gui2::tprogress_& progress, const std::string& sessionid, const std::string& vericode, int timeout, bool quiet)
+		: ihttp_cswamp(progress, form_url2("cswamp/device/eraseuser"), quiet)
+		, sessionid_(sessionid)
+		, vericode_(vericode)
+		, timeout_(timeout)
+		, quiet_(false)
+	{}
+
+private:
+	void verify_param() override;
+	int timeout_ms() const override { return timeout_; }
+	bool pre(Json::Value& json_params) const override;
+	std::string post(Json::Value& results) override;
+
+private:
+	const std::string sessionid_;
+	const std::string vericode_;
+	const int timeout_;
+	const bool quiet_;
+};
+
+void thttp_cswamp_device_eraseuser::verify_param()
+{
+	VALIDATE(!sessionid_.empty(), null_str);
+	VALIDATE(!vericode_.empty(), null_str);
+}
+
+bool thttp_cswamp_device_eraseuser::pre(Json::Value& json_params) const
+{
+	json_params["sessionid"] = sessionid_;
+	json_params["vericode"] = vericode_;
+	return true;
+}
+
+std::string thttp_cswamp_device_eraseuser::post(Json::Value& results)
+{
+	return null_str;
+}
+
+bool cswamp_eraseuser(gui2::tprogress_& progress, const std::string& sessionid, const std::string& vericode, 
+	int timeout, bool quiet)
+{
+	thttp_cswamp_device_eraseuser entity(progress, sessionid, vericode, timeout == nposm? TIMEOUT_NORMAL: timeout, quiet);
+	return cswamp_do_agbox(progress, entity, false, false);
+}
+
+bool cswamp_eraseuser2(truser& user, const std::string& vericode, int timeout, bool quiet)
+{
+	VALIDATE(user.valid(), null_str);
+	VALIDATE(!vericode.empty(), null_str);
+
+	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_eraseuser, _1, 
+			user.sessionid, vericode, timeout, quiet));
+	bool ret = gui2::run_with_progress(slot, null_str, _("login^Erase user"), 1500);
+	if (!ret) {
+		return false;
+	}
+
+	user.did_logout();
+	user.username.clear();
+	preferences::set_login_pwcookie(user.pwcookie);
+
+	return ret;
+}
 
 // cswamp/device --> syncappletlist
 class thttp_cswamp_device_syncappletlist: public ihttp_cswamp
@@ -1436,12 +1940,15 @@ class thttp_cswamp_device_addevent: public ihttp_cswamp
 {
 public:
 	thttp_cswamp_device_addevent(gui2::tprogress_& progress, const std::string& sessionid, 
-		int64_t ts, const std::string& devicename, const std::string& desc, int image_format, const std::vector<timage_pair>& images, bool quiet)
+		int64_t ts, int type, int64_t receiver_uid, const Json::Value& json_event, int image_format, const std::vector<timage_pair>& images, bool quiet)
 		: ihttp_cswamp(progress, form_url2("cswamp/device/addevent"), quiet)
 		, sessionid_(sessionid)
 		, ts_(ts)
-		, devicename_(devicename)
-		, desc_(desc)
+		// , devicename_(devicename)
+		// , desc_(desc)
+		, type_(type)
+		, receiver_uid_(receiver_uid)
+		, json_event_(json_event)
 		, image_format_(image_format)
 		, images_(images)
 		, timeout_(TIMEOUT_10S)
@@ -1457,8 +1964,11 @@ private:
 private:
 	const std::string sessionid_;
 	int64_t ts_;
-	const std::string devicename_;
-	const std::string desc_;
+	// const std::string devicename_;
+	// const std::string desc_;
+	int type_;
+	int64_t receiver_uid_;
+	Json::Value json_event_;
 	int image_format_;
 	const std::vector<timage_pair> images_;
 	const int timeout_;
@@ -1466,18 +1976,29 @@ private:
 	std::string bundleids_;
 };
 
-void thttp_cswamp_device_addevent::verify_param()
-{
-	VALIDATE(!sessionid_.empty(), null_str);
-	VALIDATE(!desc_.empty() || !images_.empty(), null_str);
-	VALIDATE(image_format_ == img_png || image_format_ == img_jpg, null_str);
-}
+static std::map<int, std::string> cswamp_event_types = {
+	{cswamp_evttype_fan_to_courseup, "fan_to_courseup"},
+	{cswamp_evttype_courseup_to_fan, "courseup_to_fan"},
+	{cswamp_evttype_courseup_to_fans, "courseup_to_fans"},
+};
 
 static const char* image_formats[] = {
 	"png",
 	"jpeg"
 };
 static int nb_image_formats = sizeof(image_formats) / sizeof(image_formats[0]);
+
+void thttp_cswamp_device_addevent::verify_param()
+{
+	VALIDATE(!sessionid_.empty(), null_str);
+	VALIDATE(type_ >= 0 && type_ < cswamp_evttype_count, null_str);
+	if (type_ == cswamp_evttype_courseup_to_fan) {
+		VALIDATE(receiver_uid_ != nposm, null_str);
+	}
+	VALIDATE(!json_event_.empty(), null_str);
+	// VALIDATE(!images_.empty(), null_str);
+	VALIDATE(image_format_ == nposm || (image_format_ >= 0 && image_format_ < nb_image_formats), null_str);
+}
 
 int image_type_from_str(const std::string& str)
 {
@@ -1496,9 +2017,12 @@ bool thttp_cswamp_device_addevent::pre_binary(Json::Value& json_params, tuint8da
 {
 	json_params["sessionid"] = sessionid_;
 	json_params["time"] = ts_;
-	json_params["devicename"] = devicename_;
-	json_params["desc"] = desc_;
-	json_params["imageformat"] = image_formats[image_format_];
+	json_params["type"] = cswamp_event_types.find(type_)->second;
+	if (receiver_uid_ != nposm) {
+		json_params["receiver_uid"] = receiver_uid_;
+	}
+	json_params["event"] = json_event_;
+	json_params["imageformat"] = image_format_ != nposm? image_formats[image_format_]: null_str;
 
 	const int max_image_size = CONSTANT_1M * 5;
 	if (!images_.empty()) {
@@ -1530,8 +2054,8 @@ bool thttp_cswamp_device_addevent::pre_binary(Json::Value& json_params, tuint8da
 	json_params["imagesize"] = buf.vsize;
 	json_params["images"] = json_images;
 
-	SDL_Log("[chromium]thttp_cswamp_device_addevent::pre_binary, devicename_: %s, desc: %s", 
-		devicename_.c_str(), desc_.c_str());
+	// SDL_Log("[chromium]thttp_cswamp_device_addevent::pre_binary, devicename_: %s, desc: %s", 
+	//	devicename_.c_str(), desc_.c_str());
 
 	return true;
 }
@@ -1542,10 +2066,21 @@ std::string thttp_cswamp_device_addevent::post(Json::Value& results)
 	return null_str;
 }
 
-bool cswamp_addevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t ts, const std::string& devicename, const std::string& desc, int image_format, const std::vector<timage_pair>& images, bool quiet)
+bool cswamp_addevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t ts, int type, int64_t receiver_uid, const Json::Value& json_event, int image_format, const std::vector<timage_pair>& images, bool quiet)
 {
-	thttp_cswamp_device_addevent entity(progress, sessionid, ts, devicename, desc, image_format, images, quiet);
+	thttp_cswamp_device_addevent entity(progress, sessionid, ts, type, receiver_uid, json_event, image_format, images, quiet);
 	return cswamp_do_agbox(progress, entity, true, false);
+}
+
+bool cswamp_addevent2(truser& user, int64_t ts, int type, int64_t receiver_uid, const Json::Value& json_event, int image_format, const std::vector<timage_pair>& images, bool quiet)
+{
+	VALIDATE(user.valid(), null_str);
+
+	// int image_format = img_png;
+	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_addevent, _1, user.sessionid, 
+			ts, type, receiver_uid, json_event, image_format, std::ref(images), quiet));
+	bool ret = gui2::run_with_progress(slot, null_str, null_str, 1);
+	return ret;
 }
 
 // cswamp/device/getevent
@@ -1553,7 +2088,7 @@ class thttp_cswamp_device_getevent: public ihttp_cswamp
 {
 public:
 	thttp_cswamp_device_getevent(gui2::tprogress_& progress, const std::string& sessionid, 
-		int64_t event_time, std::set<trobot_event>& events, int timeout, bool quiet)
+		int64_t event_time, std::set<aplt::twkoevent>& events, int timeout, bool quiet)
 		: ihttp_cswamp(progress, form_url2("cswamp/device/getevent"), quiet)
 		, sessionid_(sessionid)
 		, event_time_(event_time)
@@ -1579,7 +2114,7 @@ private:
 	const std::string sessionid_;
 	const std::string file_;
 	int64_t event_time_;
-	std::set<trobot_event>& events_;
+	std::set<aplt::twkoevent>& events_;
 	const int timeout_;
 	const bool quiet_;
 
@@ -1620,10 +2155,16 @@ std::string thttp_cswamp_device_getevent::post_binary(const uint8_t* data, int s
 			const Json::Value& json_event = event_list[at];
 
 			// events_.push_back(trobot_event());
-			trobot_event new_event;
+			aplt::twkoevent new_event;
 			new_event.ts = json_event["time"].asInt64();
-			new_event.devicename = json_event["devicename"].asString();
-			new_event.desc = json_event["desc"].asString();
+			const Json::Value& json_event2 = json_event["event"];
+			if (!json_event2.isObject()) {
+				continue;
+			}
+			new_event.revise.from_json(json_event2);
+			if (!new_event.revise.valid()) {
+				continue;
+			}
 
 			const Json::Value& image_list = json_event["images"];
 			if (image_list.isArray()) {
@@ -1662,7 +2203,7 @@ std::string thttp_cswamp_device_getevent::post_binary(const uint8_t* data, int s
 	return null_str;
 }
 
-bool cswamp_getevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t event_time, std::set<trobot_event>& events, int& count, bool quiet)
+bool cswamp_getevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t event_time, std::set<aplt::twkoevent>& events, int& count, bool quiet)
 {
 	events.clear();
 	count = 0;
@@ -1723,7 +2264,8 @@ std::string thttp_cswamp_device_keepalive::post(Json::Value& results)
 bool cswamp_keepalive(gui2::tprogress_& progress, const std::string& sessionid, bool quiet, int64_t& event_time)
 {
 	event_time = 0;
-	thttp_cswamp_device_keepalive entity(progress, sessionid, TIMEOUT_NORMAL, quiet);
+	int timeout = TIMEOUT_6S;
+	thttp_cswamp_device_keepalive entity(progress, sessionid, timeout, quiet);
 	bool ret = cswamp_do_agbox(progress, entity, false, false);
 	if (ret) {
 		event_time = entity.event_time;

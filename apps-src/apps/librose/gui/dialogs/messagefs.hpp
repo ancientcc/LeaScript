@@ -31,7 +31,7 @@ namespace gui2 {
 class tmessagefs : public tdialog
 {
 public:
-	tmessagefs(const std::string& message, const std::string& ok_caption = null_str, const std::string& cancel_caption = null_str);
+	tmessagefs(const std::string& msg, int msg_halign, const std::string& ok_caption, const std::string& cancel_caption, const std::string& extra_caption);
 
 protected:
 	/** Inherited from tdialog. */
@@ -40,16 +40,22 @@ protected:
 	/** Inherited from tdialog, implemented by REGISTER_DIALOG. */
 	virtual const std::string& window_id() const override;
 
+	void click_extra(tbutton& widget);
+
 private:
 	/** The message to show to the user. */
-	std::string message_;
+	std::string msg_;
+	int msg_halign_;
 
+	std::string extra_caption_;
 	std::string ok_caption_;
 	std::string cancel_caption_;
 };
 
 // fullscreen style's show_message
-int show_messagefs(const std::string& message, const std::string& ok_caption = null_str, const std::string& cancel_caption = null_str);
+int show_messagefs(const std::string& msg, const std::string& ok_caption = null_str, 
+	const std::string& cancel_caption = null_str, const std::string& extra_caption = null_str,
+	int msg_halign = halign_left);
 
 } // namespace gui2
 

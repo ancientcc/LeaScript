@@ -15,6 +15,7 @@ function aplt_leagor_khomelua__home.construct()
 	var.startup_ticks_ = rose.SDL_GetTicks();
 	var.current_layer_ = nposm;
 	var.curr_course_at = npoms;
+	var.prerequisite_at = nposm;
 	return 0;
 end
 
@@ -69,7 +70,11 @@ function aplt_leagor_khomelua__home.pre_course(grid)
 	local aplt = aplt_leagor_khomelua;
 	local _ = aplt._;
 
-	local widget = gui2.find_widget(grid, "purchase_grid", false, true);
+	local widget = gui2.find_widget(grid, "goto_prerequisite", false, true);
+	widget:set_did_left_click("click_goto_prerequisite", {});
+	var.goto_prerequisite_widget_ = widget;
+
+	widget = gui2.find_widget(grid, "purchase_grid", false, true);
 	var.purchase_grid_widget_ = widget;
 
 	widget = gui2.find_widget(grid, "currency", false, true);
@@ -94,6 +99,11 @@ function aplt_leagor_khomelua__home.pre_course(grid)
 	widget:set_did_left_click("click_open_url", {reference = nil});
 	var.course_reference_widget_ = widget;
 
+	widget = gui2.find_widget(grid, "extensions", false, true);
+	widget:set_border("blue_ellipse");
+	widget:set_did_left_click("click_extensions", {});
+	var.extensions_widget_ = widget;
+
 	var.wkocourse_enrolls_ = map.new();
 
 	this.reload_wkocourse_enrolls_metadata();
@@ -113,17 +123,26 @@ function aplt_leagor_khomelua__home.pre_course(grid)
 
 	var.wkocourses_ = {};
 	widget = gui2.find_widget(grid, "course_report", false, true);
+	var.course_report_ = widget;
 	local size = #files;
 	for at = 0, size - 1 do
 		local file = files[at + 1];
-		table.insert(var.wkocourses_, file);
 
-		local item = widget:insert_item("", #file.id > 0 and file.title or file.file);
+		table.insert(var.wkocourses_, file);
+		--[[
+		if (#file["prerequisite"] == 0) then
+			local item = widget:insert_item("", #file.id > 0 and file.title or file.file);
+			item:set_cookie(at);
+		end
+		]]--
 	end
 
 	-- rose.cpp_breakpoint();
 
 	widget:set_did_item_changed("did_course_report_changed");
+
+	assert(var.prerequisite_at == nposm);
+	this.reload_course_report();
 	if (file_count ~= 0) then
 		widget:select_item(0);
 	end
@@ -184,26 +203,32 @@ function aplt_leagor_khomelua__home.click_course_purchase(widget)
 	local aplt = aplt_leagor_khomelua;
 	local this = aplt_leagor_khomelua__home;
 	local var = this.var;
-	local _ = aplt._
+	local _ = aplt._;
+	local vgettext2 = aplt.vgettext2;
 
 	local wkocourse = var.wkocourses_[var.curr_course_at + 1];
 	local id2 = rose.convert_string(aplt.bundleid, rosek.STRCVT_JOIN_APP_PREFIX_ID, wkocourse["id"])
 	
-	local msg = _("This course is free. Do you want to purchase it?");
+	local msg = _("This course is free. Do you want to purchase it?")
+	if (wkocourse["price"] ~= 0) then
+		local price_str = rose.integer_tostr(wkocourse["price"], rosek.FMT_FEN_TO_YUAN);
+		msg = vgettext2("The price of this course is $price yuan. Do you want to purchase it?",
+			{price = price_str});
+	end
 	local retval = gui2.show_message(nil, msg, gui2k.tmessage_yes_no_buttons);
 	if (not retval) then
 		return;
 	end
 
-	-- _("This course is free. Do you want to purchase it?")
-
 	local enroll = var.wkocourse_enrolls_:find(id2);
-	assert(not enroll);
+	-- 'not enroll' or 'is_expired'
 
-	local retbool = rose.wkocourse_purchase(aplt.bundleid, wkocourse["id"]);
-	if (retbool) then
+	local err_msg = rose.wkocourse_purchase(aplt.bundleid, wkocourse["id"], wkocourse["price"]);
+	if (#err_msg == 0) then
 		this.reload_wkocourse_enrolls_metadata();
 		this.update_course_ui();
+	else
+		gui2.show_message(nil, err_msg);
 	end
 end
 
@@ -221,8 +246,9 @@ function aplt_leagor_khomelua__home.update_course_ui()
 	local enroll = var.wkocourse_enrolls_:find(id2);
 
 	local enroll_msg = "";
-	local allow_purchase = wkocourse_is_valid and (not enroll);
-	var.purchase_grid_widget_:set_visible(allow_purchase and gui2k.tvisible_VISIBLE or gui2k.tvisible_INVISIBLE)
+	-- local allow_purchase = wkocourse_is_valid and (not enroll);
+	local allow_purchase = false;
+	local is_expired = false;
 
 	if (not wkocourse_is_valid) then
 		enroll_msg = _("Not a valid course script.");
@@ -243,7 +269,9 @@ function aplt_leagor_khomelua__home.update_course_ui()
 					{expire = expire_str,
 					purchase = purchase_str,
 					active = active_str});
-				-- is_expired = true;
+				is_expired = true;
+
+				allow_purchase = true;
 			end
 
 		else
@@ -261,6 +289,11 @@ function aplt_leagor_khomelua__home.update_course_ui()
 			--]]
 		end
 	else
+		allow_purchase = true;
+	end
+
+	var.purchase_grid_widget_:set_visible(allow_purchase and gui2k.tvisible_VISIBLE or gui2k.tvisible_INVISIBLE)
+	if (allow_purchase) then
 		local price_label = nil;
 		if (wkocourse.price ~= 0) then
 			price_msg = string.format("%.2f", wkocourse.price / 100)
@@ -275,7 +308,18 @@ function aplt_leagor_khomelua__home.update_course_ui()
 	this.course_reference = is_valid_reference and wkocourse["reference"] or nil;
 	var.course_reference_widget_:set_visible(is_valid_reference and gui2k.tvisible_VISIBLE or gui2k.tvisible_INVISIBLE);
 
+	local extension_count = #wkocourse["extensions"];
+	if (extension_count ~= 0) then
+		-- local extensions_label = _("Extension").. "(" .. extension_count .. ")";
+		local extensions_label = _("Extension").. " . " .. extension_count;
+		var.extensions_widget_:set_label(extensions_label);
+	end
+	-- If the prerequisite course has not been purchased, do not display 'extesions' button.
+	local show_extesions = enroll and extension_count ~= 0 and not is_expired;
+	var.extensions_widget_:set_visible(show_extesions and gui2k.tvisible_VISIBLE or gui2k.tvisible_INVISIBLE);
+
 	var.course_enroll_widget_:set_label(enroll_msg);
+
 	var.course_description_widget_:set_label(wkocourse["description"]);
 
 	-- rose.cpp_breakpoint();
@@ -305,10 +349,100 @@ function aplt_leagor_khomelua__home.did_course_report_changed(report, widget)
 	local _ = aplt._;
 	local vgettext2 = aplt.vgettext2;
 	
-	local current_layer = widget:at();
-	var.curr_course_at = current_layer;
+	var.curr_course_at = widget:cookie();
 
 	this.update_course_ui();
+end
+
+function aplt_leagor_khomelua__home.reload_course_report()
+	local aplt = aplt_leagor_khomelua;
+	local this = aplt_leagor_khomelua__home;
+	local var = this.var;
+	local vgettext2 = aplt.vgettext2;
+	local _ = aplt._;
+
+	local widget = var.course_report_;
+	widget:clear();
+
+	local files = var.wkocourses_;
+	local size = #files;
+
+	var.goto_prerequisite_widget_:set_visible(var.prerequisite_at ~= nposm and gui2k.tvisible_VISIBLE or gui2k.tvisible_INVISIBLE);
+
+	if (var.prerequisite_at == nposm) then
+		for at = 0, size - 1 do
+			local file = files[at + 1];
+
+			if (#file["prerequisite"] == 0) then
+				local item = widget:insert_item("", #file.id > 0 and file.title or file.file);
+				item:set_cookie(at);
+			end
+		end
+	else
+		assert(var.prerequisite_at >= 0 and var.prerequisite_at < size);
+		local prerequisite = files[var.prerequisite_at + 1];
+		local extensions = prerequisite["extensions"];
+		local extension_count = #extensions;
+		assert(extension_count > 0);
+
+		for at = 0, extension_count - 1 do
+			local extension = extensions[at + 1];
+			local file = files[extension.at + 1]
+
+			assert(file["prerequisite"] == prerequisite.id);
+
+			local item = widget:insert_item("", #file.id > 0 and file.title or file.file);
+			item:set_cookie(extension.at);
+		end
+
+		-- rose.cpp_breakpoint();
+	end
+
+end
+
+function aplt_leagor_khomelua__home.click_extensions(widget, cfg)
+	local aplt = aplt_leagor_khomelua;
+	local this = aplt_leagor_khomelua__home;
+	local var = this.var;
+	local vgettext2 = aplt.vgettext2;
+	local _ = aplt._;
+
+	assert(var.prerequisite_at == nposm);
+
+	var.prerequisite_at = var.curr_course_at;	
+	this.reload_course_report();
+	var.course_report_:select_item(0);
+end
+
+function aplt_leagor_khomelua__home.click_goto_prerequisite(widget, cfg)
+	local aplt = aplt_leagor_khomelua;
+	local this = aplt_leagor_khomelua__home;
+	local var = this.var;
+	local vgettext2 = aplt.vgettext2;
+	local _ = aplt._;
+
+	local files = var.wkocourses_;
+	local size = #files;
+
+	assert(var.prerequisite_at >= 0 and var.prerequisite_at < size);
+
+	local original_prerequisite_at = var.prerequisite_at;
+	var.prerequisite_at = nposm;
+	this.reload_course_report();
+
+	local sel_item_at = nposm;
+	local report = var.course_report_;
+	local report_items = report:items();
+
+	for at = 0, report_items - 1 do
+		local item = report:item(at);
+
+		if (item:cookie() == original_prerequisite_at) then
+			sel_item_at = at;
+		end
+	end
+	assert(sel_item_at ~= nposm);
+	var.course_report_:select_item(sel_item_at);
 end
 
 function aplt_leagor_khomelua__home.did_day_segment_report_changed(report, widget)

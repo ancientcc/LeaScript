@@ -4901,6 +4901,12 @@
     <ClCompile Include="..\..\librose\gui\dialogs\insert_scene.cpp">
       <Filter>gui\dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\librose\gui\dialogs\register.cpp">
+      <Filter>gui\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\librose\gui\dialogs\action_lib2.cpp">
+      <Filter>gui\dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\external\boost\libs\regex\src\internals.hpp">
@@ -7679,6 +7685,12 @@
       <Filter>gui\dialogs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\librose\gui\dialogs\insert_scene.hpp">
+      <Filter>gui\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\librose\gui\dialogs\register.hpp">
+      <Filter>gui\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\librose\gui\dialogs\action_lib2.hpp">
       <Filter>gui\dialogs</Filter>
     </ClInclude>
   </ItemGroup>

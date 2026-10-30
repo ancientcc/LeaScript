@@ -278,7 +278,9 @@ private:
 	bool select_internal(twidget* widget, const bool selected = false);
 	void gc_insert_or_erase_row(const int row, const bool insert);
 
+	twidget* get_my_drag_grid_or_toggle_row(const twidget& widget);
 	void invalidate_layout(twidget* widget) override;
+	bool gc_handle_height_may_changed(const twidget& widget) override;
 	void validate_visible_pre_change(const twidget& widget) const override;
 
 	/**

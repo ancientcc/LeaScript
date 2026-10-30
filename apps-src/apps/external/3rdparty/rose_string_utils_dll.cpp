@@ -43,12 +43,21 @@ bool isnewline(const char c)
 
 // Make sure that we can use Mac, DOS, or Unix style text files on any system
 // and they will work, by making sure the definition of whitespace is consistent
+/*
 bool portable_isspace(const char c)
 {
 	// returns true only on ASCII spaces
 	if (static_cast<unsigned char>(c) >= 128)
 		return false;
 	return isnewline(c) || isspace(c);
+}
+*/
+
+bool portable_isspace(const char c)
+{
+    unsigned char uc = static_cast<unsigned char>(c);
+    return uc == ' ' || uc == '\t' || uc == '\n' ||
+           uc == '\v' || uc == '\f' || uc == '\r';
 }
 
 // Make sure we regard '\r' and '\n' as a space, since Mac, Unix, and DOS
@@ -88,19 +97,69 @@ bool is_empty_or_all_portable_space(const std::string& str)
 	return true;
 }
 
-std::string& strip(std::string &str)
+
+/*
+#include <cstring>
+#include <string>
+
+namespace {
+    struct SpaceTable {
+        bool table[256];
+        constexpr SpaceTable() : table{} {
+            table[static_cast<unsigned char>(' ')]  = true;
+            table[static_cast<unsigned char>('\t')] = true;
+            table[static_cast<unsigned char>('\n')] = true;
+            table[static_cast<unsigned char>('\v')] = true;
+            table[static_cast<unsigned char>('\f')] = true;
+            table[static_cast<unsigned char>('\r')] = true;
+        }
+    };
+    constexpr SpaceTable kSpaceTable;
+
+    inline bool portable_isspace_fast(char c) noexcept {
+        return kSpaceTable.table[static_cast<unsigned char>(c)];
+    }
+}
+*/
+std::string& strip(std::string& str, bool keep_if_all_space)
 {
-	// If all the string contains is whitespace,
-	// then the whitespace may have meaning, so don't strip it
-	std::string::iterator it = std::find_if(str.begin(), str.end(), notspace);
-	if (it == str.end()) {
+    const size_t len = str.size();
+    if (len == 0) {
 		return str;
 	}
 
-	str.erase(str.begin(), it);
-	str.erase(std::find_if(str.rbegin(), str.rend(), notspace).base(), str.end());
+    char* data = &str[0];
 
-	return str;
+    if (!portable_isspace(data[0]) &&
+        !portable_isspace(data[len - 1])) {
+        return str;
+    }
+
+    size_t begin = 0;
+    size_t end = len;
+
+    while (begin < end && portable_isspace(data[begin])) {
+		++begin;
+	}
+
+    if (begin == end) {
+		// all is space.
+		if (!keep_if_all_space) {
+			str.clear(); // default, return empty.
+		}
+		return str;
+	}
+
+    while (end > begin && portable_isspace(data[end - 1])) {
+		-- end;
+	}
+
+    const size_t newLen = end - begin;
+    if (begin != 0) {
+        memmove(data, data + begin, newLen);
+    }
+    str.resize(newLen);
+    return str;
 }
 
 std::string &strip_end(std::string &str)
@@ -196,7 +255,7 @@ int64_t to_int64(const std::string& str, bool hex)
 	const char* c_str = str.c_str();
 	int size = str.size();
 
-	int ret = 0;
+	int64_t ret = 0;
 	if (hex || (size >= 2 && c_str[0] == '0' && (c_str[1] == 'x' || c_str[1] == 'X'))) {
 		// hex
 		for (int at = hex? 0: 2; at < size; at ++) {
@@ -2260,6 +2319,50 @@ std::string format_i64size(int64_t size)
 	return ss.str();
 }
 
+
+// Convert an amount in cents to a string in yuan.
+//   2   -> "0.02"
+//   12  -> "0.12"
+//   112 -> "1.12"
+std::string format_fen_to_yuan(int fen, bool show_unit, bool full_width)
+{
+    // Handle the case where taking the absolute value of INT_MIN would overflow.
+    long long amount = fen;
+    bool negative = false;
+
+    if (amount < 0) {
+        negative = true;
+        amount = -amount;
+    }
+
+    int yuan = amount / 100;   // Yuan part
+    int jiao_fen = amount % 100;     // Jiao and fen, range 0 to 99.
+
+    // Reserve enough space: minus sign + digits + '.' + two decimal places + '\0'
+    char buf[64];
+
+	int len = 0;
+	if (show_unit) {
+		if (!full_width) {
+			// half width
+			len = SDL_snprintf(buf, sizeof(buf), "%s\xC2\xA5%d.%02d",
+		            negative ? "-" : "", yuan, jiao_fen);
+		} else {
+			// full width
+			// std::snprintf
+			const char* symbol = "\xEF\xBF\xA5";   // (UTF-8)
+			len = SDL_snprintf(buf, sizeof(buf), "%s%s%d.%02d",
+                  negative ? "-" : "", symbol, yuan, jiao_fen);
+		}
+
+	} else {
+		len = SDL_snprintf(buf, sizeof(buf), "%s%d.%02d",
+		            negative ? "-" : "", yuan, jiao_fen);
+	}
+
+    return std::string(buf, len);
+}
+
 int days_in_month(int year, int month)
 {
 	VALIDATE(year > 0 && month >= 1 && month <= 12, null_str);
@@ -2553,6 +2656,43 @@ int64_t calculate_0h0m0s_ts(int64_t ts)
 	return ts - calculate_hour24_time(ts);
 }
 
+std::string replace_all_deepseek(const std::string& s, const std::string& oldsub, const std::string& newsub)
+{
+    if (oldsub.empty()) {
+		return s;
+	}
+
+    // First count the number of matches to 'reserve' precisely.
+    std::size_t cnt = 0;
+    for (std::string::size_type p = s.find(oldsub); p != std::string::npos;
+         p = s.find(oldsub, p + oldsub.size()))
+        ++cnt;
+
+    std::string ret;
+    if (cnt == 0) {
+		// No match; avoid extra copying.
+		return s;
+	}
+
+    // Length change = cnt * (newsub.size() - oldsub.size()); note that it may be negative.
+    std::size_t new_len = s.size();
+    if (newsub.size() >= oldsub.size()) {
+        new_len += cnt * (newsub.size() - oldsub.size());
+	} else {
+        new_len -= cnt * (oldsub.size() - newsub.size());
+	}
+    ret.reserve(new_len);
+
+    std::string::size_type start = 0, pos;
+    while ((pos = s.find(oldsub, start)) != std::string::npos) {
+        ret.append(s, start, pos - start);
+        ret.append(newsub);
+        start = pos + oldsub.size();
+    }
+    ret.append(s, start, s.size() - start);
+    return ret;
+}
+
 // below to replace_all is copy from StringReplace(<protobuf>/src/google/protobuf/stubs/strutil.cc)
 std::string replace_all(const std::string &s, const std::string& oldsub, const std::string& newsub)
 {
@@ -2573,6 +2713,9 @@ std::string replace_all(const std::string &s, const std::string& oldsub, const s
 		start_pos = pos + oldsub.size();  // start searching again after the "old"
 	} while (true);
 	ret.append(s, start_pos, s.length() - start_pos);
+
+	// If there are no issues, keep 'replace_all_deepseek()' and remove 'replace_all()'.
+	VALIDATE(replace_all_deepseek(s, oldsub, newsub) == ret, null_str);
 	return ret;
 }
 
@@ -2954,6 +3097,25 @@ std::string freq_msgstr(int msgid)
 	}
 
 	return null_str;
+}
+
+std::string freq_msgstr_1str(int msgid, const std::string& str)
+{
+	utils::string_map symbols;
+	std::string msgstr;
+	if (msgid == msgid_not_logged_in) {
+		const std::string& action = str;
+		symbols["action"] = action;
+
+		msgstr = vgettext2("Not logged in. Log in to $action.", symbols);
+
+	} else if (msgid == sent_xx_not_undone) {
+		const std::string& xx = str;
+		symbols["xx"] = xx;
+		msgstr = vgettext2("Once the $xx is sent, it cannot be undone. Do you want to continue?", symbols);
+
+	}
+	return msgstr;
 }
 
 std::string freq_msgstr_2str(int msgid, const std::string& str1, const std::string& str2)

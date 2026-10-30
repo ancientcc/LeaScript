@@ -136,6 +136,7 @@ class game_instance: public base_instance, /*public gui2::trstore::tslot,*/
 public:
 	game_instance(rtc::PhysicalSocketServer& ss, int argc, char** argv);
 
+	const std::string& launcher_user_dir() const { return launcher_user_dir_; }
 	int sdl_field_small_font_size() const { return sdl_field_small_font_size_; }
 
 	tble2& ble() { return ble_; }
@@ -157,6 +158,8 @@ public:
 	void makesure_deviceid();
 	// bool will_enter_landscape_module(const std::string& reason);
 
+	void IAP_onPurchaseResult(int status, const char* message, int transactionId, const char* jws);
+
 private:
 	void app_load_settings_config(const config& cfg) override;
 	void app_pre_setmode(tpre_setmode_settings& settings) override;
@@ -173,7 +176,16 @@ private:
 	int sdl_GetTtyUSB(SDL_ttyUSB** ppttyUSB) override;
 	int get_serial_path(int driver_type, std::string& path, std::string& model) override;
 
-	void purchase_wkocourse(const std::string& aplt, const std::string& id) override;
+	void purchase_wkocourse(const std::string& aplt, const std::string& id, int price) override
+	{
+		wkocourse_helper_.purchase_wkocourse(aplt, id, price);
+	}
+
+	std::string app_wkorevise_import(const aplt::twkorevise& revise) override
+	{
+		VALIDATE(revise.valid(), null_str);
+		return health_.wkorevise_import(revise);
+	}
 
 	// aplt::tb_api
 	std::string request_task(const aplt::treq_task& req_task, const aplt::ttask_vars& task_vars,
@@ -330,6 +342,7 @@ private:
 
 
 private:
+	const std::string launcher_user_dir_;
 	int sdl_field_small_font_size_;
 	tble2 ble_;
 	tpbremotes pbremotes_;
@@ -352,10 +365,13 @@ private:
 
 	// std::map<std::string, aplt::twkocourse_enroll> wkocourse_enrolls_;
 	std::map<std::string, aplt::twkocourse> wkocourses_;
+
+	twkocourse_helper wkocourse_helper_;
 };
 
 game_instance::game_instance(rtc::PhysicalSocketServer& ss, int argc, char** argv)
 	: base_instance(ss, argc, argv)
+	, launcher_user_dir_(game_config::preferences_dir + "/" + "aplt_leagor_khome__documents")
 	, sdl_field_small_font_size_(nposm)
 	, ble_(this)
 	, drivers_(*this, applets_, base_driver_, os_info_, std::bind(&game_instance::did_driver_refreshed, this, _1, _2, _3))
@@ -364,6 +380,8 @@ game_instance::game_instance(rtc::PhysicalSocketServer& ss, int argc, char** arg
 	, cfg_cpp_api_(applets_, bg_task_, base_driver_)
 	, bg_task2_(applets_, drivers_, cfg_cpp_api_, bg_task_, camera_, def_script_, def_tflite_, base_driver_)
 	, store_slot_(applets_, bg_task_, cfg_cpp_api_, drivers_, base_driver_, wkocourse_enrolls_, wkocourses_)
+	, health_(launcher_user_dir_)
+	, wkocourse_helper_(applets_, health_, wkocourse_enrolls_, wkocourses_)
 {
 	// To avoid accidents, always enable them every time.
 	preferences::set_sound(true);
@@ -522,11 +540,46 @@ std::pair<std::string, ::google::protobuf::MessageLite*> game_instance::app_pbli
 
 }
 
+void game_instance::IAP_onPurchaseResult(int status, const char* message, int transactionId, const char* jws)
+{
+	SDL_Log("%u tid(%" PRId64 ") IAP_onPurchaseResult(status: %i, message: %s, transactionId: %i, jws: %s)", 
+		SDL_GetTicks(), SDL_ThreadID(), status, message, transactionId, jws);
+
+	char buf[1024];
+	SDL_snprintf(buf, sizeof(buf), "status: %i\nmessage: %s\ntransactionId: %i\njws: %s",
+		status, message, transactionId, jws);
+	gui2::show_message(null_str, buf);
+/*
+    if (transactionId == 0) {
+        // 这是恢复购买的回调
+        if (status == 0) {
+            // unlockCourse(message);  // 恢复了一个商品
+        } else if (status == 1) {
+            // onRestoreCompleted();   // 恢复流程结束
+        }
+    } else {
+        // 这是普通购买的回调
+        if (transactionId == g_currentTransactionId) {
+            // g_purchaseState = PurchaseState::Idle;
+            // 处理购买结果
+        }
+    }
+*/
+}
+
+void IAP_onPurchaseResult(int status, const char* message, int transactionId, const char* jws, void* userdata)
+{
+	game_instance* game = reinterpret_cast<game_instance*>(userdata);
+	game->IAP_onPurchaseResult(status, message, transactionId, jws);
+}
+
 void game_instance::app_post_lua()
 {
 	// lua::register_ros_metatable(lua_->get_state(), *this);
 
 	drivers_.init(applets_);
+
+	SDL_IAP_SetCallback(::IAP_onPurchaseResult, this);
 }
 
 void game_instance::app_aplt_slice()
@@ -590,7 +643,7 @@ void game_instance::start_health_controller()
 
 	hotkey::scope_changer changer(core_cfg(), "hotkey_health");
 	health_controller chart(scene_slot, core_cfg(), video_, health_, wkocourse_enrolls_, 
-		wkocourses_, sdl_field_small_font_size_);
+		wkocourses_, current_user, launcher_user_dir_, sdl_field_small_font_size_);
 	chart.initialize(initial_zoom);
 	chart.main_loop();
 }
@@ -604,6 +657,7 @@ void game_instance::makesure_deviceid()
 	}
 
 	current_user.username = preferences::login_username();
+	current_user.mobile = preferences::login_mobile();
 	current_user.pwcookie = preferences::login_pwcookie();
 }
 
@@ -918,40 +972,6 @@ int game_instance::get_serial_path(int driver_type, std::string& path, std::stri
     return nposm;
 }
 
-void game_instance::purchase_wkocourse(const std::string& aplt, const std::string& id)
-{
-	std::string id2 = utils::join_app_prefix_id(aplt, id);
-	// std::map<std::string, aplt::twkocourse_enroll>& enrolls = instance->wkocourse_enrolls();
-	std::map<std::string, aplt::twkocourse_enroll>& enrolls = wkocourse_enrolls_;
-	VALIDATE(enrolls.count(id2) == 0, null_str);
-
-	// 1/3: update enroll
-	std::pair<std::map<std::string, aplt::twkocourse_enroll>::iterator, bool> ins = enrolls.insert(std::make_pair(id2, aplt::twkocourse_enroll()));
-	aplt::twkocourse_enroll& enroll = ins.first->second;
-	enroll.do_purchase(aplt, id);
-
-	// 2/3: update wkocourses in pref.
-	wkocourse_enrolls_to_pref(enrolls);
-
-	// 3/3: update wkocourses
-	VALIDATE(wkocourses_.count(id2) == 0, null_str);
-
-	const aplt::tapplet* aplt2 = aplt::aplt_from_bundleid(applets_, enroll.aplt);
-	VALIDATE(aplt2 != nullptr, null_str);
-
-	std::pair<std::map<std::string, aplt::twkocourse>::iterator, bool> ins2 =
-		wkocourses_.insert(std::make_pair(enroll.id2, aplt::twkocourse()));
-
-	aplt::twkocourse& wkocourse = ins2.first->second;
-	std::string err_msg = wkocourse.from_aplt_file(*aplt2, enroll.id_to_filename());
-	VALIDATE(wkocourse.valid(), null_str);
-/*
-	if (!wkocourse.valid()) {
-		wkocourses_.erase(ins.first);
-	}
-*/
-}
-
 lua_State* game_instance::get_lua_State() const
 {
 	return lua_->get_state();
@@ -1174,11 +1194,14 @@ static int do_gameloop(int argc, char** argv)
 	try {
 		preferences::set_keyboard_style(keyboard_style_default);
 
-		if (!preferences::login_username().empty() && !preferences::login_pwcookie().empty()) {
-			const std::string username = preferences::login_username();
-			const std::string cookie = preferences::login_pwcookie();
-
-			net::cswamp_login2(current_user, net::cswamp_login_type_cookie, username, cookie, nposm, true);
+		if (!preferences::login_pwcookie().empty()) {
+			int username_type = net::cswamp_username_type();
+			std::string username = username_type == net::cswamp_login_usernametype_mobile? 
+				preferences::login_mobile(): preferences::login_username();
+			std::string cookie = preferences::login_pwcookie();
+			if (username_type != nposm && !username.empty() && !cookie.empty()) {
+				net::cswamp_login2(current_user, username_type, net::cswamp_login_passwordtype_cookie, username, cookie, nposm, true);
+			}
 		}
 
 		int startup_layer = gui2::thome::RDP_LAYER;

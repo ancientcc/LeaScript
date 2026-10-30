@@ -318,6 +318,7 @@ public:
 enum {coltype_voice_state, coltype_pose_state, coltype_rep, coltype_seg, coltype_count};
 
 #define misc_btn_open_url	pl_btn_stop
+#define misc_btn_do_comment	pl_btn_step_backward
 
 struct tworkout_fields
 {
@@ -326,7 +327,7 @@ public:
 		fid_legend_nonpose_state_duration, fid_legend_pose_state_duration, 
 		fid_legend_satisfied_duration, fid_legend_unsatisfied_duration, fid_legend_improper_alert,
 		fid_legend_seg_duration, fid_legend_rep_duration, fid_legend_active_period, fid_legend_cooldown_period,
-		fid_unsatisfied_msg, fid_chart_remark, fid_count};
+		fid_unsatisfied_msg, fid_chart_remark, fid_comment, fid_do_comment, fid_count};
 
 	tworkout_fields(const SDL_Range& range_ms)
 		: Y_axis_label_width(33)
@@ -336,7 +337,8 @@ public:
 		, unsatisfied_msg_to_chart_remark_gap_y(5)
 		, share(bool_set_none)
 		, range_ms(range_ms)
-		, cairo_draw_start_btn(false)
+		, draw_start_btn(false)
+		, draw_comment_btn(false)
 		, cols(nullptr)
 		, col_count(0)
 		, has_seg(false)
@@ -364,6 +366,8 @@ public:
 		arrays[fid_legend_cooldown_period] = &legend_cooldown_period;
 		arrays[fid_unsatisfied_msg] = &unsatisfied_msg;
 		arrays[fid_chart_remark] = &chart_remark;
+		arrays[fid_comment] = &comment;
+		arrays[fid_do_comment] = &do_comment;
 
 		for (int at = 0; at < fid_count; at ++) {
 			VALIDATE(arrays[at] != nullptr, null_str);
@@ -427,8 +431,11 @@ public:
 	tsdl_field legend_cooldown_period;
 	tsdl_field unsatisfied_msg;
 	tsdl_field chart_remark;
+	tsdl_field comment;
+	tsdl_field do_comment;
 	tsdl_field* arrays[fid_count];
-	bool cairo_draw_start_btn;
+	bool draw_start_btn;
+	bool draw_comment_btn;
 
 	struct tcol2_C
 	{

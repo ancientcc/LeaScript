@@ -73,7 +73,7 @@ LIB3RDPARTY_DECL bool has_portable_space_2end(const std::string& str);
 LIB3RDPARTY_DECL bool is_empty_or_all_portable_space(const std::string& str);
 
 // Remove whitespace from the front and back of the string 'str'.
-LIB3RDPARTY_DECL std::string& strip(std::string& str);
+LIB3RDPARTY_DECL std::string& strip(std::string& str, bool keep_if_all_space = false);
 // Remove whitespace from the back of the string 'str'.
 LIB3RDPARTY_DECL std::string& strip_end(std::string& str);
 
@@ -253,6 +253,7 @@ LIB3RDPARTY_DECL std::string weekday_name_form_tm_wday(int index, bool abbr);
 LIB3RDPARTY_DECL int get_tm_wday(time_t t);
 LIB3RDPARTY_DECL std::string get_weekday_name(time_t t, bool abbr);
 LIB3RDPARTY_DECL std::string format_i64size(int64_t size);
+LIB3RDPARTY_DECL std::string format_fen_to_yuan(int fen, bool show_unit = false, bool full_width = false);
 
 LIB3RDPARTY_DECL int days_in_month(int year, int month);
 LIB3RDPARTY_DECL int64_t interval_seconds_by_months(int months);

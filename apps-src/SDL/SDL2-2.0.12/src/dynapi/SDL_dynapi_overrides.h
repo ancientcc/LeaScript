@@ -811,6 +811,9 @@
 #define SDL_StartScreenRecording SDL_StartScreenRecording_REAL
 #define SDL_StopScreenRecording SDL_StopScreenRecording_REAL
 #define SDL_IsScreenRecording SDL_IsScreenRecording_REAL
+#define SDL_IAP_SetCallback SDL_IAP_SetCallback_REAL
+#define SDL_IAP_Purchase SDL_IAP_Purchase_REAL
+#define SDL_IAP_Restore SDL_IAP_Restore_REAL
 #define SDL_GetOsInfo SDL_GetOsInfo_REAL
 #define SDL_PrintText SDL_PrintText_REAL
 #define SDL_EnableRelay SDL_EnableRelay_REAL

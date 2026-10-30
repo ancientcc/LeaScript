@@ -12,6 +12,8 @@
 
 namespace aplt {
 
+class twkoevent;
+
 extern const std::map<int, std::string> material_types;
 
 struct tcswamp_material
@@ -70,6 +72,17 @@ public:
 }
 
 namespace net {
+
+void initial();
+
+extern const int max_vericode_size;
+extern const int vericode_reserve_secs;
+bool check_vericode_size(const int size);
+
+extern std::map<int, tcode3> cswamp_login_usernametypes;
+int cswamp_login_usernametype_from_str(const std::string& str);
+int cswamp_username_type(bool keep_nposm = false);
+
 struct truser
 {
 public:
@@ -80,17 +93,20 @@ public:
 	{
 		sessionid.clear();
 		uid = nposm;
+		expire_time = nposm;
 	}
 
 	void did_logout();
 
 public:
 	std::string username;
+	std::string mobile;
 	std::string pwcookie;
 	std::string deviceid;
 
 	std::string sessionid;
 	int64_t uid;
+	int64_t expire_time;
 
 	int keepalive; // unit: second
 };
@@ -135,24 +151,43 @@ bool do_uploadfile(gui2::tprogress_& progress, const std::string& sessionid, con
 bool do_downloadfile(gui2::tprogress_& progress, const version_info& curr_version, const std::string& sessionid, 
 	const std::string& filetype, const std::string& src, const std::string& uuid, int64_t uid, const std::string& disk_filename, bool quiet, int* ver_result_ptr);
 
-enum {cswamp_login_type_password, cswamp_login_type_cookie, cswamp_login_type_count};
+enum {cswamp_vericodetype_register, cswamp_vericodetype_resetpwd, cswamp_vericodetype_eraseuser, cswamp_vericodetype_count};
+bool cswamp_vericode(gui2::tprogress_& progress, const std::string& mobile, int type,
+	int timeout, bool quiet);
+
+enum {cswamp_login_usernametype_mobile, cswamp_login_usernametype_username, cswamp_login_usernametype_count};
+enum {cswamp_login_passwordtype_password, cswamp_login_passwordtype_cookie, cswamp_login_passwordtype_count};
 struct tcswamp_login_result
 {
 	std::string sessionid;
 	std::string pwcookie;
 	int64_t uid;
+	int64_t expire_time;
+
+	std::string username;
+	std::string mobile;
 };
 
-bool cswamp_login(gui2::tprogress_& progress, int type, const std::string& username, const std::string& password, 
-	const std::string& deviceid, const std::string& devicename, int timeout, bool quiet, tcswamp_login_result& result);
-bool cswamp_login2(truser& user, int type, const std::string& username, const std::string& password, 
+bool cswamp_register2(truser& user, const std::string& username, const std::string& password, const std::string& vericode,
 	int timeout, bool quiet);
+
+bool cswamp_login(gui2::tprogress_& progress, int username_type, int password_type, const std::string& username, const std::string& password, 
+	const std::string& deviceid, const std::string& devicename, int timeout, bool quiet, tcswamp_login_result& result);
+bool cswamp_login2(truser& user, int username_type, int password_type, const std::string& username, const std::string& password, 
+	int timeout, bool quiet);
+void cswamp_login3(truser& user);
+
+bool cswamp_resetpwd2(truser& user, const std::string& mobile, const std::string& vericode, const std::string& password, int timeout, bool quiet);
+bool cswamp_updateusername2(truser& user, const std::string& username, int timeout, bool quiet);
+bool cswamp_eraseuser2(truser& user, const std::string& vericode, int timeout, bool quiet);
 
 bool cswamp_logout(gui2::tprogress_& progress, const std::string& sessionid, bool quiet);
 bool cswamp_syncappletlist(gui2::tprogress_& progress, const std::string& sessionid, int app, const std::vector<std::string>& adds, const std::vector<std::string>& removes, bool quiet);
 
-bool cswamp_addevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t ts, const std::string& devicename, const std::string& desc, int image_format, const std::vector<timage_pair>& images, bool quiet);
-bool cswamp_getevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t event_time, std::set<trobot_event>& events, int& count, bool quiet);
+enum {cswamp_evttype_fan_to_courseup, cswamp_evttype_courseup_to_fan, cswamp_evttype_courseup_to_fans, cswamp_evttype_count};
+bool cswamp_addevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t ts, int type, int64_t receiver_uid, const Json::Value& json_event, int image_format, const std::vector<timage_pair>& images, bool quiet);
+bool cswamp_addevent2(truser& user, int64_t ts, int type, int64_t receiver_uid, const Json::Value& json_event, int image_format, const std::vector<timage_pair>& images, bool quiet);
+bool cswamp_getevent(gui2::tprogress_& progress, const std::string& sessionid, int64_t event_time, std::set<aplt::twkoevent>& events, int& count, bool quiet);
 bool cswamp_keepalive(gui2::tprogress_& progress, const std::string& sessionid, bool quiet, int64_t& event_time);
 
 bool cswamp_querytablecooking(gui2::tprogress_& progress, const std::string& sessionid, int table, tcswamp_table_result& result, bool quiet);

@@ -2611,13 +2611,20 @@ cv::Mat draw_workout_bar_chart(int mat_type, int width, int height, double radiu
     sdl_field = &fields.history;
     sdl_field->offset = SDL_Point{margin.x, margin.y + fields.title.name_text_size.y};
     
-    // X-axis title
+    // unsatisfied_msg
     sdl_field = &fields.unsatisfied_msg;
     sdl_field->offset = SDL_Point{margin.x,
-        height - margin.y - fields.chart_remark.name_text_size.y - fields.unsatisfied_msg_to_chart_remark_gap_y - sdl_field->name_text_size.y};
+        height - margin.y - fields.comment.name_text_size.y - fields.chart_remark.name_text_size.y - fields.unsatisfied_msg_to_chart_remark_gap_y - sdl_field->name_text_size.y};
 
+    // chart_remark
     sdl_field = &fields.chart_remark;
-    sdl_field->offset = SDL_Point{margin.x, height - margin.y - sdl_field->name_text_size.y};
+    sdl_field->offset = SDL_Point{margin.x, 
+        height - margin.y - fields.comment.name_text_size.y - sdl_field->name_text_size.y};
+
+    // comment
+    sdl_field = &fields.comment;
+    sdl_field->offset = SDL_Point{margin.x, 
+        height - margin.y - sdl_field->name_text_size.y};
 /*
     cairo_set_font_size(cr, 14);
     cairo_move_to(cr, width/2 - 30, height - 10);
@@ -2736,7 +2743,7 @@ cv::Mat draw_workout_bar_chart(int mat_type, int width, int height, double radiu
     }
     
     double icon_size = 57.6 * gui2::twidget::hdpi_scale;  // 72(57.6*1.25)
-    if (fields.cairo_draw_start_btn) {
+    if (fields.draw_start_btn) {
         fields.pl_btn_rects[pl_btn_play] = create_rect(margin.x, height - margin.y - icon_size, icon_size, icon_size);
 
         const SDL_Rect& icon = fields.pl_btn_rects[pl_btn_play];
@@ -2759,6 +2766,18 @@ cv::Mat draw_workout_bar_chart(int mat_type, int width, int height, double radiu
         cairo_set_source_rgb(cr, 1, 0, 0);
         drawStopIcon(cr, cx, cy, icon_size);
 */
+    }
+
+    if (fields.draw_comment_btn) {
+        SDL_Size btn_size{(int)(36 * gui2::twidget::hdpi_scale), (int)(36 * gui2::twidget::hdpi_scale)};
+        sdl_field = fields.arrays[fields.fid_do_comment];
+
+        int x = width - margin.x - btn_size.w;
+        int y = height - margin.y - btn_size.h;
+
+        sdl_field->offset.x = x;
+        sdl_field->offset.y = y;
+        fields.pl_btn_rects[misc_btn_do_comment] = SDL_Rect{x, y, btn_size.w, btn_size.h};
     }
 
     // ===== 15. Save image and clean up resources =====

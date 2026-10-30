@@ -916,7 +916,7 @@ void trdcamera::set_curr_script(const aplt::twkoscript& script, int state_at, in
 	VALIDATE(!wko_tlv_history_is_valid(vlog_.last_tlv_history), null_str);
 	if (state_at >= 2) {
 		// 0: speak, 1:setup
-		vlog_.last_tlv_history = health_.find_wko_history(nposm);
+		vlog_.last_tlv_history = health_.find_wko_history(health_.get_h(), nposm, nullptr);
 		VALIDATE(wko_tlv_history_is_valid(vlog_.last_tlv_history), null_str);
 	}
 }
@@ -1924,7 +1924,11 @@ std::string trdcamera::get_xxx_caption_msg(bool start) const
 		int course_day_at = 0;
 		if (enroll.active != nposm) {
 			course_day_at = aplt::today_day_at_to_course_day_at(enroll.active, course.total_days);
+
+		} else if (!course.prerequisite.empty()) {
+			course_day_at = enroll.active_day_at;
 		}
+
 		char buf[256];
 		SDL_snprintf(buf, sizeof(buf), "%s . Day %i/%i", course.title.c_str(), course_day_at + 1, course.total_days);
 
@@ -1940,7 +1944,7 @@ void trdcamera::use_no_swap_wh_tex_render_start(SDL_Renderer* renderer, const ap
 
 	// 0:(speak), 1:(setup), 2(speak this)
 	if (!wko_tlv_history_is_valid(vlog_.last_tlv_history)) {
-		vlog_.last_tlv_history = health_.find_wko_history(nposm);
+		vlog_.last_tlv_history = health_.find_wko_history(health_.get_h(), nposm, nullptr);
 		VALIDATE(wko_tlv_history_is_valid(vlog_.last_tlv_history), null_str);
 	}
 	int font_size = font::SIZE_DEFAULT;
@@ -2051,7 +2055,7 @@ void trdcamera::use_no_swap_wh_tex_render_finish(SDL_Renderer* renderer, const a
 	if (!vlog_.finished_tlv_history_loaded && !wko_tlv_history_is_valid(vlog_.finished_tlv_history)) {
 		VALIDATE(vlog_.first_satisfied_ts > 0, null_str);
 		aplt::thealth::thealth_result2 result2;
-		bool retbool = health_.load_health_data_4_report(time(nullptr), result2);
+		bool retbool = health_.load_health_data_4_report_me(time(nullptr), result2);
 		VALIDATE(result2.valid(), null_str);
 		if (!result2.workouts.empty()) {
 			// This time, a valid tworkout_result2 may not be generated, 
@@ -2298,10 +2302,44 @@ void trdcamera::camera_did_draw_slice_c(int id, SDL_Renderer* renderer, trtc_cli
 	}
 	const SDL_Rect video_dst = camera_.camera_did_draw_slice_use_cv_frame(id, renderer, locals, locals_count, remotes, remotes_count, draw_rect);
 
+	trtc_client::VideoRenderer& vsink = *locals[0];
 	if (!vlog_mode_) {
+		ttexture_2_mat_lock mat_lock(vsink.tex_);
+		const cv::Mat& frame = mat_lock.mat;
+
+		double xratio = 1.0 * video_dst.w / frame.cols;
+		double yratio = 1.0 * video_dst.h / frame.rows;
+
+		// center
+/*
+		render_line(renderer, 0xff00ff00, video_dst.x + frame.cols / 2 * xratio, video_dst.y + 0 * yratio, 
+			video_dst.x + frame.cols / 2 * xratio, video_dst.y + frame.rows * yratio);
+*/
+		// render_line(renderer, 0xff00ff00, video_dst.x + 0 * xratio, video_dst.y + frame.rows / 2 * yratio, 
+		//	video_dst.x + frame.cols * xratio, video_dst.y + frame.rows / 2 * yratio);
+
+		// offset percent
+		int half_line_count = 5;
+		int first_pixel_offset = nposm;
+		for (int at = 0; at < half_line_count; at ++) {
+			int offset_percent = 50 / (half_line_count + 1) * (at + 1);
+			int pixel_offset = frame.cols / 2 - frame.cols * offset_percent / 100;
+			render_line(renderer, 0xff0000ff, video_dst.x + pixel_offset * xratio, video_dst.y + 0 * yratio, 
+				video_dst.x + pixel_offset * xratio, video_dst.y + frame.rows * yratio);
+			if (at == 0) {
+				first_pixel_offset = pixel_offset;
+			}
+/*
+			pixel_offset = frame.cols / 2 + frame.cols * offset_percent / 100;
+			render_line(renderer, 0xff0000ff, video_dst.x + pixel_offset * xratio, video_dst.y + 0 * yratio, 
+				video_dst.x + pixel_offset * xratio, video_dst.y + frame.rows * yratio);
+*/
+		}
+
+		render_line(renderer, 0xff0000ff, video_dst.x + 0 * xratio, video_dst.y + frame.rows / 2 * yratio, 
+			video_dst.x + first_pixel_offset/*frame.cols / 2*/ * xratio, video_dst.y + frame.rows / 2 * yratio);
 		return;
 	}
-	trtc_client::VideoRenderer& vsink = *locals[0];
 	bool use_no_swap_wh_tex = vsink.use_no_swap_wh_tex();
 
 	VALIDATE(vlog_.script != nullptr && vlog_.script->valid(), null_str);
@@ -2338,7 +2376,6 @@ void trdcamera::camera_did_draw_slice_c(int id, SDL_Renderer* renderer, trtc_cli
 			return;
 		}
 	}
-	const int& curr_phase = state2.track_pose.curr_phase_;
 
 	SDL_Point extra_offset = {0};
 	int offset_x = vlog_.margin.t;
@@ -2382,6 +2419,9 @@ void trdcamera::camera_did_draw_slice_c(int id, SDL_Renderer* renderer, trtc_cli
 		offset_x += dstrect.w;
 	}
 
+	// During the cooldown period, may be use next phase's poses.
+	const int curr_using_phase = state2.track_pose.poses.empty()? state2.track_pose.curr_phase_: state2.curr_using_phase();
+
 	// 2/4)phase
 	utils::string_map symbols;
 	std::string phase_str;
@@ -2397,7 +2437,7 @@ void trdcamera::camera_did_draw_slice_c(int id, SDL_Renderer* renderer, trtc_cli
 		symbols["count"] = str_cast(task2->max_count);
 		phase_str.append(" / " + vgettext2("$count reps", symbols));
 
-		phase_str.append(" . " + task2->phases[curr_phase].action_msg);
+		phase_str.append(" . " + task2->phases[state2.track_pose.curr_phase_].action_msg);
 
 	} else {
 		VALIDATE(state2.task->type == aplt::twkoscript::tasktype_speak, null_str);
@@ -2439,7 +2479,7 @@ void trdcamera::camera_did_draw_slice_c(int id, SDL_Renderer* renderer, trtc_cli
 		char buf[16] = {'-', '-', '-'};
 
 		int phase_miss = 0;
-		const uint32_t curr_phase_mask = BIT_IDX_MASK(state2.track_pose.curr_phase_);
+		const uint32_t curr_phase_mask = BIT_IDX_MASK(curr_using_phase);
 		// The first 'for' is only to calculate 'max_gui_pose_name_chars'.
 		for (int at = 0; at < pose_count; at ++) {
 			const aplt::twkoscript::tpose& pose = state2.track_pose.poses[at];

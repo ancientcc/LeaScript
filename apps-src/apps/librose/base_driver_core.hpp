@@ -285,6 +285,8 @@ public:
 		return scene_id_; 
 	}
 
+	bool is_workout_task_ing() const;
+
 	// void did_scene_id_changed(const std::string& new_id);
 	void set_wko_task_slot(aplt::twko_task_slot* slot);
 

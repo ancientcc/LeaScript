@@ -1213,6 +1213,26 @@ void set_theme(const std::string& theme)
 	preferences::set_str("theme", theme);
 }
 
+std::string login_username_type()
+{
+	return preferences::get_str("login_username_type");
+}
+
+void set_login_username_type(const std::string& value)
+{
+	preferences::set_str("login_username_type", value);
+}
+
+std::string login_mobile()
+{
+	return preferences::get_str("login_mobile");
+}
+
+void set_login_mobile(const std::string& value)
+{
+	preferences::set_str("login_mobile", value);
+}
+
 std::string login_username()
 {
 	return preferences::get_str("login_username");

@@ -5,6 +5,12 @@
 #include "gui/widgets/timer.hpp"
 #include "game_config.hpp"
 
+class tbase_driver_core;
+
+namespace aplt {
+class twkoevent;
+}
+
 namespace gui2 {
 
 class tlabel;
@@ -15,7 +21,7 @@ class tkeepalive
 public:
 	enum {MSG_UPDATE_APP = tdialog::POST_MSG_MIN_APP, POST_MSG_BASECLASS};
 
-	explicit tkeepalive();
+	explicit tkeepalive(const tbase_driver_core& base_driver);
 
 	void pre_show(twindow& window, tlabel& status_widget);
 
@@ -28,12 +34,13 @@ private:
 	void time_timer_handler(const SDL_Rect& rect);
 
 	virtual void app_did_network_changed(bool connected) = 0;
-	virtual void app_did_new_events(const std::set<trobot_event>& events) = 0;
+	virtual void app_did_new_events(const std::set<aplt::twkoevent>& events) = 0;
 	virtual bool app_can_refersh_remark_label() const { return true; }
 	virtual bool app_disable_slice() const { return false; }
 	virtual void app_did_timer_handler() {}
 
 protected:
+	const tbase_driver_core& base_driver_;
 	tlabel* status_widget_;
 	ttimer time_timer_;
 	const int relogin_interval_;

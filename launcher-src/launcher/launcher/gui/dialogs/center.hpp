@@ -11,6 +11,7 @@
 
 namespace aplt {
 class tbg_task2;
+class thealth;
 }
 
 class tros_map;
@@ -42,7 +43,7 @@ public:
 	enum {TASK_TOOLBAR_EMPTY_LAYER, TASK_TOOLBAR_CHAT_LAYER, TASK_TOOLBAR_FOLLOWUP_LAYER,
 		TASK_TOOLBAR_COURSEWARE_MAIN_CFG_LAYER};
 	tcenter(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, tros_instance& ros_instance, aplt::tbg_task2& temp_task, const std::map<aplt::taplt_key, aplt::tapplet>& applets, aplt::tb_api& b_api, 
-		tros_map& curmap, aplt::tbg_task& bg_task, tbase_driver& base_driver, tspeech_driver& speech_driver, tdcamera_driver& dcamera_driver, tai_driver& ai_driver, const std::string& saves_courseware_dir,
+		tros_map& curmap, aplt::tbg_task& bg_task, tbase_driver& base_driver, tspeech_driver& speech_driver, tdcamera_driver& dcamera_driver, tai_driver& ai_driver, aplt::thealth& health, const std::string& saves_courseware_dir,
 		const tstart_aiagent* start_aiagent);
 	~tcenter();
 
@@ -290,6 +291,7 @@ private:
 	tdcamera_driver& dcamera_driver_;
 	tai_driver& ai_driver_;
 	tstart_aiagent ai_start_aiagent_;
+	aplt::thealth& health_;
 	aplt::tai_slot* ai_slot_;
 	aplt::tpinyin& pinyin_;
 	const bool ai_disable_find_user_;

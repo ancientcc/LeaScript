@@ -15,6 +15,7 @@
 #include "gui/dialogs/message.hpp"
 #include "gui/dialogs/edit_box.hpp"
 #include "gui/dialogs/dlg_utils.hpp"
+#include "gui/dialogs/messagefs.hpp"
 #include "gettext.hpp"
 #include "rose_version.hpp"
 #include "formula_string_utils.hpp"
@@ -54,6 +55,7 @@ thome::thome(gui2::trstore::tslot& slot, tpbremotes& pbremotes, tble2& ble, std:
 	aplt::thealth& health, int startup_layer)
 	: tscan(ble)
 	, aplt::tdesktop(*this, slot, applets, APPLET0)
+	, tkeepalive(base_driver)
 	, trcswamp_login(current_user)
 	// , pbremotes_(pbremotes)
 	, applets_(applets)
@@ -72,7 +74,9 @@ thome::thome(gui2::trstore::tslot& slot, tpbremotes& pbremotes, tble2& ble, std:
 	, ipaddr_(nullptr)
 	, rdp_report_(nullptr)
 	, rdp_stack_(nullptr)
-	, wkocourse_enroll_widget_(nullptr)
+	, day_label_widget_(nullptr)
+	, day_btn_widget_(nullptr)
+	, enroll_more_widget_(nullptr)
 	, workout_list_(nullptr)
 	, scene_list_(nullptr)
 	, battery_widget_(nullptr)
@@ -108,7 +112,7 @@ void thome::pre_show()
 	pre_scan(*body_widget_->layer(SCAN_LAYER), *this);
 	pre_applet(*body_widget_->layer(APPLET_LAYER));
 	pre_event(*body_widget_->layer(EVENT_LAYER));
-	pre_more(*body_widget_->layer(MORE_LAYER));
+	pre_me(*body_widget_->layer(ME_LAYER));
 
 	treport* report = find_widget<treport>(window_, "navigation", false, true);
 	// tcontrol* item = &report->insert_item(null_str, _("Remote desktop"));
@@ -116,9 +120,6 @@ void thome::pre_show()
 	// const bool english_error = false;
 	item = &report->insert_item(null_str, _("home^rdp_layer"));
 	item->set_icon("misc/home.png");
-
-	item = &report->insert_item(null_str, _("Remote IP"));
-	item->set_icon("misc/scan.png");
 
 	item = &report->insert_item(null_str, _("home^apps_layer"));
 	item->set_icon("misc/applet.png");
@@ -128,6 +129,9 @@ void thome::pre_show()
 
 	item = &report->insert_item(null_str, _("Me"));
 	item->set_icon("misc/me.png");
+
+	// item = &report->insert_item(null_str, _("Remote IP"));
+	// item->set_icon("misc/scan.png");
 
 	report->set_did_item_pre_change(std::bind(&thome::did_navigation_pre_change, this, _1, _2, _3));
 	report->set_did_item_changed(std::bind(&thome::did_navigation_changed, this, _1, _2));
@@ -275,14 +279,14 @@ void thome::pre_event(tgrid& grid)
 	reload_log_list(*event_list_);
 }
 
-void thome::pre_more(tgrid& grid)
+void thome::pre_me(tgrid& grid)
 {
 	std::stringstream ss;
 
 	trcswamp_login::pre_show(*window_, grid);
 	{
 		tstack* stack = find_widget<tstack>(&grid, "login_stack", false, true);
-		stack->set_visible(twidget::INVISIBLE);
+		// stack->set_visible(twidget::INVISIBLE);
 	}
 
 
@@ -296,9 +300,12 @@ void thome::pre_more(tgrid& grid)
 
 	utils::string_map symbols;
 
-	tlabel* label = find_widget<tlabel>(&grid, "help", false, true);
 	symbols["apps_layer"] = _("home^apps_layer");
-	label->set_label(vgettext2("workout help, $apps_layer", symbols));
+	const std::string help_msg = vgettext2("workout help, $apps_layer", symbols);
+	
+	// tlabel* label = find_widget<tlabel>(&grid, "help", false, true);
+	// label->set_label(help_msg);
+	// label->set_visible(twidget::INVISIBLE);
 
 	button = find_widget<tbutton>(&grid, "upgrade", false, true);
 	connect_signal_mouse_left_click(
@@ -317,7 +324,7 @@ void thome::pre_more(tgrid& grid)
 	ss << " fullscreen_awlays: " << (game_config::fullscreen_awlays? "true": "fasle");
 	SDL_Rect rect = video_.bound();
 	ss << " video_.bound: (" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << ")";
-	label = find_widget<tlabel>(&grid, "devel", false, true);
+	tlabel* label = find_widget<tlabel>(&grid, "devel", false, true);
 	label->set_label(ss.str());
 	label->set_visible(twidget::INVISIBLE);
 	devel_widget_ = label;
@@ -344,8 +351,8 @@ bool thome::did_navigation_pre_change(treport& report, ttoggle_button& from, tto
 	if (from.at() == SCAN_LAYER) {
 		scan_navigation_pre_change();
 
-	} else if (from.at() == MORE_LAYER) {
-		// tgrid& grid = *body_widget_->layer(MORE_LAYER);
+	} else if (from.at() == ME_LAYER) {
+		// tgrid& grid = *body_widget_->layer(ME_LAYER);
 		// find_widget<tgrid>(&grid, "generate_grid", false, true)->set_visible(twidget::INVISIBLE);
 	}
 	return true;
@@ -384,7 +391,7 @@ void thome::did_navigation_changed(treport& report, ttoggle_button& row)
 			rtc::Thread::Current()->Post(RTC_FROM_HERE, this, POST_MSG_LOGS_SCROLL_TO_BOTTOM, pdata);
 		}
 
-	} else if (row.at() == MORE_LAYER) {
+	} else if (row.at() == ME_LAYER) {
 		set_login_layer();
 	}
 }
@@ -392,6 +399,119 @@ void thome::did_navigation_changed(treport& report, ttoggle_button& row)
 //
 // rdp layer
 //
+
+std::string get_day_msg(int course_day_at, int total_days)
+{
+	char buf[128];
+	SDL_snprintf(buf, sizeof(buf), "Day %i/%i", course_day_at + 1, total_days);
+
+	return buf;
+}
+/*
+bool enroll_can_erase(const aplt::twkocourse_enroll& enroll, int total_days)
+{
+	if (enroll.price == WKO_PRICE_0) {
+		return true;
+	}
+
+	if (enroll.active != nposm) {
+		int64_t expire_ts = enroll.calc_expire(total_days);
+		return time(nullptr) > expire_ts;
+	}
+	return false;
+}
+*/
+
+std::string get_enroll_msg(bool detials, const aplt::twkocourse_enroll& enroll, const aplt::twkocourse* wkocourse, 
+	const std::map<aplt::taplt_key, aplt::tapplet>& applets, bool& is_unactive, bool& is_expired,
+	int* pcourse_day_at, bool* pcourse_day_at_is_valid)
+{
+	VALIDATE(enroll.valid(), null_str);
+/*
+	const aplt::twkocourse* wkocourse = nullptr;
+	if (wkocourses.count(enroll.id2) != 0) {
+		wkocourse = &wkocourses.find(enroll.id2)->second;
+	}
+*/
+	// std::string day_msg;
+	// std::string day_title_msg;
+	std::string enroll_msg;
+
+	// bool is_unactive = false;
+	// bool is_expired = false;
+
+	int course_day_at = nposm;
+	bool course_day_at_is_valid = false;
+	if (wkocourse != nullptr) {
+		if (enroll.active != nposm) {
+			course_day_at = aplt::today_day_at_to_course_day_at(enroll.active, wkocourse->total_days);
+
+		} else {
+			// Allow practicing the workout on the first day, so that it can be activated.
+			course_day_at = 0;
+			if (!wkocourse->prerequisite.empty()) {
+				course_day_at = enroll.active_day_at;
+			}
+			is_unactive = true;
+		}
+		course_day_at_is_valid = course_day_at >= 0 && course_day_at < wkocourse->total_days;
+	}
+
+	utils::string_map symbols;
+	if (wkocourse != nullptr) {
+		if (course_day_at_is_valid) {
+/*		
+			day_msg = get_day_msg(course_day_at, wkocourse->total_days);
+			day_title_msg = wkocourse->days[course_day_at].title;
+*/
+		}
+
+		symbols["purchase"] = utils::format_time_ymdhms(enroll.purchase);
+		symbols["price"] = utils::format_fen_to_yuan(enroll.price, true, true);
+		if (enroll.active != nposm) {
+			int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
+
+			symbols["active"] = utils::format_time_ymdhms(enroll.active);
+			symbols["expire"] = utils::format_time_ymdhms(expire_ts);
+
+			if (course_day_at_is_valid) {
+				if (detials) {
+					enroll_msg = vgettext2("Expires on $expire. Purchase time: $purchase, $price, Active time: $active.", symbols);
+
+				} else {
+					enroll_msg = vgettext2("Expires on $expire . Activated", symbols);
+				}
+
+			} else if (time(nullptr) > expire_ts) {
+				enroll_msg = vgettext2("Expired (expiration time: $expire). Purchase time: $purchase, $price, Active time: $active.", symbols);
+				is_expired = true;
+			}
+
+		} else {
+			int64_t force_acive_ts = enroll.calc_force_active(wkocourse->grace_period_days);
+			symbols["force_active"] = utils::format_time_ymdhms(force_acive_ts);
+			symbols["first_day"] = utils::format_time_ymd3(force_acive_ts + 1);
+			if (detials) {
+				enroll_msg = vgettext2("Not activated. $purchase, $price", symbols);
+			} else {
+				enroll_msg = vgettext2("Not activated. $force_active, $first_day", symbols);
+			}
+		}
+	} else {
+		enroll_msg = wkocourse_enroll_miss_course_msg(applets, enroll.id2);
+	}
+
+	if (pcourse_day_at != nullptr) {
+		*pcourse_day_at = course_day_at;
+	}
+
+	if (pcourse_day_at_is_valid != nullptr) {
+		*pcourse_day_at_is_valid = course_day_at_is_valid;
+	}
+
+	return enroll_msg;
+}
+
 void thome::update_course_ui(tgrid& grid)
 {
 	VALIDATE(curr_rdp_at_ < (int)wkocourse_enrolls_.size(), null_str);
@@ -413,10 +533,23 @@ void thome::update_course_ui(tgrid& grid)
 		wkocourse = &wkocourses_.find(enroll.id2)->second;
 	}
 
+	// std::string enroll_msg;
+
+	bool is_unactive = false; 
+	bool is_expired = false;
+	int course_day_at = nposm;
+	bool course_day_at_is_valid = false;
+	std::string enroll_msg = get_enroll_msg(false, enroll, wkocourse, applets_, is_unactive, is_expired, 
+		&course_day_at, &course_day_at_is_valid);
+
 	std::string day_msg;
 	std::string day_title_msg;
-	std::string enroll_msg;
+	if (wkocourse != nullptr && course_day_at_is_valid) {
+		day_msg = get_day_msg(course_day_at, wkocourse->total_days);
+		day_title_msg = wkocourse->days[course_day_at].title;
+	}
 
+/*
 	bool is_unactive = false;
 	bool is_expired = false;
 
@@ -429,6 +562,9 @@ void thome::update_course_ui(tgrid& grid)
 		} else {
 			// Allow practicing the workout on the first day, so that it can be activated.
 			course_day_at = 0;
+			if (!wkocourse->prerequisite.empty()) {
+				course_day_at = enroll.active_day_at;
+			}
 			is_unactive = true;
 		}
 		course_day_at_is_valid = course_day_at >= 0 && course_day_at < wkocourse->total_days;
@@ -436,15 +572,13 @@ void thome::update_course_ui(tgrid& grid)
 
 	if (wkocourse != nullptr) {
 		if (course_day_at_is_valid) {
-			char buf[128];
-			SDL_snprintf(buf, sizeof(buf), "%i/%i", course_day_at + 1, wkocourse->total_days);
-			symbols["day"] = buf;
-
-			day_msg = buf;
+			// day_msg = buf;
+			day_msg = get_day_msg(course_day_at, wkocourse->total_days);
 			day_title_msg = wkocourse->days[course_day_at].title;
 		}
 
 		symbols["purchase"] = utils::format_time_ymdhms(enroll.purchase);
+		symbols["price"] = utils::format_fen_to_yuan(enroll.price, true, true);
 		if (enroll.active != nposm) {
 			int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
 
@@ -452,15 +586,10 @@ void thome::update_course_ui(tgrid& grid)
 			symbols["expire"] = utils::format_time_ymdhms(expire_ts);
 
 			if (course_day_at_is_valid) {
-				bool show_active_time = true;
-				if (show_active_time) {
-					enroll_msg = vgettext2("Expires on $expire. Purchase time: $purchase, Active time: $active.", symbols);
-				} else {
-					enroll_msg = vgettext2("Expires on $expire. Purchase time: $purchase.", symbols);
-				}
+				enroll_msg = vgettext2("Expires on $expire. Purchase time: $purchase, $price, Active time: $active.", symbols);
 
 			} else if (time(nullptr) > expire_ts) {
-				enroll_msg = vgettext2("Expired (expiration time: $expire). Purchase time: $purchase, Active time: $active.", symbols);
+				enroll_msg = vgettext2("Expired (expiration time: $expire). Purchase time: $purchase, $price, Active time: $active.", symbols);
 				is_expired = true;
 			}
 
@@ -468,30 +597,28 @@ void thome::update_course_ui(tgrid& grid)
 			int64_t force_acive_ts = enroll.calc_force_active(wkocourse->grace_period_days);
 			symbols["force_active"] = utils::format_time_ymdhms(force_acive_ts);
 			symbols["first_day"] = utils::format_time_ymd3(force_acive_ts + 1);
-			enroll_msg = vgettext2("Not activated. $purchase, $force_active, $first_day", symbols);
+			enroll_msg = vgettext2("Not activated. $purchase, $price, $force_active, $first_day", symbols);
 		}
 	} else {
 		enroll_msg = wkocourse_enroll_miss_course_msg(applets_, enroll.id2);
-/*
-		const std::string id2 = enroll.id2;
-		std::pair<std::string, std::string> pair = utils::split_app_prefix_id(id2);
-		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets_, pair.first);
-		if (aplt == nullptr) {
-			msg = vgettext2("wko^miss course, no aplt, $course", symbols);
-
-		} else {
-			symbols["aplt"] = aplt->name2();
-			msg = vgettext2("wko^miss course, aplt hasn't course, $course, $aplt", symbols);
-		}
-*/
 	}
+*/
+	bool in_extension_unactive = enroll.active == nposm && wkocourse != nullptr && !wkocourse->prerequisite.empty();
+	if (!in_extension_unactive) {
+		day_label_widget_->set_label(day_msg);
+	} else {
+		day_btn_widget_->set_label(day_msg);
+	}
+	day_label_widget_->set_visible(in_extension_unactive? twidget::INVISIBLE: twidget::VISIBLE);
+	day_btn_widget_->set_visible(in_extension_unactive? twidget::VISIBLE: twidget::INVISIBLE);
+	day_btn_widget_->set_active(base_driver_.scene_id().empty());
 
-	find_widget<tlabel>(&grid, "day", false, true)->set_label(day_msg);
 	find_widget<tlabel>(&grid, "day_title", false, true)->set_label(day_title_msg);
 	find_widget<tlabel>(&grid, "enroll", false, true)->set_label(enroll_msg);
 
-	bool allow_erase = wkocourse == nullptr || is_expired;
-	wkocourse_enroll_widget_->set_visible(allow_erase? twidget::VISIBLE: twidget::INVISIBLE);
+	// bool allow_erase = wkocourse == nullptr || is_expired || enroll.price == WKO_PRICE_0;
+	bool allow_erase = wkocourse == nullptr || enroll.can_erase(wkocourse->total_days);
+	// wkocourse_erase_enroll_widget_->set_visible(allow_erase? twidget::VISIBLE: twidget::INVISIBLE);
 
 	if (course_day_at_is_valid) {
 		VALIDATE(wkocourse != nullptr, null_str);
@@ -513,13 +640,33 @@ void thome::click_course_workout_start(tlistbox& list, tbutton& widget, const st
 
 void thome::pre_rdp_course(tgrid& grid)
 {
-	tbutton* button = find_widget<tbutton>(&grid, "erase", false, true);
+	day_label_widget_ = find_widget<tlabel>(&grid, "day_label", false, true);
+
+	tbutton* button = find_widget<tbutton>(&grid, "day_btn", false, true);
+	connect_signal_mouse_left_click(
+			*button
+		, std::bind(
+		&thome::click_day_btn
+		, this, std::ref(*button)));
+	button->set_icon("misc/edit.png");
+	day_btn_widget_ = button;
+
+	button = find_widget<tbutton>(&grid, "enroll_more", false, true);
+	connect_signal_mouse_left_click(
+			*button
+		, std::bind(
+		&thome::click_enroll_more
+		, this, std::ref(*button)));
+	enroll_more_widget_ = button;
+/*
+	button = find_widget<tbutton>(&grid, "erase", false, true);
 	connect_signal_mouse_left_click(
 			*button
 		, std::bind(
 		&thome::click_erase_enroll
 		, this, std::ref(*button)));
-	wkocourse_enroll_widget_ = button;
+	wkocourse_erase_enroll_widget_ = button;
+*/
 
 	tlistbox* list = find_widget<tlistbox>(&grid, "workout_list", false, true);
 	list->enable_select(false);
@@ -587,15 +734,130 @@ void thome::did_rdp_report_changed(treport& report, ttoggle_button& row)
 		update_course_ui(*grid);
 
 	} else {
-
+		reload_scene_list(*scene_list_);
 	}
-/*
-	if (row.at() == VLOG_LAYER) {
+}
 
-	} else {
-		VALIDATE(row.at() == MISC_LAYER, null_str);
+void thome::click_day_btn(tbutton& widget)
+{
+	std::vector<gui2::tmenu::titem> items;
+	int initial_sel = nposm;
+    
+	VALIDATE(is_rdp_course_layer(), null_str);
+
+	std::map<std::string, aplt::twkocourse_enroll>::iterator enroll_it = wkocourse_enrolls_.begin();
+	if (curr_rdp_at_ != 0) {
+		std::advance(enroll_it, curr_rdp_at_);
 	}
-*/
+	aplt::twkocourse_enroll& enroll = enroll_it->second;
+	VALIDATE(enroll.active == nposm, null_str);
+
+	VALIDATE(wkocourses_.count(enroll.id2) != 0, null_str);
+	const aplt::twkocourse& wkocourse = wkocourses_.find(enroll.id2)->second;
+	VALIDATE(!wkocourse.prerequisite.empty(), null_str);
+
+	for (int at = 0; at < wkocourse.total_days; at ++) {
+		std::string name = "Day ";
+		name.append(str_cast(at + 1));
+		items.push_back(gui2::tmenu::titem(name, at));
+		if (at == enroll.active_day_at) {
+			initial_sel = at;
+		}
+	}
+
+	if (items.empty()) {
+		return;
+	}
+
+	gui2::tmenu dlg(items, initial_sel, nullptr, true);
+	dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * twidget::hdpi_scale);
+	if (dlg.get_retval() != gui2::twindow::OK) {
+		return;
+	}
+
+	const int cursel = dlg.selected_val();
+	enroll.active_day_at = cursel;
+
+	// 2/3: update wkocourse_enrolls in pref.
+	wkocourse_enrolls_to_pref(wkocourse_enrolls_);
+
+	VALIDATE(is_rdp_course_layer(), null_str);
+	tgrid* grid = rdp_stack_->layer(RDP_COURSE_LAYER);
+	update_course_ui(*grid);
+
+	const std::string day_msg = get_day_msg(enroll.active_day_at, wkocourse.total_days);
+	day_btn_widget_->set_label(day_msg);
+}
+
+void thome::click_enroll_more(tbutton& widget)
+{
+	std::map<std::string, aplt::twkocourse_enroll>::iterator enroll_it = wkocourse_enrolls_.begin();
+	if (curr_rdp_at_ != 0) {
+		std::advance(enroll_it, curr_rdp_at_);
+	}
+	aplt::twkocourse_enroll& enroll = enroll_it->second;
+
+	std::string title = enroll.id2;
+	const aplt::twkocourse* wkocourse = nullptr;
+	if (wkocourses_.count(enroll.id2) != 0) {
+		// VALIDATE(enroll.active != nposm, null_str);
+
+		wkocourse = &wkocourses_.find(enroll.id2)->second;
+		// int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
+		// VALIDATE(time(nullptr) > expire_ts, null_str);
+		// VALIDATE(enroll.can_erase(wkocourse->total_days), null_str);
+
+		title = wkocourse->title;
+	}
+
+	bool is_unactive = false;
+	bool is_expired = false;
+	std::string enroll_msg = get_enroll_msg(true, enroll, wkocourse, applets_, is_unactive, is_expired, nullptr, nullptr);
+	bool allow_erase = wkocourse == nullptr || enroll.can_erase(wkocourse->total_days);
+
+	int res = nposm;
+	{
+		const std::string title2 = ht::generate_format(title, color_to_uint32(font::GRAY_COLOR));
+		std::string erase_msg;
+		if (allow_erase) {
+			erase_msg = ht::generate_format(_("wkocourse^Delete enroll"), color_to_uint32(font::BAD_COLOR));
+		} else {
+			erase_msg = ht::generate_format(_("wkocourse^Cannot delete enroll"), color_to_uint32(font::GRAY_COLOR));
+		}
+		res = gui2::show_messagefs(title2, erase_msg, null_str, 
+			_("wkocourse^View enroll details"), halign_center);
+	}
+	if (res == gui2::twindow::CANCEL) {
+		return;
+
+	} else if (res == twindow::EXTRA1_BUTTON) {
+		gui2::show_message(null_str, enroll_msg);
+		return;
+	}
+
+	if (!allow_erase) {
+		return;
+	}
+
+	const std::string msg = i18n::freq_msgstr_2str(i18n::msgid_confirm_delete_2str, _("wkocourse^Enroll"), title);
+	if (gui2::show_message2(null_str, msg, gui2::tmessage::yes_no_buttons) != gui2::twindow::OK) {
+		return;
+	}
+
+	if (wkocourse != nullptr) {
+		// VALIDATE(enroll.active != nposm, null_str);
+
+		// int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
+		// VALIDATE(time(nullptr) > expire_ts, null_str);
+		VALIDATE(enroll.can_erase(wkocourse->total_days), null_str);
+	}
+
+	wkocourse_enrolls_.erase(enroll_it);
+	wkocourse_enrolls_to_courses(wkocourse_enrolls_, wkocourses_);
+
+	wkocourse_enrolls_to_pref(wkocourse_enrolls_);
+
+	rdp_report_->erase_item(curr_rdp_at_);
 }
 
 void thome::click_erase_enroll(tbutton& widget)
@@ -611,11 +873,12 @@ void thome::click_erase_enroll(tbutton& widget)
 	std::string title = enroll.id2;
 	const aplt::twkocourse* wkocourse = nullptr;
 	if (wkocourses_.count(enroll.id2) != 0) {
-		VALIDATE(enroll.active != nposm, null_str);
+		// VALIDATE(enroll.active != nposm, null_str);
 
 		wkocourse = &wkocourses_.find(enroll.id2)->second;
-		int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
-		VALIDATE(time(nullptr) > expire_ts, null_str);
+		// int64_t expire_ts = enroll.calc_expire(wkocourse->total_days);
+		// VALIDATE(time(nullptr) > expire_ts, null_str);
+		VALIDATE(enroll.can_erase(wkocourse->total_days), null_str);
 
 		title = wkocourse->title;
 	}
@@ -684,7 +947,7 @@ void thome::reload_course_workout_list(tlistbox& list, const aplt::twkocourse_en
 	}
 
 	aplt::thealth::thealth_result2 result2;
-	bool retbool = health_.load_health_data_4_report(time(nullptr), result2);
+	bool retbool = health_.load_health_data_4_report_me(time(nullptr), result2);
 	for (int workout_at = 0; retbool && workout_at < (int)result2.workouts.size(); workout_at ++) {
 		const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at];
 		const std::string id2 = utils::join_app_prefix_id(workout.aplt, workout.id);
@@ -877,6 +1140,9 @@ void thome::start_wkocourse_script(const std::string& wkocourse_id2, const aplt:
 
 	if (base_driver_.subtask_state() == aplt::sts_ing) {
 		window_->set_retval(APPLET0 + aplt::builtinid_dcamera);
+
+	} else {
+		day_btn_widget_->set_active(base_driver_.scene_id().empty());
 	}
 }
 
@@ -931,6 +1197,23 @@ void thome::click_visible_rdp()
 
 void thome::click_orientation(tbutton& widget)
 {
+/*
+	{
+		std::string filename = game_config::preferences_dir + "/saves/wkorevise.cfg";
+		health_.wkorevise_import_from_file(filename);
+		return;
+	}
+*/
+	{
+		std::string product_id = "com.leagor.kdesktop.course.level5";
+		if (game_config::os == os_windows || game_config::os == os_android) {
+			// product_id = "alipay_sdk=alipay-easysdk-java-2.1.2&app_id=2021007103661389&biz_content=%7B%22out_trade_no%22%3A%2225822783-5d0c-40f7-b582-380b0aa41c32%22%2C%22total_amount%22%3A%220.99%22%2C%22subject%22%3A%22%E6%B5%8B%E8%AF%951%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=https%3A%2F%2Fwww.cswamp.com%2Fapp%2Falipay%2Fnotify&sign=McSmRLpVdd3SPGG0yplQFTkLIiaCL0UFmi%2FOLXbgsC1s7%2B50LwEQt7iSg7XUIJ0yLneUhyTdKxUxcVfJN5kB5DfDfx45Y3ZiyKc40cUBLieEfWNMCwWkGetx%2FL%2BqElPVWR3U2zgAHQoCFlRMWEgpUsWXWJtkb%2BpwDmAiJi5MqW0PRQcVERpa5LSagmPANUulHCIf6AL7qnsCw9UvghQuYY3ReqO%2Fw1SXs9KKzaga9xPWWtUQrDrTECYqjH0GXErwmAyY%2Bg8Lx5LpIyXwkrXGt1Av%2FJI94qlGQjReUaaRjQLcOaMM0vnWZeQlw%2BrY2Iwwpv%2FBr3RRxMYIRAF3uOAtPA%3D%3D&sign_type=RSA2&timestamp=2026-10-06+15%3A51%3A54&version=1.0";
+			product_id = "alipay_sdk=alipay-easysdk-java-2.1.2&app_id=2021007103661389&biz_content=%7B%22out_trade_no%22%3A%221b7e8bdf-90f2-40a0-a122-d1389be07c0b%22%2C%22total_amount%22%3A%221.00%22%2C%22subject%22%3A%22%E6%B5%8B%E8%AF%952%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=https%3A%2F%2Fwww.cswamp.com%2Fapp%2Falipay%2Fnotify&sign=a9ekK6RMRuaMITCmrH4bmelS0ZHIctmA5QzhVLKulZsp6ohKAfEbcwFvRQhDZfK%2F1rsa%2FTdn%2Bvafr1L%2Bg3Sy98Sly4djrWB%2FrGVsoUYy5b8jVBGbwolx1LF%2FhdxWIj6ndAGABmN0h6%2FHfVqoBfr7wUTrBz9PlkR5wkzNLw2kx%2FStGS0u7k6z8dLm%2FO9TrpNg%2B10mzZLgWaKgkOGKZGK3xx7pR8rn6jVy2lbnwzKThtxgwebXszSIe5SkBP0gyq0Z8996PMqoNUX4R1lw9RoJ1zIxt4tDyFtHMeuPR5Clvnqrb3glBRjRF9wiA5zbx4zu2sTv5yP4dSGegVeQM8qC0w%3D%3D&sign_type=RSA2&timestamp=2026-10-06+18%3A43%3A18&version=1.0";
+		}
+		SDL_IAP_Purchase(product_id.c_str(), 25);
+		return;
+	}
+
 	preferences::set_landscape(!preferences::landscape());
 	widget.set_label(preferences::landscape()? _("Landscape"): _("Portrait"));
 }
@@ -1046,7 +1329,7 @@ void thome::rapplets_did_click_fake_applet(const aplt::tbuildin& applet)
 
 void thome::app_did_network_changed(bool connected)
 {
-	if (current_layer_ == MORE_LAYER) {
+	if (current_layer_ == ME_LAYER) {
 		set_login_layer();
 	}
 /*
@@ -1066,13 +1349,23 @@ void thome::app_did_network_changed(bool connected)
 */
 }
 
-void thome::app_did_new_events(const std::set<trobot_event>& events)
+void thome::app_did_new_events(const std::set<aplt::twkoevent>& events)
 {
 	VALIDATE(!events.empty(), null_str);
 
-	for (std::set<trobot_event>::const_reverse_iterator it = events.rbegin(); it != events.rend(); ++ it) {
-		const trobot_event& e = *it;
-		instance->add_aplt_ts_msg_log(logtype_warn, e.devicename, e.ts, e.to_log_msg(), 0, false);
+	for (std::set<aplt::twkoevent>::const_reverse_iterator it = events.rbegin(); it != events.rend(); ++ it) {
+		const aplt::twkoevent& e = *it;
+		// instance->add_aplt_ts_msg_log(logtype_warn, e.devicename, e.ts, e.to_log_msg(), 0, false);
+
+		aplt::tb_api& b_api = aplt::get_b_api();
+		// b_api.aplt_add_msg_log(e.ts, e.to_log_msg(), 0, false);
+		b_api.aplt_add_msg_log(time(nullptr), e.to_log_msg(), 0, false);
+/*
+		if (!e.images.empty()) {
+			const timage_pair& pair = e.images[0];
+			write_file(game_config::preferences_dir + "/1.dat", pair.image.ptr, pair.image.len);
+		}
+*/
 	}
 	// pb2::tlog new_log;
 	// logs_pb_log_added(events.size(), new_log);
@@ -1081,6 +1374,14 @@ void thome::app_did_new_events(const std::set<trobot_event>& events)
 		tcontrol& item = navigation_report_->item(EVENT_LAYER);
 		item.set_icon("misc/event_new.png");
 	}
+}
+
+bool thome::app_disable_slice() const
+{
+	if (base_driver_.is_workout_task_ing()) {
+		return true;
+	}
+	return is_busy(); 
 }
 
 //

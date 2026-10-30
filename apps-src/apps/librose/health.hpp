@@ -23,6 +23,7 @@ int64_t start_of_file_day_from_filename(const std::string& filename, bool* is_ba
 namespace aplt {
 
 class twkoscript;
+class twkorevise;
 
 #define HEALTH_DAT_VER	1
 
@@ -107,24 +108,7 @@ struct twko_tlv_header_C
 	int32_t length;
 };
 
-struct twko_tlv_history_C2
-{
-	int32_t type; // T
-	int32_t length; // L
-
-	int seconds_since0; // wkoscript_index_seconds_since0. V's start
-	int64_t start_of_lastday;
-	SDL_Range last_range_ms;
-	uint32_t days;
-	uint32_t workouts;
-	uint32_t reps;
-	uint32_t duration_s;
-
-	int32_t reserved0;
-	int32_t reserved1;
-	int32_t reserved2;
-	int32_t reserved3;
-};
+#define WKO_MAX_COMMENTBYTES	95
 
 struct twko_tlv_history_C
 {
@@ -144,15 +128,18 @@ struct twko_tlv_history_C
 	int32_t reserved2;
 	int32_t reserved3;
 	int32_t reserved4;
+
+	// ===== Non-history data: cleared to zero each time a new record is created =====
 	char id[48];
 	char aplt[RSP_MAXBUNDLEIDBYTES + 1];
 	int final_state_at;
-	uint8_t reserved5[128];
+	char comment[WKO_MAX_COMMENTBYTES + 1];
+	uint8_t reserved5[32];
+	// uint8_t reserved5[128];
 };
 
 enum {wko_tlv_type_history, wko_tlv_type_count};
 
-#define WKO_TLV_HISTORY_LEN2		(sizeof(aplt::twko_tlv_history_C2) - offsetof(aplt::twko_tlv_history_C2, seconds_since0))
 #define WKO_TLV_HISTORY_LEN		(sizeof(aplt::twko_tlv_history_C) - offsetof(aplt::twko_tlv_history_C, seconds_since0))
 #define init_wko_tlv_history(history)	\
 	(history).type = aplt::wko_tlv_type_history; \
@@ -200,12 +187,24 @@ public:
 
 #pragma pack()
 
-	thealth();
+	thealth(const std::string& launcher_user_dir);
 	~thealth();
 
-	const std::string& health_dir() const { return health_dir_; }
+	const std::string& me_health_dir() const { return me_health_dir_; }
+
+	void set_curr_health_dir(const std::string& dir)
+	{
+		VALIDATE(dir.rfind(slash_health_) == dir.size() - slash_health_.size(), null_str);
+		curr_health_dir_ = dir;
+	}
+	const std::string& curr_health_dir() const { return curr_health_dir_; }
+	bool curr_health_dir_is_me() const { return curr_health_dir_ == me_health_dir_; }
+
+	const std::string& slash_health() const { return slash_health_; }
+	std::string curr_uid_dir() const { return curr_health_dir_.substr(0, curr_health_dir_.rfind(slash_health_)); }
+
 	int max_save_days() const { return max_save_days_; }
-	const std::string health_dat_filename(time_t t) const;
+	const std::string health_dat_filename(bool force_me, time_t t) const;
 
 	int health_push_n32_event(int type, int ctx);
 	void health_push_str_event(int type, int ctx, const std::string& str, const std::string& aux_str, const std::string& aux_str2, int aux_int);
@@ -256,6 +255,7 @@ public:
 
 			id = that.id;
 			aplt = that.aplt;
+			comment = that.aplt;
 
 			return *this;
 		}
@@ -330,6 +330,7 @@ public:
 
 			id.clear();
 			aplt.clear();
+			comment.clear();
 		}
 
 		void clear_flow_state_C(tflow_state_C& state)
@@ -382,6 +383,7 @@ public:
 		twko_tlv_history_C history;
 		std::string id;
 		std::string aplt;
+		std::string comment;
 	};
 
 	struct thealth_result2
@@ -456,7 +458,16 @@ public:
 		std::map<int, std::string> workout_cfgs;
 		telem_array_C zip_workouts;
 	};
-	bool load_health_data_4_report(time_t t, thealth_result2& result2) const;
+
+	inline bool load_health_data_4_report_me(time_t t, thealth_result2& result2) const
+	{
+		return load_health_data_4_report_internal(true, t, result2);
+	}
+
+	inline bool load_health_data_4_report(time_t t, thealth_result2& result2) const
+	{
+		return load_health_data_4_report_internal(false, t, result2);
+	}
 
 	void upgrade_health_file(const std::string& filename);
 
@@ -495,10 +506,14 @@ public:
 		telem_array_C unzip_workout;
 		telem_array_C workout_tlvs;
 	};
-	twko_tlv_history_C find_wko_history(int start_s) const;
-	twko_tlv_history_C get_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, const std::string& wkoscript_id, const std::string& aplt) const;
-	void push_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, const std::string& id, const std::string& aplt, int final_state_at, thealth_result& h) const;
+	const thealth_result& get_h() const { return h_; }
+	twko_tlv_history_C find_wko_history(const thealth_result& p_h, int start_s, int* p_offset) const;
+	twko_tlv_history_C get_wko_tlv_history(bool force_me, int64_t start_of_today, int wko_seconds_since0, const std::string& wkoscript_id, const std::string& aplt) const;
+	void push_wko_tlv_history(bool force_me, int64_t start_of_today, int wko_seconds_since0, const std::string& id, const std::string& aplt, int final_state_at, thealth_result& h) const;
 	bool migrate_health_dat_for_history(const std::string& filename) const;
+	std::string wkorevise_import(const twkorevise& revise) const;
+	bool wkorevise_import_from_string(const std::string& str) const;
+	bool wkorevise_import_from_file(const std::string& filename) const;
 
 private:
 	void evaluate_start_of_today();
@@ -570,6 +585,7 @@ private:
 		// int split_count;
 	};
 	void pre_health_data_4_report(const thealth_result& result, std::vector<tpre_workout>& pre_workouts) const;
+	bool load_health_data_4_report_internal(bool force_me, time_t t, thealth_result2& result2) const;
 
 	void did_move_unzip_workout_to_zip_quited(telem_array_C& unzip_workout) const;
 	bool move_unzip_workout_to_zip(thealth_result& result) const;
@@ -580,7 +596,7 @@ private:
 	void write_health_dat();
 
 	bool did_load_health_dat(tfile& file, int64_t dsize, thealth_result& result) const;
-	void load_health_dat(time_t t, thealth_result& result) const;
+	void load_health_dat(bool force_me, time_t t, thealth_result& result) const;
 	bool health_result_to_result2(const thealth_result& result, thealth_result2& result2) const;
 
 	void verify_workout_cfg_strs() const;
@@ -593,7 +609,10 @@ private:
 	bool did_load_old_header_health_dat(tfile& file, int64_t dsize, thealth_result& result) const;
 
 private:
-	const std::string health_dir_;
+	const std::string& launcher_user_dir_;
+	const std::string me_health_dir_;
+	std::string curr_health_dir_;
+	const std::string slash_health_;
 	const int max_save_days_;
 	const int max_parse_workouts_;
 	int backup_type_;

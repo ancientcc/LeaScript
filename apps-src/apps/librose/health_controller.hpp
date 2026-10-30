@@ -18,6 +18,26 @@ void wkocourse_enrolls_from_pref(std::map<std::string, aplt::twkocourse_enroll>&
 void wkocourse_enrolls_to_courses(const std::map<std::string, aplt::twkocourse_enroll>& enrolls, std::map<std::string, aplt::twkocourse>& wkocourses);
 std::string wkocourse_enroll_miss_course_msg(const std::map<aplt::taplt_key, aplt::tapplet>& applets, const std::string& enroll_id2);
 
+class twkocourse_helper
+{
+public:
+	twkocourse_helper(std::map<aplt::taplt_key, aplt::tapplet>& applets, aplt::thealth& health, 
+		std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, std::map<std::string, aplt::twkocourse>& wkocourses)
+		: applets_(applets)
+		, health_(health)
+		, wkocourse_enrolls_(wkocourse_enrolls)
+		, wkocourses_(wkocourses)
+	{}
+
+	void purchase_wkocourse(const std::string& aplt, const std::string& id, int price);
+
+private:
+	std::map<aplt::taplt_key, aplt::tapplet>& applets_;
+	aplt::thealth& health_;
+	std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls_;
+	std::map<std::string, aplt::twkocourse>& wkocourses_;
+};
+
 struct tchart_metrics
 {
 public:
@@ -50,6 +70,10 @@ public:
 namespace gui2 {
 class ttext_box;
 class thealth_scene;
+}
+
+namespace net {
+struct truser;
 }
 
 struct trectdata_C {
@@ -306,7 +330,7 @@ public:
 
 	health_controller(trhealth_scene_slot& scene_slot, const config &app_cfg, CVideo& video,
 		aplt::thealth& health, std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, 
-		std::map<std::string, aplt::twkocourse>& wkocourses, int sdl_field_small_font_size);
+		std::map<std::string, aplt::twkocourse>& wkocourses, net::truser& current_user, const std::string& launcher_user_dir, int sdl_field_small_font_size);
 	~health_controller();
 
 	health_display& gui() { return *gui_; }
@@ -326,12 +350,19 @@ public:
 	std::vector<tdyn_chartsel*>& dyn_chartsels() { return dyn_chartsels_; }
 	int64_t day_chartsel_2_t(int64_t sel);
 	void refresh_chart_by_sel(int64_t sel);
+	void refresh_chart_by_sel_ex(int64_t sel);
 
+	void switch_user_data(bool is_initial);
+	void click_switch_user(gui2::tbutton& widget);
 	bool verify_dyn_chart_inc_id(const std::string& label) const;
 	void click_insert_dyn_chart(gui2::tbutton& widget);
 	void click_flt_to_top(gui2::tbutton& widget);
+	void click_flt_upload(gui2::tbutton& widget);
 	void click_flt_erase(gui2::tbutton& widget);
 	void click_test_lrn_cache();
+
+	bool verify_comment(const std::string& label, const std::string& initial) const;
+	void do_comment(int mat2_at) const;
 
 	SDL_Size calculate_snapshot_size(bool conside_share) const;
 	void did_watermark_text_changed(gui2::ttext_box& widget);
@@ -347,6 +378,11 @@ public:
 	bool is_days_chartsel(int sel) const
 	{
 		return sel == chartsel_15days || sel == chartsel_30days;
+	}
+
+	bool is_can_upload_chartsel(int sel) const
+	{
+		return is_day_chartsel(sel);
 	}
 
 	int days_from_days_chartsel(int sel) const
@@ -534,6 +570,7 @@ public:
 	}
 
 	void calculate_share_workout_count(tdyn_chartsel& dyn_chartsel) const;
+	std::string curr_health_dir_msg() const;
 	std::string consecutive_checkin_rule_msg() const;
 	std::string default_status_msg() const;
 
@@ -826,6 +863,8 @@ private:
 	cv::Mat draw_miss_days_course_summary_mat(const tdyn_chartsel& dyn_chartsel, int mat_width);
 
 	SDL_Color day_label_color(int day_at, const cairo::tsdl_field& day_field) const;
+	bool can_do_comment() const;
+	bool can_upload_health_dat() const;
 
 	void clear_fake_workouts_rects()
 	{
@@ -905,7 +944,7 @@ private:
 	};
 	tclick in_which_rect(int screen_x, int screen_y) const;
 
-	const aplt::thealth::thealth_result2& calc_result2_and_workout_at(int workout_at_in_page, int& workout_at_in_result2);
+	const aplt::thealth::thealth_result2& calc_result2_and_workout_at(int workout_at_in_page, int& workout_at_in_result2) const;
 	void validate_landmarks_mat_are_nullptr() const;
 
 	void player_seek_to(int screen_x, int screen_y);
@@ -953,11 +992,15 @@ private:
 	aplt::thealth& health_;
 	std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls_;
 	std::map<std::string, aplt::twkocourse>& wkocourses_;
+	net::truser& current_user_;
+	const std::string& launcher_user_dir_;
 	tmap map_;
 	health_unit_map units_;
 	health_display* gui_;
 	gui2::thealth_scene* dlg_;
 	gui2::twindow* window_;
+	const std::string key_dyn_charts_;
+	trose_prefs fan_prefs_;
 	const std::map<aplt::taplt_key, aplt::tapplet>& applets_;
 	const int vert_locs_;
 	// const SDL_Point map_margin_;

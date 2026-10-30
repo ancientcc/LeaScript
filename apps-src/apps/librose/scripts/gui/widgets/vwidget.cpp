@@ -827,6 +827,19 @@ static int impl_vwidget_items(lua_State *L)
 	return 1;
 }
 
+static int impl_vwidget_item(lua_State *L)
+{
+	treport* widget = *static_cast<treport **>(lua_touserdata(L, 1));
+	VALIDATE(widget != nullptr, null_str);
+
+	int at = luaL_checkinteger(L, 2);
+	VALIDATE(at >= 0 && at < widget->items(), null_str);
+
+	tcontrol& item = widget->item(at);
+	luaW_pushvwidget(L, item);
+	return 1;
+}
+
 static int impl_vwidget_insert_item(lua_State *L)
 {
 	treport* widget = *static_cast<treport **>(lua_touserdata(L, 1));
@@ -1193,6 +1206,7 @@ void luaW_pushvwidget(lua_State* L, twidget& widget)
 
 			// report
 			{"items", impl_vwidget_items},
+			{"item", impl_vwidget_item},
 			{"insert_item", impl_vwidget_insert_item},
 			{"set_did_item_pre_change", impl_vwidget_set_did_item_pre_change},
 			{"set_did_item_changed", impl_vwidget_set_did_item_changed},

@@ -177,6 +177,10 @@ JNIEXPORT void JNICALL SDL_JAVA_INTERFACE(nativeOnRecordingError)(
         JNIEnv *env, jclass jcls,
         jstring error);
 
+JNIEXPORT void JNICALL SDL_JAVA_INTERFACE(nativeOnAlipayResult)(
+        JNIEnv *env, jclass cls,
+        jstring resultStatus, jstring resultInfo);
+
 static JNINativeMethod SDLActivity_tab[] = {
     { "nativeSetupJNI",             "()I", SDL_JAVA_INTERFACE(nativeSetupJNI) },
     { "nativeRunMain",              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)I", SDL_JAVA_INTERFACE(nativeRunMain) },
@@ -210,6 +214,8 @@ static JNINativeMethod SDLActivity_tab[] = {
     { "nativeOnRecordingStarted",   "()V", SDL_JAVA_INTERFACE(nativeOnRecordingStarted) },
     { "nativeOnRecordingStopped",   "(Ljava/lang/String;)V", SDL_JAVA_INTERFACE(nativeOnRecordingStopped) },
     { "nativeOnRecordingError",     "(Ljava/lang/String;)V", SDL_JAVA_INTERFACE(nativeOnRecordingError) },
+    /* JNI method mapping related to alipay. */
+    { "nativeOnAlipayResult",     "(Ljava/lang/String;Ljava/lang/String;)V", SDL_JAVA_INTERFACE(nativeOnAlipayResult) },
 };
 
 /* Java class SDLInputConnection */
@@ -388,6 +394,7 @@ static jmethodID midGetPublicDir;
 static jmethodID midStartScreenRecording;
 static jmethodID midStopScreenRecording;
 static jmethodID midIsScreenRecording;
+static jmethodID midPayWithAlipay;
 static jmethodID midGetOsInfo;
 static jmethodID midPrintText;
 static jmethodID midEnableRelay;
@@ -751,6 +758,8 @@ JNIEXPORT void JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(JNIEnv *env, jclass cl
                                 "stopScreenRecording", "()Ljava/lang/String;");
     midIsScreenRecording = (*env)->GetStaticMethodID(env, mActivityClass,
                                 "isScreenRecording", "()Z");
+    midPayWithAlipay = (*env)->GetStaticMethodID(env, mActivityClass,
+                                "payWithAlipay", "(Ljava/lang/String;)V");
 	midGetOsInfo = (*env)->GetStaticMethodID(env, mActivityClass,
                                 "getOsInfo", "()Ljava/util/List;");
 	midPrintText = (*env)->GetStaticMethodID(env, mActivityClass,
@@ -815,7 +824,7 @@ JNIEXPORT void JNICALL SDL_JAVA_INTERFACE(nativeSetupJNI)(JNIEnv *env, jclass cl
                                 "pbleCancelConnection", "(Landroid/content/Context;)V");
 
 	if (!midGetAssetType || !midOpenDir || !midOpenPhoto || !midGetDpiScale || !midGetStatusBarHeight || !midGetNavigationHeight || !midEnableStatusBar || !midReadCard || !midSetProperty || !midReboot || !midShutdown || !midSetAppType || !midSetTime || 
-        !midUpdateApp || !midNotifyMediaFileAdded || !midOpenUrl || !midGetPublicDir || !midStartScreenRecording || !midStopScreenRecording || !midIsScreenRecording ||
+        !midUpdateApp || !midNotifyMediaFileAdded || !midOpenUrl || !midGetPublicDir || !midStartScreenRecording || !midStopScreenRecording || !midIsScreenRecording || midPayWithAlipay ||
         !midGetOsInfo || !midPrintText ||
 		!midEnableRelay || !midTurnOnFlashlight || !midTurnOnScreen || !midSetBrightness || !midCreateGUID ||
         !midOrbbecCreateContext || !midOrbbecDestroyContext ||
@@ -1128,6 +1137,31 @@ JNIEXPORT void JNICALL SDL_JAVA_INTERFACE(nativeOnRecordingError)(
     /* For example: notify the game layer that a screen recording error occurred */
     
     (*env)->ReleaseStringUTFChars(env, error, errMsg);
+}
+
+/* alipay result callback */
+JNIEXPORT void JNICALL SDL_JAVA_INTERFACE(nativeOnAlipayResult)(
+        JNIEnv *env, jclass cls,
+        jstring resultStatus, jstring resultInfo)
+{
+    const char* status = (*env)->GetStringUTFChars(env, resultStatus, NULL);
+    const char *info = (*env)->GetStringUTFChars(env, resultInfo, NULL);
+
+    SDL_Log("Native: =alipay result, status: %s, info: %s", status, info);
+    
+    if (strcmp(status, "9000") == 0) {
+        // Payment successful; notify the business layer.
+        SDL_Log("{alipay}Payment successful; notify the business layer");
+    } else if (strcmp(status, "6001") == 0) {
+        // User canceled midway.
+        SDL_Log("{alipay}User canceled midway");
+    } else {
+        // Payment failed.
+        SDL_Log("{alipay}Payment failed");
+    }
+    
+    (*env)->ReleaseStringUTFChars(env, resultStatus, status);
+    (*env)->ReleaseStringUTFChars(env, resultInfo, info);
 }
 
 /* Paddown */
@@ -3950,6 +3984,29 @@ SDL_bool Android_IsScreenRecording(void)
     LocalReferenceHolder_Cleanup(&refs);
 
     return result == JNI_TRUE? SDL_TRUE: SDL_FALSE;
+}
+
+void Android_PayWithAlipay(const char* orderinfo)
+{
+	if (!orderinfo || orderinfo[0] == '\0') {
+		return;
+	}
+
+	struct LocalReferenceHolder refs = LocalReferenceHolder_Setup(__FUNCTION__);
+	JNIEnv* mEnv;
+
+	mEnv = Android_JNI_GetEnv();
+	if (!LocalReferenceHolder_Init(&refs, mEnv)) {
+		LocalReferenceHolder_Cleanup(&refs);
+		return;
+	}
+
+    jstring jorderinfo = NULL;
+    jorderinfo = (*mEnv)->NewStringUTF(mEnv, orderinfo);
+    (*mEnv)->CallStaticVoidMethod(mEnv, mActivityClass, midPayWithAlipay, jorderinfo);
+    (*mEnv)->DeleteLocalRef(mEnv, jorderinfo);
+	
+    LocalReferenceHolder_Cleanup(&refs);
 }
 
 void Android_JNI_GetOsInfo(SDL_OsInfo* info)

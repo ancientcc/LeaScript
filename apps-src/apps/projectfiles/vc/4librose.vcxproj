@@ -1934,6 +1934,9 @@
     <ClCompile Include="..\..\librose\gui\auxiliary\window_builder\tree.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\auxiliary\window_builder\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\librose\gui\dialogs\action_lib2.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\librose\gui\dialogs\combo_box2.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
     </ClCompile>
@@ -1983,6 +1986,7 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\..\librose\gui\dialogs\rdnn_tflite_schema.cpp" />
+    <ClCompile Include="..\..\librose\gui\dialogs\register.cpp" />
     <ClCompile Include="..\..\librose\gui\dialogs\rstore.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)gui\dialogs\</ObjectFileName>
     </ClCompile>
@@ -3124,6 +3128,7 @@
     <ClInclude Include="..\..\librose\gui\auxiliary\window_builder\stack.hpp" />
     <ClInclude Include="..\..\librose\gui\auxiliary\window_builder\track.hpp" />
     <ClInclude Include="..\..\librose\gui\auxiliary\window_builder\tree.hpp" />
+    <ClInclude Include="..\..\librose\gui\dialogs\action_lib2.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\combo_box2.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\dlg_utils.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\health_scene.hpp" />
@@ -3141,6 +3146,7 @@
     <ClInclude Include="..\..\librose\gui\dialogs\rdnn.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\rdnn_runner.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\rdnn_tflite_schema.hpp" />
+    <ClInclude Include="..\..\librose\gui\dialogs\register.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\rstore.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\rexplorer.hpp" />
     <ClInclude Include="..\..\librose\gui\dialogs\rlogin.hpp" />

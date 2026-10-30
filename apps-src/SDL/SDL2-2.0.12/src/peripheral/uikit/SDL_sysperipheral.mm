@@ -23,6 +23,7 @@
 #include "SDL_peripheral.h"
 #include "SDL_log.h"
 #include "SDL_timer.h"
+#include "SDL_thread.h"
 
 #import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
@@ -214,6 +215,86 @@ SDL_bool SDL_IsScreenRecording()
 {
     return SDL_FALSE;
 }
+
+// IAPBridge.mm
+#import <Foundation/Foundation.h>
+// 导入 Swift 生成的接口头文件（Xcode 自动生成，名称通常是 "项目名-Swift.h"）
+#import "SDL2-Swift.h"
+
+// 定义回调函数类型（供 C++ 使用）
+// typedef void (*IAPPurchaseCallback)(int status, const char* message, int transactionId);
+
+void SDL_IAP_SetCallback(IAPPurchaseCallback callback, void* userdata)
+{
+    SDL_Log("%u tid(%" PRId64 ") SDL_IAP_SetCallback(callback 0x%p)---", 
+		SDL_GetTicks(), SDL_ThreadID(), callback);
+
+    // 将 C 函数指针包装为 Swift 闭包
+    [IAPManager.shared setPurchaseCallback:^(int status, NSString * _Nullable message, int transactionId) {
+        const char* msg = message ? [message UTF8String] : nullptr;
+        const char* jwsStr = jws ? [jws UTF8String] : nullptr;
+        // 把 jws 和 userdata 一起透传回 C++ 回调
+        callback(status, msg, transactionId, jwsStr, userdata);
+    }];
+
+    SDL_Log("%u tid(%" PRId64 ") SDL_IAP_SetCallback(callback 0x%p), end", 
+		SDL_GetTicks(), SDL_ThreadID(), callback);
+}
+    
+void SDL_IAP_Purchase(const char* productID, int transactionId)
+{
+    SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Purchase(productID: %s, transactionId: %i)---", 
+		SDL_GetTicks(), SDL_ThreadID(), productID, transactionId);
+
+    NSString *pid = [NSString stringWithUTF8String:productID];
+    [IAPManager.shared purchaseWithProductID:pid transactionId:transactionId];
+
+    SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Purchase(productID: %s, transactionId: %i), end", 
+		SDL_GetTicks(), SDL_ThreadID(), productID, transactionId);
+}
+    
+void SDL_IAP_Restore(void)
+{
+    SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Restore()---", 
+		SDL_GetTicks(), SDL_ThreadID());
+
+    [IAPManager.shared restorePurchases];
+
+    SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Restore(), end", 
+		SDL_GetTicks(), SDL_ThreadID());
+}
+/*
+static int g_currentTransactionId = 0;  // 初始为 0
+
+void onPurchaseResult(int status, const char* message, int transactionId)
+{
+    if (transactionId == 0) {
+        // 这是恢复购买的回调
+        if (status == 0) {
+            // unlockCourse(message);  // 恢复了一个商品
+        } else if (status == 1) {
+            // onRestoreCompleted();   // 恢复流程结束
+        }
+    } else {
+        // 这是普通购买的回调
+        if (transactionId == g_currentTransactionId) {
+            // g_purchaseState = PurchaseState::Idle;
+            // 处理购买结果
+        }
+    }
+}
+
+void buyCourse(const char* productID)
+{
+    // ...
+    g_currentTransactionId++;  // 第一次购买时变成 1
+    // ...
+    SDL_IAP_SetCallback(onPurchaseResult);
+
+    SDL_IAP_Purchase(productID, g_currentTransactionId);
+}
+*/
+
 
 //
 // os info

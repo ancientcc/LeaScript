@@ -120,6 +120,7 @@ public:
 
 	const std::string& saves_courseware_dir() const { return saves_courseware_dir_; }
 	const std::string& saves_map_dir() const { return saves_map_dir_; }
+	const std::string& launcher_user_dir() const { return launcher_user_dir_; }
 	const std::string& wkoscript_dir() const { return wkoscript_dir_; }
 	int sdl_field_small_font_size() { return sdl_field_small_font_size_; }
 	const SDL_OsInfo& os_info() const { return os_info_; }
@@ -197,6 +198,17 @@ private:
 	void apply_new_base_serial();
 	int get_serial_path(int driver_type, std::string& path, std::string& model) override;
 	void pinyin_did_speak_stopped(uint32_t id, const std::string& text, int unplayed_start) override;
+
+	void purchase_wkocourse(const std::string& aplt, const std::string& id, int price) override
+	{
+		wkocourse_helper_.purchase_wkocourse(aplt, id, price);
+	}
+
+	std::string app_wkorevise_import(const aplt::twkorevise& revise) override
+	{
+		VALIDATE(revise.valid(), null_str);
+		return health_.wkorevise_import(revise);
+	}
 
 	void clear_save_task_point(const aplt::taplt_task* new_klink_aplt_task);
 	void request_klink_aplt_task2(const aplt::taplt_task& new_aplt_task, const aplt::ttask_vars& task_vars);
@@ -295,6 +307,7 @@ private:
 private:
 	const std::string saves_courseware_dir_;
 	const std::string saves_map_dir_;
+	const std::string launcher_user_dir_;
 	std::string wkoscript_dir_;
 	int sdl_field_small_font_size_;
 	net::trdpd_manager rdpd_mgr_;
@@ -411,6 +424,8 @@ private:
 
 	// std::map<std::string, aplt::twkocourse_enroll> wkocourse_enrolls_;
 	std::map<std::string, aplt::twkocourse> wkocourses_;
+
+	twkocourse_helper wkocourse_helper_;
 };
 
 static void did_net_receive_broadcast(int argc, const char** argv, void* user)
@@ -423,6 +438,7 @@ game_instance::game_instance(rtc::PhysicalSocketServer& ss, int argc, char** arg
 	: base_instance(ss, argc, argv)
 	, saves_courseware_dir_(game_config::preferences_dir + "/saves/courseware")
 	, saves_map_dir_(game_config::preferences_dir + "/saves/map")
+	, launcher_user_dir_(game_config::preferences_dir + "/" + "aplt_leagor_khome__documents")
 	, wkoscript_dir_(preferences::wkoscript_dir())
 	// so far font::SIZE_SMALLER or font::SIZE_SMALLEST isn't ready.
 	, sdl_field_small_font_size_(nposm)
@@ -442,11 +458,13 @@ game_instance::game_instance(rtc::PhysicalSocketServer& ss, int argc, char** arg
 	, can_run_var_or_timing_task_(false)
 	, req_task_dirty_(false)
 	, bg_task2_(applets_, drivers_, curmap_, cfg_cpp_api_, bg_task_, camera_, def_script_, def_tflite_, ros_instance_, base_driver_, dcamera_driver_, ai_driver_)
-	, store_slot_(rdpd_mgr_, pble_, privacy_, applets_, bg_task_, cfg_cpp_api_, drivers_, base_driver_, /*std::bind(&game_instance::did_applet_will_uninstall, this, _1)*/*this)
+	, store_slot_(rdpd_mgr_, pble_, privacy_, applets_, bg_task_, cfg_cpp_api_, drivers_, base_driver_, *this, wkocourse_enrolls_, wkocourses_)
 #ifdef _WIN32
 	, tray_(video())
 #endif
 	, countdown_klink_aplt_task_(*this)
+	, health_(launcher_user_dir_)
+	, wkocourse_helper_(applets_, health_, wkocourse_enrolls_, wkocourses_)
 {
 	// To avoid accidents, always enable them every time.
 	preferences::set_sound(true);
@@ -1590,7 +1608,7 @@ bool game_instance::show_gui_center(const tstart_aiagent* start_aiagent)
 	}
 
 	gui2::tcenter dlg(rdpd_mgr_, pble_, privacy_, ros_instance_, bg_task2_, applets_, *this, curmap_, 
-		bg_task_, base_driver_, speech_driver_, dcamera_driver_, ai_driver_, saves_courseware_dir_, start_aiagent);
+		bg_task_, base_driver_, speech_driver_, dcamera_driver_, ai_driver_, health_, saves_courseware_dir_, start_aiagent);
 	dlg.show();
 	return true;
 }
@@ -1633,7 +1651,7 @@ void game_instance::start_health_controller()
 
 	hotkey::scope_changer changer(core_cfg(), "hotkey_health");
 	health_controller chart(scene_slot, core_cfg(), video_, health_, wkocourse_enrolls_, 
-		wkocourses_, sdl_field_small_font_size_);
+		wkocourses_, current_user, launcher_user_dir_, sdl_field_small_font_size_);
 	chart.initialize(chart_unit::initial_zoom);
 	chart.main_loop();
 }
@@ -2279,7 +2297,7 @@ void user_not_valid_try_again()
 			const std::string username = preferences::login_username();
 			const std::string cookie = preferences::login_pwcookie();
 
-			net::cswamp_login2(current_user, net::cswamp_login_type_cookie, username, cookie, nposm, true);
+			net::cswamp_login2(current_user, net::cswamp_login_usernametype_username, net::cswamp_login_passwordtype_cookie, username, cookie, nposm, true);
 		}
 	}
 }
@@ -2333,12 +2351,16 @@ bool game_instance::cswamp_addevent(int64_t ts, const std::string& desc, const s
 		return false;
 	}
 
+	VALIDATE(false, null_str);
+	return false;
+/*
 	const std::string devicename = preferences::sn();
 	int image_format = img_png;
 	gui2::tprogress_default_slot slot(std::bind(&net::cswamp_addevent, _1, current_user.sessionid, 
 			ts, devicename, desc, image_format, std::ref(images), quiet));
 	bool ret = gui2::run_with_progress(slot, null_str, null_str, 1);
 	return ret;
+*/
 }
 
 const aplt::tbase_scene* game_instance::aplt_set_base_scene(const aplt::tbase_scene& scene, int to_state, std::string& err_msg)
@@ -3472,6 +3494,7 @@ void makesure_deviceid()
 	}
 
 	current_user.username = preferences::login_username();
+	current_user.mobile = preferences::login_mobile();
 	current_user.pwcookie = preferences::login_pwcookie();
 }
 
@@ -3529,13 +3552,15 @@ static int do_gameloop(int argc, char** argv)
 	}
 
 	try {
+		net::cswamp_login3(current_user);
+/*
 		if (!preferences::login_username().empty() && !preferences::login_pwcookie().empty()) {
 			const std::string username = preferences::login_username();
 			const std::string cookie = preferences::login_pwcookie();
 
-			net::cswamp_login2(current_user, net::cswamp_login_type_cookie, username, cookie, nposm, true);
+			net::cswamp_login2(current_user, net::cswamp_login_usernametype_username, net::cswamp_login_passwordtype_cookie, username, cookie, nposm, true);
 		}
-
+*/
 		const bool test_httpd = false;
 		if (test_httpd) {
 			instance->register_server(server_httpd, nullptr);
@@ -3558,7 +3583,7 @@ static int do_gameloop(int argc, char** argv)
 			int res;
 			{
 				gui2::thome dlg(game.store_slot(), game.rdpd_mgr(), game.pble(), game.privacy(), game.applets(), game.drivers(), game.base_driver(), game.speech_driver(), game.iot_driver(), game.os_info(), 
-					game.health());
+					game.health(), current_user);
 				dlg.show();
 				res = static_cast<gui2::thome::tresult>(dlg.get_retval());
 			}

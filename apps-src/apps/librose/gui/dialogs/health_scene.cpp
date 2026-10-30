@@ -29,6 +29,7 @@ thealth_scene::thealth_scene(trhealth_scene_slot& scene_slot, health_controller&
 	, watermark_widget_(nullptr)
 	, main_report_(nullptr)
 	, status_widget_(nullptr)
+	, flt_upload_widget_(nullptr)
 	, flt_erase_widget_(nullptr)
 {
 }
@@ -82,6 +83,29 @@ void thealth_scene::app_resize_screen()
 	controller_.app_resize_screen();
 }
 
+void thealth_scene::reload_main_report(treport& report)
+{
+	report.clear();
+
+	utils::string_map symbols;
+
+	report.insert_item(null_str, _("Today")).set_cookie(health_controller::chartsel_today);
+	report.insert_item(null_str, _("Yesterday")).set_cookie(health_controller::chartsel_yesterday);
+	report.insert_item(null_str, _("The day before yesterday")).set_cookie(health_controller::chartsel_2daysago);
+	symbols["count"] = str_cast(15);
+	report.insert_item(null_str, vgettext2("$count days", symbols)).set_cookie(health_controller::chartsel_15days);
+	symbols["count"] = str_cast(30);
+	report.insert_item(null_str, vgettext2("$count days", symbols)).set_cookie(health_controller::chartsel_30days);
+
+	std::vector<health_controller::tdyn_chartsel*>& dyn_chartsels = controller_.dyn_chartsels();
+	int dyn_chartsel_count = dyn_chartsels.size();
+	for (int at = 0; at < dyn_chartsel_count; at ++) {
+		const health_controller::tdyn_chartsel& chartsel = *dyn_chartsels[at];
+		// report.insert_item(null_str, chartsel.title()).set_cookie(health_controller::chartsel_dyn_min + at);
+		report.insert_item(null_str, chartsel.title(controller_));
+	}
+}
+
 void thealth_scene::pre_toolbar_normal(tgrid& grid)
 {
 	utils::string_map symbols;
@@ -90,6 +114,8 @@ void thealth_scene::pre_toolbar_normal(tgrid& grid)
 	click_generic_handler(*widget, null_str);
 
 	treport* report = find_widget<treport>(&grid, "navigation_report", false, true);
+	reload_main_report(*report);
+/*
 	report->insert_item(null_str, _("Today")).set_cookie(health_controller::chartsel_today);
 	report->insert_item(null_str, _("Yesterday")).set_cookie(health_controller::chartsel_yesterday);
 	report->insert_item(null_str, _("The day before yesterday")).set_cookie(health_controller::chartsel_2daysago);
@@ -105,11 +131,22 @@ void thealth_scene::pre_toolbar_normal(tgrid& grid)
 		// report->insert_item(null_str, chartsel.title()).set_cookie(health_controller::chartsel_dyn_min + at);
 		report->insert_item(null_str, chartsel.title(controller_));
 	}
+*/
 	report->set_did_item_pre_change(std::bind(&thealth_scene::did_navigation_report_item_pre_change, this, _1, _2, _3));
 	report->set_did_item_changed(std::bind(&thealth_scene::did_navigation_report_item_changed, this, _2));
 	main_report_ = report;
 
-	tbutton* button = find_widget<tbutton>(&grid, "insert", false, true);
+	tbutton* button = find_widget<tbutton>(&grid, "switch_user", false, true);
+	connect_signal_mouse_left_click(
+			*button
+		, std::bind(
+			&health_controller::click_switch_user
+			, &controller_, std::ref(*button)));
+	if (game_config::app_code == aplt::app_kdesktop) {
+		button->set_visible(twidget::INVISIBLE);
+	}
+
+	button = find_widget<tbutton>(&grid, "insert", false, true);
 	connect_signal_mouse_left_click(
 			*button
 		, std::bind(
@@ -141,6 +178,15 @@ void thealth_scene::pre_toolbar_normal(tgrid& grid)
 
 	// flt_widget->set_visible(true);
 
+	flt_widget = window_->find_float_widget("flt_upload");
+	button = dynamic_cast<tbutton*>(flt_widget->widget.get());
+	connect_signal_mouse_left_click(
+			*button
+		, std::bind(
+			&health_controller::click_flt_upload
+			, &controller_, std::ref(*button)));
+	flt_upload_widget_ = window_->find_float_widget("flt_upload");
+
 	flt_widget = window_->find_float_widget("flt_erase");
 	button = dynamic_cast<tbutton*>(flt_widget->widget.get());
 	connect_signal_mouse_left_click(
@@ -149,6 +195,7 @@ void thealth_scene::pre_toolbar_normal(tgrid& grid)
 			&health_controller::click_flt_erase
 			, &controller_, std::ref(*button)));
 	// flt_widget->set_visible(true);
+	flt_erase_widget_ = window_->find_float_widget("flt_erase");
 
 	click_generic_handler(*widget, null_str);
 
@@ -185,8 +232,6 @@ void thealth_scene::pre_toolbar_share(tgrid& grid)
 			&thealth_scene::click_share_result
 			, this, std::ref(*button), true));
 	ok2_widget_ = button;
-
-	flt_erase_widget_ = window_->find_float_widget("flt_erase");
 }
 
 bool thealth_scene::did_navigation_report_item_pre_change(treport& report, ttoggle_button& from, ttoggle_button& to)
@@ -208,12 +253,15 @@ bool thealth_scene::did_navigation_report_item_pre_change(treport& report, ttogg
 void thealth_scene::did_navigation_report_item_changed(ttoggle_button& widget)
 {
 	int desire_sel = widget.at();
-
+	
+	controller_.refresh_chart_by_sel_ex(desire_sel);
+/*
 	// curr_layer_ = desire_sel;
 	controller_.clear_tip_mat2();
 	// MUST not call 'controller_.clear_workout_mat2s()' here.
 	// controller_.clear_workout_mat2s();
 	controller_.refresh_chart_by_sel(desire_sel);
+*/
 }
 
 void thealth_scene::click_share(tbutton& widget)
@@ -247,7 +295,8 @@ void thealth_scene::set_status_label(const std::string& msg)
 {
 	VALIDATE(!msg.empty(), null_str);
 
-	std::string msg2 = msg;
+	std::string msg2 = ht::generate_format(controller_.curr_health_dir_msg(), 0xff0000ff);
+	msg2.append(" | " + msg);
 	msg2.append(" | " + controller_.consecutive_checkin_rule_msg());
 	status_widget_->set_label(msg2);
 }
@@ -259,6 +308,13 @@ void thealth_scene::app_OnMessage(rtc::Message* msg)
 		{
 			tmsg_data_show_message* pdata = static_cast<tmsg_data_show_message*>(msg->pdata);
 			gui2::show_message(null_str, pdata->msg);
+		}
+		break;
+
+	case MSG_DO_COMMENT:
+		{
+			tmsg_data_do_comment* pdata = static_cast<tmsg_data_do_comment*>(msg->pdata);
+			controller_.do_comment(pdata->mat2_at);
 		}
 		break;
 

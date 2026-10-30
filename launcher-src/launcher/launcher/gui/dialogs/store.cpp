@@ -30,7 +30,8 @@
 namespace gui2 {
 
 tstore_slot::tstore_slot(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, std::map<aplt::taplt_key, aplt::tapplet>& applets, aplt::tbg_task& bg_task, aplt::tcfg_cpp_api& cfg_cpp_api, tdrivers& drivers,
-	tbase_driver& base_driver, /*const std::function<void (const std::string&)>& did_applet_will_uninstall*/tinstance_slot& instance_slot)
+	tbase_driver& base_driver, tinstance_slot& instance_slot,
+	const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, std::map<std::string, aplt::twkocourse>& wkocourses)
 	: trstore::tslot(applets, bg_task, cfg_cpp_api, drivers, base_driver, /*did_applet_will_uninstall,*/ 1000)
 	, tstatusbar(rdpd_mgr, pble, privacy)
 	// , applets_(applets)
@@ -39,6 +40,8 @@ tstore_slot::tstore_slot(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& p
 	// , drivers_(drivers)
 	// , base_driver_(base_driver)
 	, instance_slot_(instance_slot)
+	, wkocourse_enrolls_(wkocourse_enrolls)
+	, wkocourses_(wkocourses)
 {
 	recommend_aplts_.push_back("aplt.leagor.basic");
 	recommend_aplts_.push_back("aplt.leagor.khome");

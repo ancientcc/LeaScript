@@ -42,11 +42,10 @@ class thome: public tdialog, public tscan, public aplt::tdesktop, public tkeepal
 {
 public:
 	enum tresult {DESKTOP = 1, APPLET0 = 100};
-	enum {RDP_LAYER, SCAN_LAYER, APPLET_LAYER, EVENT_LAYER, MORE_LAYER};
+	enum {RDP_LAYER, APPLET_LAYER, EVENT_LAYER, ME_LAYER, SCAN_LAYER};
 
 // #define MAGIC_SINGLE_COOKIE		1000  // A number that a normal wkocourse count could not possibly reach.
 	enum {RDP_COURSE_LAYER, RDP_SINGLE_LAYER};
-	// enum {LOGIN_TYPE_PASSWORD_LAYER, LOGIN_TYPE_COOKIE_LAYER};
 	thome(gui2::trstore::tslot& slot, tpbremotes& pbremotes, tble2& ble, std::map<aplt::taplt_key, aplt::tapplet>& applets, 
 		tbase_driver_core& base_driver, tdrivers_core& drivers, aplt::tcfg_cpp_api_core& cfg_cpp_api, 
 		std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, std::map<std::string, aplt::twkocourse>& wkocourses,
@@ -70,7 +69,7 @@ private:
 	void pre_rdp(tgrid& grid);
 	void pre_applet(tgrid& grid);
 	void pre_event(tgrid& grid);
-	void pre_more(tgrid& grid);
+	void pre_me(tgrid& grid);
 	bool did_navigation_pre_change(treport& report, ttoggle_button& from, ttoggle_button& to);
 	void did_navigation_changed(treport& report, ttoggle_button& row);
 	void start_wkocourse_script(const std::string& wkocourse_id2, const aplt::twkocourse::tday& wkoday, const aplt::twkocourse::tworkout& workout);
@@ -91,6 +90,8 @@ private:
 	void click_course_workout_start(tlistbox& list, tbutton& widget, const std::string& course_id2, const aplt::twkocourse::tday& wkoday, int wokrout_at);
 	bool is_rdp_course_layer() const;
 	void did_rdp_report_changed(treport& report, ttoggle_button& row);
+	void click_day_btn(tbutton& widget);
+	void click_enroll_more(tbutton& widget);
 	void click_erase_enroll(tbutton& widget);
 	void reload_course_workout_list(tlistbox& list, const aplt::twkocourse_enroll& enroll, const aplt::twkocourse::tday& wkoday);
 
@@ -126,9 +127,9 @@ private:
 	
 	// override tkeepalive
 	void app_did_network_changed(bool connected) override;
-	void app_did_new_events(const std::set<trobot_event>& events) override;
+	void app_did_new_events(const std::set<aplt::twkoevent>& events) override;
 	bool app_can_refersh_remark_label() const override { return current_layer_ == EVENT_LAYER; }
-	bool app_disable_slice() const override { return is_busy(); }
+	bool app_disable_slice() const override;
 	// void app_did_timer_handler() override;
 
 	void app_timer_handler(uint32_t now) override;
@@ -157,7 +158,9 @@ private:
 
 	treport* rdp_report_;
 	tstack* rdp_stack_;
-	tbutton* wkocourse_enroll_widget_;
+	tlabel* day_label_widget_;
+	tbutton* day_btn_widget_;
+	tbutton* enroll_more_widget_;
 	tlistbox* workout_list_;
 	tlistbox* scene_list_;
 
@@ -171,19 +174,6 @@ private:
 
 	// more layer
 	tlabel* devel_widget_;
-/*
-	tstack* login_stack_;
-	treport* login_type_report_;
-	tstack* login_type_stack_;
-	int current_login_layer_;
-	ttext_box2* pd_username_;
-	ttext_box2* pd_password_;
-
-	ttext_box2* ck_username_;
-	ttext_box2* ck_cookie_;
-
-	tbutton* login_widget_;
-*/
 };
 
 } // namespace gui2

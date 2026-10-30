@@ -21,7 +21,10 @@
 #include "../../SDL_internal.h"
 
 #include "SDL_peripheral.h"
-
+#include <inttypes.h>
+#include "SDL_log.h"
+#include "SDL_timer.h"
+#include "SDL_thread.h"
 
 #ifndef posix_mku32
 	#define posix_mku32(l, h)		((uint32_t)(((uint16_t)(l)) | ((uint32_t)((uint16_t)(h))) << 16))
@@ -252,7 +255,7 @@ static int fill_usb_tty(int fix_count, SDL_ttyUSB** ppttyUSB)
 		if (pos + one_block > max_valid_bytes) {
 			one_block = max_valid_bytes - pos;
 		}
-		ret_bytes = SDL_RWread(fp, buf + pos, 1, one_block);
+		ret_bytes = (int)SDL_RWread(fp, buf + pos, 1, one_block);
 		pos += ret_bytes;
 	} while (ret_bytes == one_block);
 	SDL_RWclose(fp);
@@ -440,6 +443,34 @@ SDL_bool SDL_StopScreenRecording(char* filename, int maxlen)
 SDL_bool SDL_IsScreenRecording(void)
 {
 	return SDL_FALSE;
+}
+
+static IAPPurchaseCallback IAP_callback = NULL;
+static void* IAP_userdata = NULL;
+
+void SDL_IAP_SetCallback(IAPPurchaseCallback callback, void* userdata)
+{
+	SDL_Log("%u tid(%" PRId64 ") SDL_IAP_SetCallback(callback 0x%p)", 
+		SDL_GetTicks(), SDL_ThreadID(), callback);
+	IAP_callback = callback;
+	IAP_userdata = userdata;
+}
+
+void SDL_IAP_Purchase(const char* productID, int transactionId)
+{
+	SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Purchase(productID: %s, transactionId: %i)", 
+		SDL_GetTicks(), SDL_ThreadID(), productID, transactionId);
+	IAP_callback(1, productID, transactionId, "transaction.jwsRepresentation", IAP_userdata);
+}
+
+void SDL_IAP_Restore(void)
+{
+	SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Restore()", 
+		SDL_GetTicks(), SDL_ThreadID());
+
+	IAP_callback(0, "com.leagor.kdesktop.course.level11", 0, NULL, IAP_userdata);
+	IAP_callback(0, "com.leagor.kdesktop.course.level13", 0, NULL, IAP_userdata);
+	IAP_callback(1, NULL, 0, NULL, IAP_userdata);
 }
 
 void SDL_GetOsInfo(SDL_OsInfo* info)

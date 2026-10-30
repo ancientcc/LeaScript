@@ -12,6 +12,8 @@
    See the COPYING file for more details.
 */
 
+#define GETTEXT_DOMAIN "rose-lib"
+
 #include "scripts/lua_kernel_base.hpp"
 
 // #include "game_config.hpp"
@@ -239,15 +241,17 @@ static int intf_open_url(lua_State* L)
 	return 0;
 }
 
-void wkocourse_lua_push_device(lua_State* L, const aplt::tapplet& aplt, const std::string& filename, std::map<std::string, aplt::twkoscript>& scripts)
+void wkocourse_lua_push_device(lua_State* L, const aplt::tapplet& aplt, const std::string& filename,
+	int course_at, std::map<std::string, aplt::twkoscript>& scripts, std::map<std::string, int>& course_ats, std::map<std::string, std::set<std::string> >& prerequisites)
 {
 	aplt::twkocourse course;
 	course.from_file(filename);
 
 	tstack_size_lock lock(L, 1);
 
-	// 11 hash fields: file/id/title/author/reference/total_days/grace_period_days/description/days
-	lua_createtable(L, 0, 11);
+	// 13 hash fields: file/id/title/author/reference/prerequisite/
+	// total_days/grace_period_days/description/price/currency/extensions/days
+	lua_createtable(L, 0, 13);
 
 	lua_pushstring(L, "file");
 	lua_pushstring(L, utils::extract_file(filename).c_str());
@@ -258,6 +262,7 @@ void wkocourse_lua_push_device(lua_State* L, const aplt::tapplet& aplt, const st
 	std::string description;
 	std::string author;
 	std::string reference;
+	std::string prerequisite;
 	int total_days = 0; // not nposm. convenient for determining invalidity.
 	int grace_period_days = 0; // not nposm. convenient for determining invalidity.
 	int price = 0;
@@ -269,10 +274,13 @@ void wkocourse_lua_push_device(lua_State* L, const aplt::tapplet& aplt, const st
 		description = course.description;
 		author = course.author;
 		reference = course.reference;
+		prerequisite = course.prerequisite;
 		total_days = course.total_days;
 		grace_period_days = course.grace_period_days;
 		price = course.price;
 		currency = course.currency;
+
+		course_ats.insert(std::make_pair(course.id, course_at));
 	}
 
 	lua_pushstring(L, "id");
@@ -290,6 +298,23 @@ void wkocourse_lua_push_device(lua_State* L, const aplt::tapplet& aplt, const st
 	lua_pushstring(L, "reference");
 	lua_pushstring(L, reference.c_str());
 	lua_rawset(L, -3);     // t["reference"] = reference
+
+	lua_pushstring(L, "prerequisite");
+	lua_pushstring(L, prerequisite.c_str());
+	lua_rawset(L, -3);     // t["prerequisite"] = prerequisite
+
+	if (!prerequisite.empty()) {
+		std::map<std::string, std::set<std::string> >::iterator curr_it;
+		if (prerequisites.count(prerequisite) == 0) {
+			std::pair<std::map<std::string, std::set<std::string> >::iterator, bool> ins = 
+				prerequisites.insert(std::make_pair(prerequisite, std::set<std::string>()));
+			curr_it = ins.first;
+
+		} else {
+			curr_it = prerequisites.find(prerequisite);
+		}
+		curr_it->second.insert(id);
+	}
 
 	lua_pushstring(L, "total_days");
 	lua_pushinteger(L, total_days);
@@ -310,6 +335,10 @@ void wkocourse_lua_push_device(lua_State* L, const aplt::tapplet& aplt, const st
 	lua_pushstring(L, "currency");
 	lua_pushstring(L, currency.c_str());
 	lua_rawset(L, -3);     // t["currency"] = currency
+
+	lua_pushstring(L, "extensions");
+	lua_createtable(L, 0, 0);     // Empty table; it will be filled in later by the outer layer.
+	lua_rawset(L, -3);            // t["extensions"] = {}
 
 	// ---------- std::vector<tday> days ----------
 	lua_pushstring(L, "days");
@@ -413,14 +442,71 @@ static int intf_wkocourse_list_files_metadata(lua_State* L)
 
 	{
 		std::map<std::string, aplt::twkoscript> scripts;
+		std::map<std::string, int> course_ats;
+		std::map<std::string, std::set<std::string> > prerequisites;
 		tstack_size_lock lock(L, 0);
-		int at = 0;
-		for (std::set<std::string>::const_iterator it = cfgfiles.begin(); it != cfgfiles.end(); ++ it, at ++) {
+		int course_at = 0;
+		for (std::set<std::string>::const_iterator it = cfgfiles.begin(); it != cfgfiles.end(); ++ it, course_at ++) {
 			std::string filename(wkocourse_dir);
 			filename.append("/" + *it);
 
-			wkocourse_lua_push_device(L, *aplt, filename, scripts);
-			lua_rawseti(L, -2, at + 1);
+			wkocourse_lua_push_device(L, *aplt, filename, course_at, scripts, course_ats, prerequisites);
+			lua_rawseti(L, -2, course_at + 1);
+		}
+
+		// The position of the ¡®items¡¯ array on the stack. 
+		// Note that at this point the top of the stack is the ¡®items¡¯ array.
+		int items_idx = lua_gettop(L);
+
+		for (std::map<std::string, std::set<std::string> >::const_iterator it = prerequisites.begin();  it != prerequisites.end(); ++ it) {
+			const std::string& prerequisite = it->first;
+			const std::set<std::string>& extensions = it->second;
+
+			VALIDATE(course_ats.count(prerequisite) != 0, null_str);
+			int course_at = course_ats.find(prerequisite)->second;
+
+			//
+			// fill course["extensions"] table.
+			// 
+			// get the course table with id == prerequisite (the array index is course_at + 1).
+			lua_rawgeti(L, items_idx, course_at + 1);   // stack: [..., items, course_table]
+			VALIDATE(lua_istable(L, -1), null_str);
+			int course_table_idx = lua_gettop(L);
+
+			lua_pushstring(L, "extensions");
+			lua_rawget(L, course_table_idx); // It must exist, and it is an empty table.
+			VALIDATE(lua_istable(L, -1), null_str);
+			int ext_table_idx = lua_gettop(L);
+
+			int ext_idx = 0;
+			for (std::set<std::string>::const_iterator e = extensions.begin(); e != extensions.end(); ++ e) {
+				const std::string& ext_id = *e;
+
+				// Find the course_at corresponding to that extension course.
+				VALIDATE(course_ats.count(ext_id) != 0, null_str);
+				int ext_at = course_ats.find(ext_id)->second;
+
+				// Each element is a record-style table: { at = ..., id = ... }
+				lua_createtable(L, 0, 2);       // stack: [..., ext_table, entry]
+				int entry_idx = lua_gettop(L);
+
+				lua_pushstring(L, "at");
+				lua_pushinteger(L, ext_at);
+				lua_rawset(L, entry_idx);       // entry["at"] = ext_at
+
+				lua_pushstring(L, "id");
+				lua_pushstring(L, ext_id.c_str());
+				lua_rawset(L, entry_idx);       // entry["id"] = ext_id
+
+				// entry table into extensions array, index: ext_idx + 1
+				lua_rawseti(L, ext_table_idx, ++ ext_idx);
+
+				// lua_pushstring(L, e->c_str());
+				// lua_rawseti(L, ext_table_idx, ++ ext_idx);
+			}
+
+			// Pop extensions and course_table, restoring stack balance.
+			lua_pop(L, 2);
 		}
 	}
 
@@ -547,6 +633,7 @@ static int intf_wkocourse_purchase(lua_State* L)
 {
 	const std::string aplt = luaL_checkstring(L, 1);
 	const std::string id = luaL_checkstring(L, 2);
+	const int price = luaL_checkinteger(L, 3);
 
 	if (!is_bundleid(aplt)) {
 		return luaL_argerror(L, 1, "must be bundleid format");
@@ -554,11 +641,22 @@ static int intf_wkocourse_purchase(lua_State* L)
 	if (id.empty()) {
 		return luaL_argerror(L, 2, "can be empty");
 	}
+	if (price < 0) {
+		return luaL_argerror(L, 3, "price must be >0 0");
+	}
 
-	instance->purchase_wkocourse(aplt, id);
+	std::string err_msg;
+	if (price == 0) {
+		instance->purchase_wkocourse(aplt, id, price);
 
-	bool retbool = true;
-	lua_pushboolean(L, retbool);
+	} else {
+		err_msg = _("The current version does not yet support purchasing paid courses.");
+	}
+
+	lua_pushstring(L, err_msg.c_str());
+
+	// bool retbool = true;
+	// lua_pushboolean(L, retbool);
 
 	return 1;
 }
@@ -686,7 +784,7 @@ static int intf_mk_integer(lua_State* L)
 	return 1;
 }
 
-enum {FMT_APLT_IOT_ALIAS_ID = FMT_ELAPSE + 1, FMT_TIME_ymdhms};
+enum {FMT_APLT_IOT_ALIAS_ID = FMT_ELAPSE + 1, FMT_TIME_ymdhms, FMT_FEN_TO_YUAN};
 
 static int intf_integer_tostr(lua_State* L)
 {
@@ -708,6 +806,9 @@ static int intf_integer_tostr(lua_State* L)
 
 	} else if (type == FMT_ELAPSE) {
 		result = utils::format_elapse_hms(val);
+
+	} else if (type == FMT_FEN_TO_YUAN) {
+		result = utils::format_fen_to_yuan(val);
 
 	} else {
 		return luaL_argerror(L, 2, "unknown type");
@@ -1533,6 +1634,7 @@ void lua_kernel_base::register_rose_const_value()
 	values.insert(std::make_pair("FMT_ELAPSE", FMT_ELAPSE));
 	values.insert(std::make_pair("FMT_APLT_IOT_ALIAS_ID", FMT_APLT_IOT_ALIAS_ID));
 	values.insert(std::make_pair("FMT_TIME_ymdhms", FMT_TIME_ymdhms));
+	values.insert(std::make_pair("FMT_FEN_TO_YUAN", FMT_FEN_TO_YUAN));
 
 	// path type
 	values.insert(std::make_pair("PATHTYPE_ABS", PATHTYPE_ABS));

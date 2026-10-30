@@ -31,12 +31,14 @@
 #include "gui/dialogs/message.hpp"
 #include "gui/dialogs/edit_box.hpp"
 #include "gui/dialogs/menu.hpp"
+#include "gui/dialogs/register.hpp"
 #include "help.hpp"
 #include "filesystem.hpp"
 #include <time.h>
 #include "wml_exception.hpp"
 #include "formula_string_utils.hpp"
 #include "rose_version.hpp"
+#include "font.hpp"
 
 using namespace std::placeholders;
 
@@ -142,9 +144,7 @@ void trlogin::click_login(twindow& window)
 trcswamp_login::trcswamp_login(net::truser& current_user)
 	: current_user_(current_user)
 	, login_stack_(nullptr)
-	, login_type_report_(nullptr)
-	, login_type_stack_(nullptr)
-	, current_login_layer_(nposm)
+	, username_type_report_(nullptr)
 	, use_text_box2_(false)
 	, pd_username_(nullptr)
 	, pd_password_(nullptr)
@@ -153,6 +153,8 @@ trcswamp_login::trcswamp_login(net::truser& current_user)
 	, username_text_(nullptr)
 	, password_text_(nullptr)
 	, login_widget_(nullptr)
+	, logged_in_username_widget_(nullptr)
+	, logged_in_uid_widget_(nullptr)
 	, window_priv_(nullptr)
 {}
 
@@ -169,6 +171,11 @@ void trcswamp_login::pre_show(twindow& window, tgrid& grid)
 	set_login_layer();
 }
 
+static std::string get_username_placeholder(int username_type)
+{
+	return username_type == net::cswamp_login_usernametype_mobile? _("Mobile number"): _("Username");
+}
+
 void trcswamp_login::pre_login(tgrid& grid)
 {
 	std::stringstream ss;
@@ -180,9 +187,16 @@ void trcswamp_login::pre_login(tgrid& grid)
 	} else {
 		ss << vgettext2("login remark, $cswamp, kdesktop", symbols);
 	}
-	find_widget<tlabel>(&grid, "login_remark", false, true)->set_label(ss.str());
+	tlabel* label = find_widget<tlabel>(&grid, "login_remark", false, true);
+	label->set_label(ss.str());
+	if (game_config::app_code == aplt::app_kdesktop) {
+		label->set_visible(twidget::INVISIBLE);
+	}
 
 	find_widget<tlabel>(&grid, "deviceid", false, true)->set_label(current_user_.deviceid);
+	if (game_config::app_code == aplt::app_kdesktop) {
+		find_widget<tgrid>(&grid, "deviceid_grid", false, true)->set_visible(twidget::INVISIBLE);
+	}
 
 	tbutton* button = find_widget<tbutton>(&grid, "login", false, true);
 		connect_signal_mouse_left_click(
@@ -190,20 +204,29 @@ void trcswamp_login::pre_login(tgrid& grid)
 				, std::bind(
 				&trcswamp_login::click_login
 				, this, std::ref(*button)));
+	button->set_border("blue_ellipse");
 	button->set_active(false);
 	login_widget_ = button;
 
-	treport* report = find_widget<treport>(&grid, "login_type_report", false, true);
-	gui2::tcontrol* item = &report->insert_item(null_str, _("Password"));
-	item = &report->insert_item(null_str, _("Cookie"));
-	report->set_did_item_changed(std::bind(&trcswamp_login::did_login_type_changed, this, _1, _2));
-	login_type_report_ = report;
-	login_type_report_->set_visible(twidget::INVISIBLE);
+	button = find_widget<tbutton>(&grid, "register", false, true);
+	connect_signal_mouse_left_click(
+		*button
+		, std::bind(
+			&trcswamp_login::click_register
+			, this, tregister::type_register));
+	button->set_label(ht::generate_format(_("Register now"), color_to_uint32(font::BLUE_COLOR)));
 
-	tstack* stack = find_widget<tstack>(&grid, "login_type_stack", false, true);
-	pre_login_type_password(*stack->layer(LOGIN_TYPE_PASSWORD_LAYER));
-	pre_login_type_cookie(*stack->layer(LOGIN_TYPE_COOKIE_LAYER));
-	login_type_stack_ = stack;
+	treport* report = find_widget<treport>(&grid, "username_type_report", false, true);
+	for (std::map<int, tcode3>::const_iterator it = net::cswamp_login_usernametypes.begin(); it != net::cswamp_login_usernametypes.end(); ++ it) {
+		const tcode3& code3 = it->second;
+		report->insert_item(null_str, code3.name);
+	}
+	report->set_did_item_changed(std::bind(&trcswamp_login::did_username_type_changed, this, _1, _2));
+	int curr_username_type = net::cswamp_username_type();
+	report->select_item(curr_username_type);
+	username_type_report_ = report;
+
+	pre_login_type_password(grid);
 
 	if (use_text_box2_) {
 		pd_username_->text_box()->set_label(current_user_.username);
@@ -212,10 +235,16 @@ void trcswamp_login::pre_login(tgrid& grid)
 		ck_cookie_->text_box()->set_label(current_user_.pwcookie);
 
 	} else {
-		username_text_->set_label(current_user_.username);
+		const std::string& username2 = curr_username_type == net::cswamp_login_usernametype_mobile? 
+			current_user_.mobile: current_user_.username;
+		username_text_->set_label(username2);
 	}
 
-	report->select_item(LOGIN_TYPE_PASSWORD_LAYER);
+	if (use_text_box2_) {
+		set_login_active(pd_username_->text_box()->label(), pd_password_->text_box()->label());
+	} else {
+		set_login_active(username_text_->label(), password_text_->label());
+	}
 }
 
 void trcswamp_login::pre_logout(tgrid& grid)
@@ -229,36 +258,68 @@ void trcswamp_login::pre_logout(tgrid& grid)
 	} else {
 		ss << vgettext2("logout remark, $cswamp, kdesktop", symbols);
 	}
-	find_widget<tlabel>(&grid, "logout_remark", false, true)->set_label(ss.str());
+	tlabel* label = find_widget<tlabel>(&grid, "logout_remark", false, true);
+	label->set_label(ss.str());
+	if (game_config::app_code == aplt::app_kdesktop) {
+		label->set_visible(twidget::INVISIBLE);
+	}
+
+	tbutton* button = find_widget<tbutton>(&grid, "logged_in_username", false, true);
+	connect_signal_mouse_left_click(
+				*button
+			, std::bind(
+			&trcswamp_login::click_logged_in_username
+			, this, std::ref(*button)));
+	button->set_icon("misc/edit.png");
+	logged_in_username_widget_ = button;
+
+	label = find_widget<tlabel>(&grid, "uid", false, true);
+	logged_in_uid_widget_ = label;
+
+	button = find_widget<tbutton>(&grid, "erase_user", false, true);
+	connect_signal_mouse_left_click(
+		*button
+		, std::bind(
+			&trcswamp_login::click_register
+			, this, tregister::type_eraseuser));
+	button->set_label(ht::generate_format(_("login^Erase user"), color_to_uint32(font::BLUE_COLOR)));
+	{
+		// Wait until the new UI is ready, then enable it.
+		button->set_visible(twidget::INVISIBLE);
+	}
 
 	find_widget<tlabel>(&grid, "deviceid", false, true)->set_label(current_user_.deviceid);
+	if (game_config::app_code == aplt::app_kdesktop) {
+		find_widget<tgrid>(&grid, "deviceid_grid", false, true)->set_visible(twidget::INVISIBLE);
+	}
 
-	tbutton* button = find_widget<tbutton>(&grid, "logout", false, true);
+	button = find_widget<tbutton>(&grid, "logout", false, true);
 	connect_signal_mouse_left_click(
 				*button
 			, std::bind(
 			&trcswamp_login::click_logout
 			, this, std::ref(*button)));
+	// button->set_border("blue_ellipse");
+	button->set_label(ht::generate_format(_("Logout"), color_to_uint32(font::BAD_COLOR)));
 }
 
-void trcswamp_login::did_login_type_changed(treport& report, ttoggle_button& row)
+void trcswamp_login::did_username_type_changed(treport& report, ttoggle_button& row)
 {
-	tgrid* current_layer = login_type_stack_->layer(row.at());
-	login_type_stack_->set_radio_layer(row.at());
+	int at = row.at();
+	preferences::set_login_username_type(net::cswamp_login_usernametypes.find(at)->second.id);
 
-	current_login_layer_ = row.at();
-	if (current_login_layer_ == LOGIN_TYPE_PASSWORD_LAYER) {
+	int username_type = net::cswamp_username_type();
+	if (username_text_ != nullptr) {
+		username_text_->set_placeholder(get_username_placeholder(username_type));
+		// username_text_->set_dirty();
+	}
+
+	if (username_text_ != nullptr && password_text_ != nullptr) {
 		if (use_text_box2_) {
 			set_login_active(pd_username_->text_box()->label(), pd_password_->text_box()->label());
 		} else {
 			set_login_active(username_text_->label(), password_text_->label());
 		}
-
-	} else if (current_login_layer_ == LOGIN_TYPE_COOKIE_LAYER) {
-		ck_username_->text_box()->set_label(current_user_.username);
-		ck_cookie_->text_box()->set_label(current_user_.pwcookie);
-
-		set_login_active(ck_username_->text_box()->label(), ck_cookie_->text_box()->label());
 	}
 }
 
@@ -266,7 +327,7 @@ void trcswamp_login::pre_login_type_password(tgrid& grid)
 {
 	if (use_text_box2_) {
 		ttext_box2* text_box2 = new ttext_box2(*window_priv_, *find_widget<tcontrol>(&grid, "username", false, true), null_str, null_str);
-		text_box2->set_did_text_changed(std::bind(&trcswamp_login::did_username_changed, this, _1, LOGIN_TYPE_PASSWORD_LAYER));
+		text_box2->set_did_text_changed(std::bind(&trcswamp_login::did_username_changed, this, _1));
 		text_box2->text_box()->set_maximum_chars(22);
 		text_box2->text_box()->set_placeholder(_("Username"));
 		pd_username_ = text_box2;
@@ -276,21 +337,23 @@ void trcswamp_login::pre_login_type_password(tgrid& grid)
 			*text_box2->button()
 			, std::bind(
 				&trcswamp_login::click_password
-				, this, LOGIN_TYPE_PASSWORD_LAYER));
+				, this));
 		text_box2->text_box()->set_maximum_chars(22);
 		text_box2->text_box()->set_placeholder(_("Password"));
-		text_box2->set_did_text_changed(std::bind(&trcswamp_login::did_password_changed, this, _1, LOGIN_TYPE_PASSWORD_LAYER));
+		text_box2->set_did_text_changed(std::bind(&trcswamp_login::did_password_changed, this, _1));
 		pd_password_ = text_box2;
 
 	} else {
+		int username_type = net::cswamp_username_type();
+
 		tpanel* panel = find_widget<tpanel>(&grid, "username", false, true);
 		panel->set_border(null_str);
 		panel->set_margin(0, 0, 0, 0);
 
 		ttext_box* text_box = find_widget<ttext_box>(&grid, "username_text", false, true);
-		text_box->set_did_text_changed(std::bind(&trcswamp_login::did_username_changed, this, _1, LOGIN_TYPE_PASSWORD_LAYER));
+		text_box->set_did_text_changed(std::bind(&trcswamp_login::did_username_changed, this, _1));
 		text_box->set_maximum_chars(22);
-		text_box->set_placeholder(_("Username"));
+		text_box->set_placeholder(get_username_placeholder(username_type));
 		text_box->set_border(null_str);
 		username_text_ = text_box;
 
@@ -302,7 +365,7 @@ void trcswamp_login::pre_login_type_password(tgrid& grid)
 		text_box = find_widget<ttext_box>(&grid, "password_text", false, true);
 		text_box->set_maximum_chars(22);
 		text_box->set_placeholder(_("Password"));
-		text_box->set_did_text_changed(std::bind(&trcswamp_login::did_password_changed, this, _1, LOGIN_TYPE_PASSWORD_LAYER));
+		text_box->set_did_text_changed(std::bind(&trcswamp_login::did_password_changed, this, _1));
 		text_box->set_desensitize();
 		text_box->set_border(null_str);
 		password_text_ = text_box;
@@ -312,78 +375,60 @@ void trcswamp_login::pre_login_type_password(tgrid& grid)
 			*button
 			, std::bind(
 				&trcswamp_login::click_password
-				, this, LOGIN_TYPE_PASSWORD_LAYER));
+				, this));
 	}
-}
 
-void trcswamp_login::pre_login_type_cookie(tgrid& grid)
-{
-	if (!use_text_box2_) {
-		return;
-	}
-	ttext_box2* text_box2 = new ttext_box2(*window_priv_, *find_widget<tcontrol>(&grid, "username", false, true), null_str, null_str, false, null_str, ttext_box2::button_auto_visible);
-	// text_box2->set_did_text_changed(std::bind(&thome::did_username_changed, this, _1, LOGIN_COOKIE_LAYER));
-	// text_box2->text_box()->set_maximum_chars(22);
-	text_box2->text_box()->set_placeholder(_("Username"));
-	text_box2->text_box()->set_active(false);
-	ck_username_ = text_box2;
-
-	text_box2 = new ttext_box2(*window_priv_, *find_widget<tcontrol>(&grid, "password", false, true), null_str, null_str, true, "misc/eye.png", ttext_box2::button_auto_visible);
+	tbutton* button = find_widget<tbutton>(&grid, "resetpwd", false, true);
 	connect_signal_mouse_left_click(
-		*text_box2->button()
+		*button
 		, std::bind(
-			&trcswamp_login::click_password
-			, this, LOGIN_TYPE_COOKIE_LAYER));
-	// text_box2->text_box()->set_maximum_chars(22);
-	// text_box2->text_box()->set_placeholder(_("Password"));
-	// text_box2->set_did_text_changed(std::bind(&thome::did_password_changed, this, _1, LOGIN_COOKIE_LAYER));
-	text_box2->text_box()->set_active(false);
-	ck_cookie_ = text_box2;
+			&trcswamp_login::click_register
+			, this, tregister::type_resetpwd));
+	button->set_label(ht::generate_format(_("Forgot password?"), color_to_uint32(font::BLUE_COLOR)));
 }
 
-void trcswamp_login::did_username_changed(ttext_box& widget, int layer)
+void trcswamp_login::did_username_changed(ttext_box& widget)
 {
-	if (layer == LOGIN_TYPE_PASSWORD_LAYER) {
-		if (use_text_box2_) {
-			set_login_active(widget.label(), pd_password_->text_box()->label());
-
-		} else {
-			set_login_active(widget.label(), password_text_->label());
-		}
-	}
-}
-
-void trcswamp_login::did_password_changed(ttext_box& widget, int layer)
-{
-	if (layer == LOGIN_TYPE_PASSWORD_LAYER) {
-		if (use_text_box2_) {
-			set_login_active(pd_username_->text_box()->label(), widget.label());
-		} else {
-			set_login_active(username_text_->label(), widget.label());
-		}
-	}
-}
-
-void trcswamp_login::click_password(int layer)
-{
-	ttext_box* text_box = nullptr;
-	if (layer == LOGIN_TYPE_PASSWORD_LAYER) {
-		if (use_text_box2_) {
-			text_box = pd_password_->text_box();
-		} else {
-			text_box = password_text_;
-		}
+	if (use_text_box2_) {
+		set_login_active(widget.label(), pd_password_->text_box()->label());
 
 	} else {
-		VALIDATE(layer == LOGIN_TYPE_COOKIE_LAYER, null_str);
-		text_box = ck_cookie_->text_box();
+		set_login_active(widget.label(), password_text_->label());
 	}
+}
+
+void trcswamp_login::did_password_changed(ttext_box& widget)
+{
+	if (use_text_box2_) {
+		set_login_active(pd_username_->text_box()->label(), widget.label());
+	} else {
+		set_login_active(username_text_->label(), widget.label());
+	}
+}
+
+void trcswamp_login::click_password()
+{
+	ttext_box* text_box = nullptr;
+	if (use_text_box2_) {
+		text_box = pd_password_->text_box();
+	} else {
+		text_box = password_text_;
+	}
+
 	text_box->set_cipher(!text_box->cipher());
 }
 
 void trcswamp_login::set_login_active(const std::string& username, const std::string& password)
 {
-	bool active = !username.empty() && !password.empty();
+	bool username_valid = !username.empty();
+	if (username_valid) {
+		int username_type = net::cswamp_username_type();
+		if (username_type == net::cswamp_login_usernametype_mobile) {
+			username_valid = utils::is_valid_mobile(username);	
+		}
+	}
+
+	bool active = username_valid && !password.empty();
 	// if (active) {
 	//	active = current_user.valid();
 	// }
@@ -395,6 +440,9 @@ void trcswamp_login::set_login_layer()
 	int layer = nposm;
 	if (current_user_.valid()) {
 		// already logged in
+		logged_in_username_widget_->set_label(current_user_.username);
+		logged_in_uid_widget_->set_label(str_cast(current_user_.uid));
+
 		layer = LOGOUT_LAYER;
 
 	} else {
@@ -411,7 +459,8 @@ void trcswamp_login::click_login(tbutton& widget)
 	const std::string& password = use_text_box2_? pd_password_->text_box()->label(): password_text_->label();
 	VALIDATE(!password.empty(), null_str);
 
-	bool ret = net::cswamp_login2(current_user_, net::cswamp_login_type_password, username, password, 10000, false);
+	int username_type = net::cswamp_username_type();
+	bool ret = net::cswamp_login2(current_user_, username_type, net::cswamp_login_passwordtype_password, username, password, 10000, false);
 	if (ret) {
 		ttext_box* password_widget = use_text_box2_? pd_password_->text_box(): password_text_;
 		password_widget->set_label(null_str);
@@ -435,6 +484,78 @@ void trcswamp_login::click_logout(tbutton& widget)
 
 	set_login_layer();
 	app_did_login_status_changed(false);
+}
+
+bool trcswamp_login::did_verify_username(const std::string& _label) const
+{
+	if (_label.empty()) {
+		return false;
+	}
+
+	std::string label = _label;
+	utils::strip(label);
+	if (label.empty()) {
+		return false;
+	}
+
+	return true;
+}
+
+void trcswamp_login::click_logged_in_username(tbutton& widget)
+{
+	VALIDATE(current_user_.valid(), null_str);
+
+	utils::string_map symbols;
+	std::string title = _("Update username");
+	std::string initial = current_user_.username;
+
+	gui2::tedit_box_param param(title, _("Username"), null_str, initial, null_str, null_str, _("OK"), 16, gui2::tedit_box_param::show_cancel);
+	param.did_text_changed = std::bind(&trcswamp_login::did_verify_username, this, _1);
+
+	std::string new_username;
+	{
+		gui2::tedit_box dlg(param);
+		dlg.show(nposm, window_priv_->get_height() / 5);
+		if (dlg.get_retval() != twindow::OK) {
+			return;
+		}
+		new_username = param.result;
+	}
+	VALIDATE(current_user_.username != new_username, null_str);
+	bool ret = net::cswamp_updateusername2(current_user_, new_username, nposm, false);
+
+	if (ret) {
+		VALIDATE(current_user_.username == preferences::login_username(), null_str);
+		logged_in_username_widget_->set_label(current_user_.username);
+	}
+}
+
+void trcswamp_login::click_register(int type)
+{
+	std::string caller_mobile;
+	int username_type = net::cswamp_username_type();
+	// if (username_type == net::cswamp_login_usernametype_mobile) {
+		caller_mobile = use_text_box2_? pd_username_->text_box()->label(): username_text_->label();
+	// }
+	if (!caller_mobile.empty() && !utils::is_valid_mobile(caller_mobile)) {
+		caller_mobile.clear();
+	}
+
+	gui2::tregister dlg(current_user_, type, caller_mobile);
+	dlg.show();
+
+	if (type == tregister::type_register) {
+		if (current_user_.valid()) {
+			set_login_layer();
+			app_did_login_status_changed(true);
+		}
+
+	} else if (type == tregister::type_eraseuser) {
+		if (!current_user_.valid()) {
+			set_login_layer();
+			app_did_login_status_changed(false);
+		}
+	}
 }
 
 } // namespace gui2

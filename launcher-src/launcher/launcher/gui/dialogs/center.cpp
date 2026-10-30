@@ -28,6 +28,7 @@
 
 #include "serialization/parser.hpp"
 #include "minizip/minizip.hpp"
+#include "health.hpp"
 
 using namespace std::placeholders;
 
@@ -51,7 +52,7 @@ namespace gui2 {
 REGISTER_DIALOG(launcher, center)
 
 tcenter::tcenter(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, tros_instance& ros_instance, aplt::tbg_task2& temp_task, const std::map<aplt::taplt_key, aplt::tapplet>& applets, aplt::tb_api& b_api, 
-	tros_map& curmap, aplt::tbg_task& bg_task, tbase_driver& base_driver, tspeech_driver& speech_driver, tdcamera_driver& dcamera_driver, tai_driver& ai_driver, const std::string& saves_courseware_dir,
+	tros_map& curmap, aplt::tbg_task& bg_task, tbase_driver& base_driver, tspeech_driver& speech_driver, tdcamera_driver& dcamera_driver, tai_driver& ai_driver, aplt::thealth& health, const std::string& saves_courseware_dir,
 	const tstart_aiagent* start_aiagent)
 	: tstatusbar(rdpd_mgr, pble, privacy)
 	, tbase_courseware(saves_courseware_dir)
@@ -69,6 +70,7 @@ tcenter::tcenter(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, 
 	, dcamera_driver_(dcamera_driver)
 	, ai_driver_(ai_driver)
 	, ai_start_aiagent_()
+	, health_(health)
 	, ai_slot_(ai_driver.slot)
 	, pinyin_(chinese::curr_pinyin)
 	, ai_disable_find_user_(true)
@@ -103,7 +105,7 @@ tcenter::tcenter(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, 
 	, ai_task_types_({
 		{ai_tasktype_chat, tai_task_type(ai_tasktype_chat, "temp_chat", _("Temporary Chat"), _("Within this task, new conversations are allowed"))},
 		{ai_tasktype_followup, tai_task_type(ai_tasktype_followup, "followup", _("aiagent^Followup"), _("Please choose"))},
-		{ai_tasktype_courseware, tai_task_type(ai_tasktype_courseware, "courseware", _("aiagent^Courseware"), _("Please choose"))},
+		{ai_tasktype_courseware, tai_task_type(ai_tasktype_courseware, "artifact", _("aiagent^Courseware"), _("Please choose"))},
 		{ai_tasktype_aiagent, tai_task_type(ai_tasktype_aiagent, "aiagent", _("aiagent^aiagent"), _("Please choose"))}
 	})
 	, ai_tasktype_aiagent_at_(nposm)
@@ -1431,8 +1433,38 @@ void tcenter::ai_do_send()
 	ai_set_send_label(false);
 }
 
+enum {wkoobjtype_wkoscript, wkoobjtype_count};
+
+void wkorevise_import(const aplt::thealth& health)
+{
+	std::string filename = game_config::preferences_dir + "/saves/wkorevise.cfg";
+/*
+	std::string stream;
+	const int max_cfg_size = 1 * 1024; // 1K bytes
+
+	// std::string filename = curr_aplt->preferences_dir + "/saves/workout_import.cfg";
+	// SDL_Log("load workout scripts from: %s", filename.c_str());
+	{
+		tfile file(filename, GENERIC_READ, OPEN_EXISTING);
+		int fsize = file.read_2_data();
+		if (fsize > 0 && fsize <= max_cfg_size && utils::is_utf8str(file.data, fsize)) {
+			stream.assign(file.data, fsize);
+		}
+	}
+	VALIDATE(!stream.empty(), null_str);
+	health.wkorevise_import(stream);
+*/
+	health.wkorevise_import_from_file(filename);
+}
+
 void tcenter::ai_click_send(tbutton& widget)
 {
+	{
+		wkorevise_import(health_);
+		int ii = 0;
+		return;
+	}
+
 	if (ai_start_aiagent_.pair.aplt != nullptr) {
 		gui2::show_message(null_str, _("center don't support send msg"));
 		return;

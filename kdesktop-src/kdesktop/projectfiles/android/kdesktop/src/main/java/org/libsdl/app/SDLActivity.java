@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -62,6 +63,8 @@ import android.hardware.*;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ApplicationInfo;
+
+import com.alipay.sdk.app.PayTask;
 
 import org.librose.SDLBle;
 import org.librose.SDLWifi;
@@ -777,6 +780,29 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
                 Log.w(TAG, "MediaProjection stop exception: " + e.getMessage());
             }
         }
+    }
+
+    public static void payWithAlipay(final String orderInfo) {
+        Runnable payRunnable = new Runnable() {
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(mSingleton);
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+
+                // 拿到结果后，通过 JNI 回传给 C++ 层
+                String resultStatus = result.get("resultStatus");
+                String resultInfo = result.get("result");
+
+                // 切回主线程再回调（JNI 回调通常需要主线程）
+                mSingleton.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        nativeOnAlipayResult(resultStatus, resultInfo);
+                    }
+                });
+            }
+        };
+        new Thread(payRunnable).start();
     }
 
     public class OsInfo {
@@ -1890,6 +1916,9 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
     public static native void nativeOnRecordingStarted();
     public static native void nativeOnRecordingStopped(String filePath);
     public static native void nativeOnRecordingError(String error);
+
+    // alipay
+    public static native void nativeOnAlipayResult(String resultStatus, String resultInfo);
 
     private void setupKeyboardListener() {
         mDecorView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -3351,7 +3380,8 @@ class DummyEdit extends View implements View.OnKeyListener {
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         ic = new SDLInputConnection(this, true);
 
-        outAttrs.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
+        // outAttrs.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
+        outAttrs.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
         outAttrs.imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI
                 | EditorInfo.IME_FLAG_NO_FULLSCREEN /* API 11 */;
 

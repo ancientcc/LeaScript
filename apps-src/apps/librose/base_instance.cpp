@@ -34,6 +34,7 @@
 #include "gui/widgets/track.hpp"
 #include "gui/widgets/listbox.hpp"
 #include "gui/widgets/label.hpp"
+#include "gui/widgets/button.hpp"
 #include "ble.hpp"
 #include "theme.hpp"
 #include "chinese.hpp"
@@ -886,22 +887,39 @@ void base_instance::load_action_tpl2s_cfg()
 	config top_cfg;
 	aplt::read_config_ex(stream, true, top_cfg);
 
+	std::set<std::string> existed_names;
 	std::string postfix;
+	std::set<std::string> not800_white_list = {"pushup_rep"};
+
 	BOOST_FOREACH (const config &pose_cfg, top_cfg.child_range("action_tpl2")) {
 		aplt::taction_tpl2 action_tpl2;
 		bool retbool = action_tpl2.from_cfg(pose_cfg);
 		if (!retbool) {
 			continue;
 		}
-		
+
 		postfix = extract_postfix(action_tpl2.id);
 		if (action_tpl2.is_setup) {
 			if (postfix != "_setup") {
 				continue;
 			}
+			const int dflt_unsatisfied_2th_threshold_s = 5;
+			if (action_tpl2.unsatisfied_2th_threshold_s != dflt_unsatisfied_2th_threshold_s) {
+				continue;
+			}
 
 		} else if (action_tpl2.task->type == aplt::twkoscript::tasktype_time_counter) {
 			if (postfix != "_time") {
+				continue;
+			}
+			const int dflt_threshold_ms = 1500;
+			if (action_tpl2.unsatisfied_threshold_ms != dflt_threshold_ms) {
+				continue;
+			}
+
+			const SDL_Range dflt_unsatisfied_2th_threshold_s = {3, 4};
+			if (action_tpl2.unsatisfied_2th_threshold_s < dflt_unsatisfied_2th_threshold_s.min || 
+				action_tpl2.unsatisfied_2th_threshold_s > dflt_unsatisfied_2th_threshold_s.max) {
 				continue;
 			}
 
@@ -910,7 +928,25 @@ void base_instance::load_action_tpl2s_cfg()
 			if (postfix != "_rep") {
 				continue;
 			}
+			if (not800_white_list.count(action_tpl2.id) == 0) {
+				const int dflt_threshold_ms = 800;
+				if (action_tpl2.unsatisfied_threshold_ms != dflt_threshold_ms) {
+					continue;
+				}
+			}
+			const SDL_Range dflt_unsatisfied_2th_threshold_s = {3, 4};
+			if (action_tpl2.unsatisfied_2th_threshold_s < dflt_unsatisfied_2th_threshold_s.min || 
+				action_tpl2.unsatisfied_2th_threshold_s > dflt_unsatisfied_2th_threshold_s.max) {
+				continue;
+			}
 		}
+
+		if (!action_tpl2.is_setup && action_tpl2.reference.empty()) {
+			continue;
+		}
+
+		VALIDATE(existed_names.count(action_tpl2.name) == 0, null_str);
+		existed_names.insert(action_tpl2.name);
 
 		VALIDATE(action_tpl2s.count(action_tpl2.id) == 0, null_str);
 		action_tpl2s.insert(std::make_pair(action_tpl2.id, action_tpl2));
@@ -2475,6 +2511,8 @@ void base_instance::add_logs_pb_log(int type, const std::string& aplt_id, const 
 	new_log->set_msg(msg);
 	new_log->set_tokens(tokens);
 	new_log->set_aiagent(aiagent);
+	int result = nposm;
+	new_log->set_result(result);
 
 	if (IN_MAIN_THREAD()) {
 		logs_pb_log_added(1, *new_log);
@@ -2502,6 +2540,7 @@ void base_instance::undelivered_logs_pump()
 				new_log->set_msg(log.msg());
 				new_log->set_tokens(log.tokens());
 				new_log->set_aiagent(log.aiagent());
+				new_log->set_result(log.result());
 
 				last_new_log = new_log;
 			}
@@ -2570,8 +2609,36 @@ static void logs_pb_log_2_msg2(const std::map<std::string, const aplt::tapplet*>
 	result.assign(buf);
 	free(buf);
 }
+/*
+std::string to_readable_msg(const std::string& msg, std::string& action_name)
+{
+	action_name.clear();
 
-static void insert_log_row(gui2::tlistbox& list, int log_type, int64_t log_ts, const std::string& msg2, int start_at, int end_at, std::map<std::string, std::string>& data)
+	if (!aplt::twkorevise::is_may_valid_string(msg)) {
+		return msg;
+	}
+
+	aplt::twkorevise revise;
+	revise.from_string(msg);
+	if (!revise.valid()) {
+		return msg;
+	}
+
+	utils::string_map symbols;
+	int64_t start_of_day = utils::calculate_0h0m0s_ts(revise.ts);
+	std::string start = utils::format_time_ymd4(start_of_day, true, true, true);
+	start.append(" " + utils::format_elapse_hms2(revise.range_ms.min / 1000));
+	symbols["wko_title"] = revise.title;
+	symbols["wko_start"] = start;
+	symbols["comment"] = revise.msg;
+
+	std::string result = vgettext2("wko^wkorevise readable log, $wko_title, $wko_start, $comment", symbols);
+
+	action_name = _("Integrate into chart");
+	return result;
+}
+*/
+static void insert_log_row(gui2::tlistbox& list, int log_type, int64_t log_ts, const std::string& msg2, int result, int start_at, int end_at, std::map<std::string, std::string>& data)
 {
 	VALIDATE(end_at >= start_at, null_str);
 
@@ -2583,18 +2650,42 @@ static void insert_log_row(gui2::tlistbox& list, int log_type, int64_t log_ts, c
 
 	// list_item_item.insert(std::make_pair("rportrait", "misc/me_icon.png"));
 
-	data["msg"] = msg2;
-
 	{
 		// SDL_Log("msg: %s", msg2.c_str());
 	}
 
-	gui2::ttoggle_panel& panel = list.insert_row(data);
+	aplt::twkorevise revise;
+	if (aplt::twkorevise::is_may_valid_string(msg2)) {
+		revise.from_string(msg2);
+	}
+	bool is_revise = revise.valid();
 
+	data["msg"] = is_revise? revise.log_readable_msg(result): msg2;
+	data["_msg_action"] = is_revise? revise.log_action_label(result): null_str;
+
+	gui2::ttoggle_panel& panel = list.insert_row(data);
 	panel.set_cookie(posix_mku64(start_at, end_at));
 
 	gui2::twidget& portrait = gui2::find_widget<gui2::twidget>(&panel, me? "lportrait": "rportrait", false);
 	portrait.set_visible(gui2::twidget::INVISIBLE);
+
+	gui2::tbutton& action_widget = gui2::find_widget<gui2::tbutton>(&panel, "_msg_action", false);
+	if (is_revise) {
+		const aplt::twkorevise* p_wkorevise = &revise;
+
+		if (revise.log_can_action(result)) {
+			connect_signal_mouse_left_click(
+				action_widget
+				, std::bind(
+					&base_instance::handle_log_action
+					, instance, start_at, std::ref(action_widget), revise));
+		} else {
+			action_widget.set_active(false);
+		}
+
+	} else {
+		action_widget.set_visible(gui2::twidget::INVISIBLE);
+	}
 
 
 	// tgrid& grid_msg = find_widget<tgrid>(&panel, "_grid_msg", false);
@@ -2707,12 +2798,13 @@ void base_instance::logs_reload_log_list(gui2::tlistbox& list, bool aiagent_dlg)
 		// const pb2::tlog& log = logs_pb.logs(size - 1 - at);
 		const pb2::tlog& log = logs_pb.logs(at);
 		const int type = log.type();
+		const int result = log.result();
 		
 		if (aiagent_dlg) {
 			if (log.aiagent()) {
 				// const std::string& msg = log.msg();
 				// uint64_t tokens = log.tokens();
-				insert_log_row(list, type, log.timestamp(), get_log_msg2(log), at, at, data);
+				insert_log_row(list, type, log.timestamp(), get_log_msg2(log), result, at, at, data);
 			}
 			continue;
 		}
@@ -2743,7 +2835,7 @@ void base_instance::logs_reload_log_list(gui2::tlistbox& list, bool aiagent_dlg)
 			}
 
 			insert_log_row(list, logtype_aplt_task, logs_pb.logs(curr_timing_task.at).timestamp(), 
-				msg2, curr_timing_task.at, end_at, data);
+				msg2, result, curr_timing_task.at, end_at, data);
 
 			if (!same) {
 				curr_timing_task.clear();
@@ -2756,12 +2848,12 @@ void base_instance::logs_reload_log_list(gui2::tlistbox& list, bool aiagent_dlg)
 
 		} else if (curr_timing_task.valid()) {
 			insert_log_row(list, logtype_aplt_task, logs_pb.logs(curr_timing_task.at).timestamp(), 
-				msg2, curr_timing_task.at, at - 1, data);
+				msg2, result, curr_timing_task.at, at - 1, data);
 
 			curr_timing_task.clear();
 		}
 
-		insert_log_row(list, type, log.timestamp(), get_log_msg2(log), at, at, data);
+		insert_log_row(list, type, log.timestamp(), get_log_msg2(log), result, at, at, data);
 	}
 	logs_validate_log_list(list, aiagent_dlg);
 }
@@ -2831,12 +2923,13 @@ void base_instance::logs_pb_log_added2(gui2::tlistbox& list, int count, const pb
 	for (int at = size - count; at < size; at ++) {
 		const pb2::tlog& log = logs_pb.logs(at);
 		const int log_type = log.type();
+		const int log_result = log.result();
 
 		if (aiagent_dlg) {
 			if (log.aiagent()) {
 				// const std::string& msg = log.msg();
 				// uint64_t tokens = log.tokens();
-				insert_log_row(list, log_type, log.timestamp(), get_log_msg2(log), at, at, data);
+				insert_log_row(list, log_type, log.timestamp(), get_log_msg2(log), log_result, at, at, data);
 			}
 			continue;
 		}
@@ -2855,7 +2948,7 @@ void base_instance::logs_pb_log_added2(gui2::tlistbox& list, int count, const pb
 				msg2 = get_log_msg2(log);
 			}
 
-			insert_log_row(list, log.type(), log.timestamp(), msg2, at, at, data);
+			insert_log_row(list, log.type(), log.timestamp(), msg2, log_result, at, at, data);
 			continue;
 		}
 
@@ -2892,11 +2985,39 @@ void base_instance::logs_pb_log_added2(gui2::tlistbox& list, int count, const pb
 			msg2 = get_log_msg2(log);
 		}
 
-		insert_log_row(list, log.type(), log.timestamp(), msg2, at, at, data);
+		insert_log_row(list, log.type(), log.timestamp(), msg2, log_result, at, at, data);
 	}
 
 	logs_validate_log_list(list, aiagent_dlg);
 	list.scroll_to_row2(list.rows() - 1);
+}
+
+void base_instance::handle_log_action(int log_at, gui2::tbutton& widget, const aplt::twkorevise& revise)
+{
+	VALIDATE(revise.valid(), null_str);
+
+	const std::string err_msg = app_wkorevise_import(revise);
+	if (err_msg.empty()) {
+		pb2::tlogs& logs_pb = instance->logs_pb();
+		const int size = logs_pb.logs_size();
+
+		VALIDATE(log_at < size, null_str);
+		pb2::tlog* log = logs_pb.mutable_logs(log_at);
+
+		VALIDATE(log->result() == nposm, null_str);
+
+#define WKOREVISE_RESULT_OK		0
+		int result = WKOREVISE_RESULT_OK;
+		log->set_result(result);
+
+		protobuf::write_sha1pb(logs_pb_type_, logs_pb_backup_type_);
+
+		widget.set_label(revise.log_action_label(result));
+		widget.set_active(false);
+
+	} else {
+		gui2::show_message(null_str, revise.log_error_msg(err_msg));
+	}
 }
 
 #include "net/log/net_log.h"

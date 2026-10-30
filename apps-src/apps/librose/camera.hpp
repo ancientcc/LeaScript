@@ -4,21 +4,6 @@
 #include "tflite.hpp"
 #include "rtc_client.hpp"
 
-// Originates from <librose>/gui/widgets/grid.hpp.
-enum {
-	valign_edge		= 1,
-	valign_top		= 2,
-	valign_center	= 3,
-	valign_bottm	= 4,
-	valign_mask		= 7,
-    
-	halign_edge		= 1 << 3,
-	halign_left		= 2 << 3,
-	halign_center	= 3 << 3,
-	halign_right	= 4 << 3,
-	halign_mask		= 7 << 3,    
-};
-
 class tcamera: public trtc_client::tadapter
 {
 public:

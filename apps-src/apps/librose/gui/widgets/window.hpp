@@ -178,7 +178,10 @@ public:
 		                                * The dialog is closed because terminate app direct.
 		                                * for exmaple, press right-top close button on windows.
 		                                */
-		ROSE_BUTTON_MAX = -5,								   
+		EXTRA1_BUTTON =	-5,
+		EXTRA2_BUTTON =	-6,
+
+		ROSE_BUTTON_MAX = -7,								   
 		MAP_VIEWER = ROSE_BUTTON_MAX,   /**< rose-reserved id's button is clicked. _rosemapviewer*/
 		};
 

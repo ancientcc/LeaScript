@@ -513,9 +513,27 @@ int tlistbox::rows() const
 	return list_grid_->children_vsize();
 }
 
+twidget* tlistbox::get_my_drag_grid_or_toggle_row(const twidget& widget)
+{
+	VALIDATE(!widget.float_widget(), null_str);
+	// if widget is row(toggle_panel), needn't execute in below if(tmp), so use parent at first.
+	twidget* tmp = widget.parent();
+	while (tmp) {
+		if (tmp == left_drag_grid_) {
+			break;
+		}
+		if (tmp->get_control_type() == "toggle_panel" && tmp->parent()->id() == "_list_grid") {
+			break;
+		}
+		tmp = tmp->parent();
+	}
+	return tmp;
+}
+
 void tlistbox::invalidate_layout(twidget* widget)
 {
 	if (widget) {
+/*
 		VALIDATE(!widget->float_widget(), null_str);
 		// if widget is row(toggle_panel), needn't execute in below if(tmp), so use parent at first.
 		twidget* tmp = widget->parent();
@@ -528,6 +546,8 @@ void tlistbox::invalidate_layout(twidget* widget)
 			}
 			tmp = tmp->parent();
 		}
+*/
+		twidget* tmp = get_my_drag_grid_or_toggle_row(*widget);
 		if (tmp == left_drag_grid_) {
 			
 		} else if (tmp) {
@@ -556,10 +576,75 @@ void tlistbox::invalidate_layout(twidget* widget)
 
 				layout_init2();
 				scrollbar_moved(true);
+
+			} else {
+/*
+				SDL_Log("{dbg-msg_grid}, gc_handle_height_may_changed, gc_first_at_: %i, gc_last_at_: %i, panel.at(): %i, panel.gc_height_: %i",
+				gc_first_at_, gc_last_at_, panel.at(), panel.gc_height_);
+				if (panel.at() < gc_first_at_ || panel.at() > gc_last_at_) {
+					int ii = 0;
+				}
+*/
+				if (panel.gc_height_ != nposm) {
+					panel.gc_height_ = nposm;
+					// MUST not execute below statement.
+					// panel.gc_distance_ = nposm;
+
+					if (gc_is_precise(panel.gc_distance_)) {
+						gc_next_precise_at_ = panel.at();
+						const int rows = list_grid_->children_vsize();
+						tgrid::tchild* children = list_grid_->children();
+						for (int at = panel.at(); at < rows; at ++) {
+							ttoggle_panel* widget = dynamic_cast<ttoggle_panel*>(children[at].widget_);
+							if (widget->get_visible() != twidget::VISIBLE) {
+								continue;
+							}
+							if (gc_is_precise(panel.gc_distance_)) {
+								if (panel.gc_height_ != nposm) {
+									panel.gc_distance_ = gc_join_estimated(panel.gc_distance_);
+								} else {
+									panel.gc_distance_ = nposm;
+								}
+							} else {
+								break;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
 	tscroll_container::invalidate_layout(widget);
+}
+
+bool tlistbox::gc_handle_height_may_changed(const twidget& widget)
+{
+	twidget* tmp = get_my_drag_grid_or_toggle_row(widget);
+	if (tmp == nullptr) {
+		return false;
+	}
+	if (tmp == left_drag_grid_) {
+			
+	} else if (tmp != nullptr) {
+		ttoggle_panel& panel = *dynamic_cast<ttoggle_panel*>(tmp);
+
+		// VALIDATE(panel.at() == rows() - 1, "Only the last row is allowed to have its label_ modified multiple times.");
+		if (panel.gc_height_ != nposm) {
+			// make next mini_handle_gc() to recalculate the panel.gc_height_ of that line.
+			// panel.gc_height_ = nposm;
+			// MUST not execute below statement.
+			// panel.gc_distance_ = nposm;
+
+/*
+			SDL_Log("{dbg-msg_grid}, gc_handle_height_may_changed, gc_first_at_: %i, gc_last_at_: %i, panel.at(): %i",
+				gc_first_at_, gc_last_at_, panel.at());
+			if (panel.at() < gc_first_at_ || panel.at() > gc_last_at_) {
+				int ii = 0;
+			}
+*/
+		}
+	}
+	return true;
 }
 
 void tlistbox::validate_visible_pre_change(const twidget& widget) const

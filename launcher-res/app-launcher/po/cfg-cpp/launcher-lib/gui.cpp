@@ -68,6 +68,8 @@ _("Map");
 
 _("Map position");
 
+_("Mass send");
+
 _("Moveit driver");
 
 _("Name");

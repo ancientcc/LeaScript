@@ -2207,27 +2207,6 @@ void tcourseware2::handle_list_state_cswamp_coursewares_bh(const aplt::tcswamp_m
 	}
 }
 
-static bool did_walk_curr_dir_subdirs(const std::string& dir, const SDL_dirent2* dirent, std::set<std::string>& files, const std::string& root, bool include_root)
-{
-	bool isdir = SDL_DIRENT_DIR(dirent->mode);
-	if (isdir) {
-		// const std::string name = utils::lowercase(dirent->name);
-		if (include_root) {
-			files.insert(root + "/" + dirent->name);
-		} else {
-			files.insert(dirent->name);
-		}
-	}
-	return true;
-}
-
-static void collect_curr_dir_dirs(const std::string& root, std::set<std::string>& files, bool include_root)
-{
-	files.clear();
-
-	walk_dir(root, false, std::bind(&did_walk_curr_dir_subdirs, _1, _2, std::ref(files), std::ref(root), include_root));
-}
-
 void tcourseware2::evaluate_uuids()
 {
 	VALIDATE(game_config::os == os_windows, null_str);

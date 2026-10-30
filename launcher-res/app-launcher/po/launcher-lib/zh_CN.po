@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: launcher-lib\n"
 "Report-Msgid-Bugs-To: http://www.libsdl.cn/\n"
-"POT-Creation-Date: 2026-09-26 14:17+0800\n"
-"PO-Revision-Date: 2026-09-26 14:23+0800\n"
+"POT-Creation-Date: 2026-10-27 10:22+0800\n"
+"PO-Revision-Date: 2026-10-27 10:25+0800\n"
 "Last-Translator: \n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgid "launcher"
 msgstr ""
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:1
-#: apps-src/apps/launcher/main.cpp:745 apps-src/apps/launcher/main.cpp:1586
+#: apps-src/apps/launcher/main.cpp:763 apps-src/apps/launcher/main.cpp:1604
 msgid "AI driver"
 msgstr "AI驱动"
 
@@ -34,7 +34,7 @@ msgid "Action No."
 msgstr "动作序号"
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:7
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1527
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1559
 msgid "Add from clipboard"
 msgstr "从剪贴板添加"
 
@@ -43,7 +43,7 @@ msgid "Angle"
 msgstr "角度"
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:11
-#: apps-src/apps/launcher/main.cpp:739
+#: apps-src/apps/launcher/main.cpp:757
 msgid "Base driver"
 msgstr "底盘驱动"
 
@@ -65,14 +65,14 @@ msgid "Cancel goal"
 msgstr "取消导航"
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:21
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1877
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1909
 #: apps-src/apps/launcher/map_controller.cpp:4025
 msgid "Charge"
 msgstr "充电"
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:23
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:137
-#: apps-src/apps/launcher/main.cpp:742
+#: apps-src/apps/launcher/main.cpp:760
 msgid "DCamera driver"
 msgstr "深度相机驱动"
 
@@ -154,7 +154,7 @@ msgstr "添加if判断"
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:61
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:143
-#: apps-src/apps/launcher/main.cpp:743
+#: apps-src/apps/launcher/main.cpp:761
 msgid "IoT driver"
 msgstr "IoT驱动"
 
@@ -163,7 +163,7 @@ msgid "Landmark"
 msgstr "姿态点"
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:65
-#: apps-src/apps/launcher/main.cpp:740
+#: apps-src/apps/launcher/main.cpp:758
 msgid "Laser driver"
 msgstr "雷达驱动"
 
@@ -176,12 +176,17 @@ msgid "Map position"
 msgstr "地图位置"
 
 #: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:71
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:508
+msgid "Mass send"
+msgstr "群发"
+
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:73
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:138
-#: apps-src/apps/launcher/main.cpp:741 apps-src/apps/launcher/main.cpp:3677
+#: apps-src/apps/launcher/main.cpp:759 apps-src/apps/launcher/main.cpp:3702
 msgid "Moveit driver"
 msgstr "机械臂驱动"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:73
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:75
 #: apps-src/apps/launcher/gui/dialogs/base_courseware.cpp:181
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:51
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:72
@@ -189,124 +194,125 @@ msgstr "机械臂驱动"
 msgid "Name"
 msgstr "名称"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:75
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:77
 msgid "Next step"
 msgstr "下一步"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:77
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:79
 msgid "Number"
 msgstr "序号"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:79
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3224
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:81
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3203
 #: apps-src/apps/launcher/gui/dialogs/func_editor.cpp:335
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:359
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:393
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:368
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:402
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:532
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:908
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:1117
 #: apps-src/apps/launcher/gui/dialogs/klink.cpp:1283
 #: apps-src/apps/launcher/gui/dialogs/klink.cpp:1993
 #: apps-src/apps/launcher/gui/dialogs/klink.cpp:2040
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1529
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:2159
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:453
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:585
-#: apps-src/apps/launcher/mkscript_controller.cpp:2637
+#: apps-src/apps/launcher/mkscript_controller.cpp:2638
 msgid "OK"
 msgstr "确定"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:81
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:83
 msgid "Phase"
 msgstr "阶段"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:83
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:85
 msgid "Privacy"
 msgstr "稳私"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:85
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:87
 msgid "Privacy protection"
 msgstr "隐私保护"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:87
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:89
 msgid "Quick input"
 msgstr ""
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:89
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:91
 #: apps-src/apps/launcher/gui/dialogs/base_courseware.cpp:170
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:298
-#: apps-src/apps/launcher/mkscript_controller.cpp:1077
-#: apps-src/apps/launcher/mkscript_controller.cpp:2608
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:615
+#: apps-src/apps/launcher/mkscript_controller.cpp:1078
+#: apps-src/apps/launcher/mkscript_controller.cpp:2609
 msgid "Reference"
 msgstr "参考"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:91
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:93
 msgid "Restrict angle"
 msgstr "限制角度"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:93
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:95
 msgid "Result"
 msgstr "结果值"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:95
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:97
 #: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:29
 #: apps-src/apps/launcher/map_controller.cpp:3034
-#: apps-src/apps/launcher/mkscript_controller.cpp:96
+#: apps-src/apps/launcher/mkscript_controller.cpp:97
 msgid "Save"
 msgstr "保存"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:97
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:99
 msgid "Save map"
 msgstr "保存地图"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:99
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:101
 msgid "Show nagtive"
 msgstr "显示负值"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:101
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:103
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:144
-#: apps-src/apps/launcher/main.cpp:744 apps-src/apps/launcher/main.cpp:3733
+#: apps-src/apps/launcher/main.cpp:762 apps-src/apps/launcher/main.cpp:3758
 msgid "Speech driver"
 msgstr "语音驱动"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:103
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:105
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:58
-#: apps-src/apps/launcher/mkscript_controller.cpp:2921
+#: apps-src/apps/launcher/mkscript_controller.cpp:2922
 msgid "State"
 msgstr "状态"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:105
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:107
 #: apps-src/apps/launcher/gui/dialogs/statusbar.cpp:245
-#: apps-src/apps/launcher/mkscript_controller.cpp:2614
+#: apps-src/apps/launcher/mkscript_controller.cpp:2615
 msgid "State name"
 msgstr "状态名"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:107
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:109
 #: apps-src/apps/launcher/chart_controller.cpp:911
 msgid "Stop"
 msgstr "停止"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:109
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:111
 #: apps-src/apps/launcher/game_tray.cpp:325
 msgid "Stop speak"
 msgstr "停止语音"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:111
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:113
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:785
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:903
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:1112
 msgid "String"
 msgstr "字符串"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:113
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:115
 #: apps-src/apps/launcher/gui/dialogs/klink.cpp:164
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:70
 msgid "Task"
 msgstr "任务"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:115
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:117
 msgid "To state"
 msgstr "末状态"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:117
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:119
 msgid ""
 "Turn on Bluetooth Discovery. To make kDesktop discover Launcher, you need to "
 "turn on the service."
@@ -314,46 +320,46 @@ msgstr ""
 "开启蓝牙发现服务。若要让kDesktop发现Launcher，须要开启服务。一旦开启蓝牙发现"
 "服务，不要在“设置/Settings”中关闭蓝牙"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:119
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:390
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:121
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:399
 msgid "Update BLE password"
 msgstr "修改蓝牙密码"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:121
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:123
 msgid "Upgrade app"
 msgstr "升级App"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:123
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:125
 msgid "View"
 msgstr "查看"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:125
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:127
 msgid "Voice"
 msgstr "语音"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:127
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:129
 msgid "camera^Snapshot"
 msgstr "拍照 "
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:129
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:131
 msgid "exam^Points"
 msgstr "分数"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:131
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:133
 msgid "misc/arrow_down.png"
 msgstr ""
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:133
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:135
 msgid "misc/erase.png"
 msgstr ""
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:135
-#: apps-src/apps/launcher/mkscript_controller.cpp:1071
-#: apps-src/apps/launcher/mkscript_controller.cpp:1146
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:137
+#: apps-src/apps/launcher/mkscript_controller.cpp:1072
+#: apps-src/apps/launcher/mkscript_controller.cpp:1147
 msgid "object^Name"
 msgstr "名称"
 
-#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:137
+#: apps-res/app-launcher/po/cfg-cpp/launcher-lib/gui.cpp:139
 msgid "pose_unsatisfied_msgstr label"
 msgstr "不满足该姿态判断时提示"
 
@@ -364,17 +370,17 @@ msgid "Start aiagent task fail. $reason"
 msgstr "不能启动底盘子任务。$reason"
 
 #: apps-src/apps/launcher/ai_driver.cpp:109
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1078
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1080
 msgid "Cannot load applet '$aplt_task' located in *. so."
 msgstr "不能加载小程序任务“$aplt_task”所在的*.so"
 
 #: apps-src/apps/launcher/ai_driver.cpp:124
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1088
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1090
 msgid "Not implete 'aplt_create_task_api' method."
 msgstr "小程序没实现“aplt_create_task_api”方法。"
 
 #: apps-src/apps/launcher/ai_driver.cpp:165
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1095
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1097
 #, fuzzy
 #| msgid "Not implete aplt::tcamera_api object."
 msgid "Not implete aplt::taiagent_api object."
@@ -401,7 +407,7 @@ msgid "Timing is not right, it cannot be executed"
 msgstr "时机不对，不能执行"
 
 #: apps-src/apps/launcher/bg_task2.cpp:126
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:697
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:803
 msgid ""
 "Valid base-drive needs to be set up, as well as serial's path and baudrate"
 msgstr "需要设置底盘驱动，以及底盘串口路径和波特率"
@@ -541,7 +547,7 @@ msgid "Video"
 msgstr "视频"
 
 #: apps-src/apps/launcher/game_tray.cpp:341
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:198
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:199
 msgid "User guide"
 msgstr "使用指南"
 
@@ -665,9 +671,9 @@ msgid "Tex tail"
 msgstr "Tex尾"
 
 #: apps-src/apps/launcher/gui/dialogs/base_courseware.cpp:162
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:282
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1478
-#: apps-src/apps/launcher/mkscript_controller.cpp:2598
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:599
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:2108
+#: apps-src/apps/launcher/mkscript_controller.cpp:2599
 msgid "Title"
 msgstr "标题"
 
@@ -736,100 +742,100 @@ msgstr "无效“$field”。$note"
 msgid "Click to view the answer"
 msgstr "单击查看答案"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:104
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:106
 msgid "Temporary Chat"
 msgstr "临时聊天"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:104
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:106
 msgid "Within this task, new conversations are allowed"
 msgstr "此任务内，允许开启新对话"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:105
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:107
 msgid "aiagent^Followup"
 msgstr "追问"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:105
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:106
 #: apps-src/apps/launcher/gui/dialogs/center.cpp:107
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:108
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:109
 msgid "Please choose"
 msgstr "请选择"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:106
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:108
 msgid "aiagent^Courseware"
 msgstr "课件"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:107
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:109
 msgid "aiagent^aiagent"
 msgstr "AI agent"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:242
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:244
 msgid "center^ai layer"
 msgstr "AI"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:244
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:246
 msgid "center^non-ai layer"
 msgstr "小程序任务"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:303
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:305
 #: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:1461
 msgid "Username to search for"
 msgstr "要查找的用户名"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:358
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:360
 msgid "Exit"
 msgstr "退出"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:393
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:650
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:395
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:652
 msgid "Switching"
 msgstr "切换"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:612
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:614
 msgid "Executing AI agent task"
 msgstr "正在执行AI agent任务"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:615
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:617
 msgid "The current task is waiting for a answer from the large module"
 msgstr "当前任务正在等待大模块回答"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:624
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:626
 msgid "$reason. $action will end the waiting process. Do you want to continue?"
 msgstr "$reason，$action将导致结束等待。要继续吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:668
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:670
 msgid "Choose which followup to execute"
 msgstr "选译要执行的追问"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:685
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1861
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:687
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1893
 msgid "Select the task you want to execute"
 msgstr "选择要执行的任务"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:695
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1849
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1869
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:697
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1881
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1901
 msgid "Choose where to go"
 msgstr "选译要去的位置"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:744
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:180
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:746
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:181
 msgid "Unknown"
 msgstr "未知"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:760
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:762
 #: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:1937
 msgid "Courseware: $count"
 msgstr "课件：$count"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1008
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1010
 msgid "Choose which prompt to send"
 msgstr "选译要发送的提问"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1383
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1385
 msgid "Can't chat, need to set up the aiagent driver first"
 msgstr "不能聊天，须要先设置AI驱动"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1437
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1469
 msgid "center don't support send msg"
 msgstr ""
 "使用deepseek api会有最大tokens(8192)限制，要不超过8192，可能也就得到3个问"
@@ -837,11 +843,11 @@ msgstr ""
 "当前版本不支持用deepseek api得到问题，请改用DeepSeek网页版，如何使用，点击左"
 "侧的帮助按钮。"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1526
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1558
 msgid "How to Add Questions via DeepSeek Web Version"
 msgstr "如何用网页版DeepSeek添加问题"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1528
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1560
 msgid "clipboard to exam help, $add_from_clipboard"
 msgstr ""
 "1、在左侧预给出的提示中，点选可能改动较小的，让进入右侧编辑框。\n"
@@ -856,7 +862,7 @@ msgstr ""
 "以及后面问题全扔了。另外，可以不等回答结束就中止，然后复制已有回答，已有回答"
 "中已完整的问题，会被添加到试卷。"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1540
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1572
 msgid ""
 "The clipboard is empty.\n"
 "\n"
@@ -868,7 +874,7 @@ msgstr ""
 "第一步：单击DeepSeek回答代码块中的“复制”按钮。\n"
 "第二步：返回此处继续操作"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1556
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1588
 msgid ""
 "$choices choice, $fillins fillin, and $solvings solving questions have been "
 "appended to the exam."
@@ -876,65 +882,65 @@ msgstr ""
 "找到$choices道选择题、$fillins道填空题和$solvings道解答题，并已添加到试卷末"
 "尾。"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1558
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4725
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1590
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4704
 msgid "Stay here"
 msgstr "留在此处"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1559
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1591
 msgid "Return to courseware"
 msgstr "回到课件界面"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1567
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1599
 msgid "Unable to add questions from clipboard: invalid data format."
 msgstr "无法从剪贴板添加题目：数据格式无效。"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1639
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1671
 #: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:1975
 msgid "Find user"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1669
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1701
 #: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:636
 #: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2005
 msgid "Get user info"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1803
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1835
 #: apps-src/apps/launcher/gui/dialogs/map_scene.cpp:366
 msgid "unrestricted"
 msgstr "不限制"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1879
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1911
 msgid "Base works in unmovable mode, cannot $action."
 msgstr "底盘正工作在不可移动模式，不能“$action”。"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1883
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1915
 msgid "Do you want robot to perform $action?"
 msgstr "要让机器人执行“$action”吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:1964
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:1996
 msgid "Move to $position. Select the task you want to execute"
 msgstr "去$position。选择要执行的任务"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:2009
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:2041
 msgid "Choose where to be back"
 msgstr "选译要回的位置"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:2151
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:2183
 msgid ""
 "During the $aiagent window, voice chat is only available in the '$task_type'."
 msgstr "$aiagent窗口期间，只有在“$task_type”才能语音聊天。"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:2182
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:2214
 msgid "Speech drive hasn't been set up yet"
 msgstr "还没有设置语音驱动"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:2185
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:2217
 msgid "The pinyin package has not been installed yet"
 msgstr "还没有安装拼音包"
 
-#: apps-src/apps/launcher/gui/dialogs/center.cpp:2191
+#: apps-src/apps/launcher/gui/dialogs/center.cpp:2223
 msgid ""
 "A maximum of $days days of logs can be stored, and no more than $max_logs "
 "logs can be stored"
@@ -1051,26 +1057,26 @@ msgid ""
 "or stay in '$download'?"
 msgstr "已保存到“$upload”目录，是转去“$upload”，还是留在“$download”？"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2388
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2367
 msgid "The courseware data has an error and cannot be uploaded."
 msgstr "课件数据有错误，不能上传。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2394
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2373
 msgid "The courseware data has been modified. Save first before uploading."
 msgstr "课件数据有改动。须要先保存，再上传。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2406
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2385
 msgid ""
 "The directory name($dir) and courseware $title_field|($title) don't match. "
 "Save first before uploading"
 msgstr ""
 "目录名($dir)和课件中的$title_field|($title)不一样，不能上传。须要先保存。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2432
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2411
 msgid "Upload successful."
 msgstr "上传成功。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2491
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2470
 msgid ""
 "Tex file has been generated.\n"
 "Path: $file"
@@ -1078,17 +1084,17 @@ msgstr ""
 "已生成 Tex 文件。\n"
 "路径：$file"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2505
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2484
 msgid "Student Version"
 msgstr "学生版"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2507
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2486
 msgid "Teacher Version"
 msgstr "教师版"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2664
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1403
-#: apps-src/apps/launcher/mkscript_controller.cpp:3133
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2643
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:2033
+#: apps-src/apps/launcher/mkscript_controller.cpp:3143
 msgid ""
 "$type file has been generated.\n"
 "Path: $file"
@@ -1096,31 +1102,31 @@ msgstr ""
 "已生成$type文件。\n"
 "路径：$file"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2667
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2646
 msgid "Build failed. You can check the log for the reason."
 msgstr "生成失败。可通过日志，查看原因。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2688
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2667
 msgid "PDF(Student)"
 msgstr "PDF(学生版)"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2689
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2668
 msgid "PDF(Teacher)"
 msgstr "PDF(教师版)"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2690
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2669
 msgid "Tex(Latex)"
 msgstr "Tex(tex源码)"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2691
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2670
 msgid "Show build log"
 msgstr "显示编译日志"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2720
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2699
 msgid "Build failed"
 msgstr "生成失败"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2721
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2700
 msgid "Missing latex packate, $scene"
 msgstr ""
 "$scene。原因是缺少必要的 LaTeX 包。请按以下步骤安装：\n"
@@ -1128,17 +1134,17 @@ msgstr ""
 "2、在左下角找到“LaTex包”字样。\n"
 "3、点击旁边的“安装”按钮。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2772
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2751
 msgid "Is there change in the courseware data, do you want to save"
 msgstr "课件数据有变动，要保存吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2777
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2756
 msgid ""
 "There is a data error, and the save failed. Do you want to keep $action "
 "without saving?"
 msgstr "有数据错误，不能保存。要不保存而继续$action吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2778
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2757
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:349
 #: apps-src/apps/launcher/gui/dialogs/settings.cpp:487
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:626
@@ -1160,7 +1166,7 @@ msgstr "有数据错误，不能保存。要不保存而继续$action吗？"
 msgid "Yes"
 msgstr "是"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2778
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2757
 #: apps-src/apps/launcher/gui/dialogs/if_block2.cpp:349
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:626
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:969
@@ -1181,94 +1187,94 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2808
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2787
 msgid "$field must begin with the prefix '$key'."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2816
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2795
 msgid "$field must end with the suffix '$key'."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2824
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2803
 msgid "$field must contain '$key'."
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2838
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2817
 msgid "The exam^points must be greater than zero."
 msgstr "分数必须大于0。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2841
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2820
 msgid "exam^question"
 msgstr "题目"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2842
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2848
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2821
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2827
 msgid "'$field' cannot be empty."
 msgstr "“$field”不能是空。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2847
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2826
 msgid "exam^explanation"
 msgstr "解析"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2854
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2833
 msgid ""
 "For choice problem, both the option and the correct option must not be empty"
 msgstr "对选择题，选项和正确选项都不能是空。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2932
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:2911
 msgid ""
 "This solving problem has sub-problems, its points must equal the sum of the "
 "sub-problem points."
 msgstr "解答题含有小题时，大题分数必须是各小题分数和。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3067
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3046
 msgid "Failed to rename directory '$src' to '$dest'."
 msgstr "把目录“$src”改名为“$dest”，失败。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3207
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3186
 msgid "New courseware title"
 msgstr "新课件标题"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3214
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3193
 #: apps-src/apps/launcher/gui/dialogs/klink.cpp:1279
 #: apps-src/apps/launcher/gui/dialogs/klink.cpp:2035
 msgid "Easy name, can be Chinese, and maximum $max_chars characters"
 msgstr "别名。前、后不能是空白字符，可以是中文，最大$max_chars个字符。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3282
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3261
 msgid "Do you want erase courseware($name)?"
 msgstr "要删除“$name”课件吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3284
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3263
 msgid "Do you want to unfavorite courseware($name)?"
 msgstr "是否取消喜欢课件($name)？"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3470
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3449
 msgid "It has been changed to the default value."
 msgstr "已修改到默认值。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3472
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3451
 msgid "No default value is available."
 msgstr "没有可用的默认值。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3475
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3454
 msgid "The value currently in use is already the default."
 msgstr "正在用的已是默认值。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3623
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3643
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3602
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3622
 msgid "Do you want erase $field?"
 msgstr "要删除状态“$field”吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3722
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3701
 msgid "The courselist cannot be empty."
 msgstr "课单不能是空。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3791
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:3770
 msgid "Not exist"
 msgstr "不存在"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4223
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4202
 msgid "courseware^uuid msg, $uuid, $uuid_field, $title_field"
 msgstr ""
 "$uuid\n"
@@ -1277,29 +1283,29 @@ msgstr ""
 "$uuid_field保持不变，即使修改课件$title_field，云端也会对同一课件进行覆盖更"
 "新。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4376
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4355
 #, fuzzy
 #| msgid "'id' cannot be the same"
 msgid "'title' cannot be the same"
 msgstr "'id'不能重名"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4596
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4575
 msgid ""
 "This solving question still contains sub-questions, cannot modfy question "
 "type."
 msgstr "这道解答题内还有小题，不能修改大题题型。"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4726
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4705
 msgid "Go to the new question"
 msgstr "前往新小题"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4731
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4710
 msgid ""
 "A new sub-question has been added to the end of this problem. Would you like "
 "to $ok or $cancel?"
 msgstr "新小题已添加至本题末尾。您是希望继续$ok，还是$cancel？"
 
-#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4745
+#: apps-src/apps/launcher/gui/dialogs/courseware2.cpp:4724
 msgid "Do you want to delete this sub-question?"
 msgstr "要删除这道小题吗？"
 
@@ -1382,59 +1388,59 @@ msgstr ""
 msgid "Freq value"
 msgstr "常用值"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:167
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:168
 msgid "battery^max"
 msgstr "最大电压"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:168
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:169
 msgid "battery^charge"
 msgstr "充电电压"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:169
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:170
 msgid "battery^cutoff"
 msgstr "截止电压"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:170
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:171
 msgid "battery^curr"
 msgstr "当前电压"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:199
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:200
 msgid "help desc, $icon, $user_guide"
 msgstr "初次使用，请单击系统托盘区的$icon，选择【帮助】->【$user_guide】"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:223
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:224
 msgid "Device name"
 msgstr "设备名"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:276
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:285
 msgid "Restart base node"
 msgstr "重启底盘节点"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:337
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:346
 msgid ""
 "Failed to start Bluetooth advertising(Peripheral). Please check whether the "
 "device has a Bluetooth hardware module installed."
 msgstr "启动蓝牙广播(Peripheral)失败。请检查设备是否安装了蓝牙硬件模块。"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:353
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:362
 msgid "ASCII printable characters or chinese"
 msgstr "可打印ASCII字符或汉字"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:358
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:367
 msgid "device name remark [$min, $max]"
 msgstr ""
 "设备名会用于蓝牙搜索设备时、显示的名称。字节数需在范围[$min, $max]，一个汉字"
 "大概3字节。"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:391
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:400
 msgid "Digit or alpha"
 msgstr "数字或字母"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:392
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:401
 msgid "If not modified, the password is $password"
 msgstr "如果没有修改过，密码是$password"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:451
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:460
 msgid "upgrade launcher on windows"
 msgstr ""
 "1、访问：https://www.cswamp.com/post/23。找到Win10: launcher-res-"
@@ -1447,33 +1453,70 @@ msgstr ""
 "4、不建议删除老版本生成的user目录：<我的文档>/RoseApp/launcher。一旦删除，"
 "launcher.exe就是全新运行，之前你在这电脑上下载的小程序，配置等，都会丢失。"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:546
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:516
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:548
+msgid "Message"
+msgstr "消息"
+
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:522
+msgid "wko^mass send remark, $min_charts, $max_chars"
+msgstr "发送给已购课学员 | $min_chars~$max_chars 字 | 每日限发 2 条"
+
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:525
+msgid "wko^mass msg sample1"
+msgstr ""
+"【直播答疑预告】今晚 8 点我会准时开播。最近看到很多同学在练“平板支撑”时容易塌"
+"腰，今晚专门教大家怎么正确发力！口令：12345678"
+
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:526
+msgid "wko^mass msg sample2"
+msgstr ""
+"恭喜大家马上就要完成本阶段打卡啦！有很多同学问的【进阶强化课】刚刚上架，老学"
+"员有专属补贴，可以先点进去看看视频～"
+
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:527
+msgid "wko^mass msg sample3"
+msgstr ""
+"发现不少新同学觉得前面的操有点难。我连夜做了一份【退阶版课表】，大家点开课程"
+"详情页就能看到，安全第一，不要硬撑！"
+
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:528
+msgid "wko^mass msg sample4"
+msgstr ""
+"今天是休息日，大家别练太猛啦，可以简单拉伸一下。如果有哪里酸痛，随时给我发消"
+"息，好好放松！"
+
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:579
+msgid "Sent"
+msgstr "已发送"
+
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:652
 msgid "Is using LaTex pack(V$version)"
 msgstr "正使用LaTex包(V$version)"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:548
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:654
 msgid "Upgrade"
 msgstr "升级"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:551
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:657
 msgid "No LaTex pack"
 msgstr "没有LaTex包"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:552
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:658
 msgid "Install"
 msgstr "安装"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:596
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:702
 msgid "Failed to extract zip data from File '$rspfile'."
 msgstr "从文件“$rspfile”，提取zip数据失败。"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:646
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:752
 msgid ""
 "Please upgrade the Android image. To use LaTeX, the version must be at least "
 "'$ver'."
 msgstr "请升级Android镜像。要使用LaTex，版本至少“$ver”。"
 
-#: apps-src/apps/launcher/gui/dialogs/home.cpp:690
+#: apps-src/apps/launcher/gui/dialogs/home.cpp:796
 msgid ""
 "It has been $time that the battery voltage has not been received, check the "
 "base serial's connection. After improve, click"
@@ -1493,7 +1536,7 @@ msgstr "$count条分支。$branches"
 #: apps-src/apps/launcher/gui/dialogs/speech2.cpp:223
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:431
 #: apps-src/apps/launcher/gui/dialogs/task2.cpp:2759
-#: apps-src/apps/launcher/mkscript_controller.cpp:2770
+#: apps-src/apps/launcher/mkscript_controller.cpp:2771
 msgid "Empty"
 msgstr "空"
 
@@ -1791,166 +1834,176 @@ msgstr "要删除位置“$name”吗？"
 msgid "Move"
 msgstr "移动"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:38
-#: apps-src/apps/launcher/mkscript_controller.cpp:669
-msgid "file^From benchmark..."
-msgstr "从样板图像..."
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:355
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:107
+msgid "file^From csv"
+msgstr "从csv文件"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:39
-#: apps-src/apps/launcher/mkscript_controller.cpp:670
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:356
+#: apps-src/apps/launcher/mkscript_controller.cpp:671
 msgid "file^Empty script"
 msgstr "空脚本"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:40
-#: apps-src/apps/launcher/mkscript_controller.cpp:671
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:357
+#: apps-src/apps/launcher/mkscript_controller.cpp:672
 msgid "file^Open"
 msgstr "打开"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:41
-#: apps-src/apps/launcher/mkscript_controller.cpp:672
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:358
+#: apps-src/apps/launcher/mkscript_controller.cpp:673
 msgid "file^Save as"
 msgstr "另存为"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:42
-#: apps-src/apps/launcher/mkscript_controller.cpp:673
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:359
+#: apps-src/apps/launcher/mkscript_controller.cpp:674
 msgid "file^Exit"
 msgstr "退出"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:277
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:594
 msgid "ID"
 msgstr ""
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:287
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1483
-#: apps-src/apps/launcher/mkscript_controller.cpp:1074
-#: apps-src/apps/launcher/mkscript_controller.cpp:2603
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:604
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:2113
+#: apps-src/apps/launcher/mkscript_controller.cpp:1075
+#: apps-src/apps/launcher/mkscript_controller.cpp:2604
 msgid "Author"
 msgstr "作者"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:292
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:609
 msgid "wkocourse^Description"
 msgstr "简介"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:305
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:329
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:715
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:622
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:646
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1032
 #, fuzzy
 #| msgid "$key: $value"
 msgid "$name: $value"
 msgstr "$key：$value"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:552
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:869
 msgid "$count rounds"
 msgstr "$count轮"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:681
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:998
 #, fuzzy
 #| msgid "posture^Workout"
 msgid "Workout"
 msgstr "做操"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:723
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1040
 #: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:41
 #: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:67
-#: apps-src/apps/launcher/mkscript_controller.cpp:1005
+#: apps-src/apps/launcher/mkscript_controller.cpp:1006
 msgid "Working directory"
 msgstr "工作目录"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:731
-#: apps-src/apps/launcher/mkscript_controller.cpp:1012
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1048
+#: apps-src/apps/launcher/mkscript_controller.cpp:1013
 msgid "invalid wkoscript_dir remark, $add_to_working_dir"
 msgstr ""
 "当前脚本文件所在目录不是有效工作目录，仅可查看状态图。如需编辑，请点"
 "击“$add_to_working_dir”，或手动复制文件到工作目录。"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:856
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1173
 #: apps-src/apps/launcher/gui/dialogs/mkscript_scene.cpp:82
 msgid "file^New"
 msgstr "新建"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:892
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1209
 #: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:54
-#: apps-src/apps/launcher/mkscript_controller.cpp:2042
+#: apps-src/apps/launcher/mkscript_controller.cpp:2043
 msgid "file^New from benchmark"
 msgstr "从样板图像新建"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:895
-#: apps-src/apps/launcher/mkscript_controller.cpp:2045
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1212
+#: apps-src/apps/launcher/mkscript_controller.cpp:2046
 msgid "file^New empty script"
 msgstr "新建空脚本"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:900
-#: apps-src/apps/launcher/mkscript_controller.cpp:2050
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1217
+#: apps-src/apps/launcher/mkscript_controller.cpp:2051
 msgid "Are you sure you want to $action?"
 msgstr "确认要$action吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:904
-#: apps-src/apps/launcher/mkscript_controller.cpp:2054
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1221
+#: apps-src/apps/launcher/mkscript_controller.cpp:2055
 msgid "The file has been modified. Do you want to $action without saving?"
 msgstr "文件有过修改。要不保存而继续$action吗？"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:924
-#: apps-src/apps/launcher/mkscript_controller.cpp:2105
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1241
+#: apps-src/apps/launcher/mkscript_controller.cpp:2106
 msgid "The filename and ID are different."
 msgstr "文件名和id不一样。"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:926
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1243
 msgid "Course script"
 msgstr "课程脚本"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1049
-#: apps-src/apps/launcher/mkscript_controller.cpp:2311
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1407
+#: apps-src/apps/launcher/mkscript_controller.cpp:2312
 msgid "There is a data error, and cannot save."
 msgstr "有数据错误，不能保存。"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1076
-#: apps-src/apps/launcher/mkscript_controller.cpp:2477
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1434
+#: apps-src/apps/launcher/mkscript_controller.cpp:2478
 msgid ""
 "The target location already contains '$file'. Do you want to replace this "
 "file?"
 msgstr "目标位置已存在一个名为“$file”的文件，是否替换此文件？"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1204
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1562
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:302
 msgid "noun^Workout"
 msgstr "健身操"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1206
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1564
 msgid "todo^workout"
 msgstr ""
 "主要工作：要用到哪些操；此种操由哪些动作组成，决定时长（计时类）或次数（计次"
 "类）"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1249
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1607
 msgid "$count seconds"
 msgstr "$count秒"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1255
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1613
 msgid "$count reps"
 msgstr "$count次"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1266
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1624
 msgid "todo^miss action"
 msgstr "注：要用到动作库中没有的动作，给出演示视频，会给加上。"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1277
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1635
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:326
 msgid "Course"
 msgstr "课程"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1279
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1637
 msgid "todo^course"
 msgstr "主要工作：每一天要跟练哪些操"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1401
-msgid "Task to-do items"
-msgstr ""
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1728
+msgid "# ... other days"
+msgstr "# ... 其余天数"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1466
-#: apps-src/apps/launcher/mkscript_controller.cpp:2586
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1952
+msgid "Todo list(*.png)"
+msgstr "待做清单（*.png）"
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1953
+msgid "Todo list(*.csv)"
+msgstr "待做清单（*.csv）"
+
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:2096
+#: apps-src/apps/launcher/mkscript_controller.cpp:2587
 msgid "It will be used as the stem name of the script file."
 msgstr "它将作为脚本文件的主文件名。"
 
-#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:1522
-#: apps-src/apps/launcher/mkscript_controller.cpp:2630
+#: apps-src/apps/launcher/gui/dialogs/mkcourse.cpp:2152
+#: apps-src/apps/launcher/mkscript_controller.cpp:2631
 msgid "Edit $type"
 msgstr "编辑$type"
 
@@ -2022,6 +2075,59 @@ msgstr "已生成moveit.rsp。文件：$rspfile"
 msgid "ik range finished, result is saved at $file"
 msgstr ""
 
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:33
+msgid "csv^flag_new msgstr"
+msgstr "新文件。"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:33
+msgid "csv^flag_new method"
+msgstr "新建"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:34
+msgid "csv^flag_same msgstr"
+msgstr "检测到有同名文件，而且内容、版本都一样。"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:34
+msgid "csv^flag_same method"
+msgstr "不改已有文件"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:35
+msgid "csv^flag_vermismatch msgstr"
+msgstr "检测到有同名文件，内容一样，版本不一致。"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:35
+msgid "csv^flag_vermismatch method"
+msgstr "覆盖"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:36
+msgid "csv^flag_diff msgstr"
+msgstr "检测到有同名文件，内容不一样。"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:36
+msgid "csv^flag_diff method"
+msgstr "需手动解决"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:62
+msgid "wko^New course from csv"
+msgstr "从csv新建课程"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:81
+msgid "new_wkocourse remark, $csv_file, $working_dir"
+msgstr ""
+"来源：$csv_file\n"
+"工作目录：$working_dir"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:108
+msgid ""
+"Files requiring manual handling have been detected. After resolving the "
+"issues, please select \"$new\" again."
+msgstr "检测到有文件需要手动处理，请处理完问题后，再次选择“$new”新建。"
+
+#: apps-src/apps/launcher/gui/dialogs/new_wkocourse.cpp:112
+msgid ""
+"Click \"$next\" to generate the script file associated with this course."
+msgstr "单击“$next”，生成此课程关联的脚本文件。"
+
 #: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:39
 msgid "cam^pos_front"
 msgstr "正前方"
@@ -2078,7 +2184,7 @@ msgstr ""
 "持不动，等待定位完成"
 
 #: apps-src/apps/launcher/gui/dialogs/new_wkoscript.cpp:287
-#: apps-src/apps/launcher/mkscript_controller.cpp:212
+#: apps-src/apps/launcher/mkscript_controller.cpp:213
 msgid "wko^Setup"
 msgstr "定位"
 
@@ -2744,23 +2850,23 @@ msgstr "状态名字符数"
 msgid "The $name already exists. Please use a different name."
 msgstr "$name已存在，请使用不同的名称。"
 
-#: apps-src/apps/launcher/gui/dialogs/store.cpp:73
+#: apps-src/apps/launcher/gui/dialogs/store.cpp:76
 msgid ""
 "A bg task is running and it needs to be stopped first. Do you want to "
 "continue installing '$aplt'?"
 msgstr "有后台任务在运行，须要先停掉，要继续安装吗“$aplt”？"
 
-#: apps-src/apps/launcher/gui/dialogs/store.cpp:74
+#: apps-src/apps/launcher/gui/dialogs/store.cpp:77
 msgid "To install '$aplt', stop the current one"
 msgstr "要安装小程序“$aplt”，结束当前的"
 
-#: apps-src/apps/launcher/gui/dialogs/store.cpp:89
+#: apps-src/apps/launcher/gui/dialogs/store.cpp:92
 msgid ""
 "A bg task is running and it needs to be stopped first. Do you want to "
 "continue uninstalling '$aplt'?"
 msgstr "有后台任务在运行，须要先停掉，要继续卸载吗“$aplt”？"
 
-#: apps-src/apps/launcher/gui/dialogs/store.cpp:90
+#: apps-src/apps/launcher/gui/dialogs/store.cpp:93
 msgid "To uninstall '$aplt', stop the current one"
 msgstr "要卸载小程序“$aplt”，结束当前的"
 
@@ -3009,44 +3115,44 @@ msgstr "如果设置时间超过现在时间，置为“$state”"
 msgid "strategy^strategy_finished $state"
 msgstr "如果设置时间超过现在时间，置为“$state”"
 
-#: apps-src/apps/launcher/main.cpp:720
+#: apps-src/apps/launcher/main.cpp:738
 msgid "_Idle"
 msgstr "_空闲"
 
-#: apps-src/apps/launcher/main.cpp:722
+#: apps-src/apps/launcher/main.cpp:740
 msgid "name^lubancat3"
 msgstr "鲁班猫3"
 
-#: apps-src/apps/launcher/main.cpp:723
+#: apps-src/apps/launcher/main.cpp:741
 msgid "name^lubancat4"
 msgstr "鲁班猫4"
 
-#: apps-src/apps/launcher/main.cpp:724
+#: apps-src/apps/launcher/main.cpp:742
 msgid "name^roc_rk3588s_pc"
 msgstr "ROC-RK3588S-PC"
 
-#: apps-src/apps/launcher/main.cpp:729 apps-src/apps/launcher/main.cpp:731
-#: apps-src/apps/launcher/main.cpp:733
+#: apps-src/apps/launcher/main.cpp:747 apps-src/apps/launcher/main.cpp:749
+#: apps-src/apps/launcher/main.cpp:751
 msgid "$count minutes"
 msgstr "$count分钟"
 
-#: apps-src/apps/launcher/main.cpp:735
+#: apps-src/apps/launcher/main.cpp:753
 msgid "$count hours"
 msgstr "$count小时"
 
-#: apps-src/apps/launcher/main.cpp:736
+#: apps-src/apps/launcher/main.cpp:754
 msgid "No restrictions"
 msgstr "不限制"
 
-#: apps-src/apps/launcher/main.cpp:746
+#: apps-src/apps/launcher/main.cpp:764
 msgid "Foreground applet"
 msgstr "前台小程序"
 
-#: apps-src/apps/launcher/main.cpp:747
+#: apps-src/apps/launcher/main.cpp:765
 msgid "Base2th applet"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:748
+#: apps-src/apps/launcher/main.cpp:766
 #, fuzzy
 #| msgid "aiagent task prompt #0"
 msgid "Aiagent task applet"
@@ -3056,104 +3162,104 @@ msgstr ""
 "时。做成三列表格，第一列是数字，像1表示第1天，2表示第2天，依此类推。第二列是"
 "时间段，第三列是要做的事，描述事时不要超过40个字。"
 
-#: apps-src/apps/launcher/main.cpp:763
+#: apps-src/apps/launcher/main.cpp:781
 msgid "velocity^slower"
 msgstr "更慢速"
 
-#: apps-src/apps/launcher/main.cpp:764
+#: apps-src/apps/launcher/main.cpp:782
 msgid "velocity^slow"
 msgstr "慢速"
 
-#: apps-src/apps/launcher/main.cpp:765
+#: apps-src/apps/launcher/main.cpp:783
 msgid "velocity^normal"
 msgstr "普通"
 
-#: apps-src/apps/launcher/main.cpp:766
+#: apps-src/apps/launcher/main.cpp:784
 msgid "velocity^fast"
 msgstr "快速"
 
-#: apps-src/apps/launcher/main.cpp:767
+#: apps-src/apps/launcher/main.cpp:785
 msgid "velocity^custom"
 msgstr "自定义"
 
-#: apps-src/apps/launcher/main.cpp:770
+#: apps-src/apps/launcher/main.cpp:788
 msgid "marker^virtual"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:771
+#: apps-src/apps/launcher/main.cpp:789
 msgid "marker^wall"
 msgstr "墙"
 
-#: apps-src/apps/launcher/main.cpp:779
+#: apps-src/apps/launcher/main.cpp:797
 msgid "task^Move"
 msgstr "只移动"
 
-#: apps-src/apps/launcher/main.cpp:785
+#: apps-src/apps/launcher/main.cpp:803
 msgid "task^task"
 msgstr "只任务"
 
-#: apps-src/apps/launcher/main.cpp:791
+#: apps-src/apps/launcher/main.cpp:809
 msgid "task^Move+task"
 msgstr "移动+任务"
 
-#: apps-src/apps/launcher/main.cpp:797
+#: apps-src/apps/launcher/main.cpp:815
 msgid "task^Move2+task"
 msgstr "2移动+任务"
 
-#: apps-src/apps/launcher/main.cpp:805
+#: apps-src/apps/launcher/main.cpp:823
 msgid "task^Charge"
 msgstr "充电"
 
-#: apps-src/apps/launcher/main.cpp:810
+#: apps-src/apps/launcher/main.cpp:828
 msgid "Chat"
 msgstr "聊天"
 
-#: apps-src/apps/launcher/main.cpp:815
+#: apps-src/apps/launcher/main.cpp:833
 msgid "Buildmap"
 msgstr "建图"
 
-#: apps-src/apps/launcher/main.cpp:817
+#: apps-src/apps/launcher/main.cpp:835
 msgid "Buildmap(rosbag record)"
 msgstr "建图(录制rosbag)"
 
-#: apps-src/apps/launcher/main.cpp:818
+#: apps-src/apps/launcher/main.cpp:836
 msgid "Buildmap(rosbag play)"
 msgstr "建图(回放rosbag)"
 
-#: apps-src/apps/launcher/main.cpp:820 apps-src/apps/launcher/main.cpp:1535
+#: apps-src/apps/launcher/main.cpp:838 apps-src/apps/launcher/main.cpp:1553
 msgid "Navigation"
 msgstr "导航"
 
-#: apps-src/apps/launcher/main.cpp:821
+#: apps-src/apps/launcher/main.cpp:839
 msgid "Position"
 msgstr "位置"
 
-#: apps-src/apps/launcher/main.cpp:824
+#: apps-src/apps/launcher/main.cpp:842
 msgid "klink_cfg"
 msgstr "kLink配置"
 
-#: apps-src/apps/launcher/main.cpp:825
+#: apps-src/apps/launcher/main.cpp:843
 msgid "task_cpp_cfg"
 msgstr "任务脚本"
 
-#: apps-src/apps/launcher/main.cpp:826
+#: apps-src/apps/launcher/main.cpp:844
 msgid "speech_cfg"
 msgstr "语音命令脚本"
 
-#: apps-src/apps/launcher/main.cpp:1146
+#: apps-src/apps/launcher/main.cpp:1164
 msgid "Not implete 'aplt_create_task_api' method, or aplt::tcamera_api object."
 msgstr "小程序没实现“aplt_create_task_api”方法，或提供“aplt::tcamera_api”对象"
 
-#: apps-src/apps/launcher/main.cpp:1163
+#: apps-src/apps/launcher/main.cpp:1181
 msgid "Cannot reach the '$position' position. Not charging"
 msgstr "无法到达“$position”位置。不充电"
 
-#: apps-src/apps/launcher/main.cpp:1171
+#: apps-src/apps/launcher/main.cpp:1189
 #: apps-src/apps/launcher/map_controller.cpp:4126
 msgid "Start charge fail. Please set a valid charging pile width first."
 msgstr "启动充电失败。请先设置充电桩宽度。"
 
-#: apps-src/apps/launcher/main.cpp:1192
+#: apps-src/apps/launcher/main.cpp:1210
 #, fuzzy
 #| msgid ""
 #| "Not implete 'aplt_create_task_api' method, or aplt::tcamera_api object."
@@ -3161,147 +3267,147 @@ msgid ""
 "Not implete 'aplt_create_task_api' method, or aplt::tnonblock_api object."
 msgstr "小程序没实现“aplt_create_task_api”方法，或提供“aplt::tcamera_api”对象"
 
-#: apps-src/apps/launcher/main.cpp:1209
+#: apps-src/apps/launcher/main.cpp:1227
 msgid "block task finished"
 msgstr "阻塞式任务结束"
 
-#: apps-src/apps/launcher/main.cpp:1213
+#: apps-src/apps/launcher/main.cpp:1231
 msgid "Not implete 'aplt_create_task_api' method, or aplt::tblock_api object."
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:1588 apps-src/apps/launcher/main.cpp:3679
-#: apps-src/apps/launcher/main.cpp:3735
+#: apps-src/apps/launcher/main.cpp:1606 apps-src/apps/launcher/main.cpp:3704
+#: apps-src/apps/launcher/main.cpp:3760
 msgid "To enter '$target', first select a valid $driver in '$settings'."
 msgstr "要进入“$target”，需要先在“$settings”中选择一个有效的$driver。"
 
-#: apps-src/apps/launcher/main.cpp:1673
+#: apps-src/apps/launcher/main.cpp:1691
 msgid "One driver to be uninstalled"
 msgstr "有驱动被卸载"
 
-#: apps-src/apps/launcher/main.cpp:1959
+#: apps-src/apps/launcher/main.cpp:1977
 msgid ""
 "$driver failed to create slot. Navigate to '$center' to check the cause."
 msgstr "$driver创建对像失败。可转去“$center”查看原因。"
 
-#: apps-src/apps/launcher/main.cpp:2147
+#: apps-src/apps/launcher/main.cpp:2165
 msgid "The AI agent task is terminating and cannot run new applet task."
 msgstr "正在结束AI agent任务，不能执行新的小程序任务。"
 
-#: apps-src/apps/launcher/main.cpp:2155
+#: apps-src/apps/launcher/main.cpp:2173
 msgid "To run a temporary task, stop the current one"
 msgstr "要运行临时任务，结束当前的"
 
-#: apps-src/apps/launcher/main.cpp:2185 apps-src/apps/launcher/main.cpp:2189
+#: apps-src/apps/launcher/main.cpp:2203 apps-src/apps/launcher/main.cpp:2207
 msgid "There is no position: $position"
 msgstr "没有位置：$position"
 
-#: apps-src/apps/launcher/main.cpp:2194
+#: apps-src/apps/launcher/main.cpp:2212
 msgid "If poisition1 is empty, position2 must be empty"
 msgstr "位置1是空时，$position2必须是空"
 
-#: apps-src/apps/launcher/main.cpp:2201
+#: apps-src/apps/launcher/main.cpp:2219
 msgid "Cannot execute $task. $reason"
 msgstr "不能执行$task。$reason"
 
-#: apps-src/apps/launcher/main.cpp:2350
+#: apps-src/apps/launcher/main.cpp:2372
 msgid "Base node not started"
 msgstr "底盘驱动节点未启动"
 
-#: apps-src/apps/launcher/main.cpp:2354
+#: apps-src/apps/launcher/main.cpp:2376
 msgid "Base is in moveable mode"
 msgstr "底盘正工作在可移动模式"
 
-#: apps-src/apps/launcher/main.cpp:2359
+#: apps-src/apps/launcher/main.cpp:2381
 msgid "A background task using the camera is currently running"
 msgstr "有用到相机的后台任务正在运行"
 
-#: apps-src/apps/launcher/main.cpp:2385
+#: apps-src/apps/launcher/main.cpp:2407
 msgid "No scenes available to suspend"
 msgstr "没有可挂起的场景"
 
-#: apps-src/apps/launcher/main.cpp:2398
+#: apps-src/apps/launcher/main.cpp:2420
 msgid "Unable to start scene"
 msgstr "无法启动场景"
 
-#: apps-src/apps/launcher/main.cpp:2442
+#: apps-src/apps/launcher/main.cpp:2464
 msgid "The AI driver is not installed."
 msgstr "没有安装AI驱动。"
 
-#: apps-src/apps/launcher/main.cpp:2446
+#: apps-src/apps/launcher/main.cpp:2468
 msgid "The AI agent task is terminating and cannot send new NLP request."
 msgstr "正在结束AI agent任务，不能发送新的NLP请求、"
 
-#: apps-src/apps/launcher/main.cpp:2503
+#: apps-src/apps/launcher/main.cpp:2525
 msgid "device: $device"
 msgstr "设备：$device"
 
-#: apps-src/apps/launcher/main.cpp:2543
+#: apps-src/apps/launcher/main.cpp:2565
 msgid "Receive a IoT event, but timing is not right, it cannot be executed"
 msgstr "收到IoT事件，但时机不对，不能执行"
 
-#: apps-src/apps/launcher/main.cpp:2576
+#: apps-src/apps/launcher/main.cpp:2598
 msgid "For voice chat, first select a aiagent drive in '$settings'"
 msgstr "要语音聊天，请先在“$settings”选择一个AI驱动"
 
-#: apps-src/apps/launcher/main.cpp:2580
+#: apps-src/apps/launcher/main.cpp:2602
 msgid ""
 "The large language model is answering the question. Please wait to ask your "
 "question by voice."
 msgstr "大模型正在回答问题，请稍后语音提问"
 
-#: apps-src/apps/launcher/main.cpp:2595
+#: apps-src/apps/launcher/main.cpp:2617
 msgid "$question. Keep your response under $max words."
 msgstr "$question。回答不要超过$max字"
 
-#: apps-src/apps/launcher/main.cpp:2660
+#: apps-src/apps/launcher/main.cpp:2682
 msgid ""
 "The timing is not right, and speech commands cannot be executed at this time"
 msgstr "时机不对，当前不能执行语音命令"
 
-#: apps-src/apps/launcher/main.cpp:2665
+#: apps-src/apps/launcher/main.cpp:2687
 msgid ""
 "What you say satisfies speech command: $speech. But the applet or task "
 "associated with this command does not exist"
 msgstr "您说的话满足语音命令“$speech”，但它关联的小程序或任务不存在"
 
-#: apps-src/apps/launcher/main.cpp:2671
+#: apps-src/apps/launcher/main.cpp:2693
 msgid "Unsupported speech commands"
 msgstr "不支持的语音命令"
 
-#: apps-src/apps/launcher/main.cpp:2711
+#: apps-src/apps/launcher/main.cpp:2733
 msgid "function^distance desc"
 msgstr "用于计算机器人当前位置到地图上某个位置的距离。不会是负值，单位：米。"
 
-#: apps-src/apps/launcher/main.cpp:2776
+#: apps-src/apps/launcher/main.cpp:2798
 #: apps-src/apps/launcher/map_controller.cpp:1585
 #: apps-src/apps/launcher/map_controller.cpp:4067
 msgid "icon^Settings"
 msgstr "设置"
 
-#: apps-src/apps/launcher/main.cpp:2777
+#: apps-src/apps/launcher/main.cpp:2799
 msgid "To perform '$task', first select a base drive in '$settings'"
 msgstr "要想执行“$task”，请先在“$settings”选择一个底盘驱动"
 
-#: apps-src/apps/launcher/main.cpp:2779
+#: apps-src/apps/launcher/main.cpp:2801
 msgid "To perform '$task', select valid serial and baudrate for base drive"
 msgstr "要想执行“$task”，请先为底盘驱动设置串口路径和波特率"
 
-#: apps-src/apps/launcher/main.cpp:3652
+#: apps-src/apps/launcher/main.cpp:3677
 msgid "Base works in unmovable mode and cannot enter '$map'."
 msgstr "底盘正工作在不可移动模式，不能进入“$map”。"
 
-#: apps-src/apps/launcher/main.cpp:3661
+#: apps-src/apps/launcher/main.cpp:3686
 msgid ""
 "It is operating '$moveit' and cannot enter '$map'. To view the camera video, "
 "go to '$dcamera'"
 msgstr "正在操作“$moveit”，不能进入“$map”。如要查看相机视频，进入“$dcamera”。"
 
-#: apps-src/apps/launcher/main.cpp:3784
-#: apps-src/apps/launcher/mkscript_controller.cpp:112
+#: apps-src/apps/launcher/main.cpp:3809
+#: apps-src/apps/launcher/mkscript_controller.cpp:113
 msgid "kHome"
 msgstr ""
 
-#: apps-src/apps/launcher/main.cpp:3786
+#: apps-src/apps/launcher/main.cpp:3811
 msgid ""
 "Before using the '$target', please install the '$aplt' first. You can "
 "download and install it from the $store."
@@ -3548,105 +3654,113 @@ msgstr "去"
 msgid "Navigation finished($go|$position): $result"
 msgstr "导航阶段结束（$go|$position）：$result"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:126
+#: apps-src/apps/launcher/mkscript_controller.cpp:127
 msgid "The file extension must be '.$ext_name'."
-msgstr "文件名扩展名必须是“.cfg”。"
+msgstr "文件名扩展名必须是“.$ext_name”。"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:207
+#: apps-src/apps/launcher/mkscript_controller.cpp:208
 msgid "SKIP"
 msgstr ""
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:278
+#: apps-src/apps/launcher/mkscript_controller.cpp:279
 msgid "voice_state's label surf msg, $msgstr"
 msgstr "语音：$msgstr"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:281
+#: apps-src/apps/launcher/mkscript_controller.cpp:282
 msgid "The state lasts at least $min_duration."
 msgstr "状态至少持续$min_duration。"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:286
+#: apps-src/apps/launcher/mkscript_controller.cpp:287
 msgid "Repeat the voice every $repeat_s seconds."
 msgstr "每隔$repeat_s秒重复播报一次。"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:373
+#: apps-src/apps/launcher/mkscript_controller.cpp:374
 msgid ""
 "tasktype_rep_counter, line desc, $number, $action_msg, $min_duration_ms, "
 "$cooldowned_ms"
 msgstr "($number)$action_msg：$min_duration_ms毫秒/$cooldowned_ms毫秒"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:384
+#: apps-src/apps/launcher/mkscript_controller.cpp:385
 msgid "pose_state's label surf msg, $tast_type, $pose_count, $special"
 msgstr ""
 "$task_type任务\n"
 "$pose_count个姿态判断\n"
 "$special"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:662
+#: apps-src/apps/launcher/mkscript_controller.cpp:663
 msgid "shape^voice state"
 msgstr "语音状态"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:663
 #: apps-src/apps/launcher/mkscript_controller.cpp:664
-msgid "shape^pose state"
-msgstr "姿态状态"
-
 #: apps-src/apps/launcher/mkscript_controller.cpp:665
-#, fuzzy
-#| msgid "shape^pose state"
-msgid "shape^edge"
+msgid "shape^pose state"
 msgstr "姿态状态"
 
 #: apps-src/apps/launcher/mkscript_controller.cpp:666
 #, fuzzy
 #| msgid "shape^pose state"
+msgid "shape^edge"
+msgstr "姿态状态"
+
+#: apps-src/apps/launcher/mkscript_controller.cpp:667
+#, fuzzy
+#| msgid "shape^pose state"
 msgid "shape^text"
 msgstr "姿态状态"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:680
+#: apps-src/apps/launcher/mkscript_controller.cpp:670
+msgid "file^From benchmark..."
+msgstr "从样板图像..."
+
+#: apps-src/apps/launcher/mkscript_controller.cpp:681
 msgid "Add to working"
 msgstr "纳入工作"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:1086
+#: apps-src/apps/launcher/mkscript_controller.cpp:1087
 msgid "$key: $value"
 msgstr "$key：$value"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2086
+#: apps-src/apps/launcher/mkscript_controller.cpp:2087
 msgid "load file fail. $type, $filename"
 msgstr ""
 "无法加载动作脚本：$filename\n"
 "\n"
 "该文件格式无效或已损坏。"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2092
+#: apps-src/apps/launcher/mkscript_controller.cpp:2093
 msgid "load file fail. $type, $short_filename, $full_filename"
 msgstr ""
 "无法加载动作脚本：$short_filename\n"
 "\n"
 "该文件格式无效或已损坏。路径：$full_filename"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2107
+#: apps-src/apps/launcher/mkscript_controller.cpp:2108
 msgid "Action script"
 msgstr "动作脚本"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2302
+#: apps-src/apps/launcher/mkscript_controller.cpp:2303
 msgid "Any state appears at most once as the next state of another state."
 msgstr "任一状态，作为其他状态的下一状态，至多出现一次。"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:2993
+#: apps-src/apps/launcher/mkscript_controller.cpp:2994
 msgid "Action copied to clipboard: $name"
 msgstr "动作已复制到剪贴板：$name。"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:3008
+#: apps-src/apps/launcher/mkscript_controller.cpp:3017
 msgid "Clipboard"
 msgstr "剪贴板"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:3065
+#: apps-src/apps/launcher/mkscript_controller.cpp:3024
+msgid "Action library"
+msgstr "动作库"
+
+#: apps-src/apps/launcher/mkscript_controller.cpp:3075
 msgid ""
 "A file with the same name exists in the working directory. Do you want to "
 "overwrite it?"
 msgstr "工作目录下存在同名文件，要覆盖吗？"
 
-#: apps-src/apps/launcher/mkscript_controller.cpp:3131
+#: apps-src/apps/launcher/mkscript_controller.cpp:3141
 msgid "Action flowchart"
 msgstr "动作流程图"
 
@@ -3695,6 +3809,44 @@ msgstr "希望$bf移动$dist米"
 #: apps-src/apps/launcher/moveit_calculator.cpp:3374
 msgid "Moveit finished"
 msgstr "操作机械臂结束"
+
+#, fuzzy
+#~| msgid "Untitle"
+#~ msgid "title"
+#~ msgstr "未命名"
+
+#~ msgid "Not logged in. Log in to $action."
+#~ msgstr "未登录。登录可$action。"
+
+#~ msgid ""
+#~ "Once the message is sent, it cannot be undone. Do you want to continue?"
+#~ msgstr "一旦消息发出，就不能撤消。要继续吗？"
+
+#, fuzzy
+#~| msgid ""
+#~| "new_wkocourse remark, $csv_file, $new_icon, $new_desc, $same_icon, "
+#~| "$same_desc, $diff_icon, $diff_desc"
+#~ msgid ""
+#~ "new_wkocourse remark, $csv_file, $new_icon, $new_desc, $same_icon, "
+#~ "$same_desc, $vermismatch_icon, $vermismatch_desc, $diff_icon, $diff_desc"
+#~ msgstr ""
+#~ "来源：$csv_file\n"
+#~ "$new_icon：$new_desc\n"
+#~ "$same_icon：$same_desc\n"
+#~ "$diff_icon：$diff_desc"
+
+#, fuzzy
+#~| msgid "todo^action library"
+#~ msgid "From action library"
+#~ msgstr "你需要用到动作库中没有的动作，提供演示视频，我这边会制作动作脚本"
+
+#~ msgid "action_tpl2_task_str, time_counter, $max_count"
+#~ msgstr "$max_count秒"
+
+#~ msgid "action_tpl2_task_str, rep_counter, $max_count, $phase"
+#~ msgstr ""
+#~ "$max_count次\n"
+#~ "$phase"
 
 #~ msgid "wkocousre^Day title"
 #~ msgstr "今日标题"

@@ -30,6 +30,9 @@
 #include "../../core/android/SDL_android.h"
 #include <arpa/inet.h>
 
+#include "SDL_timer.h"
+#include "SDL_thread.h"
+
 SDL_bool SDL_ReadCard(SDL_IDCardInfo* info)
 {
 	SDL_memset(info, 0, sizeof(SDL_IDCardInfo));
@@ -532,6 +535,35 @@ SDL_bool SDL_StopScreenRecording(char* filename, int maxlen)
 SDL_bool SDL_IsScreenRecording(void)
 {
 	return Android_IsScreenRecording();
+}
+
+static IAPPurchaseCallback IAP_callback = NULL;
+static void* IAP_userdata = NULL;
+
+void SDL_IAP_SetCallback(IAPPurchaseCallback callback, void* userdata)
+{
+	SDL_Log("%u tid(%" PRId64 ") SDL_IAP_SetCallback(callback 0x%p)", 
+		SDL_GetTicks(), SDL_ThreadID(), callback);
+	IAP_callback = callback;
+	IAP_userdata = userdata;
+}
+
+void SDL_IAP_Purchase(const char* productID, int transactionId)
+{
+	SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Purchase(productID: %s, transactionId: %i)", 
+		SDL_GetTicks(), SDL_ThreadID(), productID, transactionId);
+	// IAP_callback(1, productID, transactionId, "transaction.jwsRepresentation", IAP_userdata);
+	Android_PayWithAlipay(productID);
+}
+
+void SDL_IAP_Restore(void)
+{
+	SDL_Log("%u tid(%" PRId64 ") SDL_IAP_Restore()", 
+		SDL_GetTicks(), SDL_ThreadID());
+
+	IAP_callback(0, "com.leagor.kdesktop.course.level11", 0, NULL, IAP_userdata);
+	IAP_callback(0, "com.leagor.kdesktop.course.level13", 0, NULL, IAP_userdata);
+	IAP_callback(1, NULL, 0, NULL, IAP_userdata);
 }
 
 void SDL_GetOsInfo(SDL_OsInfo* info)

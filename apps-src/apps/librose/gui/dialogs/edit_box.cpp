@@ -200,7 +200,8 @@ void tedit_box::click_freq_val(tbutton& widget)
 		if (!alias.empty()) {
 			name.append("(" + alias + ")");
 		}
-		items.push_back(gui2::tmenu::titem(name, at));
+		int max_chars = 32;
+		items.push_back(gui2::tmenu::titem(utils::truncate_to_max_chars2(name, max_chars, true), at));
 
 		if (id == curr_val) {
 			initial_sel = items.back().val;

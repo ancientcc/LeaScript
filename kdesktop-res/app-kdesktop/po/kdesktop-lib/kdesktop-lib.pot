@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kdesktop-lib\n"
-"POT-Creation-Date: 2026-09-25 08:43+0800\n"
+"POT-Creation-Date: 2026-10-28 11:36+0800\n"
 "PO-Revision-Date: 2016-01-03 20:34+0800\n"
 "Last-Translator: service <service@leagor.com>\n"
 "Language-Team: \n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 "X-Poedit-KeywordsList: _;vgettext2\n"
 "X-Poedit-Basepath: ../../../..\n"
 "X-Poedit-SearchPath-0: apps-src/apps/kdesktop\n"
@@ -46,8 +46,8 @@ msgid "Dbg"
 msgstr ""
 
 #: apps-res/app-kdesktop/po/cfg-cpp/kdesktop-lib/gui.cpp:13
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:209
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:943
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:205
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1212
 msgid "Enter desktop"
 msgstr ""
 
@@ -222,133 +222,142 @@ msgstr ""
 msgid "Update IP"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:125
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:546
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:121
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:683
 msgid "home^rdp_layer"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:128
-msgid "Remote IP"
-msgstr ""
-
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:131
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:308
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:547
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:124
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:304
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:684
 msgid "home^apps_layer"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:134
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:127
 msgid "Event"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:137
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:130
 msgid "Me"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:189
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:938
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:185
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1207
 msgid "Landscape"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:189
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:938
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:185
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1207
 msgid "Portrait"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:205
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:201
 msgid "When switching mode, can select '$item'"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:210
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:206
 msgid "Applet"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:213
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:209
 msgid "If '$desktop', and connect fails, you may enter the '$store' in '$applet' and let connect to network. Then come back to this interface."
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:234
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:230
 msgid "Single workout"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:263
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:259
 msgid "Install"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:275
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:271
 msgid "A maximum of $days days of logs can be stored, and no more than $max_logs logs can be stored"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:309
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:305
 msgid "workout help, $apps_layer"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:465
-msgid "Expires on $expire. Purchase time: $purchase, Active time: $active."
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:477
+msgid "Expires on $expire. Purchase time: $purchase, $price, Active time: $active."
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:467
-msgid "Expires on $expire. Purchase time: $purchase."
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:480
+msgid "Expires on $expire . Activated"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:471
-msgid "Expired (expiration time: $expire). Purchase time: $purchase, Active time: $active."
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:484
+msgid "Expired (expiration time: $expire). Purchase time: $purchase, $price, Active time: $active."
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:479
-msgid "Not activated. $purchase, $force_active, $first_day"
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:493
+msgid "Not activated. $purchase, $price"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:551
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:495
+msgid "Not activated. $force_active, $first_day"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:688
 msgid "scene_list remark $rdp_layer, $apps_layer, $import_cfg"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:631
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:820
+msgid "wkocourse^Delete enroll"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:822
+msgid "wkocourse^Cannot delete enroll"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:825
+msgid "wkocourse^View enroll details"
+msgstr ""
+
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:839
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:875
 msgid "wkocourse^Enroll"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:829
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1078
 msgid "Course"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:891
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1002
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1143
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1265
 msgid "$driver not installed."
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:954
-msgid "workout help"
-msgstr ""
-
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:999
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1262
 msgid "$driver installed: $aplt"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1021
+#: apps-src/apps/kdesktop/gui/dialogs/home.cpp:1284
 msgid "Please go to the store and download '$name' first."
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:52
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:54
 msgid "At least $count more."
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:58
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:60
 msgid "Will keepalive automatically after $elapse"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:66
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:68
 msgid "Device is not logged on to the server, will login automatically after $elapse"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:68
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:70
 msgid "Device is not logged on to the server"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:143
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:145
 msgid "Keepalive"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:153
+#: apps-src/apps/kdesktop/gui/dialogs/keepalive.cpp:155
 msgid "Get event"
 msgstr ""
 
@@ -360,76 +369,76 @@ msgstr ""
 msgid "Env var"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:405
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:408
 msgid "Initialize mediapipe graph fail"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:473
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:476
 msgid "dcamera^warning"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:718
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:721
 msgid "Stop"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:734
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:737
 msgid "Snapshot"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1735
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1738
 msgid "Starting Camera"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2171
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2015
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2204
 msgid "$count days"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1983
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2171
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2015
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2204
 msgid "Total check-ins"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2173
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2017
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2206
 msgid "$count times"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1985
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2173
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2017
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2206
 msgid "Total workouts"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2176
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2369
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2020
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2209
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2438
 msgid "$count reps"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1988
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2176
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2020
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2209
 msgid "Total reps"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1990
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2178
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2022
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2211
 msgid "Total duration"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:1994
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2184
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2026
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2217
 msgid "Last check-in"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2121
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2153
 msgid "Duration $time"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2287
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2354
 msgid "vlog rec toast"
 msgstr ""
 
-#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2363
+#: apps-src/apps/kdesktop/gui/dialogs/rdcamera.cpp:2432
 msgid "time^s"
 msgstr ""
 
@@ -594,47 +603,47 @@ msgstr ""
 msgid "Edit $name text"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:425
+#: apps-src/apps/kdesktop/main.cpp:443
 msgid "Scale to screen"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:426
+#: apps-src/apps/kdesktop/main.cpp:444
 msgid "Keep aspect ratio"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:427
+#: apps-src/apps/kdesktop/main.cpp:445
 msgid "Partial"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:618
+#: apps-src/apps/kdesktop/main.cpp:672
 msgid "A base task is running. Do you want to stop the task and enter '$module'?"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:620
+#: apps-src/apps/kdesktop/main.cpp:674
 msgid "To enter $module, stop the base task"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:807
+#: apps-src/apps/kdesktop/main.cpp:861
 msgid "$driver failed to create slot. Navigate to '$center' to check the cause."
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:994
+#: apps-src/apps/kdesktop/main.cpp:1014
 msgid "Base node not started"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:998
+#: apps-src/apps/kdesktop/main.cpp:1018
 msgid "Base is in moveable mode"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:1003
+#: apps-src/apps/kdesktop/main.cpp:1023
 msgid "A background task using the camera is currently running"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:1029
+#: apps-src/apps/kdesktop/main.cpp:1049
 msgid "No scenes available to suspend"
 msgstr ""
 
-#: apps-src/apps/kdesktop/main.cpp:1042
+#: apps-src/apps/kdesktop/main.cpp:1062
 msgid "Unable to start scene"
 msgstr ""
 

@@ -36,20 +36,32 @@ public:
 	tbutton& ok2_widget() { return *ok2_widget_; }
 	void set_status_label(const std::string& msg);
 
+	void reload_main_report(treport& report);
+
+	tfloat_widget& flt_upload_widget() { return *flt_upload_widget_; }
 	tfloat_widget& flt_erase_widget() { return *flt_erase_widget_; }
 
-	enum {MSG_SHOW_MESSAGE = POST_MSG_MIN_APP};
+	enum {MSG_SHOW_MESSAGE = POST_MSG_MIN_APP, MSG_DO_COMMENT};
 	struct tmsg_data_show_message: public rtc::MessageData {
 		explicit tmsg_data_show_message(const std::string& msg)
 			: msg(msg)
-		{
-		}
+		{}
 
 		~tmsg_data_show_message()
-		{
-		}
+		{}
 
 		const std::string msg;
+	};
+
+	struct tmsg_data_do_comment: public rtc::MessageData {
+		explicit tmsg_data_do_comment(int mat2_at)
+			: mat2_at(mat2_at)
+		{}
+
+		~tmsg_data_do_comment()
+		{}
+
+		const int mat2_at;
 	};
 
 private:
@@ -84,6 +96,7 @@ private:
 	treport* main_report_;
 	tbutton* ok2_widget_;
 	tlabel* status_widget_;
+	tfloat_widget* flt_upload_widget_;
 	tfloat_widget* flt_erase_widget_;
 };
 

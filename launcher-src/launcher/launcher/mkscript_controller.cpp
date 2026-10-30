@@ -19,6 +19,7 @@
 #include "gui/dialogs/pose_state2.hpp"
 #include "gui/dialogs/speak_state2.hpp"
 #include "gui/dialogs/new_wkoscript.hpp"
+#include "gui/dialogs/action_lib2.hpp"
 #include "gui/widgets/label.hpp"
 #include "gui/widgets/report.hpp"
 #include "gui/widgets/window.hpp"
@@ -123,7 +124,7 @@ std::string handle_browse_file(bool read_only, const std::string& _title, const 
 	if (!ext_name.empty() && utils::file_ext_name(param.result) != ext_name) {
 		utils::string_map symbols;
 		symbols["ext_name"] = ext_name;
-		std::string err = _("The file extension must be '.$ext_name'.");
+		std::string err = vgettext2("The file extension must be '.$ext_name'.", symbols);
 		gui2::show_message("", err);
 		return null_str;
 	}
@@ -1183,7 +1184,12 @@ void mkscript_controller::draw_flowchart_from_script(const std::string& filename
 
     int cols = desire_size.w / zoom;
 	int rows = desire_size.h / zoom;
-
+/*
+	{
+		rows += 8;
+		int ii = 0;
+	}
+*/
     int map_w = map_.w();
     int map_h = map_.h();
 
@@ -3001,51 +3007,60 @@ void mkscript_controller::click_paste_action_tpl()
 
 	aplt::twkoscript& script = tmp_script_;
 	aplt::twkoscript::tstate2& state2 = mutable_state2_from_sel_obj_with_validate();
-
+/*
+	{
+		gui2::taction_lib2 dlg(gui2::taction_lib2::scene_paste, state2.action_tpl2_id);
+		dlg.show();
+		return;
+	}
+*/
+	const aplt::taction_tpl2* p_action_tpl2 = nullptr;
 	if (clipboard_action_tpl2_.valid() && wko_is_pose_state2_from_task_type(state2.task->type)) {
+		enum {from_clipboard, from_action_library, from_count};
 		// why not use to non-pose_state2?
 		// --clipboard save taction_tpl only, no msg.
 		std::string name(_("Clipboard"));
 		name.append(": ");
 		name.append(clipboard_action_tpl2_.name);
 
-		items.push_back(gui2::tmenu::titem(name, action_tpl2s_.size()));
+		items.push_back(gui2::tmenu::titem(name, from_clipboard));
 		items.back().separator = true;
+
+		items.push_back(gui2::tmenu::titem(_("Action library"), from_action_library));
+
+		if (items.empty()) {
+			return;
+		}
+
+		int new_sel = nposm;
+		{
+			gui2::tmenu dlg(items, initial_sel);
+			// dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * twidget::hdpi_scale);
+			dlg.show();
+			if (dlg.get_retval() != gui2::twindow::OK) {
+				return;
+			}
+
+			new_sel = dlg.selected_val();
+		}
+		if (new_sel == from_clipboard) {
+			p_action_tpl2 = &clipboard_action_tpl2_;
+		}
 	}
 
-	int action_tlp2_at = 0;
-	for (std::map<std::string, aplt::taction_tpl2>::const_iterator it = action_tpl2s_.begin(); it != action_tpl2s_.end(); ++ it, action_tlp2_at ++) {
-		const aplt::taction_tpl2& action_tpl = it->second;
-		items.push_back(gui2::tmenu::titem(action_tpl.name2(), action_tlp2_at));
-	}
-
-	if (items.empty()) {
-		return;
-	}
-
-	int new_sel = nposm;
-	{
-		gui2::tmenu dlg(items, initial_sel);
-		// dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * twidget::hdpi_scale);
+	if (p_action_tpl2 == nullptr) {
+		gui2::taction_lib2 dlg(gui2::taction_lib2::scene_paste, state2.action_tpl2_id);
 		dlg.show();
 		if (dlg.get_retval() != gui2::twindow::OK) {
 			return;
 		}
+		
+		std::string curr_sel_id  = dlg.get_curr_sel_id();
+		VALIDATE(action_tpl2s_.count(curr_sel_id) != 0, null_str);
 
-		new_sel = dlg.selected_val();
+		p_action_tpl2 = &action_tpl2s_.find(curr_sel_id)->second;
 	}
 
-	const aplt::taction_tpl2* p_action_tpl2 = nullptr;
-	if (new_sel < (int)action_tpl2s_.size()) {
-		std::map<std::string, aplt::taction_tpl2>::const_iterator sel_it = action_tpl2s_.begin();
-		if (new_sel != 0) {
-			std::advance(sel_it, new_sel);
-		}
-		p_action_tpl2 = &sel_it->second;
-
-	} else {
-		p_action_tpl2 = &clipboard_action_tpl2_;
-	}
 	script.apply_action_tpl2(state2, *p_action_tpl2);
 
 	sel_obj_->obj->fresh_2surf(sel_obj_->rect.w, sel_obj_->rect.h);

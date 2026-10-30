@@ -165,6 +165,7 @@ typedef std::function<bool (const std::string& dir, const SDL_dirent2* dirent)> 
 //    must after FindClose. If delete, call SHFileOperation.
 LIB3RDPARTY_DECL bool walk_dir(const std::string& rootdir, bool subfolders, const twalk_dir_function& fn);
 
+LIB3RDPARTY_DECL void collect_curr_dir_dirs(const std::string& root, std::set<std::string>& files, bool include_root);
 
 //
 // === *.rsp section ===

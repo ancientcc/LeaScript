@@ -216,16 +216,16 @@ void tinsert_scene::did_input_vars_changed()
 		valid = !new_name.empty();
 	}
 
-	// if (valid && scene.valid()) {
+	if (!new_name.empty()) {
+		scene.set_name(new_name, true);
+	}
+
 	if (valid) {
+		// Before calling 'scene.get_id()', 'scene.name_' must not be empty.
 		std::string scene_id = scene.get_id();
 		if (!scene_id.empty() && cfg_cpp_api_.base_scene_from_id(scene_id, false) != nullptr) {
 			valid = false;
 		}
-	}
-
-	if (!new_name.empty()) {
-		scene.set_name(new_name, true);
 	}
 
 	input_vars_widget_->set_label(scene.join_input_vars());

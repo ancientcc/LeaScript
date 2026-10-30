@@ -226,6 +226,22 @@ void tapplet::clear_vars(ttask_vars& task_vars, const std::string& task_id, bool
 	}
 }
 
+std::string tapplet::wkoscript_dir(bool res) const
+{
+	if (res) {
+		return res_path + "/wkoscript";
+	}
+	return preferences_dir + "/wkoscript";
+}
+
+std::string tapplet::wkocourse_dir(bool res) const
+{
+	if (res) {
+		return res_path + "/wkocourse";
+	}
+	return preferences_dir + "/wkocourse";
+}
+
 tapplet fake_aplt;
 
 const std::string fake_task_id_empty = "empty_";
@@ -2264,11 +2280,18 @@ void twkocourse_enroll::to_cfg(config& cfg) const
 
 	cfg["id"].from_string(id, true);
 	cfg["aplt"].from_string(aplt, true);
+	if (price != WKO_PRICE_0) {
+		cfg["price"].from_int(price);
+	}
 
 	cfg["purchase"].from_int64(purchase);
 
 	if (active != nposm) {
 		cfg["active"].from_int64(active);
+	}
+
+	if (active_day_at != WKO_DFLT_ACTIVE_DAY_AT) {
+		cfg["active_day_at"].from_int(active_day_at);
 	}
 }
 
@@ -2287,6 +2310,8 @@ bool twkocourse_enroll::from_cfg(const config& cfg)
 		return false;
 	}
 
+	price = cfg["price"].to_int(WKO_PRICE_0);
+
 	purchase = cfg["purchase"].to_int64(nposm);
 	if (purchase == nposm) {
 		return false;
@@ -2294,22 +2319,32 @@ bool twkocourse_enroll::from_cfg(const config& cfg)
 
 	active = cfg["active"].to_int64(nposm);
 
+	active_day_at = cfg["active_day_at"].to_int(WKO_DFLT_ACTIVE_DAY_AT);
+
+#define WKO_MAX_TOTAL_DAYS	90
+	if (active != nposm || active_day_at < 0 || active_day_at >= WKO_MAX_TOTAL_DAYS) {
+		// Correct possible contamination of 'active_day_at'.
+		active_day_at = WKO_DFLT_ACTIVE_DAY_AT;
+	}
+
 	id2 = utils::join_app_prefix_id(aplt, id);
 	destruct_executor.cancel_execute();
 	return true;
 }
 
-void twkocourse_enroll::do_purchase(const std::string& _aplt, const std::string& _id)
+void twkocourse_enroll::do_purchase(const std::string& _aplt, const std::string& _id, int _price)
 {
 	// aplt::twkocourse_enroll& enroll = ins.first->second;
 	VALIDATE(is_bundleid(_aplt), null_str);
 	VALIDATE(!_id.empty(), null_str);
+	VALIDATE(_price >= 0, null_str);
 
 	clear();
 
 	id = _id;
 	aplt = _aplt;
 	id2 = utils::join_app_prefix_id(aplt, id);
+	price = _price;
 	purchase = time(nullptr);
 }
 
@@ -2319,7 +2354,24 @@ void twkocourse_enroll::do_active()
 	VALIDATE(valid(), null_str);
 	VALIDATE(active == nposm, null_str);
 
-	active = time(nullptr);
+	VALIDATE(active_day_at >= 0, null_str);
+	active = time(nullptr) - active_day_at * ONE_DAY_SECONDS;
+
+	active_day_at = 0;
+}
+
+std::string health_dat_filename_from_ts(time_t t)
+{
+	const struct tm* timeptr = localtime(&t);
+	if (timeptr == nullptr) {
+		// if t is too lareg, for error with ms unit, timeptr maybe nullptr.
+		// return null_str;
+		VALIDATE(false, null_str);
+	}
+
+	char buf[512];
+	SDL_snprintf(buf, sizeof(buf), "health%04d%02d%02d.dat", 1900 + timeptr->tm_year, timeptr->tm_mon + 1, timeptr->tm_mday);
+	return buf;
 }
 
 }

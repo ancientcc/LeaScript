@@ -35,7 +35,7 @@ public:
 #define is_valid_grace_period_days(days)	((days) >= WKO_MIN_GRACE_PERIOD_DAYS && (days) <= WKO_MAX_GRACE_PERIOD_DAYS)
 
 #define WKOCOURSE_MIN_PRICE		0
-#define WKOCOURSE_MAX_PRICE		1000
+#define WKOCOURSE_MAX_PRICE		100000
 #define WKOCOURSE_DFLT_PRICE	0
 #define is_valid_wkocourse_price(price)	((price) >= WKOCOURSE_MIN_PRICE && (price) <= WKOCOURSE_MAX_PRICE)
 
@@ -46,8 +46,8 @@ public:
 
 
 	enum {typeid_course, typeid_day, typeid_workout};
-	enum {fid_typeself, fid_id, fid_title, fid_description, fid_author, fid_reference, fid_total_days, fid_grace_period_days, 
-		fid_price, fid_currency, fid_days,
+	enum {fid_typeself, fid_id, fid_title, fid_description, fid_author, fid_reference, fid_prerequisite, 
+		fid_total_days, fid_grace_period_days, fid_price, fid_currency, fid_days,
 		fid_workouts, fid_aplt, fid_note, fid_rounds
 	};
 
@@ -159,6 +159,8 @@ public:
 	};
 
 public:
+	static std::string id_to_filename(const std::string& _id);
+
 	twkocourse()
 	{
 		clear();
@@ -194,6 +196,7 @@ public:
 		author.clear();
 		description.clear();
 		reference.clear();
+		prerequisite.clear();
 
 		total_days = nposm;
 		grace_period_days = nposm;
@@ -251,10 +254,13 @@ public:
 	std::string author;
 	std::string description;
 	std::string reference;
+	std::string prerequisite;
 	int total_days;
 	int grace_period_days;
 	int price;
 	std::string currency;
+	version_info version;
+
 	std::vector<tday> days;
 };
 

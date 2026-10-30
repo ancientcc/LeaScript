@@ -20,9 +20,11 @@
 #include "gettext.hpp"
 #include "wkoscript.hpp"
 
+#include <boost/foreach.hpp>
+
 using namespace std::placeholders;
 
-extern void collect_health_files(const std::string& saves_health_dir, int max_days, bool valid, std::set<std::string>& filenames);
+extern void collect_health_files(const std::string& saves_health_dir, int max_days, bool valid, bool bak_is_valid, std::set<std::string>& filenames);
 
 // #include <time.h>   // clock_gettime
 // #include <stdio.h>
@@ -374,8 +376,11 @@ void thealth::upgrade_health_file(const std::string& filename)
 	writer.write();
 }
 
-thealth::thealth()
-	: health_dir_(game_config::preferences_dir + "/saves/health")
+thealth::thealth(const std::string& launcher_user_dir)
+	: launcher_user_dir_(launcher_user_dir)
+	, me_health_dir_(game_config::preferences_dir + "/saves/health")
+	, curr_health_dir_(me_health_dir_)
+	, slash_health_("/health")
 	, max_save_days_(30)
 	, max_parse_workouts_(20)
 	, backup_type_(backup_on_fixed_delay)
@@ -390,11 +395,12 @@ thealth::thealth()
 	, health_dat_dirty_(false)
 	, write_file_helper_(sizeof(uint8_t))
 {
+	VALIDATE(me_health_dir_.rfind(slash_health_) == me_health_dir_.size() - slash_health_.size(), null_str);
 /*
 	{
 		int max_days = max_save_days_;
 		std::set<std::string> filenames;
-		collect_health_files(health_dir_, max_days, true, filenames);
+		collect_health_files(health_dir_, max_days, true, false, filenames);
 
 		for (std::set<std::string>::const_iterator it = filenames.begin(); it != filenames.end(); ++ it) {
 			const std::string& file = *it;
@@ -413,7 +419,7 @@ thealth::thealth()
 	const time_t t = time(nullptr);
 
 	thealth_result result;
-	load_health_dat(t, result);
+	load_health_dat(true, t, result);
 
 	int64_t today_0h0m0s = utils::calculate_0h0m0s_ts(t);
 	if (result.valid() && result.start_of_today == today_0h0m0s) {
@@ -440,16 +446,25 @@ thealth::~thealth()
 	// }
 }
 
-const std::string thealth::health_dat_filename(time_t t) const
+const std::string thealth::health_dat_filename(bool is_me, time_t t) const
 {
+	std::string result = is_me? me_health_dir_: curr_health_dir_;
+	result.append("/" + health_dat_filename_from_ts(t));
+
+	return result;
+/*
 	const struct tm* timeptr = localtime(&t);
 	if (timeptr == nullptr) {
 		// if t is too lareg, for error with ms unit, timeptr maybe nullptr.
 		return null_str;
 	}
+
+	const std::string& health_dir = is_me? me_health_dir_: curr_health_dir_;
+
 	char buf[512];
-	SDL_snprintf(buf, sizeof(buf), "%s/health%04d%02d%02d.dat", health_dir_.c_str(), 1900 + timeptr->tm_year, timeptr->tm_mon + 1, timeptr->tm_mday);
+	SDL_snprintf(buf, sizeof(buf), "%s/health%04d%02d%02d.dat", health_dir.c_str(), 1900 + timeptr->tm_year, timeptr->tm_mon + 1, timeptr->tm_mday);
 	return buf;
+*/
 }
 
 void thealth::slice()
@@ -728,7 +743,7 @@ void thealth::health_push_str_event(int type, int ctx, const std::string& str, c
 		int wkoscript_index = it->second;
 		int seconds_since0 = health_push_n32_event(workoutevt_n32, workoutn32_wkoscript_index_min + wkoscript_index);
 		VALIDATE(seconds_since0 != nposm, null_str);
-		push_wko_tlv_history(h_.start_of_today, seconds_since0, id, aplt, final_state_at, h_);
+		push_wko_tlv_history(true, h_.start_of_today, seconds_since0, id, aplt, final_state_at, h_);
 
 		move_unzip_workout_to_zip_today();
 		health_push_n32_to_unzip_workout(wkotype_start, seconds_since0);
@@ -803,13 +818,18 @@ void thealth::health_push_n32_to_unzip_workout(uint8_t type, int ctx)
 }
 
 // if @start_s is nposm, find last twko_tlv_history.
-twko_tlv_history_C thealth::find_wko_history(int start_s) const
+twko_tlv_history_C thealth::find_wko_history(const thealth_result& h, int start_s, int* p_offset) const
 {
-	const uint8_t* ptr = h_.workout_tlvs.data;
-	int remaining = h_.workout_tlvs.vsize;
+	const uint8_t* ptr = h.workout_tlvs.data;
+	int remaining = h.workout_tlvs.vsize;
 
 	twko_tlv_history_C result = {0};
 	init_wko_tlv_history(result);
+
+	int offset = nposm;
+	if (p_offset != nullptr) {
+		*p_offset = nposm;
+	}
 
 	twko_tlv_header_C header;
 	while (remaining >= sizeof(header)) { // Ensure that both T and L can be read.
@@ -831,8 +851,12 @@ twko_tlv_history_C thealth::find_wko_history(int start_s) const
 			}
 			
 			const twko_tlv_history_C* hist = (twko_tlv_history_C*)ptr;
+			offset = ptr - h.workout_tlvs.data;
 			memcpy(&result, hist, sizeof(twko_tlv_history_C));
 			if (start_s == hist->seconds_since0) {
+				if (p_offset != nullptr) {
+					*p_offset = offset;
+				}
 				return result;
 			}
 		}
@@ -844,6 +868,9 @@ twko_tlv_history_C thealth::find_wko_history(int start_s) const
 
 	if (start_s != nposm) {
 		result.seconds_since0 = nposm;
+
+	} else if (p_offset != nullptr) {
+		*p_offset = offset;
 	}
 	return result;
 }
@@ -901,9 +928,11 @@ std::string extract_workout_type(const std::string& id1)
 	return id1.substr(0, len1);
 }
 
-twko_tlv_history_C thealth::get_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, 
+twko_tlv_history_C thealth::get_wko_tlv_history(bool force_me, int64_t start_of_today, int wko_seconds_since0, 
 	const std::string& wkoscript_id, const std::string& aplt) const
 {
+	VALIDATE(force_me, "now must not call 'migrate_health_dat_for_history', so 'force_me' always is true");
+
 	VALIDATE(!wkoscript_id.empty(), null_str);
 	VALIDATE(is_bundleid(aplt), null_str);
 
@@ -916,7 +945,7 @@ twko_tlv_history_C thealth::get_wko_tlv_history(int64_t start_of_today, int wko_
 	twkoscript script;
 	const aplt::thealth::tworkout_result2* hit_workout_result2 = nullptr;
 	for (int day = -1; day < max_days; day ++) {		
-		load_health_data_4_report(start_of_today - (day + 1) * ONE_DAY_SECONDS, result2);
+		load_health_data_4_report_internal(force_me, start_of_today - (day + 1) * ONE_DAY_SECONDS, result2);
 		bool retbool = result2.valid();
 
 		const int64_t desire_start_of_this_day = start_of_today - (day + 1) * ONE_DAY_SECONDS;
@@ -997,21 +1026,30 @@ twko_tlv_history_C thealth::get_wko_tlv_history(int64_t start_of_today, int wko_
 	// @id/aplt save that value: lea_plank_cobraflow/aplt.leagor.khomelua
 	// This time, the entire @history.id/history.aplt must be set to 0 first, then copied.
 	// if don't 'set to 0', old'@id is 'lea_plank_cobraflow', new @id is 'lea_plank', will resul to keep 'lea_plank_cobraflow'.
+
+	// 'static_assert' is assert when compile.
+	static_assert(sizeof(twko_tlv_history_C) - offsetof(twko_tlv_history_C, id) == 204,
+              "non-history area size changed, check memset range!");
+
+	// Clear the non-history area (id, aplt, final_state_at, comment, reserved5).
+	memset(&history.id, 0, sizeof(twko_tlv_history_C) - offsetof(twko_tlv_history_C, id));
+	history.final_state_at = nposm;
+
 	VALIDATE(wkoscript_id.size() < sizeof(history.id), null_str);
-	memset(history.id, 0, sizeof(history.id));
+	// memset(history.id, 0, sizeof(history.id));
 	memcpy(history.id, wkoscript_id.c_str(), wkoscript_id.size());
 
 	VALIDATE(aplt.size() < sizeof(history.aplt), null_str);
-	memset(history.aplt, 0, sizeof(history.aplt));
+	// memset(history.aplt, 0, sizeof(history.aplt));
 	memcpy(history.aplt, aplt.c_str(), aplt.size());
 
 	return history;
 }
 
-void thealth::push_wko_tlv_history(int64_t start_of_today, int wko_seconds_since0, 
+void thealth::push_wko_tlv_history(bool force_me, int64_t start_of_today, int wko_seconds_since0, 
 	const std::string& wkoscript_id, const std::string& aplt, int final_state_at, thealth_result& h) const
 {
-	twko_tlv_history_C history = get_wko_tlv_history(start_of_today, wko_seconds_since0, wkoscript_id, aplt);
+	twko_tlv_history_C history = get_wko_tlv_history(force_me, start_of_today, wko_seconds_since0, wkoscript_id, aplt);
 	VALIDATE(wko_tlv_history_is_valid(history), null_str);
 
 	history.final_state_at = final_state_at;
@@ -1027,8 +1065,9 @@ bool thealth::migrate_health_dat_for_history(const std::string& filename) const
 		return false;
 	}
 
+	bool force_me = false;
 	aplt::thealth::thealth_result result;
-	load_health_dat(t, result);
+	load_health_dat(force_me, t, result);
 	if (!result.valid()) {
 		return false;
 	}
@@ -1057,7 +1096,7 @@ bool thealth::migrate_health_dat_for_history(const std::string& filename) const
 		if (id != "leagor_pushup") {
 			// continue;
 		}
-		push_wko_tlv_history(result2.start_of_today, workout.start_s, id, "aplt.leagor.khomelua", nposm, result);
+		push_wko_tlv_history(force_me, result2.start_of_today, workout.start_s, id, "aplt.leagor.khomelua", nposm, result);
 
 		// Allow later workout on the same day to use it.
 		int backup_type = nposm;
@@ -1066,6 +1105,111 @@ bool thealth::migrate_health_dat_for_history(const std::string& filename) const
 	}
 
 	return true;
+}
+
+std::string thealth::wkorevise_import(const twkorevise& revise) const
+{
+	VALIDATE_IN_MAIN_THREAD();
+
+	std::string revise_id2 = utils::join_app_prefix_id(revise.aplt, revise.id);
+
+	aplt::thealth::thealth_result result;
+	thealth_result2 result2;
+
+	bool force_me = true;
+	VALIDATE(force_me, null_str);
+	std::string err_msg;
+
+	if (revise.obj_type == twkorevise::objtype_health_dat) {
+		std::string fans_dir = launcher_user_dir_ + "/__fans";
+		std::string uid_dir = fans_dir + "/11112__ancientcc";
+		SDL_MakeDirectory(uid_dir.c_str());
+
+		std::string src = health_dat_filename(force_me, revise.ts);
+		std::string dest = uid_dir + "/" + revise.msg;
+		if (!SDL_IsFile(src.c_str())) {
+			return _("Cannot load healxxxxxx.dat.");
+		}
+		SDL_CopyFiles(src.c_str(), dest.c_str());
+		return null_str;
+	}
+
+	VALIDATE(revise.obj_type == twkorevise::objtype_wkoscript, null_str);
+	load_health_dat(force_me, revise.ts, result);
+	if (!result.valid()) {
+		return _("Cannot load healxxxxxx.dat.");
+	}
+
+	bool retbool = health_result_to_result2(result, result2);
+
+	const aplt::thealth::tworkout_result2* hit_workout = nullptr;
+	for (int workout_at = 0; retbool && workout_at < (int)result2.workouts.size(); workout_at ++) {
+		const aplt::thealth::tworkout_result2& workout = result2.workouts[workout_at];
+		int64_t ts = workout.start_of_today + workout.start_s;
+		if (revise.ts != ts) {
+			continue;
+		}
+			
+		const std::string id2 = utils::join_app_prefix_id(workout.aplt, workout.id);
+		if (revise_id2 != id2) {
+			continue;
+		}
+		hit_workout = &workout;
+	}
+
+	if (hit_workout == nullptr) {
+		return _("No workout in healthxxxxxx.dat.");
+	}
+
+	bool dirty = false;
+
+	if (revise.op_type == twkorevise::optype_comment) {
+		int offset = nposm;
+		find_wko_history(result, hit_workout->start_s, &offset);
+		if (offset != nposm) {
+			VALIDATE(offset < result.workout_tlvs.vsize, null_str);
+			uint8_t* ptr = result.workout_tlvs.data + offset;
+				
+			twko_tlv_history_C* hist = (twko_tlv_history_C*)ptr;
+			memset(hist->comment, 0, sizeof(hist->comment));
+			std::string msg = utils::truncate_to_max_bytes2(revise.msg, WKO_MAX_COMMENTBYTES, false);
+			memcpy(hist->comment, msg.c_str(), msg.size());
+
+			dirty = true;
+		}
+	}
+
+	if (dirty) {
+		const std::string filename = health_dat_filename(force_me, hit_workout->start_of_today);
+		int backup_type = nposm;
+		tsha1writer writer(filename, backup_type, std::bind(&thealth::did_write_health_dat, this, _1, std::ref(result)));
+		writer.write();
+
+	} else {
+		return _("Specifying operation is not supported.");
+	}
+
+	return null_str;
+}
+
+bool thealth::wkorevise_import_from_string(const std::string& str) const
+{
+	twkorevise revise;
+	revise.from_string(str);
+	if (!revise.valid()) {
+		return false;
+	}
+	return wkorevise_import(revise).empty()? true: false;
+}
+
+bool thealth::wkorevise_import_from_file(const std::string& filename) const
+{
+	twkorevise revise;
+	revise.from_file(filename);
+	if (!revise.valid()) {
+		return false;
+	}
+	return wkorevise_import(revise).empty()? true: false;
 }
 
 void thealth::set_health_dirty(bool write_immediately)
@@ -1150,10 +1294,8 @@ void thealth::write_health_dat()
 {
 	VALIDATE(health_dat_dirty_, null_str);
 	VALIDATE(h_.start_of_today > 0, null_str);
-/*
-	tsha1writer writer(health_dat_filename(time(nullptr)), backup_type_, std::bind(&thealth::did_write_health_dat, this, _1, std::ref(h_)));
-*/
-	tsha1writer writer(health_dat_filename(h_.start_of_today), backup_type_, std::bind(&thealth::did_write_health_dat, this, _1, std::ref(h_)));
+
+	tsha1writer writer(health_dat_filename(true, h_.start_of_today), backup_type_, std::bind(&thealth::did_write_health_dat, this, _1, std::ref(h_)));
 
 	writer.write();
 
@@ -1218,7 +1360,7 @@ bool thealth::did_load_health_dat(tfile& file, int64_t dsize, thealth_result& re
 	return true;
 }
 
-void thealth::load_health_dat(time_t t, thealth_result& result) const
+void thealth::load_health_dat(bool force_me, time_t t, thealth_result& result) const
 {
 	VALIDATE_IN_MAIN_THREAD();
 /*
@@ -1230,7 +1372,7 @@ void thealth::load_health_dat(time_t t, thealth_result& result) const
 			load_again = bool_set_false;
 		}
 */
-		const std::string filename = health_dat_filename(t);
+		const std::string filename = health_dat_filename(force_me, t);
 		{
 			result.clear();
 			// make sure after 'reader.read', this file is closed.
@@ -1314,7 +1456,7 @@ bool thealth::move_unzip_workout_to_zip(thealth_result& result) const
 		// set_health_dirty(write_immediately);
 
 	} else {
-		std::string filename = health_dat_filename(result.start_of_today);
+		std::string filename = health_dat_filename(true, result.start_of_today);
 		tsha1writer writer(filename, backup_type_, std::bind(&thealth::did_write_health_dat, this, _1, std::ref(result)));
 		writer.write();
 	}
@@ -1553,13 +1695,13 @@ void thealth::pre_health_data_4_report(const thealth_result& result, std::vector
 	}
 }
 
-bool thealth::load_health_data_4_report(time_t t, thealth_result2& result2) const
+bool thealth::load_health_data_4_report_internal(bool is_me, time_t t, thealth_result2& result2) const
 {
 	VALIDATE_IN_MAIN_THREAD();
 	result2.clear();
 
 	thealth_result result;
-	load_health_dat(t, result);
+	load_health_dat(is_me, t, result);
 	if (!result.valid()) {
 		return false;
 	}
@@ -2047,6 +2189,7 @@ bool thealth::health_result_to_result2(const thealth_result& result, thealth_res
 
 			workout.id.assign(workout.history.id, SDL_strlen(workout.history.id));
 			workout.aplt.assign(workout.history.aplt, SDL_strlen(workout.history.aplt));
+			workout.comment = utils::truncate_to_max_bytes(workout.history.comment, nposm, WKO_MAX_COMMENTBYTES);
 
 		} else {
 			VALIDATE(workout.id.empty(), null_str);

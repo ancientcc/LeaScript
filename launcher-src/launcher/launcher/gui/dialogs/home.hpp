@@ -27,7 +27,8 @@ public:
 
 	thome(gui2::trstore::tslot& slot, net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, 
 		std::map<aplt::taplt_key, aplt::tapplet>& applets, tdrivers& drivers, tbase_driver& base_driver, 
-		tspeech_driver& speech_driver, tiot_driver& iot_driver, const SDL_OsInfo& os_info, aplt::thealth& health);
+		tspeech_driver& speech_driver, tiot_driver& iot_driver, const SDL_OsInfo& os_info,
+		aplt::thealth& health, net::truser& current_user);
 
 private:
 	/** Inherited from tdialog. */
@@ -45,6 +46,8 @@ private:
 	void click_update_sn(tbutton& widget);
 	void click_update_blepassword(tbutton& widget);
 	void click_upgrade_app(tbutton& widget);
+	bool did_verify_mass_send(const std::string& label) const;
+	void click_mass_send(tbutton& widget);
 	
 	void refresh_pinyin_label();
 	void click_upgrade_pinyin(tbutton& widget);
@@ -75,6 +78,7 @@ private:
 	tiot_driver& iot_driver_;
 	const SDL_OsInfo& os_info_;
 	aplt::thealth& health_;
+	net::truser& current_user_;
 	const std::string peripheral_name_;
 	const int manufacturer_id_;
 	uint32_t start_ticks_;

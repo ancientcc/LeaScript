@@ -71,8 +71,9 @@ private:
 	void handle_file_menu(int sel);
 	bool handle_pre_save();
 	void click_save();
-	SDL_Size do_save_image(bool todo, std::map<std::string, aplt::twkoscript>& scripts, surface* p_surf) const;
-	void click_share();
+	SDL_Size do_save_image(bool todo, int header_tail_truncate_days, std::map<std::string, aplt::twkoscript>& scripts, surface* p_surf) const;
+	std::string do_save_csv() const;
+	void click_share(tbutton& widget);
 
 	void update_edittype_course_ui(int type);
 
@@ -90,7 +91,7 @@ private:
 
 private:
 	std::map<aplt::taplt_key, aplt::tapplet>& applets_;
-	enum {file_new_from_benchmark, file_new_empty, file_open, file_save_as, file_exit};
+	enum {file_new_from_csv, file_new_empty, file_open, file_save_as, file_exit};
 	const std::map<int, std::string> file_ops_;
 	const std::vector<tcode3> edit_widget_ids_;
 	const std::vector<tcode3> btn_widget_ids_;

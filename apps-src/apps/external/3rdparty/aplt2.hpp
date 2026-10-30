@@ -236,6 +236,9 @@ public:
 		output_vars.clear();
 	}
 
+	std::string wkoscript_dir(bool res) const;
+	std::string wkocourse_dir(bool res) const;
+
 public:
 	int source; // src_studio
 	std::string bundleid; // aplt.leagor.basic
@@ -1432,12 +1435,17 @@ LIB3RDPARTY_DECL uint16_t split_log_tokens(uint64_t tokens, int* input_ptr, int*
 //
 // twkocourse_enroll
 //
+#define WKO_DFLT_ACTIVE_DAY_AT	0
+#define WKO_PRICE_0				0
+
 class DECLSPEC twkocourse_enroll
 {
 public:
 	twkocourse_enroll()
-		: purchase(nposm)
+		: price(WKO_PRICE_0)
+		, purchase(nposm)
 		, active(nposm)
+		, active_day_at(WKO_DFLT_ACTIVE_DAY_AT)
 	{
 	}
 
@@ -1451,7 +1459,7 @@ public:
 	void to_cfg(config& cfg) const;
 	bool from_cfg(const config& cfg);
 
-	void do_purchase(const std::string& aplt, const std::string& id);
+	void do_purchase(const std::string& aplt, const std::string& id, int price);
 	void do_active();
 
 	int64_t calc_force_active(int grace_period_days) const
@@ -1473,13 +1481,31 @@ public:
 		return result;
 	}
 
+	bool can_erase(int total_days) const
+	{
+		if (price == WKO_PRICE_0) {
+			return true;
+		}
+
+		if (active != nposm) {
+			int64_t expire_ts = calc_expire(total_days);
+			return time(nullptr) > expire_ts;
+		}
+		return false;
+	}
+
 	void clear()
 	{
 		id.clear();
 		aplt.clear();
 		id2.clear();
+		price = WKO_PRICE_0;
+
 		purchase = nposm;
 		active = nposm;
+		
+
+		active_day_at = WKO_DFLT_ACTIVE_DAY_AT;
 	}
 
 	std::string id_to_filename() const
@@ -1495,15 +1521,21 @@ public:
 	std::string id;
 	std::string aplt;
 	std::string id2;
+	int price;
 
 	time_t purchase;
 	time_t active;
+
+	// Only applicable to extension courses.
+	int active_day_at;
 };
 
 //
 // health
 //
 #define MAX_HEALTH_DAYS 30
+
+LIB3RDPARTY_DECL std::string health_dat_filename_from_ts(time_t t);
 
 #define WKO_MAX_PHASE_COUNT		2
 

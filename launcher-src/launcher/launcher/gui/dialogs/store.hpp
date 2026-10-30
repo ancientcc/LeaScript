@@ -20,12 +20,18 @@
 #include "gui/dialogs/statusbar.hpp"
 #include "base_driver.hpp"
 
+#include "wkocourse.hpp"
+
 class tdrivers;
 class tinstance_slot;
 
 namespace aplt {
 class tcfg_cpp_api;
+class twkocourse_enroll;
+class twkocourse;
 }
+
+void wkocourse_enrolls_to_courses(const std::map<std::string, aplt::twkocourse_enroll>& enrolls, std::map<std::string, aplt::twkocourse>& wkocourses);
 
 namespace gui2 {
 class tpanel;
@@ -34,60 +40,34 @@ class tstore_slot: public trstore::tslot, public tstatusbar
 {
 public:
 	tstore_slot(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, std::map<aplt::taplt_key, aplt::tapplet>& applets, aplt::tbg_task& bg_task, aplt::tcfg_cpp_api& cfg_cpp_api, tdrivers& drivers,
-		tbase_driver& base_driver, /*const std::function<void (const std::string&)>& did_applet_will_uninstall*/tinstance_slot& instance_slot);
+		tbase_driver& base_driver, tinstance_slot& instance_slot,
+		const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls, std::map<std::string, aplt::twkocourse>& wkocourses);
 
 private:
 	void rstore_pre_show(twindow& window, tpanel& statusbar_widget) override;
 	void rstore_post_show(twindow& window) override;
 	void rstore_timer_handler(twindow& window, uint32_t now) override;
 	bool rstore_show_confirm_install(int type, const std::string& bundleid) override;
-	// void rstore_did_applet_installed(const aplt::tapplet& applet) override;
+	void rstore_did_applet_installed(const aplt::tapplet& applet) override
+	{
+		wkocourse_enrolls_to_courses(wkocourse_enrolls_, wkocourses_);
+	}
+
 	bool rstore_show_confirm_uninstall(const aplt::tapplet& aplt) override;
 	// void rstore_did_applet_will_uninstall(int source, const std::string& bundleid, const std::string& res_path) override;
-	// void rstore_did_applet_uninstalled(int source, const std::string& bundleid) override;
+	void rstore_did_applet_uninstalled(int source, const std::string& bundleid) override
+	{
+		wkocourse_enrolls_to_courses(wkocourse_enrolls_, wkocourses_);
+	}
 
 	// void did_applet_installed_or_uninstalled(int source, const std::string& bundleid);
 	void rstore_nullptr_slot_for_aplt_drivers(const aplt::tapplet& aplt) override;
 
 private:
-	// std::map<aplt::taplt_key, aplt::tapplet>& applets_;
-	// aplt::tbg_task& bg_task_;
-	// aplt::tcfg_cpp_api& cfg_cpp_api_;
-	// tbase_driver& base_driver_;
-	// tdrivers& drivers_;
-	// std::function<void (const std::string&)> did_applet_will_uninstall_;
 	tinstance_slot& instance_slot_;
-/*
-	struct tuninstall_point
-	{
-		tuninstall_point()
-			: subtask_state(nposm)
-		{}
 
-		void set(const std::string& _scene_id, int _subtask_state)
-		{
-			VALIDATE(!_scene_id.empty() && _subtask_state == aplt::sts_idle || _subtask_state == aplt::sts_ing, null_str);
-			scene_id = _scene_id;
-			subtask_state = _subtask_state;
-		}
-
-		void clear()
-		{
-			scene_id.clear();
-			subtask_state = nposm;
-		}
-
-		void validate_nposm() const
-		{
-			VALIDATE(scene_id.empty(), null_str);
-			VALIDATE(subtask_state == nposm, null_str);
-		}
-
-		std::string scene_id;
-		int subtask_state;
-	};
-	tuninstall_point uninstall_point_;
-*/
+	const std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls_;
+	std::map<std::string, aplt::twkocourse>& wkocourses_;
 };
 
 

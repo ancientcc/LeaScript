@@ -10,13 +10,15 @@
 #include "game_config.hpp"
 #include "net.hpp"
 #include "rose_version.hpp"
-
+#include "base_driver_core.hpp"
+#include "wkoscript.hpp"
 
 
 namespace gui2 {
 
-tkeepalive::tkeepalive()
-	: status_widget_(nullptr)
+tkeepalive::tkeepalive(const tbase_driver_core& base_driver)
+	: base_driver_(base_driver)
+	, status_widget_(nullptr)
 	, relogin_interval_(10)
 	, next_keepalive_ticks_(0)
 	, next_relogin_ticks_(0)
@@ -134,9 +136,9 @@ void tkeepalive::time_timer_handler(const SDL_Rect& rect)
 
 	const uint32_t now = SDL_GetTicks();
 	if (current_user.valid()) {
-		if (next_keepalive_ticks_ && now >= next_keepalive_ticks_) {
+		if (next_keepalive_ticks_ != 0 && now >= next_keepalive_ticks_) {
 			bool ret = false;
-			int64_t server_event_time;
+			int64_t server_event_time = 0;
 			{
 				gui2::tprogress_default_slot slot(std::bind(&net::cswamp_keepalive, _1, current_user.sessionid, 
 					true, std::ref(server_event_time)));
@@ -146,7 +148,7 @@ void tkeepalive::time_timer_handler(const SDL_Rect& rect)
 			if (ret) {
 				const int64_t local_event_time = preferences::event_time();
 				if (server_event_time > local_event_time) {
-					std::set<trobot_event> events;
+					std::set<aplt::twkoevent> events;
 					int count = nposm;
 					gui2::tprogress_default_slot slot(std::bind(&net::cswamp_getevent, _1, current_user.sessionid, 
 						local_event_time, std::ref(events), std::ref(count), false));
@@ -183,10 +185,12 @@ void tkeepalive::time_timer_handler(const SDL_Rect& rect)
 		}
 	} else if (auto_relogin_) {
 		if (next_relogin_ticks_ && now >= next_relogin_ticks_) {
-			std::string username = preferences::login_username();
+			int username_type = net::cswamp_username_type();
+			std::string username = username_type == net::cswamp_login_usernametype_mobile? 
+				preferences::login_mobile(): preferences::login_username();
 			std::string cookie = preferences::login_pwcookie();
-			if (!username.empty() && !cookie.empty()) {
-				net::cswamp_login2(current_user, net::cswamp_login_type_cookie, username, cookie, nposm, true);
+			if (username_type != nposm && !username.empty() && !cookie.empty()) {
+				net::cswamp_login2(current_user, username_type, net::cswamp_login_passwordtype_cookie, username, cookie, nposm, true);
 			}
 
 			if (current_user.valid()) {

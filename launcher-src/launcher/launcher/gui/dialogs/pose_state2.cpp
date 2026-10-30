@@ -35,7 +35,7 @@ extern std::string handle_browse_file(bool read_only, const std::string& _title,
 	(metric) == aplt::posemetric_left_upper_arm_angle || (metric) == aplt::posemetric_right_upper_arm_angle ||	\
 	(metric) == aplt::posemetric_left_forearm_angle || (metric) == aplt::posemetric_right_forearm_angle ||	\
 	(metric) == aplt::posemetric_left_thigh_angle || (metric) == aplt::posemetric_right_thigh_angle ||	\
-	(metric) == aplt::posemetric_left_lower_leg_angle || (metric) == aplt::posemetric_right_lower_leg_angle ||	\
+	(metric) == aplt::posemetric_left_calf_angle || (metric) == aplt::posemetric_right_calf_angle ||	\
 	(metric) == aplt::posemetric_left_leg_angle || (metric) == aplt::posemetric_right_leg_angle)
 
 #define pose_metric_keep_range(metric) \

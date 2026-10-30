@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rose-lib\n"
 "Report-Msgid-Bugs-To: http://bugs.wesnoth.org/\n"
-"POT-Creation-Date: 2026-09-25 09:05+0800\n"
-"PO-Revision-Date: 2026-09-26 11:37+0800\n"
+"POT-Creation-Date: 2026-10-29 13:50+0800\n"
+"PO-Revision-Date: 2026-10-29 13:51+0800\n"
 "Last-Translator: ancientcc <ancientcc@leagor.com>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: zh_CN\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Bookmarks: -1,-1,-1,3,-1,-1,-1,-1,-1,-1\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #: apps-res/po/cfg-cpp/rose-lib/data.cpp:1
 msgid ""
@@ -31,7 +31,7 @@ msgid ""
 "unchallenged, gaining the same defensive bonus as everyone inside.\n"
 "\n"
 "Most units have about 60% defense "
-msgstr "f"
+msgstr ""
 
 #: apps-res/po/cfg-cpp/rose-lib/data.cpp:6
 msgid ""
@@ -1566,7 +1566,7 @@ msgstr ""
 #: apps-res/po/cfg-cpp/rose-lib/gui.cpp:11
 #: apps-src/apps/librose/gui/dialogs/chat.cpp:1948
 #: apps-src/apps/librose/gui/dialogs/edit_box.cpp:44
-#: apps-src/apps/librose/gui/dialogs/messagefs.cpp:36
+#: apps-src/apps/librose/gui/dialogs/messagefs.cpp:40
 msgid "Cancel"
 msgstr "取消"
 
@@ -1593,7 +1593,7 @@ msgid "Clear"
 msgstr "清空"
 
 #: apps-res/po/cfg-cpp/rose-lib/gui.cpp:23
-#: apps-src/apps/librose/base_instance.cpp:1496
+#: apps-src/apps/librose/base_instance.cpp:1532
 msgid "Close"
 msgstr "关闭"
 
@@ -1632,429 +1632,473 @@ msgid "Discard"
 msgstr ""
 
 #: apps-res/po/cfg-cpp/rose-lib/gui.cpp:41
+msgid "Don't have an account yet?"
+msgstr "还没有账号？"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:43
 msgid "Done"
 msgstr "完成"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:43
-msgid "Download"
-msgstr ""
-
 #: apps-res/po/cfg-cpp/rose-lib/gui.cpp:45
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:205
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5707
+msgid "Download"
+msgstr "下载"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:47
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:194
 msgid "Edit"
 msgstr "编辑"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:47
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:49
 msgid "Edit amp"
 msgstr "编辑放大"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:49
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:51
 msgid "Edit id"
 msgstr "编辑id"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:51
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:652
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:53
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:641
 msgid "Edit input vars"
 msgstr "编辑输入变量"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:53
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:651
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:55
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:640
 msgid "Edit name"
 msgstr "编辑名称"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:55
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:57
 msgid "Endurance"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:57
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:59
 msgid "Erase"
 msgstr "删除"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:59
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:61
 msgid "Execution trace"
 msgstr "执行轨迹"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:61
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:63
 msgid "File name"
 msgstr "文件名"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:63
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:65
 #: apps-src/apps/librose/gui/dialogs/chat.cpp:1991
 msgid "Find"
 msgstr "查找"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:65
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:67
 msgid "Follow"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:67
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:69
+#: apps-src/apps/librose/gui/dialogs/register.cpp:65
+msgid "Forgot password"
+msgstr "忘记密码"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:71
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:375
+msgid "Forgot password?"
+msgstr "忘记密码？"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:73
 msgid "Formula debugger"
 msgstr "公式调试器"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:69
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:75
+#: apps-src/apps/librose/gui/dialogs/register.cpp:75
+#: apps-src/apps/librose/gui/dialogs/register.cpp:277
+msgid "Get"
+msgstr "获取"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:77
 #: apps-src/apps/librose/gui/dialogs/dialog.cpp:408
 msgid "Help"
 msgstr "帮助"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:71
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:79
 msgid "Hero"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:73
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:81
+msgid "I have read and agreed to Sesame User Agreement"
+msgstr ""
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:83
 msgid "I have read and agreed to agreement"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:75
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:85
 msgid "Install development"
 msgstr "安装内测版"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:77
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:87
 msgid "Join"
 msgstr "加入"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:79
-#: apps-src/apps/librose/base_instance.cpp:1453
-#: apps-src/apps/librose/base_instance.cpp:1462
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:89
+#: apps-src/apps/librose/base_instance.cpp:1489
+#: apps-src/apps/librose/base_instance.cpp:1498
 msgid "Language"
 msgstr "语言"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:81
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:91
 msgid "Left1"
 msgstr "左移1"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:83
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:93
 msgid "Limit followed"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:85
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:95
 msgid "Locate block"
 msgstr "定位区块"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:87
-#: apps-src/apps/librose/aplt_net.cpp:1312
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:97
+#: apps-src/apps/librose/aplt_net.cpp:1589
 msgid "Login"
 msgstr "登录"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:89
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:99
 msgid "Login:"
 msgstr "账号："
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:91
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:433
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:101
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:299
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:470
 msgid "Logout"
 msgstr "退出登录"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:93
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:103
 msgid "Look over"
 msgstr "查看"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:95
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2179
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:105
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2300
 msgid "Maximum value"
 msgstr "最大值"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:97
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:107
 msgid "Min users"
 msgstr "最小成员数"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:99
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2177
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:109
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2298
 msgid "Minimum value"
 msgstr "最小值"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:101
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:111
 #: apps-src/apps/librose/gui/dialogs/rdnn.cpp:105
 #: apps-src/apps/librose/gui/dialogs/rdnn.cpp:815
 msgid "Model"
 msgstr "模型"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:103
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:113
 msgid "Multi select"
 msgstr "多选"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:105
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:115
 msgid "NPC"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:107
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:117
 msgid "Netowork diagnosis"
 msgstr "网络诊断"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:109
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:119
 msgid "New folder"
 msgstr "新建文件夹"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:111
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:121
 msgid "Next"
 msgstr "下一步"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:113
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:123
 msgid "Next operation"
 msgstr "下一个操作"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:115
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:125
 msgid "Nick when chat"
 msgstr "聊天时昵称"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:117
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:290
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:816
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:127
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:279
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:805
 #: apps-src/apps/librose/gui/dialogs/message.cpp:251
-#: apps-src/apps/librose/gui/dialogs/messagefs.cpp:35
+#: apps-src/apps/librose/gui/dialogs/messagefs.cpp:39
 #: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:705
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:500
 #: apps-src/apps/librose/gui/dialogs/rstore.cpp:1132
 #: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:192
 #: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:334
-#: apps-src/apps/librose/health_controller.cpp:6416
+#: apps-src/apps/librose/health_controller.cpp:6711
+#: apps-src/apps/librose/health_controller.cpp:7005
 msgid "OK"
 msgstr "确定"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:119
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:129
 msgid "Open"
 msgstr "打开"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:121
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:131
 msgid "Ownership"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:123
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:133
 msgid "Password:"
 msgstr "密码："
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:125
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:135
 #, fuzzy
 #| msgid "Player"
 msgid "Players"
 msgstr "玩家"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:127
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:137
 msgid "Quit"
 msgstr "退出"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:129
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:139
 #: apps-src/apps/librose/gui/dialogs/ocr_scene.cpp:33
 msgid "Recognize"
 msgstr "识别"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:131
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:141
+#: apps-src/apps/librose/aplt_net.cpp:1454
+#: apps-src/apps/librose/gui/dialogs/register.cpp:86
 msgid "Register"
 msgstr "注册"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:143
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:217
+msgid "Register now"
+msgstr "立即注册"
 
 #
 # register, config account
 #
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:133
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:145
 #: apps-src/apps/librose/lobby.cpp:1458
 msgid "Register, config account"
 msgstr "注册、设置账号"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:135
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:147
 msgid "Relay"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:137
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:149
 msgid "Repair"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:139
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:151
 msgid "Require test"
 msgstr "设为测试"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:141
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:153
 msgid "Return"
 msgstr "返回"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:143
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:155
 msgid "Right1"
 msgstr "右移1"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:145
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:157
 msgid "Save"
 msgstr "保存"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:147
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:159
 msgid "Save password to preferences (clear text)"
 msgstr "保存密码（明文）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:149
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:161
 msgid "Select item"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:151
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:163
 msgid "Send"
 msgstr "发送"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:153
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:165
 #: apps-src/apps/librose/gui/widgets/keyboard.cpp:685
 msgid "Space"
 msgstr "空格"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:155
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:167
 #: apps-src/apps/external/3rdparty/wkoscript.cpp:239
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:620
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:609
 msgid "Start"
 msgstr "开始"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:157
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:169
 msgid "Step operation"
 msgstr "步进操作"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:159
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:171
 msgid "Step out"
 msgstr "步出"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:161
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:173
 #: apps-src/apps/librose/gui/dialogs/rdnn.cpp:107
 msgid "Test"
 msgstr "测试"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:163
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:175
 #: apps-src/apps/librose/gui/dialogs/rstore.cpp:181
 msgid "Upgrade"
 msgstr "升级"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:165
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:177
 msgid "Upload"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:167
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:179
 msgid "Validate password"
 msgstr "确认密码"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:169
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:181
 msgid "Welcome"
 msgstr "欢迎"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:171
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:183
 msgid "file^Size"
 msgstr "大小"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:173
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:185
 #: apps-src/apps/librose/gui/widgets/keyboard.cpp:669
 #: apps-src/apps/librose/gui/widgets/keyboard.cpp:671
 msgid "ime^fullwidth"
 msgstr "全角"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:175
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:187
+#: apps-src/apps/librose/aplt_net.cpp:1864
+#: apps-src/apps/librose/gui/dialogs/register.cpp:68
+#: apps-src/apps/librose/gui/dialogs/register.cpp:92
+#: apps-src/apps/librose/gui/dialogs/register.cpp:223
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:285
+msgid "login^Erase user"
+msgstr "注销"
+
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:189
 msgid "misc/arrow_left.png"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:177
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2103
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2167
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:191
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2224
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2288
 #: apps-src/apps/librose/gui/dialogs/rstore.cpp:306
 msgid "object^Name"
 msgstr "名称"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:179
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:193
 msgid "rose__aplt template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:181
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:195
 msgid "rose__chat template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:183
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:197
 msgid "rose__chat_list template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:185
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:199
 msgid "rose__cswamp_login template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:187
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:201
 msgid "rose__input_view template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:189
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:203
 msgid "rose__keyboard template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:191
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:205
 msgid "rose__klink_base_scene template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:193
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:207
 msgid "rose__klink_env_var template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:195
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:209
 msgid "rose__progress_bar template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:197
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:211
 msgid "rose__statusbar template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:199
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:213
 msgid "rose__text_box2 template"
 msgstr ""
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:201
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:215
 msgid "state"
 msgstr "状态"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:203
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:217
 msgid "text^Reset"
 msgstr "重置"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:205
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2105
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:219
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2226
 msgid "wko^action_tpl2_id label"
 msgstr "动作模板ID"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:207
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2151
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:221
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2272
 msgid "wko^phase, action_msg label"
 msgstr "动作提示"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:209
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2155
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:223
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2276
 msgid "wko^phase, cooldowned_ms label"
 msgstr "冷却时长（毫秒）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:211
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2153
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:225
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2274
 msgid "wko^phase, min_duration_ms label"
 msgstr "最小满足时长（毫秒）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:213
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2141
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:227
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2262
 msgid "wko^rep_counter, max_count label"
 msgstr "最大计数（次）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:215
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2127
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:229
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2248
 msgid "wko^satisfied_threshold_s label"
 msgstr "满足提醒延迟（秒）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:217
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2148
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:231
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2269
 msgid "wko^task_speak, min_state_duration_s label"
 msgstr "最小状态时长（秒）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:219
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2144
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:233
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2265
 msgid "wko^task_speak, msgstr label"
 msgstr "语音提示"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:221
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2146
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:235
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2267
 msgid "wko^task_speak, repeat_s label"
 msgstr "重复间隔（秒）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:223
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2138
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:237
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2259
 msgid "wko^time_counter, max_count label"
 msgstr "最大计时（秒）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:225
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2113
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:239
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2234
 msgid "wko^unsatisfied_2th_threshold_s label"
 msgstr "不满足再次提醒延迟（秒）"
 
-#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:227
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2111
+#: apps-res/po/cfg-cpp/rose-lib/gui.cpp:241
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2232
 msgid "wko^unsatisfied_threshold_ms label"
 msgstr "满足到不满足延迟（毫秒）"
 
@@ -2066,12 +2110,12 @@ msgstr "不可抢占"
 msgid "Recoverable"
 msgstr "可恢复"
 
-#: apps-src/apps/external/3rdparty/aplt2.cpp:478
+#: apps-src/apps/external/3rdparty/aplt2.cpp:494
 msgid "[Task absent]"
 msgstr "[任务不存在]"
 
-#: apps-src/apps/external/3rdparty/aplt2.cpp:482
-#: apps-src/apps/librose/base_instance.cpp:2552
+#: apps-src/apps/external/3rdparty/aplt2.cpp:498
+#: apps-src/apps/librose/base_instance.cpp:2591
 msgid "[Unloaded]"
 msgstr "[已卸载]"
 
@@ -2091,387 +2135,396 @@ msgstr "没有可挂起场景。"
 msgid "No scenes available to resume."
 msgstr "没有可恢复运行场景。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1563
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1672
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1696
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1622
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1731
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1755
 msgid "%b %d %y"
 msgstr "%Y年%m月%d日"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1624
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1683
 msgid "$yearY$monM$dayD"
 msgstr "$year年$mon月$day日"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1627
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1686
 msgid "$monM$dayD"
 msgstr "$mon月$day日"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1630
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1689
 msgid "$dayD"
 msgstr "$day日"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1639
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1679
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1698
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1738
 msgid "%H:%M:%S"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1649
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1708
 msgid "%H:%M"
 msgstr "%H:%M"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1682
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1741
 msgid "YDAY %H:%M"
 msgstr "昨天 %H:%M"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1685
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1744
 msgid "DBY %H:%M"
 msgstr "前天 %H:%M"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1688
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1692
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1747
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1751
 msgid "%A, %H:%M"
 msgstr "%m月%d日 %H:%M"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1706
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1765
 msgid "%a %b %d %H:%M %Y"
 msgstr "%Y年%m月%d日，%H时%M分"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1760
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1819
 msgid "number $mday hour $hour min $min"
 msgstr "$mday日$hour时$min分"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1799
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2039
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1858
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2098
 msgid "$d days"
 msgstr "$d天"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1813
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1912
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2052
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1872
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1971
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2111
 msgid "time^h"
 msgstr "小时"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1829
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2067
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1888
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2126
 msgid "time^m2"
 msgstr "分钟"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1832
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1913
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2070
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1891
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1972
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2129
 msgid "time^m"
 msgstr "分"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1849
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1977
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2106
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:1908
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2036
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2165
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:160
 msgid "time^s"
 msgstr "秒"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2128
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2187
 msgid "week^Mon"
 msgstr "周一"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2128
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2187
 msgid "Monday"
 msgstr "星期一"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2131
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2190
 msgid "week^Tues"
 msgstr "周二"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2131
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2190
 msgid "Tuesday"
 msgstr "星期二"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2134
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2193
 msgid "week^Wed"
 msgstr "周三"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2134
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2193
 msgid "Wednesday"
 msgstr "星期三"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2137
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2196
 msgid "week^Thurs"
 msgstr "周四"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2137
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2196
 msgid "Thursday"
 msgstr "星期四"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2140
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2199
 msgid "week^Fri"
 msgstr "周五"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2140
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2199
 msgid "Friday"
 msgstr "星期五"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2143
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2202
 msgid "week^Sat"
 msgstr "周六"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2143
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2202
 msgid "Saturday"
 msgstr "星期六"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2145
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2204
 msgid "week^Sun"
 msgstr "周日"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2145
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2204
 msgid "Sunday"
 msgstr "星期日"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2628
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:1785
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3834
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:432
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2771
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1906
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:4032
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:421
 msgid "Untitle"
 msgstr "未命名"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2654
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2797
 msgid "lmk^nose"
 msgstr "鼻子"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2655
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2798
 msgid "lmk^left_eye_inner"
 msgstr "左眼内侧"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2656
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2799
 msgid "lmk^left_eye"
 msgstr "左眼"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2657
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2800
 msgid "lmk^left_eye_outer"
 msgstr "左眼外侧"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2658
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2801
 msgid "lmk^right_eye_inner"
 msgstr "右眼内侧"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2659
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2802
 msgid "lmk^right_eye"
 msgstr "右眼"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2660
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2803
 msgid "lmk^right_eye_outer"
 msgstr "右眼外侧"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2661
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2804
 msgid "lmk^left_ear"
 msgstr "左耳"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2662
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2805
 msgid "lmk^right_ear"
 msgstr "右耳"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2663
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2806
 msgid "lmk^mouth_left"
 msgstr "嘴角左侧"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2664
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2807
 msgid "lmk^mouth_right"
 msgstr "嘴角右侧"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2665
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2808
 msgid "lmk^left_shoulder"
 msgstr "左肩"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2666
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2809
 msgid "lmk^right_shoulder"
 msgstr "右肩"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2667
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2810
 msgid "lmk^left_elbow"
 msgstr "左肘"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2668
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2811
 msgid "lmk^right_elbow"
 msgstr "右肘"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2669
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2812
 msgid "lmk^left_wrist"
 msgstr "左腕"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2670
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2813
 msgid "lmk^right_wrist"
 msgstr "右腕"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2671
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2814
 msgid "lmk^left_pinky"
 msgstr "左手小指"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2672
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2815
 msgid "lmk^right_pinky"
 msgstr "右手小指"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2673
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2816
 msgid "lmk^left_index"
 msgstr "左食指"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2674
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2817
 msgid "lmk^right_index"
 msgstr "右食指"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2675
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2818
 msgid "lmk^left_thumb"
 msgstr "左拇指"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2676
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2819
 msgid "lmk^right_thumb"
 msgstr "右拇指"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2677
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2820
 msgid "lmk^left_hip"
 msgstr "左髋"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2678
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2821
 msgid "lmk^right_hip"
 msgstr "右髋"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2679
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2822
 msgid "lmk^left_knee"
 msgstr "左膝"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2680
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2823
 msgid "lmk^right_knee"
 msgstr "右膝"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2681
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2824
 msgid "lmk^left_ankle"
 msgstr "左踝"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2682
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2825
 msgid "lmk^right_ankle"
 msgstr "右踝"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2683
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2826
 msgid "lmk^left_heel"
 msgstr "左脚跟"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2684
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2827
 msgid "lmk^right_heel"
 msgstr "右脚跟"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2685
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2828
 msgid "lmk^left_foot_index"
 msgstr "左脚趾"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2686
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2829
 msgid "lmk^right_foot_index"
 msgstr "右脚趾"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2689
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2832
 msgid "lmk^fake_center"
 msgstr "中心"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2690
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2833
 msgid "lmk^fake_tl"
 msgstr "左上角"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2691
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2834
 msgid "lmk^fake_tr"
 msgstr "右上角"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2692
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2835
 msgid "lmk^fake_br"
 msgstr "右下角"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2693
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2836
 msgid "lmk^fake_bl"
 msgstr "左下角"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2859
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3002
 msgid "Can not empty!"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2866
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3009
 msgid "At least $min characters!"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2871
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3014
 msgid "Can not be larger than $max characters!"
 msgstr "不能够超过$max个字符！"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2877
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3020
 msgid "First character can not empty!"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2881
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3024
 msgid "First character must be alpha!"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2886
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3029
 msgid "$str is reserved string!"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2893
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3036
 #: apps-src/apps/librose/serialization/string_utils.cpp:1281
 msgid "Contains invalid characters!"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2937
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3080
 msgid "Value must not be empty, and utf-8 format string."
 msgstr "值不能为空，且必须为UTF-8格式的字符串。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2939
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3082
 msgid "Value is empty, or utf-8 format string."
 msgstr "值或为空，或UTF-8格式字符串。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2941
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3084
 msgid "Value must be greater than 0."
 msgstr "值需要大于0。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2943
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3086
 msgid "Value must be greater than or equal to 0."
 msgstr "值需要大于等于0。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2945
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3088
 msgid "Value is empty, or greater than 0."
 msgstr "值或为空，或大于0。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2947
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3090
 msgid ""
 "Cannot be empty. Can only contain letters, numbers, and underscores, and "
 "must start with a letter."
 msgstr "不能为空。只能包含英文字母、数字和下划线，且必须以英文字母开头。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2949
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3092
 msgid "Open File"
 msgstr "打开文件"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2951
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3094
 msgid "from_no^Save File As"
 msgstr "将文件保存为"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2953
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3096
 msgid "Save File As"
 msgstr "将文件另存为"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2969
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3110
+msgid "Not logged in. Log in to $action."
+msgstr "未登录。登录可$action。"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3115
+msgid "Once the $xx is sent, it cannot be undone. Do you want to continue?"
+msgstr "$xx一旦发出，就不能撤销。要继续吗？"
+
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3131
 msgid "Are you sure you want to delete $type '$name'?"
 msgstr "确定要删除$type|“$name”吗？"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:2998
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3160
 msgid "The file format is invalid or corrupted."
 msgstr "该文件格式无效或已损坏。"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3005
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3167
 msgid "load file fail. $type, $filename, $reason"
 msgstr ""
 "无法加载$type：$filename\n"
 "\n"
 "$reason"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3011
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3173
 msgid "load file fail. $type, $short_filename, $reason, $full_filename"
 msgstr ""
 "无法加载$type：$short_filename\n"
 "\n"
 "$reason路径：$full_filename"
 
-#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3029
+#: apps-src/apps/external/3rdparty/rose_string_utils_dll.cpp:3191
 msgid "$val range is [$min, $max]."
 msgstr "$val的取值范围为[$min, $max]。"
 
@@ -2575,92 +2628,96 @@ msgstr ""
 msgid "Use landscape mode, perpendicular to ground, rear camera on top."
 msgstr "设备横屏放置，垂直地面，并让后置摄像头朝上。"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:331
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:372
 msgid "Course script"
 msgstr "课程脚本"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:440
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:485
 #, fuzzy
 #| msgid "At least one state is required."
 msgid "At least one  is required."
 msgstr "至少得有一个状态。"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:460
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2094
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:505
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2215
 msgid "Title"
 msgstr "标题"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:462
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:507
 msgid "wkocourse^description label"
 msgstr "简介"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:464
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:509
 msgid "wkocourse^author label"
 msgstr "作者"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:466
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:511
 msgid "wkocourse^reference label"
 msgstr "视频"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:468
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:513
+msgid "wkocourse^prerequisite label"
+msgstr "前置课程"
+
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:515
 msgid "wkocourse^total_days label"
 msgstr "课程天数"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:470
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:517
 msgid "wkocourse^grace_period_days label"
 msgstr "激活宽限期"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:472
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:519
 msgid "wkocourse^price label"
 msgstr "价格"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:474
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:521
 msgid "wkocourse^currency label"
 msgstr "货币"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:476
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:523
 msgid "Day"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:483
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:530
 msgid "wkocousre^day_title label"
 msgstr "今日标题"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:492
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2122
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:539
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2243
 msgid "Task"
 msgstr "任务"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:494
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2124
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2171
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:541
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2245
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2292
 msgid "Type"
 msgstr "类型"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:497
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:544
 msgid "wko^workout_id label"
 msgstr "健身操ID"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:500
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:547
 msgid "wkocousre^workout_note label"
 msgstr "健身操备注"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:503
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:550
 msgid "wkocourse^workout_rounds label"
 msgstr "健身操轮数"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:540
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2215
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:587
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2336
 msgid "Value can not be empty."
 msgstr "值不能是空。"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:577
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2321
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:624
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2442
 msgid "Invalid '$field'"
 msgstr "“$field”不符合要求"
 
-#: apps-src/apps/external/3rdparty/wkocourse.cpp:581
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2325
+#: apps-src/apps/external/3rdparty/wkocourse.cpp:628
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2446
 msgid "Invalid '$field'. $note"
 msgstr "“$field”不符合要求。$note"
 
@@ -2672,288 +2729,394 @@ msgstr "还有$number秒"
 msgid "$time remaining"
 msgstr "还有$time"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:1815
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:751
+msgid ""
+"wko^wkoscript from file, miss diff_id, $filename, $title, $state, "
+"$action_tpl2, $diff_id"
+msgstr ""
+"[WARN] diff_id 未匹配（已忽略该覆盖内容）\n"
+"操脚本：$title\n"
+"状态：$state\n"
+"动作模板：$action_tpl2\n"
+"未匹配diff_id：$diff_id\n"
+"建议动作：检查动作库版本，确认是否已废弃此姿态判断\n"
+"文件路径：$filename"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:755
+msgid ""
+"wko^wkoscript from file, miss phase count, $filename, $title, $state, "
+"$action_tpl2, $phase"
+msgstr ""
+"[WARN] 阶段数目未匹配（已忽略该覆盖内容）\n"
+"操脚本：$title\n"
+"状态：$state\n"
+"动作模板：$action_tpl2\n"
+"未匹配阶段数目：$phase\n"
+"建议动作：检查动作库版本，确认是否已改变阶段数目\n"
+"文件路径：$filename"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:801
+msgid "wko^miss phase count, $script, $action_tpl2"
+msgstr "脚本给出$script个，动作模板给出$action_tpl2个"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:1936
 msgid "Have the camera capture $landmark"
 msgstr "让摄像头拍到$landmark"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2096
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2217
 #, fuzzy
 #| msgid "state"
 msgid "State"
 msgstr "状态"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2107
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2228
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3698
 msgid "wko^is_setup label"
 msgstr "定位"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2109
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2230
 msgid "wko^debug_skip label"
 msgstr "调试跳过"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2115
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2236
 msgid "wko^unsatisfied_2th_msgstr label"
 msgstr "不满足再次提示语音"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2129
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2250
 msgid "wko^satisfied_msgstr label"
 msgstr "满足提示语音"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2132
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2253
 msgid "wko^time_counter, rule"
 msgstr "规则"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2135
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2256
 msgid "wko^time_counter, tone"
 msgstr "播报节奏"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2163
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2284
 msgid "wko^track_pose label"
 msgstr "姿态判断"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2169
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2290
 msgid "wko^phase_mask label"
 msgstr "阶段"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2173
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2294
 msgid "wko^operand_type label"
 msgstr "运算单元类型"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2175
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2296
 msgid "wko^landmarks label"
 msgstr "姿态点"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2181
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2302
 msgid "wko^pose_unsatisfied_msgstr label"
 msgstr "通用提示"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2183
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2304
 msgid "wko^pose_unsatisfied_rmax_msgstr label"
 msgstr "不满足最大值时的提示"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2227
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2348
 msgid "Value must be greater than '$that'"
 msgstr "值需要大于“$that”"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2357
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2478
 msgid "At least one of the minimum or maximum values must be set."
 msgstr "最小值或最大值，至少得设置一个。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2362
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2483
 msgid "The maximum value must be greater than the minimum value."
 msgstr "最大值必须大于最小值。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2393
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2400
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2514
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2521
 msgid "For $field, both min and max must be set simultaneously."
 msgstr "对$field，必须同时设置最小值、最大值。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2416
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2537
 msgid "When $tpl2_id exists, cannot modify '$field' of pose judgment."
 msgstr "存在动作模板时，不能修改姿态判断的“$field”。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2439
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2560
 msgid "For non-pose state, must not exist pose."
 msgstr "对非姿态状态，不能含有姿态判断。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2446
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2567
 msgid "For pose state, at least one pose must exist."
 msgstr "对姿态状态，至少存在一个姿态判断。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2451
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2572
 msgid "Setup can only be the first pose state."
 msgstr "定位只能是第一个姿态状态。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2524
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2645
 msgid "Count"
 msgstr "数量"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2550
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2671
 msgid "Each operand needs to be set with at least one landmark."
 msgstr "每个运算单元都需要设置至少一个姿态点。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2555
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2676
 msgid "For the selected type, each operand needs to have two landmark set."
 msgstr "对选择的类型，每个运算单元都需要设置两个姿态点。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2576
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2697
 msgid ""
 "When only one voice is required, just set the '$generic', no need to "
 "configure the '$max'."
 msgstr "当仅需一种提示时，只需配置“$generic”，无需设置“$max”。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2861
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2984
 msgid "wko^tasktype_speak"
 msgstr "语音"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2862
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2985
 msgid "wko^tasktype_time_counter"
 msgstr "计时"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2863
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:2986
 msgid "wko^tasktype_rep_counter"
 msgstr "计次"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2889
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3012
 msgid "wko^timerule_total"
 msgstr "固定总时长"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2890
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3013
 msgid "wko^timerule_satisfied"
 msgstr "纯满足时长"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2891
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3014
 msgid "wko^timerule_strict"
 msgstr "严格满足时长"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2896
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3019
 msgid "wko^timetone_full"
 msgstr "逐秒全报"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2897
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3020
 msgid "wko^timetone_split"
 msgstr "首尾密集报时"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2898
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3021
 msgid "wko^timetone_silent"
 msgstr "静默计时"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2902
-#: apps-src/apps/librose/cairo2.cpp:3260
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3025
+#: apps-src/apps/librose/cairo2.cpp:3279
 msgid "Left"
 msgstr "左侧"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2903
-#: apps-src/apps/librose/cairo2.cpp:3265
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3026
+#: apps-src/apps/librose/cairo2.cpp:3284
 msgid "Right"
 msgstr "右侧"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2904
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3027
 msgid "Other"
 msgstr "其它"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2910
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3033
 msgid "wko^posemetric_body_tilt_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2912
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3035
 msgid "wko^posemetric_header_tilt_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2914
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3037
 msgid "wko^posemetric_left_upper_arm_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2916
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3039
 msgid "wko^posemetric_right_upper_arm_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2918
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3041
 msgid "wko^posemetric_left_elbow_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2920
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3043
 msgid "wko^posemetric_right_elbow_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2922
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3045
 msgid "wko^posemetric_left_forearm_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2924
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3047
 msgid "wko^posemetric_right_forearm_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2926
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3049
 msgid "wko^posemetric_left_wrist_on_right_shoulder"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2928
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3051
 msgid "wko^posemetric_right_wrist_on_left_shoulder"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2930
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3053
 msgid "wko^posemetric_left_thigh_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2932
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3055
 msgid "wko^posemetric_right_thigh_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2934
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3057
 msgid "wko^posemetric_left_knee_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2936
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3059
 msgid "wko^posemetric_right_knee_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2938
-msgid "wko^posemetric_left_lower_leg_angle"
-msgstr ""
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3061
+#, fuzzy
+#| msgid "wko^pose_legend label"
+msgid "wko^posemetric_left_calf_angle"
+msgstr "图例"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2940
-msgid "wko^posemetric_right_lower_leg_angle"
-msgstr ""
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3063
+#, fuzzy
+#| msgid "wko^pose_legend label"
+msgid "wko^posemetric_right_calf_angle"
+msgstr "图例"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2942
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3065
 #, fuzzy
 #| msgid "wko^pose_legend label"
 msgid "wko^posemetric_left_leg_angle"
 msgstr "图例"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2944
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3067
 msgid "wko^posemetric_right_leg_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2946
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3069
 msgid "wko^posemetric_right_hip_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2948
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3071
 msgid "wko^posemetric_right_torso_angle"
 msgstr ""
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2962
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3103
 msgid "Satisfied"
 msgstr "满足"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:2963
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3104
 msgid "Unsatisfied"
 msgstr "不满足"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3229
-msgid "wko^load fail, $name, $tpl2_id"
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3275
+msgid "wko^wkoscript from string fail, $name, $tpl2_id"
 msgstr ""
-"操脚本加载失败: workout=\"$name\"。原因：脚本中引用的动作 $tpl2_id 在当前版本"
-"中不存在。建议：请将 App 升级到最新版本后重试。"
+"操脚本加载失败: workout=\"$name\"。原因：脚本中引用的动作模板 $tpl2_id 在当前"
+"版本的动作库中不存在。建议：请将 App 升级到最新版本后重试。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3396
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3278
+msgid "wko^wkoscript from file fail, $filename, $tpl2_id"
+msgstr ""
+"操脚本加载失败:。原因：脚本中引用的动作模板 $tpl2_id 在当前版本的动作库中不存"
+"在。建议：请将 App 升级到最新版本后重试。\n"
+"脚本文件路径：$filename"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3448
 msgid "At least one state is required."
 msgstr "至少得有一个状态。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3415
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3467
 msgid "State names cannot be duplicated."
 msgstr "状态名必须全局唯一。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3427
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3479
 msgid "The last state cannot enable '$field'."
 msgstr "最后一个状态不能开启“$field”。"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3466
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3518
 msgid "In $number phase, $msg"
 msgstr "在计次任务的第$number个阶段，$msg"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3473
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3525
 msgid "In $number pose, $msg"
 msgstr "在第$number个姿态判断，$msg"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3810
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3676
+msgid "wko^state2 name, $number"
+msgstr "第$number个动作开场"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3690
+msgid "wko^state2 name, setup"
+msgstr "播报开场和定位"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3731
+msgid "wko^speak state2 msgstr, setup finished, $name, $msg"
+msgstr "定位完成，开始第1个动作：$name。$msg|开始"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3734
+msgid "wko^speak state2 msgstr, 2 or more, wait, $name, $msg, $number"
+msgstr "接下第$number个动作：$name。请稍作休息"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3737
+msgid "wko^speak state2 msgstr, 2 or more, $name, $msg, $number"
+msgstr "接下第$number个动作：$name。$msg|开始"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3773
+msgid "wko^Already ended"
+msgstr "已结束"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:3780
+msgid "wko^speak state2 msgstr, $title"
+msgstr "$title，已结束。"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:4000
 msgid "action_tpl_msg_to_speak_msg, $name, $msg"
 msgstr "第x个动作，$name，$msg开始"
 
-#: apps-src/apps/external/3rdparty/wkoscript.cpp:3957
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:4163
 msgid "Action script"
 msgstr "动作脚本"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5679
+msgid ""
+"wko^wkorevise readable log, <wkoscript, comment>, $evt_ts, $wko_title, "
+"$wko_start, $comment"
+msgstr ""
+"$evt_ts发的，针对健身操评语\n"
+"健身操：$wko_title\n"
+"做操时间：$wko_start\n"
+"评语：$comment"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5685
+msgid "wko^wkorevise readable log, <health_dat, upload>, $evt_ts, $filename"
+msgstr ""
+"$evt_ts，上传了做操数据文件\n"
+"文件名：$filename"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5695
+msgid "wko^Integrate into chart"
+msgstr "融入图表"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5697
+msgid "wko^Integrated into chart"
+msgstr "已融入图表"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5709
+msgid "Downloaded"
+msgstr "已下载"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5732
+msgid "wko^Integrate fail. $reason"
+msgstr "融入失败。$reason"
+
+#: apps-src/apps/external/3rdparty/wkoscript.cpp:5735
+msgid "wko^Download fail. $reason"
+msgstr "下载失败。$reason"
 
 #: apps-src/apps/external/chromium/net/server/tcp_client_rose.cc:671
 msgid "Connect to $host"
@@ -3024,6 +3187,7 @@ msgid "Copy"
 msgstr "复制"
 
 #: apps-src/apps/external/freerdp/channels/cliprdr/cliprdr_common2.cpp:1153
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:64
 #: apps-src/apps/librose/gui/dialogs/dialog.cpp:407
 #: apps-src/apps/librose/gui/widgets/text_box.cpp:1952
 #: apps-src/apps/librose/gui/widgets/window.cpp:1532
@@ -3052,216 +3216,216 @@ msgstr "获取剪贴板信息"
 msgid "About remaining $time"
 msgstr "大约剩余$time"
 
-#: apps-src/apps/librose/aplt.cpp:151
+#: apps-src/apps/librose/aplt.cpp:152
 msgid "fakeid^Store"
 msgstr "商店"
 
-#: apps-src/apps/librose/aplt.cpp:153
+#: apps-src/apps/librose/aplt.cpp:154
 msgid "fakeid^Settings"
 msgstr "设置"
 
-#: apps-src/apps/librose/aplt.cpp:155
+#: apps-src/apps/librose/aplt.cpp:156
 msgid "fakeid^kLink"
 msgstr "kLink"
 
-#: apps-src/apps/librose/aplt.cpp:157
+#: apps-src/apps/librose/aplt.cpp:158
 msgid "fakeid^Speech"
 msgstr "语音命令"
 
-#: apps-src/apps/librose/aplt.cpp:159
+#: apps-src/apps/librose/aplt.cpp:160
 msgid "fakeid^Task"
 msgstr "任务"
 
-#: apps-src/apps/librose/aplt.cpp:161
+#: apps-src/apps/librose/aplt.cpp:162
 msgid "fakeid^Artifact"
 msgstr "文案"
 
-#: apps-src/apps/librose/aplt.cpp:163
+#: apps-src/apps/librose/aplt.cpp:164
 msgid "fakeid^Make script"
 msgstr "动作脚本"
 
-#: apps-src/apps/librose/aplt.cpp:165
+#: apps-src/apps/librose/aplt.cpp:166
 msgid "fakeid^Make course"
 msgstr "课程脚本"
 
-#: apps-src/apps/librose/aplt.cpp:167
+#: apps-src/apps/librose/aplt.cpp:168
 msgid "fakeid^Health"
 msgstr "健康"
 
-#: apps-src/apps/librose/aplt.cpp:169
+#: apps-src/apps/librose/aplt.cpp:170
 msgid "fakeid^Map"
 msgstr "地图"
 
-#: apps-src/apps/librose/aplt.cpp:171
+#: apps-src/apps/librose/aplt.cpp:172
 msgid "fakeid^Moveit"
 msgstr "机械臂"
 
-#: apps-src/apps/librose/aplt.cpp:173
+#: apps-src/apps/librose/aplt.cpp:174
 msgid "fakeid^DNN"
 msgstr "DNN"
 
-#: apps-src/apps/librose/aplt.cpp:175
+#: apps-src/apps/librose/aplt.cpp:176
 msgid "fakeid^Center"
 msgstr "中心"
 
-#: apps-src/apps/librose/aplt.cpp:177
+#: apps-src/apps/librose/aplt.cpp:178
 msgid "fakeid^Mic"
 msgstr "录音"
 
-#: apps-src/apps/librose/aplt.cpp:179
+#: apps-src/apps/librose/aplt.cpp:180
 msgid "fakeid^Explorer"
 msgstr "资源管理器"
 
-#: apps-src/apps/librose/aplt.cpp:182
+#: apps-src/apps/librose/aplt.cpp:183
 msgid "fakeid^Depth Camera"
 msgstr "深度相机"
 
-#: apps-src/apps/librose/aplt.cpp:182
+#: apps-src/apps/librose/aplt.cpp:183
 #: apps-src/apps/librose/gui/dialogs/rdnn.cpp:360
 msgid "Camera"
 msgstr "相机"
 
-#: apps-src/apps/librose/aplt.cpp:191
+#: apps-src/apps/librose/aplt.cpp:192
 msgid "task^workout"
 msgstr "跟练"
 
-#: apps-src/apps/librose/aplt.cpp:200
+#: apps-src/apps/librose/aplt.cpp:201
 msgid "per^ble"
 msgstr "蓝牙"
 
-#: apps-src/apps/librose/aplt.cpp:201
+#: apps-src/apps/librose/aplt.cpp:202
 msgid "per^navigation"
 msgstr "导航"
 
-#: apps-src/apps/librose/aplt.cpp:202
+#: apps-src/apps/librose/aplt.cpp:203
 msgid "per^camera"
 msgstr "相机"
 
-#: apps-src/apps/librose/aplt.cpp:203
+#: apps-src/apps/librose/aplt.cpp:204
 msgid "per^moveit"
 msgstr "机械臂"
 
-#: apps-src/apps/librose/aplt.cpp:206
+#: apps-src/apps/librose/aplt.cpp:207
 msgid "keys^any_one"
 msgstr "任意一个"
 
-#: apps-src/apps/librose/aplt.cpp:207
+#: apps-src/apps/librose/aplt.cpp:208
 msgid "keys^all_match_and_order"
 msgstr "全部且按序"
 
-#: apps-src/apps/librose/aplt.cpp:208
+#: apps-src/apps/librose/aplt.cpp:209
 msgid "keys^all_match_no_order"
 msgstr "全部不按序"
 
-#: apps-src/apps/librose/aplt.cpp:214
+#: apps-src/apps/librose/aplt.cpp:215
 msgid "iotsrc^doorbell"
 msgstr "门铃"
 
-#: apps-src/apps/librose/aplt.cpp:215
+#: apps-src/apps/librose/aplt.cpp:216
 msgid "iotsrc^doorcontact"
 msgstr "门磁"
 
-#: apps-src/apps/librose/aplt.cpp:216
+#: apps-src/apps/librose/aplt.cpp:217
 msgid "iotsrc^ir_motion_sensor"
 msgstr "人体红外探测器"
 
-#: apps-src/apps/librose/aplt.cpp:217
+#: apps-src/apps/librose/aplt.cpp:218
 msgid "iotsrc^smoke_sensor"
 msgstr "烟雾报警器"
 
-#: apps-src/apps/librose/aplt.cpp:218
+#: apps-src/apps/librose/aplt.cpp:219
 msgid "iotsrc^gas_sensor"
 msgstr "燃气传感器"
 
-#: apps-src/apps/librose/aplt.cpp:219
+#: apps-src/apps/librose/aplt.cpp:220
 msgid "iotsrc^co_sensor"
 msgstr "一氧化碳传感器"
 
-#: apps-src/apps/librose/aplt.cpp:220
+#: apps-src/apps/librose/aplt.cpp:221
 msgid "iotsrc^water_leak_sensor"
 msgstr "水浸传感器"
 
-#: apps-src/apps/librose/aplt.cpp:221
+#: apps-src/apps/librose/aplt.cpp:222
 msgid "iotsrc^vibration_sensor"
 msgstr "振动传感器"
 
-#: apps-src/apps/librose/aplt.cpp:222
+#: apps-src/apps/librose/aplt.cpp:223
 msgid "iotsrc^infrated_emission_detector"
 msgstr "红外对射传感器"
 
-#: apps-src/apps/librose/aplt.cpp:223
+#: apps-src/apps/librose/aplt.cpp:224
 msgid "iotsrc^glass_break_detector"
 msgstr "玻璃破碎传感器"
 
-#: apps-src/apps/librose/aplt.cpp:224
+#: apps-src/apps/librose/aplt.cpp:225
 msgid "iotsrc^sos_button"
 msgstr "紧急按钮"
 
-#: apps-src/apps/librose/aplt.cpp:225
+#: apps-src/apps/librose/aplt.cpp:226
 msgid "iotsrc^remote_controller"
 msgstr "摇控器"
 
-#: apps-src/apps/librose/aplt.cpp:226
+#: apps-src/apps/librose/aplt.cpp:227
 msgid "iotsrc^keypad"
 msgstr "安防键盘"
 
-#: apps-src/apps/librose/aplt.cpp:228
+#: apps-src/apps/librose/aplt.cpp:229
 msgid "iotsrc^lamp"
 msgstr "灯"
 
-#: apps-src/apps/librose/aplt.cpp:229
+#: apps-src/apps/librose/aplt.cpp:230
 msgid "iotsrc^curtain"
 msgstr "窗帘"
 
-#: apps-src/apps/librose/aplt.cpp:247
+#: apps-src/apps/librose/aplt.cpp:248
 msgid "iotevt^pressdown"
 msgstr "按下"
 
-#: apps-src/apps/librose/aplt.cpp:249
+#: apps-src/apps/librose/aplt.cpp:250
 msgid "iotevt^pressup"
 msgstr "松开"
 
-#: apps-src/apps/librose/aplt.cpp:251
+#: apps-src/apps/librose/aplt.cpp:252
 msgid "iotevt^trigger"
 msgstr "触发"
 
-#: apps-src/apps/librose/aplt.cpp:253
+#: apps-src/apps/librose/aplt.cpp:254
 msgid "iotevt^open"
 msgstr "开"
 
-#: apps-src/apps/librose/aplt.cpp:255
+#: apps-src/apps/librose/aplt.cpp:256
 msgid "iotevt^close"
 msgstr "关"
 
-#: apps-src/apps/librose/aplt.cpp:265
+#: apps-src/apps/librose/aplt.cpp:266
 msgid "PRI-$priority"
 msgstr "优先级-$priority"
 
-#: apps-src/apps/librose/aplt.cpp:273
+#: apps-src/apps/librose/aplt.cpp:274
 msgid "vartype^bool"
 msgstr "布尔"
 
-#: apps-src/apps/librose/aplt.cpp:274
+#: apps-src/apps/librose/aplt.cpp:275
 msgid "vartype^integer"
 msgstr "整数"
 
-#: apps-src/apps/librose/aplt.cpp:275
+#: apps-src/apps/librose/aplt.cpp:276
 msgid "vartype^double"
 msgstr "浮点数"
 
-#: apps-src/apps/librose/aplt.cpp:276
+#: apps-src/apps/librose/aplt.cpp:277
 msgid "vartype^string"
 msgstr "字符串"
 
-#: apps-src/apps/librose/aplt.cpp:277
+#: apps-src/apps/librose/aplt.cpp:278
 msgid "vartype^tstring"
 msgstr "可翻译串"
 
-#: apps-src/apps/librose/aplt.cpp:278
+#: apps-src/apps/librose/aplt.cpp:279
 msgid "vartype^array"
 msgstr "数组"
 
-#: apps-src/apps/librose/aplt.cpp:286
+#: apps-src/apps/librose/aplt.cpp:287
 #, fuzzy
 #| msgid "function^sum desc"
 msgid "function^add desc"
@@ -3269,7 +3433,7 @@ msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:288
+#: apps-src/apps/librose/aplt.cpp:289
 #, fuzzy
 #| msgid "function^sum desc"
 msgid "function^sub desc"
@@ -3277,7 +3441,7 @@ msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:290
+#: apps-src/apps/librose/aplt.cpp:291
 #, fuzzy
 #| msgid "function^sum desc"
 msgid "function^mul desc"
@@ -3285,45 +3449,45 @@ msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:292
+#: apps-src/apps/librose/aplt.cpp:293
 #, fuzzy
 #| msgid "function^size desc"
 msgid "function^div desc"
 msgstr "计算指定数组的单元数。"
 
-#: apps-src/apps/librose/aplt.cpp:295
+#: apps-src/apps/librose/aplt.cpp:296
 #, fuzzy
 #| msgid "function^size desc"
 msgid "function^inv_bool desc"
 msgstr "计算指定数组的单元数。"
 
-#: apps-src/apps/librose/aplt.cpp:298
+#: apps-src/apps/librose/aplt.cpp:299
 msgid "function^size desc"
 msgstr "计算指定数组的单元数。"
 
-#: apps-src/apps/librose/aplt.cpp:300
+#: apps-src/apps/librose/aplt.cpp:301
 msgid "function^sum desc"
 msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:302
+#: apps-src/apps/librose/aplt.cpp:303
 msgid "function^element desc"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:304
+#: apps-src/apps/librose/aplt.cpp:305
 msgid "function^join_element desc"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:306
+#: apps-src/apps/librose/aplt.cpp:307
 msgid "function^join_index desc"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:308
+#: apps-src/apps/librose/aplt.cpp:309
 msgid "function^join2_2element desc"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:311
+#: apps-src/apps/librose/aplt.cpp:312
 #, fuzzy
 #| msgid "function^sum desc"
 msgid "function^res_path desc"
@@ -3331,13 +3495,13 @@ msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:313
+#: apps-src/apps/librose/aplt.cpp:314
 #, fuzzy
 #| msgid "function^size desc"
 msgid "function^preferences_dir desc"
 msgstr "计算指定数组的单元数。"
 
-#: apps-src/apps/librose/aplt.cpp:316
+#: apps-src/apps/librose/aplt.cpp:317
 #, fuzzy
 #| msgid "function^sum desc"
 msgid "function^format_time_date desc"
@@ -3345,11 +3509,11 @@ msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:318
+#: apps-src/apps/librose/aplt.cpp:319
 msgid "function^format_elapse_hms desc"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:320
+#: apps-src/apps/librose/aplt.cpp:321
 #, fuzzy
 #| msgid "function^sum desc"
 msgid "function^is_speaking desc"
@@ -3357,7 +3521,7 @@ msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:322
+#: apps-src/apps/librose/aplt.cpp:323
 #, fuzzy
 #| msgid "function^sum desc"
 msgid "function^is_wko_task_finished desc"
@@ -3365,514 +3529,540 @@ msgstr ""
 "计算指定数组中，所有整型和浮点类型单元的数值和。单元中有一个是浮点类型，那结"
 "果是浮点类型，否则是整型。"
 
-#: apps-src/apps/librose/aplt.cpp:335
+#: apps-src/apps/librose/aplt.cpp:336
 msgid "bool^set_none"
 msgstr "不修改"
 
-#: apps-src/apps/librose/aplt.cpp:337
+#: apps-src/apps/librose/aplt.cpp:338
 msgid "bool^set_false"
 msgstr "改为false"
 
-#: apps-src/apps/librose/aplt.cpp:339
+#: apps-src/apps/librose/aplt.cpp:340
 msgid "bool^set_true"
 msgstr "改为true"
 
-#: apps-src/apps/librose/aplt.cpp:343
+#: apps-src/apps/librose/aplt.cpp:344
 msgid "op^var_exist"
 msgstr "存在变量"
 
-#: apps-src/apps/librose/aplt.cpp:345
+#: apps-src/apps/librose/aplt.cpp:346
 msgid "op^var_not_exist"
 msgstr "不存在变量"
 
-#: apps-src/apps/librose/aplt.cpp:348
+#: apps-src/apps/librose/aplt.cpp:349
 msgid "op^string_equal"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:351
+#: apps-src/apps/librose/aplt.cpp:352
 msgid "op^bool_equal"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:353
+#: apps-src/apps/librose/aplt.cpp:354
 msgid "op^bool_not_equal"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:356
+#: apps-src/apps/librose/aplt.cpp:357
 msgid "op^numerical_equal"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:358
+#: apps-src/apps/librose/aplt.cpp:359
 msgid "op^numerical_not_equal"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:360
+#: apps-src/apps/librose/aplt.cpp:361
 msgid "op^greater_than"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:362
+#: apps-src/apps/librose/aplt.cpp:363
 msgid "op^less_than"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:364
+#: apps-src/apps/librose/aplt.cpp:365
 msgid "op^greater_than_equal_to"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:366
+#: apps-src/apps/librose/aplt.cpp:367
 msgid "op^less_than_equal_to"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:371
+#: apps-src/apps/librose/aplt.cpp:372
 msgid "logic^and"
 msgstr "与"
 
-#: apps-src/apps/librose/aplt.cpp:373
+#: apps-src/apps/librose/aplt.cpp:374
 msgid "logic^or"
 msgstr "或"
 
-#: apps-src/apps/librose/aplt.cpp:376
+#: apps-src/apps/librose/aplt.cpp:377
 msgid "Charge"
 msgstr "充电"
 
-#: apps-src/apps/librose/aplt.cpp:377
+#: apps-src/apps/librose/aplt.cpp:378
 msgid "Currently in privacy protection state"
 msgstr "正处于隐私保护状态"
 
-#: apps-src/apps/librose/aplt.cpp:380
+#: apps-src/apps/librose/aplt.cpp:381
 msgid "Base driver"
 msgstr "底盘驱动"
 
-#: apps-src/apps/librose/aplt.cpp:382
+#: apps-src/apps/librose/aplt.cpp:383
 msgid "Laser driver"
 msgstr "雷达驱动"
 
-#: apps-src/apps/librose/aplt.cpp:384
+#: apps-src/apps/librose/aplt.cpp:385
 msgid "Moveit driver"
 msgstr "机械臂驱动"
 
-#: apps-src/apps/librose/aplt.cpp:386
+#: apps-src/apps/librose/aplt.cpp:387
 msgid "DCamera driver"
 msgstr "深度相机驱动"
 
-#: apps-src/apps/librose/aplt.cpp:388
+#: apps-src/apps/librose/aplt.cpp:389
 msgid "IoT driver"
 msgstr "IoT驱动"
 
-#: apps-src/apps/librose/aplt.cpp:390
+#: apps-src/apps/librose/aplt.cpp:391
 msgid "Speech driver"
 msgstr "语音驱动"
 
-#: apps-src/apps/librose/aplt.cpp:392
+#: apps-src/apps/librose/aplt.cpp:393
 msgid "AI driver"
 msgstr "AI驱动"
 
-#: apps-src/apps/librose/aplt.cpp:394
+#: apps-src/apps/librose/aplt.cpp:395
 msgid "Foreground applet"
 msgstr "前台小程序"
 
-#: apps-src/apps/librose/aplt.cpp:396
+#: apps-src/apps/librose/aplt.cpp:397
 msgid "Base2th applet"
 msgstr "底盘子任务小程序"
 
-#: apps-src/apps/librose/aplt.cpp:398
+#: apps-src/apps/librose/aplt.cpp:399
 msgid "Aiagent task applet"
 msgstr "AI代理小程序"
 
-#: apps-src/apps/librose/aplt.cpp:402
+#: apps-src/apps/librose/aplt.cpp:403
 msgid "Ing"
 msgstr "执行中"
 
-#: apps-src/apps/librose/aplt.cpp:403
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:623
+#: apps-src/apps/librose/aplt.cpp:404
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:612
 msgid "sts^Idle"
 msgstr "挂起"
 
-#: apps-src/apps/librose/aplt.cpp:404
+#: apps-src/apps/librose/aplt.cpp:405
 msgid "Preempted"
 msgstr "被抢占"
 
-#: apps-src/apps/librose/aplt.cpp:581
+#: apps-src/apps/librose/aplt.cpp:583
 msgid "No valid $field in $file"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:630
+#: apps-src/apps/librose/aplt.cpp:632
 msgid "The $app version is too low, can not run $aplt."
 msgstr ""
 "$app版本过低，无法运行小程序$aplt。\n"
 "解决办法：把App升级到最新版本。"
 
-#: apps-src/apps/librose/aplt.cpp:634
+#: apps-src/apps/librose/aplt.cpp:636
 msgid "The $aplt version is too low, can not run."
 msgstr ""
 "小程序$aplt版本过低，无法运行。\n"
 "解决办法：去商店，把小程序升级到最新版本。"
 
-#: apps-src/apps/librose/aplt.cpp:680
+#: apps-src/apps/librose/aplt.cpp:682
 msgid "'Map' window is displayed"
 msgstr "”地图“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:681
+#: apps-src/apps/librose/aplt.cpp:683
 msgid "'Settings' window is displayed"
 msgstr "”设置“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:682
+#: apps-src/apps/librose/aplt.cpp:684
 #, fuzzy
 #| msgid "'Map' window is displayed"
 msgid "'Trigger' window is displayed"
 msgstr "”地图“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:683
+#: apps-src/apps/librose/aplt.cpp:685
 msgid "'Task' window is displayed"
 msgstr "”任务“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:684
+#: apps-src/apps/librose/aplt.cpp:686
 msgid "'DNN' window is displayed"
 msgstr "”DNN“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:685
+#: apps-src/apps/librose/aplt.cpp:687
 msgid "'Moveit' window is displayed"
 msgstr "”机械臂“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:686
+#: apps-src/apps/librose/aplt.cpp:688
 #, fuzzy
 #| msgid "'Map' window is displayed"
 msgid "'Explorer' window is displayed"
 msgstr "”地图“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:687
+#: apps-src/apps/librose/aplt.cpp:689
 msgid "'Camera' window is displayed"
 msgstr "”相机“窗口正显示着"
 
-#: apps-src/apps/librose/aplt.cpp:689
+#: apps-src/apps/librose/aplt.cpp:691
 msgid "Network task is being performed"
 msgstr "正在执行网络任务"
 
-#: apps-src/apps/librose/aplt.cpp:695
+#: apps-src/apps/librose/aplt.cpp:697
 msgid "$reason, don't execute"
 msgstr "$reason，不执行"
 
-#: apps-src/apps/librose/aplt.cpp:790
+#: apps-src/apps/librose/aplt.cpp:792
 msgid "Built-in"
 msgstr "内置"
 
-#: apps-src/apps/librose/aplt.cpp:798
+#: apps-src/apps/librose/aplt.cpp:800
 msgid "Empty/Move"
 msgstr "空/用于只移动"
 
-#: apps-src/apps/librose/aplt.cpp:818
+#: apps-src/apps/librose/aplt.cpp:820
 msgid "desc^var_env_time"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:820
+#: apps-src/apps/librose/aplt.cpp:822
 msgid "desc^var_env_hour24_time"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:822
+#: apps-src/apps/librose/aplt.cpp:824
 msgid "desc^var_env_temperature"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:824
+#: apps-src/apps/librose/aplt.cpp:826
 msgid "desc^var_env_light"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:826
+#: apps-src/apps/librose/aplt.cpp:828
 msgid "desc^var_env_humidity"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:828
+#: apps-src/apps/librose/aplt.cpp:830
 msgid "desc^var_env_integer"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:830
+#: apps-src/apps/librose/aplt.cpp:832
 msgid "desc^var_env_bool"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:832
+#: apps-src/apps/librose/aplt.cpp:834
 msgid "desc^var_env_basesubtask_code"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:834
+#: apps-src/apps/librose/aplt.cpp:836
 msgid "desc^var_env_basesubtask_str"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:836
+#: apps-src/apps/librose/aplt.cpp:838
 msgid "desc^var_env_button_code"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:838
+#: apps-src/apps/librose/aplt.cpp:840
 msgid "desc^var_env_ocr_pen_code"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:840
+#: apps-src/apps/librose/aplt.cpp:842
 msgid "desc^var_env_ocr_pen_text"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:843
+#: apps-src/apps/librose/aplt.cpp:845
 msgid "desc^var_env_time_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:845
+#: apps-src/apps/librose/aplt.cpp:847
 msgid "desc^var_env_hour24_time1_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:847
+#: apps-src/apps/librose/aplt.cpp:849
 msgid "desc^var_env_temperature_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:849
+#: apps-src/apps/librose/aplt.cpp:851
 msgid "desc^var_env_light_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:851
+#: apps-src/apps/librose/aplt.cpp:853
 msgid "desc^var_env_humidity_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:853
+#: apps-src/apps/librose/aplt.cpp:855
 msgid "desc^var_env_integer_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:855
+#: apps-src/apps/librose/aplt.cpp:857
 msgid "desc^var_env_bool_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:857
+#: apps-src/apps/librose/aplt.cpp:859
 msgid "desc^var_env_hour24_time2_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:859
+#: apps-src/apps/librose/aplt.cpp:861
 msgid "desc^var_env_hour24_time3_last"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:862
+#: apps-src/apps/librose/aplt.cpp:864
 #, fuzzy
 #| msgid "keys^all_match_no_order"
 msgid "desc^var_last_matched_index"
 msgstr "全部不按序"
 
-#: apps-src/apps/librose/aplt.cpp:864
+#: apps-src/apps/librose/aplt.cpp:866
 msgid "desc^var_iot_device_id"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:866
+#: apps-src/apps/librose/aplt.cpp:868
 msgid "desc^var_iot_alias"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:870
+#: apps-src/apps/librose/aplt.cpp:872
 msgid "desc^ble_device_id"
 msgstr ""
 
-#: apps-src/apps/librose/aplt.cpp:895
+#: apps-src/apps/librose/aplt.cpp:897
 msgid "amp^1x"
 msgstr "不放大(1x)"
 
-#: apps-src/apps/librose/aplt.cpp:897
+#: apps-src/apps/librose/aplt.cpp:899
 msgid "amp^1_25x"
 msgstr "3米(1.25x)"
 
-#: apps-src/apps/librose/aplt.cpp:899
+#: apps-src/apps/librose/aplt.cpp:901
 msgid "amp^1_6x"
 msgstr "5米(1.6x)"
 
-#: apps-src/apps/librose/aplt.cpp:901
+#: apps-src/apps/librose/aplt.cpp:903
 msgid "amp^2x"
 msgstr "户外(2x)"
 
-#: apps-src/apps/librose/aplt.cpp:1043
+#: apps-src/apps/librose/aplt.cpp:1045
 msgid "The applet to run requires $per permission, stop the task"
 msgstr "正运行的小程序需要$per权限，结束任务"
 
-#: apps-src/apps/librose/aplt.cpp:1054
+#: apps-src/apps/librose/aplt.cpp:1056
 msgid ""
 "A bg task is running and it needs to be stopped first. Do you want to "
 "continue?"
 msgstr "有后台任务在运行，须要先停掉，要继续吗？"
 
-#: apps-src/apps/librose/aplt.cpp:1227
+#: apps-src/apps/librose/aplt.cpp:1229
 msgid "timing^state_fresh"
 msgstr "等待执行"
 
-#: apps-src/apps/librose/aplt.cpp:1228
+#: apps-src/apps/librose/aplt.cpp:1230
 msgid "timing^state_running"
 msgstr "执行中"
 
-#: apps-src/apps/librose/aplt.cpp:1229
+#: apps-src/apps/librose/aplt.cpp:1231
 msgid "timing^state_finished_ok"
 msgstr "已结束，执行成功"
 
-#: apps-src/apps/librose/aplt.cpp:1230
+#: apps-src/apps/librose/aplt.cpp:1232
 msgid "timing^state_finished_fail"
 msgstr "已结束，执行失败"
 
-#: apps-src/apps/librose/aplt.cpp:1231
+#: apps-src/apps/librose/aplt.cpp:1233
 msgid "timing^state_finished_expired"
 msgstr "已结束，未执行"
 
-#: apps-src/apps/librose/aplt.cpp:1232
+#: apps-src/apps/librose/aplt.cpp:1234
 msgid "timing^state_apltnotfound"
 msgstr "缺少小程序"
 
-#: apps-src/apps/librose/aplt.cpp:1233
+#: apps-src/apps/librose/aplt.cpp:1235
 msgid "timing^state_verdismatch"
 msgstr "版本不匹配"
 
-#: apps-src/apps/librose/aplt.cpp:1987
+#: apps-src/apps/librose/aplt.cpp:1989
 msgid "The execution takes too long and force to stop"
 msgstr "执行时间过长，强制结束。"
 
-#: apps-src/apps/librose/aplt.cpp:2231
+#: apps-src/apps/librose/aplt.cpp:2233
 msgid "A apllet is running in the foreground"
 msgstr "有小程序正在前台运行"
 
-#: apps-src/apps/librose/aplt.cpp:2233
+#: apps-src/apps/librose/aplt.cpp:2235
 #: apps-src/apps/librose/gui/dialogs/photo_selector.cpp:50
 msgid "Unknown"
 msgstr "未知"
 
-#: apps-src/apps/librose/aplt.cpp:2238
+#: apps-src/apps/librose/aplt.cpp:2240
 msgid "Time has expired and cannot be executed. Possible reason: $reason"
 msgstr "时间过期，无法执行。可能原因：$reason"
 
-#: apps-src/apps/librose/aplt.cpp:2301
+#: apps-src/apps/librose/aplt.cpp:2303
 #, fuzzy
 #| msgid "To enter $aplt, stop the task"
 msgid "To run a IoT or speech aplt task, stop the current one"
 msgstr "要进入“$aplt”，结束任务"
 
-#: apps-src/apps/librose/aplt.cpp:2521
+#: apps-src/apps/librose/aplt.cpp:2523
 msgid "Second or later, don't navigation"
 msgstr "第二次或更多次执行，不导航"
 
-#: apps-src/apps/librose/aplt.cpp:2576
+#: apps-src/apps/librose/aplt.cpp:2578
 msgid ""
 "Is running the same task, and it is the same priority, non-preemptive, and "
 "can not run this task."
 msgstr "正运行着一样任务，且是同优先级不可抢占，不能运行新任务。"
 
-#: apps-src/apps/librose/aplt.cpp:2590
+#: apps-src/apps/librose/aplt.cpp:2592
 msgid ""
 "There is a task with a higher priority running, and can not run this task."
 msgstr "有更高优先级的任务在运行，不能运行新任务。"
 
-#: apps-src/apps/librose/aplt.cpp:2836
+#: apps-src/apps/librose/aplt.cpp:2838
 msgid "The $times|th execution failed, wait for the next time"
 msgstr "第$times次执行失败，等待下一次"
 
-#: apps-src/apps/librose/aplt.cpp:3157
+#: apps-src/apps/librose/aplt.cpp:3159
 msgid "Household"
 msgstr "家用"
 
-#: apps-src/apps/librose/aplt_net.cpp:95
+#: apps-src/apps/librose/aplt_net.cpp:105
 #, fuzzy
 #| msgid "Password"
 msgid "Password error"
 msgstr "密码"
 
-#: apps-src/apps/librose/aplt_net.cpp:100
+#: apps-src/apps/librose/aplt_net.cpp:110
 msgid "The version is too low, please upgrade $app."
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:238
-#: apps-src/apps/librose/aplt_net.cpp:325
+#: apps-src/apps/librose/aplt_net.cpp:239
+msgid "net^usernamtype, mobile"
+msgstr "手机号登录"
+
+#: apps-src/apps/librose/aplt_net.cpp:241
+msgid "net^usernamtype, username"
+msgstr "用户名登录"
+
+#: apps-src/apps/librose/aplt_net.cpp:245
+msgid "Incorrect account or password"
+msgstr "账号或密码错误"
+
+#: apps-src/apps/librose/aplt_net.cpp:267
+#: apps-src/apps/librose/aplt_net.cpp:362
 msgid "$url   Response is invalid json foramt"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:261
+#: apps-src/apps/librose/aplt_net.cpp:290
 msgid ""
 "method: $method\n"
 "$msg"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:306
-#: apps-src/apps/librose/aplt_net.cpp:314
+#: apps-src/apps/librose/aplt_net.cpp:339
+#: apps-src/apps/librose/aplt_net.cpp:347
 msgid "Unknown error."
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:352
+#: apps-src/apps/librose/aplt_net.cpp:390
 msgid "SHA1 fail. not enoth bytes for SHA1 verify"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:359
+#: apps-src/apps/librose/aplt_net.cpp:401
 msgid "SHA1 fail. verify data fail"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:475
+#: apps-src/apps/librose/aplt_net.cpp:517
 msgid "binary data length error"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:478
+#: apps-src/apps/librose/aplt_net.cpp:520
 msgid "rsp data length is too short"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:490
+#: apps-src/apps/librose/aplt_net.cpp:532
 msgid "Verify rsp data error"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:511
+#: apps-src/apps/librose/aplt_net.cpp:553
 msgid "Applet's settings.cfg is invalid"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:522
+#: apps-src/apps/librose/aplt_net.cpp:564
 msgid "Applet's rose version is invalid"
 msgstr "无效rose_version"
 
-#: apps-src/apps/librose/aplt_net.cpp:924
-#: apps-src/apps/librose/aplt_net.cpp:1071
+#: apps-src/apps/librose/aplt_net.cpp:966
+#: apps-src/apps/librose/aplt_net.cpp:1113
 msgid "received data length is too short"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:927
-#: apps-src/apps/librose/aplt_net.cpp:1074
+#: apps-src/apps/librose/aplt_net.cpp:969
+#: apps-src/apps/librose/aplt_net.cpp:1116
 msgid "received data length is too large"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:1614
+#: apps-src/apps/librose/aplt_net.cpp:1308
+msgid "Get vericode"
+msgstr "获取验证码"
+
+#: apps-src/apps/librose/aplt_net.cpp:1730
+#: apps-src/apps/librose/gui/dialogs/register.cpp:89
+msgid "Reset password"
+msgstr "重置密码"
+
+#: apps-src/apps/librose/aplt_net.cpp:1797
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:497
+msgid "Update username"
+msgstr "修改用户名"
+
+#: apps-src/apps/librose/aplt_net.cpp:2145
 msgid "received data length isn't same as length that is written json-object"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:1845
+#: apps-src/apps/librose/aplt_net.cpp:2383
 #, fuzzy
 #| msgid "Upgrade App"
 msgid "Upload App"
 msgstr "升级App"
 
-#: apps-src/apps/librose/aplt_net.cpp:1848
+#: apps-src/apps/librose/aplt_net.cpp:2386
 #, fuzzy
 #| msgid "Upgrade pinyin pack"
 msgid "Upload pinyin pack"
 msgstr "升级拼音包"
 
-#: apps-src/apps/librose/aplt_net.cpp:1851
+#: apps-src/apps/librose/aplt_net.cpp:2389
 msgid "Upload material pack"
 msgstr ""
 
-#: apps-src/apps/librose/aplt_net.cpp:1904
+#: apps-src/apps/librose/aplt_net.cpp:2442
 msgid "Upgrade App"
 msgstr "升级App"
 
-#: apps-src/apps/librose/aplt_net.cpp:1907
+#: apps-src/apps/librose/aplt_net.cpp:2445
 msgid "Upgrade pinyin pack"
 msgstr "升级拼音包"
 
-#: apps-src/apps/librose/aplt_net.cpp:1910
+#: apps-src/apps/librose/aplt_net.cpp:2448
 #, fuzzy
 #| msgid "Upgrade pinyin pack"
 msgid "Upgrade material pack"
 msgstr "升级拼音包"
 
-#: apps-src/apps/librose/aplt_net.cpp:1914
+#: apps-src/apps/librose/aplt_net.cpp:2452
 #, fuzzy
 #| msgid "Upgrade pinyin pack"
 msgid "Upgrade latex pack"
 msgstr "升级拼音包"
 
-#: apps-src/apps/librose/aplt_net.cpp:1936
+#: apps-src/apps/librose/aplt_net.cpp:2474
 msgid "Version error. The version on the server is too low"
 msgstr "版本错误。服务器上版本过低"
 
-#: apps-src/apps/librose/aplt_net.cpp:1939
+#: apps-src/apps/librose/aplt_net.cpp:2477
 msgid "Already the latest version"
 msgstr "已经是最新版本"
 
-#: apps-src/apps/librose/aplt_net.cpp:2005
+#: apps-src/apps/librose/aplt_net.cpp:2543
 msgid "Failed to open the file to be written"
 msgstr "无法创建要写入的文件"
 
@@ -3950,112 +4140,112 @@ msgstr "不能启动底盘子任务。没有可用场景。"
 msgid "Start base's subtask fail. No scene that id is $id."
 msgstr "不能启动底盘子任务。找不到id是“$id”的场景。"
 
-#: apps-src/apps/librose/base_driver_core.cpp:883
+#: apps-src/apps/librose/base_driver_core.cpp:895
 msgid "The battery voltage is $level volts, please charge"
 msgstr "电池电压$level伏，请充电"
 
-#: apps-src/apps/librose/base_driver_core.cpp:900
+#: apps-src/apps/librose/base_driver_core.cpp:912
 msgid ""
 "The battery voltage has not been received for a long time, check the base "
 "serial's connection"
 msgstr "已较长时间没收到电池电压，检查下底盘串口连接"
 
-#: apps-src/apps/librose/base_driver_core.cpp:925
+#: apps-src/apps/librose/base_driver_core.cpp:937
 msgid "Base subtask has ended early, and the camera will enter a no task state"
 msgstr "底盘子任务提前结束，相机将进入无任务状态"
 
-#: apps-src/apps/librose/base_instance.cpp:326
+#: apps-src/apps/librose/base_instance.cpp:327
 msgid "Can not find valid hero.dat in <data>/xwml"
 msgstr ""
 
-#: apps-src/apps/librose/base_instance.cpp:427
+#: apps-src/apps/librose/base_instance.cpp:428
 msgid "$path contains illegal characters. Please use a pure english path."
 msgstr "$path这个目录名包含非法字符，请使用纯英文目录名。"
 
-#: apps-src/apps/librose/base_instance.cpp:787
+#: apps-src/apps/librose/base_instance.cpp:788
 msgid "tokens^New"
 msgstr "新"
 
-#: apps-src/apps/librose/base_instance.cpp:1372
+#: apps-src/apps/librose/base_instance.cpp:1408
 msgid "Must set game_config::app"
 msgstr ""
 
-#: apps-src/apps/librose/base_instance.cpp:1373
+#: apps-src/apps/librose/base_instance.cpp:1409
 msgid "Must set game_config::app_channel"
 msgstr ""
 
-#: apps-src/apps/librose/base_instance.cpp:1402
+#: apps-src/apps/librose/base_instance.cpp:1438
 #: apps-src/apps/librose/config_cache.cpp:707
 msgid "Error loading game configuration files: '"
 msgstr ""
 
-#: apps-src/apps/librose/base_instance.cpp:1403
+#: apps-src/apps/librose/base_instance.cpp:1439
 #: apps-src/apps/librose/config_cache.cpp:707
 msgid "' (The game will now exit)"
 msgstr ""
 
-#: apps-src/apps/librose/base_instance.cpp:1489
+#: apps-src/apps/librose/base_instance.cpp:1525
 msgid "Exit fullscreen"
 msgstr "退出全屏"
 
-#: apps-src/apps/librose/base_instance.cpp:1489
+#: apps-src/apps/librose/base_instance.cpp:1525
 msgid "Enter fullscreen"
 msgstr "进入全屏"
 
-#: apps-src/apps/librose/base_instance.cpp:1493
+#: apps-src/apps/librose/base_instance.cpp:1529
 msgid "Change Resolution"
 msgstr "改变分辨率"
 
-#: apps-src/apps/librose/base_instance.cpp:1589
+#: apps-src/apps/librose/base_instance.cpp:1625
 msgid "Player"
 msgstr "玩家"
 
-#: apps-src/apps/librose/base_instance.cpp:1855
+#: apps-src/apps/librose/base_instance.cpp:1891
 msgid ""
 "A timing task is running. Do you want to stop the task and enter '$aplt'?"
 msgstr "有后台任务正在运行。要停止任务，从而进入“$aplt”吗？"
 
-#: apps-src/apps/librose/base_instance.cpp:1857
+#: apps-src/apps/librose/base_instance.cpp:1893
 msgid "To enter $aplt, stop the task"
 msgstr "要进入“$aplt”，结束任务"
 
-#: apps-src/apps/librose/base_instance.cpp:2161
+#: apps-src/apps/librose/base_instance.cpp:2197
 msgid "timing^It is time to execute"
 msgstr "开始执行"
 
-#: apps-src/apps/librose/base_instance.cpp:2190
+#: apps-src/apps/librose/base_instance.cpp:2226
 msgid "cpp task is finished"
 msgstr "cpp任务结束"
 
-#: apps-src/apps/librose/base_instance.cpp:3020
+#: apps-src/apps/librose/base_instance.cpp:3141
 msgid "The camera has not received an image for more than $duration"
 msgstr "相机已超过$duration没收到图像"
 
-#: apps-src/apps/librose/cairo2.cpp:3198
+#: apps-src/apps/librose/cairo2.cpp:3217
 msgid "Left+Right"
 msgstr "左 + 右"
 
-#: apps-src/apps/librose/cairo2.cpp:3199
+#: apps-src/apps/librose/cairo2.cpp:3218
 msgid "Left only"
 msgstr "只左侧"
 
-#: apps-src/apps/librose/cairo2.cpp:3200
+#: apps-src/apps/librose/cairo2.cpp:3219
 msgid "Right only"
 msgstr "只右侧"
 
-#: apps-src/apps/librose/cairo2.cpp:3255
+#: apps-src/apps/librose/cairo2.cpp:3274
 msgid "Phase $number"
 msgstr "阶段$number"
 
-#: apps-src/apps/librose/cairo2.cpp:3273
+#: apps-src/apps/librose/cairo2.cpp:3292
 msgid "Open image"
 msgstr "打开图像"
 
-#: apps-src/apps/librose/cairo2.cpp:3281
+#: apps-src/apps/librose/cairo2.cpp:3300
 msgid "Fake landmark"
 msgstr "伪姿态点"
 
-#: apps-src/apps/librose/cairo2.cpp:3298
+#: apps-src/apps/librose/cairo2.cpp:3317
 msgid "Clear selected"
 msgstr "清除选中"
 
@@ -4084,7 +4274,7 @@ msgid "Import failed. for $type_cfg, 'type' value must be $type"
 msgstr "导入失败。对$type_cfg，“type”值必须是$type"
 
 #: apps-src/apps/librose/cfg_cpp_api_core.cpp:2150
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1453
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1442
 #: apps-src/apps/librose/gui/dialogs/rvar_editor.cpp:217
 msgid "Empty"
 msgstr "空"
@@ -4237,6 +4427,35 @@ msgstr ""
 #: apps-src/apps/librose/gui/auxiliary/window_builder/tree.cpp:88
 msgid "No node defined."
 msgstr "页面未定义"
+
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:40
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:170
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:317
+msgid "Action library"
+msgstr "动作库"
+
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:89
+msgid "action_tpl2_task_str, time_counter, $max_count"
+msgstr "$max_count秒"
+
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:103
+msgid "action_tpl2_task_str, rep_counter, $max_count, $phase"
+msgstr ""
+"$max_count次\n"
+"$phase"
+
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:172
+msgid "todo^action library"
+msgstr "你需要用到动作库中没有的动作，提供演示视频，我这边会制作动作脚本"
+
+#: apps-src/apps/librose/gui/dialogs/action_lib2.cpp:319
+#: apps-src/apps/librose/health_controller.cpp:6495
+msgid ""
+"$type file has been generated.\n"
+"Path: $file"
+msgstr ""
+"已生成$type文件。\n"
+"路径：$file"
 
 #: apps-src/apps/librose/gui/dialogs/browse.cpp:141
 msgid "My Document"
@@ -4398,142 +4617,142 @@ msgstr "确定要删除这$count个项目吗"
 msgid "Delete"
 msgstr "删除"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:161
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:150
 msgid "task^Workout"
 msgstr "跟练"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:162
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:151
 msgid "For '$workout' task, use auto-modify when editing ID and name."
 msgstr "对“$workout”任务，编辑ID、编辑名称时，使用自动修改。"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:231
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:220
 msgid "For variable name, the prefix '$prefix' is omitted when displayed here"
 msgstr "对变量名，这里显示时省去了前缀“$prefix”"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:276
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:265
 msgid "Scene name"
 msgstr "场景名称"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:283
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:272
 msgid "Lamp"
 msgstr "台灯"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:286
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:275
 msgid "scene_name remark, $scene_name, $filename"
 msgstr ""
 "场景名称将作为kLink配置文件名的一部分。举个例子，场景名称是“$scene_name”，那"
 "kLink配置文件名是“$filename”。"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:369
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:358
 msgid "Background task is running, and cannot be modified."
 msgstr "有后台任务正在运行，不能修改"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:410
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:399
 msgid "Supports up to $max base scenes"
 msgstr "最多支持$max种底盘场景"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:515
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:573
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:504
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:562
 msgid "Start fail"
 msgstr "启动失败"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:626
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:615
 msgid "Resume"
 msgstr "恢复"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:737
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:726
 msgid "Edit failed. Please set the input variable: 'file' first."
 msgstr "不能修改，需要先设置输入变量：file。"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:794
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:783
 msgid "Edit scene ID"
 msgstr "编辑场景ID"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:801
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:790
 msgid ""
 "Scene ID. Must be unique. Up to $max_chars characters, cannot contain "
 "Chinese."
 msgstr "场景ID。必须唯一。最多$max_chars个字符，不可以含中文。"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:804
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:793
 msgid "Edit scene name"
 msgstr "编辑场景名称"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:805
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:794
 msgid ""
 "Scene name. Must be unique. Up to $max_chars characters, including Chinese."
 msgstr "场景名称。必须唯一。最多$max_chars个字符，可以含中文。"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:986
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:975
 #: apps-src/apps/librose/gui/dialogs/insert_scene.cpp:183
 msgid "Variable"
 msgstr "变量"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:989
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:978
 #: apps-src/apps/librose/gui/dialogs/insert_scene.cpp:186
 msgid "remark^edit scene's input vars, $prefix"
 msgstr ""
 "一旦任务要开始执行，这些输入变量会自动赋给以下值。这里只须要输入短变量名，使"
 "用时会固定加上“$prefix”。"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1081
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1070
 msgid "Do you want scene '$name' to be idle?"
 msgstr "要让场景“$name”进入到挂起状态吗？"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1084
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1073
 msgid "Do you want to restore scene '$name' to working state?"
 msgstr "要把场景“$name”恢复到工作状态吗？"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1087
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1076
 msgid "Do you want to switch to scene '$name'?"
 msgstr "要切换到场景“$name”吗？"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1129
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1118
 msgid "Do you want to delete scene '$name'?"
 msgstr "要删除场景“$name”吗？"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1207
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1196
 #: apps-src/apps/librose/gui/dialogs/insert_scene.cpp:40
 msgid "Insert base scene"
 msgstr "添加底盘场景"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1211
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1277
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1200
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1266
 msgid "Import"
 msgstr "导入"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1214
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1203
 msgid "A task is currently running in the wkocourse, cannot $action."
 msgstr "有课程任务正在运行，不能$action。"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1244
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1233
 msgid ""
 "In $dir, there are no $klink_cfg files that conform to the file name format"
 msgstr "在$dir下，没有符合文件名格式的$klink_cfg文件"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1257
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1246
 msgid "Buildin"
 msgstr "内置"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1281
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1270
 msgid ""
 "A bg task is running and it needs to be stopped first. Do you want to "
 "continue $action?"
 msgstr "有后台任务在运行，须要先停掉，要继续$action？"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1282
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1271
 msgid "To $action, stop the task"
 msgstr "要进入“$aplt”，结束任务"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1315
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1304
 msgid "$filename, do you want to overwrite a file with the same name?"
 msgstr "$filename，存在同名文件，要覆盖吗？"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1396
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1385
 msgid "Export finished. file: $file"
 msgstr "已导出到文件：$file"
 
-#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1431
+#: apps-src/apps/librose/gui/dialogs/dlg_utils.cpp:1420
 msgid "Not created"
 msgstr "未创建"
 
@@ -4542,26 +4761,26 @@ msgstr "未创建"
 msgid "Freq value"
 msgstr "常用值"
 
-#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:93
-#: apps-src/apps/librose/health_controller.cpp:2561
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:92
+#: apps-src/apps/librose/health_controller.cpp:2647
 msgid "Today"
 msgstr "今天"
 
-#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:94
-#: apps-src/apps/librose/health_controller.cpp:2563
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:93
+#: apps-src/apps/librose/health_controller.cpp:2649
 msgid "Yesterday"
 msgstr "昨天"
 
-#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:95
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:94
 msgid "The day before yesterday"
 msgstr "前天"
 
-#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:97
-#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:99
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:96
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:98
 msgid "$count days"
 msgstr "$count天"
 
-#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:166
+#: apps-src/apps/librose/gui/dialogs/health_scene.cpp:213
 msgid "Watermark added to the bottom right corner of image"
 msgstr "添加在图片右下角的水印"
 
@@ -4668,6 +4887,35 @@ msgstr "确定要删除这$count个项目吗"
 msgid "Builtin Operator"
 msgstr ""
 
+#: apps-src/apps/librose/gui/dialogs/register.cpp:112
+msgid "I have read and agreed to $agreement"
+msgstr "我已阅读并同意$agreemment"
+
+#: apps-src/apps/librose/gui/dialogs/register.cpp:120
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:176
+msgid "Mobile number"
+msgstr "手机号"
+
+#: apps-src/apps/librose/gui/dialogs/register.cpp:128
+msgid "Verification code"
+msgstr "验证码"
+
+#: apps-src/apps/librose/gui/dialogs/register.cpp:142
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:95
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:330
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:355
+msgid "Password"
+msgstr "密码"
+
+#: apps-src/apps/librose/gui/dialogs/register.cpp:219
+msgid "login^erase user warning"
+msgstr ""
+"注销后，你的账号将被永久删除，且无法恢复。请注意：\n"
+"\n"
+"你的个人资料、使用记录和相关数据将被清除\n"
+"已购买或未使用的课程等将无法找回\n"
+"与该账号绑定的手机号可能无法再次注册或需等待一段时间"
+
 #: apps-src/apps/librose/gui/dialogs/rexplorer.cpp:187
 #, fuzzy
 #| msgid "Username"
@@ -4686,21 +4934,14 @@ msgstr "请输入文件夹名称"
 msgid "Create $folder fail"
 msgstr "新建文件夹“$folder”失败"
 
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:81
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:271
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:293
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:327
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:83
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:176
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:320
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:500
 msgid "Username"
 msgstr "用户名"
 
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:93
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:197
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:281
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:304
-msgid "Password"
-msgstr "密码"
-
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:179
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:186
 msgid "login remark, $cswamp, launcher"
 msgstr ""
 "请上C洼($cswamp)注册账号。\n"
@@ -4708,24 +4949,20 @@ msgstr ""
 "kDeskop。\n"
 "下载、升级小程序，可不必登录。 "
 
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:181
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:188
 msgid "login remark, $cswamp, kdesktop"
 msgstr ""
 "请上C洼($cswamp)注册账号。\n"
 "登录后，可获得机器人运行过程中产生的事件。\n"
 "下载、升级小程序，可不必登录。 "
 
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:198
-msgid "Cookie"
-msgstr ""
-
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:228
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:257
 msgid "logout remark, $cswamp, launcher"
 msgstr ""
 "一旦退出，将不能上传机器人运行过程中产生的事件。\n"
 "退出登录，不影响下载、升级小程序。 "
 
-#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:230
+#: apps-src/apps/librose/gui/dialogs/rlogin.cpp:259
 msgid "logout remark, $cswamp, kdesktop"
 msgstr ""
 "一旦退出，将不能接收机器人运行过程中产生的事件。\n"
@@ -4764,6 +5001,8 @@ msgid "Search"
 msgstr "搜索"
 
 #: apps-src/apps/librose/gui/dialogs/rstore.cpp:253
+#: apps-src/apps/librose/health_controller.cpp:6575
+#: apps-src/apps/librose/health_controller.cpp:7294
 #: apps-src/apps/librose/lobby.cpp:429
 msgid "Me"
 msgstr "我"
@@ -4924,218 +5163,230 @@ msgstr ""
 msgid "twindow::input_view_changed, calculate best size fail"
 msgstr ""
 
-#: apps-src/apps/librose/health.cpp:175 apps-src/apps/librose/health.cpp:184
+#: apps-src/apps/librose/health.cpp:177 apps-src/apps/librose/health.cpp:186
 msgid "$count times"
 msgstr "$count次"
 
-#: apps-src/apps/librose/health_controller.cpp:284
+#: apps-src/apps/librose/health.cpp:1131 apps-src/apps/librose/health.cpp:1140
+msgid "Cannot load healxxxxxx.dat."
+msgstr "不能加载healthxxxxxx.dat。"
+
+#: apps-src/apps/librose/health.cpp:1161
+msgid "No workout in healthxxxxxx.dat."
+msgstr "healthxxxxxx.dat找不到指定操。"
+
+#: apps-src/apps/librose/health.cpp:1189
+msgid "Specifying operation is not supported."
+msgstr "不支持指定操作。"
+
+#: apps-src/apps/librose/health_controller.cpp:320
 msgid "ID Inc \"$key\""
 msgstr "ID包含「$key」"
 
-#: apps-src/apps/librose/health_controller.cpp:293
+#: apps-src/apps/librose/health_controller.cpp:329
 msgid "Course \"$title\""
 msgstr "课程「$title」"
 
-#: apps-src/apps/librose/health_controller.cpp:305
+#: apps-src/apps/librose/health_controller.cpp:341
 msgid "Workout records from the last $days days containing \"$key\""
 msgstr "近$days天包含「$key」的做操记录"
 
-#: apps-src/apps/librose/health_controller.cpp:314
+#: apps-src/apps/librose/health_controller.cpp:350
 msgid "Course progress: $title"
 msgstr "课程进度：$title"
 
-#: apps-src/apps/librose/health_controller.cpp:374
+#: apps-src/apps/librose/health_controller.cpp:410
 msgid "dunhao"
 msgstr "、"
 
-#: apps-src/apps/librose/health_controller.cpp:418
+#: apps-src/apps/librose/health_controller.cpp:462
 msgid "The height of one line of Chinese text"
 msgstr "一行中文高度"
 
-#: apps-src/apps/librose/health_controller.cpp:420
+#: apps-src/apps/librose/health_controller.cpp:464
 msgid "improper reason^all captured"
 msgstr "没拍到必须点"
 
-#: apps-src/apps/librose/health_controller.cpp:422
+#: apps-src/apps/librose/health_controller.cpp:466
 msgid "improper reason^shoulder x in middle"
 msgstr "胸口没在相机中部"
 
-#: apps-src/apps/librose/health_controller.cpp:423
+#: apps-src/apps/librose/health_controller.cpp:467
 msgid "improper reason^not too close"
 msgstr "靠太近"
 
-#: apps-src/apps/librose/health_controller.cpp:424
+#: apps-src/apps/librose/health_controller.cpp:468
 msgid "improper reason^face not too crooked"
 msgstr "脸太歪"
 
-#: apps-src/apps/librose/health_controller.cpp:425
+#: apps-src/apps/librose/health_controller.cpp:469
 msgid "improper reason^head not too low"
 msgstr "头太低"
 
-#: apps-src/apps/librose/health_controller.cpp:426
+#: apps-src/apps/librose/health_controller.cpp:470
 msgid "improper reason^parallel not too crooked"
 msgstr "双肩太歪"
 
-#: apps-src/apps/librose/health_controller.cpp:429
+#: apps-src/apps/librose/health_controller.cpp:473
 msgid "improper reason^head not too forward"
 msgstr "头太前倾"
 
-#: apps-src/apps/librose/health_controller.cpp:430
+#: apps-src/apps/librose/health_controller.cpp:474
 msgid "improper reason^spine not too bending"
 msgstr "脊柱太弯"
 
-#: apps-src/apps/librose/health_controller.cpp:431
+#: apps-src/apps/librose/health_controller.cpp:475
 msgid "improper reason^shoulder width not too broad"
 msgstr "双肩太宽"
 
-#: apps-src/apps/librose/health_controller.cpp:432
+#: apps-src/apps/librose/health_controller.cpp:476
 msgid "improper reason^spine not too long"
 msgstr "脊柱太长"
 
-#: apps-src/apps/librose/health_controller.cpp:433
+#: apps-src/apps/librose/health_controller.cpp:477
 msgid "improper reason^hip not too high"
 msgstr "腰太高"
 
-#: apps-src/apps/librose/health_controller.cpp:514
+#: apps-src/apps/librose/health_controller.cpp:557
 msgid "Absent landmark(nan)"
 msgstr "缺少姿态点(nan)"
 
-#: apps-src/apps/librose/health_controller.cpp:515
+#: apps-src/apps/librose/health_controller.cpp:558
 msgid "Absent landmark"
 msgstr "缺少姿态点"
 
-#: apps-src/apps/librose/health_controller.cpp:811
+#: apps-src/apps/librose/health_controller.cpp:871
 msgid ""
 "Playback failed. The action script format used by this workout is too old "
 "and is no longer supported."
 msgstr "无法播放。此健身操使用的动作脚本格式过旧，已不再支持。"
 
-#: apps-src/apps/librose/health_controller.cpp:1030
+#: apps-src/apps/librose/health_controller.cpp:1109
 msgid "posture^Sitting period"
 msgstr "就坐时段"
 
-#: apps-src/apps/librose/health_controller.cpp:1035
-#: apps-src/apps/librose/health_controller.cpp:1129
-#: apps-src/apps/librose/health_controller.cpp:1322
+#: apps-src/apps/librose/health_controller.cpp:1114
+#: apps-src/apps/librose/health_controller.cpp:1208
+#: apps-src/apps/librose/health_controller.cpp:1401
 msgid "posture^Sitting duration"
 msgstr "就坐时长"
 
-#: apps-src/apps/librose/health_controller.cpp:1040
+#: apps-src/apps/librose/health_controller.cpp:1119
 msgid "posture^Improper alert"
 msgstr "不端正提醒"
 
-#: apps-src/apps/librose/health_controller.cpp:1045
+#: apps-src/apps/librose/health_controller.cpp:1124
 msgid "posture^Sedentary alert"
 msgstr "久坐提醒 "
 
-#: apps-src/apps/librose/health_controller.cpp:1050
+#: apps-src/apps/librose/health_controller.cpp:1129
 msgid "posture^Workout"
 msgstr "做操"
 
-#: apps-src/apps/librose/health_controller.cpp:1112
+#: apps-src/apps/librose/health_controller.cpp:1191
 #: apps-src/apps/librose/health_display.cpp:70
 msgid "title^posture chart"
 msgstr "坐姿分析"
 
-#: apps-src/apps/librose/health_controller.cpp:1121
+#: apps-src/apps/librose/health_controller.cpp:1200
 msgid "posture^left_y_axis title"
 msgstr "就坐/不端正时长(分钟)"
 
-#: apps-src/apps/librose/health_controller.cpp:1125
+#: apps-src/apps/librose/health_controller.cpp:1204
 msgid "posture^right_y_axis title"
 msgstr "不端正各原因时长(分钟)/不端正提醒次数"
 
-#: apps-src/apps/librose/health_controller.cpp:1135
-#: apps-src/apps/librose/health_controller.cpp:1330
+#: apps-src/apps/librose/health_controller.cpp:1214
+#: apps-src/apps/librose/health_controller.cpp:1409
 msgid "posture^Improper duration"
 msgstr "不端正时长"
 
-#: apps-src/apps/librose/health_controller.cpp:1143
-#: apps-src/apps/librose/health_controller.cpp:1340
+#: apps-src/apps/librose/health_controller.cpp:1222
+#: apps-src/apps/librose/health_controller.cpp:1419
 msgid "posture^Improper alert count"
 msgstr "不端正提醒次数"
 
-#: apps-src/apps/librose/health_controller.cpp:1150
+#: apps-src/apps/librose/health_controller.cpp:1229
 msgid "posture^chart remak"
 msgstr "一次不端正可能是多个原因同时发生，因而各原因时长之和会超过不端正时长。"
 
-#: apps-src/apps/librose/health_controller.cpp:1301
+#: apps-src/apps/librose/health_controller.cpp:1380
 msgid "title^posture chart, $days"
 msgstr "近$days天坐姿"
 
-#: apps-src/apps/librose/health_controller.cpp:1314
+#: apps-src/apps/librose/health_controller.cpp:1393
 msgid "posture^left_y_axis title, days"
 msgstr "就坐/不端正时长"
 
-#: apps-src/apps/librose/health_controller.cpp:1318
+#: apps-src/apps/librose/health_controller.cpp:1397
 msgid "posture^right_y_axis title, days"
 msgstr "不端正提醒次数"
 
-#: apps-src/apps/librose/health_controller.cpp:1482
+#: apps-src/apps/librose/health_controller.cpp:1561
 msgid "title^workout chart, $days"
 msgstr "近$days天做操"
 
-#: apps-src/apps/librose/health_controller.cpp:1495
-#: apps-src/apps/librose/health_controller.cpp:1503
-#: apps-src/apps/librose/health_controller.cpp:1712
-#: apps-src/apps/librose/health_controller.cpp:1723
-#: apps-src/apps/librose/health_controller.cpp:2030
-#: apps-src/apps/librose/health_controller.cpp:2040
+#: apps-src/apps/librose/health_controller.cpp:1574
+#: apps-src/apps/librose/health_controller.cpp:1582
+#: apps-src/apps/librose/health_controller.cpp:1791
+#: apps-src/apps/librose/health_controller.cpp:1802
+#: apps-src/apps/librose/health_controller.cpp:2112
+#: apps-src/apps/librose/health_controller.cpp:2122
 msgid "workout^Workout duration"
 msgstr "做操时长"
 
-#: apps-src/apps/librose/health_controller.cpp:1499
-#: apps-src/apps/librose/health_controller.cpp:1522
-#: apps-src/apps/librose/health_controller.cpp:1716
-#: apps-src/apps/librose/health_controller.cpp:1743
-#: apps-src/apps/librose/health_controller.cpp:2034
+#: apps-src/apps/librose/health_controller.cpp:1578
+#: apps-src/apps/librose/health_controller.cpp:1601
+#: apps-src/apps/librose/health_controller.cpp:1795
+#: apps-src/apps/librose/health_controller.cpp:1822
+#: apps-src/apps/librose/health_controller.cpp:2116
 msgid "workout^Workout count"
 msgstr "做操次数"
 
-#: apps-src/apps/librose/health_controller.cpp:1718
-#: apps-src/apps/librose/health_controller.cpp:1753
+#: apps-src/apps/librose/health_controller.cpp:1797
+#: apps-src/apps/librose/health_controller.cpp:1832
 msgid "wko^Share workout count"
 msgstr "分享做操次数"
 
-#: apps-src/apps/librose/health_controller.cpp:1761
-#: apps-src/apps/librose/health_controller.cpp:2094
+#: apps-src/apps/librose/health_controller.cpp:1840
+#: apps-src/apps/librose/health_controller.cpp:2176
 msgid "wko^days workout summary chart remark"
 msgstr "点击柱子，可跳转到当天的第一组做操。"
 
-#: apps-src/apps/librose/health_controller.cpp:2060
+#: apps-src/apps/librose/health_controller.cpp:2142
 msgid "workout^Plan workout count"
 msgstr "计划做操次数"
 
-#: apps-src/apps/librose/health_controller.cpp:2069
+#: apps-src/apps/librose/health_controller.cpp:2151
 msgid "wko^Actual workout count"
 msgstr "实际做操次数"
 
-#: apps-src/apps/librose/health_controller.cpp:2075
+#: apps-src/apps/librose/health_controller.cpp:2157
 msgid "wko^Full workout id"
 msgstr "已完成"
 
-#: apps-src/apps/librose/health_controller.cpp:2081
+#: apps-src/apps/librose/health_controller.cpp:2163
 msgid "wko^Incomplete workout id"
 msgstr "部分完成"
 
-#: apps-src/apps/librose/health_controller.cpp:2087
+#: apps-src/apps/librose/health_controller.cpp:2169
 msgid "wko^Pending workout id"
 msgstr "未开始"
 
-#: apps-src/apps/librose/health_controller.cpp:2804
-#: apps-src/apps/librose/health_controller.cpp:4496
+#: apps-src/apps/librose/health_controller.cpp:2918
+#: apps-src/apps/librose/health_controller.cpp:4611
 msgid "wko^Time segment"
 msgstr "计时分段"
 
-#: apps-src/apps/librose/health_controller.cpp:2806
+#: apps-src/apps/librose/health_controller.cpp:2920
 msgid "wko^Tow-phase rep"
 msgstr "计次二阶段"
 
-#: apps-src/apps/librose/health_controller.cpp:4282
+#: apps-src/apps/librose/health_controller.cpp:4396
 msgid "$number|-th"
 msgstr "第$number|次"
 
-#: apps-src/apps/librose/health_controller.cpp:4416
+#: apps-src/apps/librose/health_controller.cpp:4531
 msgid ""
 "wko^history, time_counter, has last, $days, $workouts, $duration_s, "
 "$last_ts, $last_duration"
@@ -5143,11 +5394,11 @@ msgstr ""
 "累计打卡$days天，做操$workouts次，总时长$duration_s。上一次：$last_ts，时长"
 "$last_duration。"
 
-#: apps-src/apps/librose/health_controller.cpp:4418
+#: apps-src/apps/librose/health_controller.cpp:4533
 msgid "wko^history, time_counter, has last, $days, $workouts, $duration_s"
 msgstr "累计打卡$days天，做操$workouts次，总时长$duration_s。"
 
-#: apps-src/apps/librose/health_controller.cpp:4422
+#: apps-src/apps/librose/health_controller.cpp:4537
 msgid ""
 "wko^history, rep_counter, has last, $days, $workouts, $reps, $last_ts, "
 "$last_duration"
@@ -5155,115 +5406,107 @@ msgstr ""
 "累计打卡$days天，做操$workouts次，总共$reps个。上一次：$last_ts，时长"
 "$last_duration。"
 
-#: apps-src/apps/librose/health_controller.cpp:4424
+#: apps-src/apps/librose/health_controller.cpp:4539
 msgid "wko^history, rep_counter, has last, $days, $workouts, $reps"
 msgstr "累计打卡$days天，做操$workouts次，总共$reps个。"
 
-#: apps-src/apps/librose/health_controller.cpp:4429
+#: apps-src/apps/librose/health_controller.cpp:4544
 msgid "wko^history, not completed"
 msgstr "未做完，此次不计入打卡。"
 
-#: apps-src/apps/librose/health_controller.cpp:4434
+#: apps-src/apps/librose/health_controller.cpp:4549
 msgid "workout^left_y_axis title"
 msgstr "状态时长"
 
-#: apps-src/apps/librose/health_controller.cpp:4440
-#: apps-src/apps/librose/health_controller.cpp:4442
-#: apps-src/apps/librose/health_controller.cpp:4484
+#: apps-src/apps/librose/health_controller.cpp:4555
+#: apps-src/apps/librose/health_controller.cpp:4557
+#: apps-src/apps/librose/health_controller.cpp:4599
 msgid "workout^Unsatisfied count"
 msgstr "不满足次数"
 
-#: apps-src/apps/librose/health_controller.cpp:4442
-#: apps-src/apps/librose/health_controller.cpp:4486
+#: apps-src/apps/librose/health_controller.cpp:4557
+#: apps-src/apps/librose/health_controller.cpp:4601
 msgid "workout^Change to unsatisfied count"
 msgstr "变成不满足次数"
 
-#: apps-src/apps/librose/health_controller.cpp:4447
+#: apps-src/apps/librose/health_controller.cpp:4562
 msgid "workout^Nonpose state duration"
 msgstr "非姿态状态时长"
 
-#: apps-src/apps/librose/health_controller.cpp:4455
+#: apps-src/apps/librose/health_controller.cpp:4570
 msgid "workout^Pose state duration"
 msgstr "姿态状态时长"
 
-#: apps-src/apps/librose/health_controller.cpp:4463
+#: apps-src/apps/librose/health_controller.cpp:4578
 msgid "workout^Satisfied duration"
 msgstr "满足时长"
 
-#: apps-src/apps/librose/health_controller.cpp:4473
+#: apps-src/apps/librose/health_controller.cpp:4588
 msgid "workout^Unsatisfied duration"
 msgstr "不满足时长"
 
-#: apps-src/apps/librose/health_controller.cpp:4503
+#: apps-src/apps/librose/health_controller.cpp:4618
 msgid "workout^Rep duration"
 msgstr "单次耗时"
 
-#: apps-src/apps/librose/health_controller.cpp:4509
+#: apps-src/apps/librose/health_controller.cpp:4624
 msgid "workout^Active period"
 msgstr "活跃期"
 
-#: apps-src/apps/librose/health_controller.cpp:4515
+#: apps-src/apps/librose/health_controller.cpp:4630
 msgid "workout^Cooldown period"
 msgstr "冷却期"
 
-#: apps-src/apps/librose/health_controller.cpp:4531
+#: apps-src/apps/librose/health_controller.cpp:4646
 msgid "wko^chart remark"
 msgstr ""
 "横坐标的“0秒”指系统进入首个姿态状态后，用户姿势首次满足姿态判断的那个时刻。"
 
-#: apps-src/apps/librose/health_controller.cpp:4534
+#: apps-src/apps/librose/health_controller.cpp:4649
 msgid "workout^rep duration remark"
 msgstr ""
 "单次耗时定义为相邻两次计数的时间间隔，即从上一次计数完成时刻到本次计数完成时"
 "刻。计数完成时刻对应第二阶段冷却期的开始。"
 
-#: apps-src/apps/librose/health_controller.cpp:5330
+#: apps-src/apps/librose/health_controller.cpp:5495
 msgid "wko^miss course, no aplt, $course"
 msgstr ""
 "「$course」所在的小程序已卸载\n"
 "请重新安装该小程序后再试"
 
-#: apps-src/apps/librose/health_controller.cpp:5334
+#: apps-src/apps/librose/health_controller.cpp:5499
 msgid "wko^miss course, aplt hasn't course, $course, $aplt"
 msgstr ""
 "在小程序（$aplt）中未找到「$course」\n"
 "该课程可能已下架"
 
-#: apps-src/apps/librose/health_controller.cpp:5352
+#: apps-src/apps/librose/health_controller.cpp:5517
 msgid "wko^miss course, no enroll, $course"
 msgstr ""
 "未找到「$course」的购买记录\n"
 "该记录可能已过期，被删除。"
 
-#: apps-src/apps/librose/health_controller.cpp:5768
+#: apps-src/apps/librose/health_controller.cpp:5937
 msgid "$count workout records found."
 msgstr "共 $count 条做操记录。"
 
-#: apps-src/apps/librose/health_controller.cpp:6255
+#: apps-src/apps/librose/health_controller.cpp:6433
 msgid "Please check permissions"
 msgstr "请检查是否赋与了权限"
 
-#: apps-src/apps/librose/health_controller.cpp:6277
+#: apps-src/apps/librose/health_controller.cpp:6455
 msgid "Failed to save to \"$dir\""
 msgstr "向“$dir”目录写入文件失败"
 
-#: apps-src/apps/librose/health_controller.cpp:6311
+#: apps-src/apps/librose/health_controller.cpp:6489
 msgid "Saved to Photos"
 msgstr "已保存到相册"
 
-#: apps-src/apps/librose/health_controller.cpp:6316
+#: apps-src/apps/librose/health_controller.cpp:6494
 msgid "Image"
 msgstr "图像"
 
-#: apps-src/apps/librose/health_controller.cpp:6317
-msgid ""
-"$type file has been generated.\n"
-"Path: $file"
-msgstr ""
-"已生成$type文件。\n"
-"路径：$file"
-
-#: apps-src/apps/librose/health_controller.cpp:6321
+#: apps-src/apps/librose/health_controller.cpp:6499
 msgid ""
 "Failed to save to Photos. $reason. The image is saved in the app's private "
 "directory.\n"
@@ -5272,19 +5515,19 @@ msgstr ""
 "保存到相册失败，$reason。图像放在私有目录。\n"
 "路径：$file"
 
-#: apps-src/apps/librose/health_controller.cpp:6367
+#: apps-src/apps/librose/health_controller.cpp:6662
 msgid "ID contain"
 msgstr "ID 包含"
 
-#: apps-src/apps/librose/health_controller.cpp:6388
+#: apps-src/apps/librose/health_controller.cpp:6683
 msgid "wko^Add ID filter"
 msgstr "新建ID筛选页"
 
-#: apps-src/apps/librose/health_controller.cpp:6391
+#: apps-src/apps/librose/health_controller.cpp:6686
 msgid "Enter ID keyword (min. $chars chars)"
 msgstr "输入ID关键字（至少$chars个字符）"
 
-#: apps-src/apps/librose/health_controller.cpp:6396
+#: apps-src/apps/librose/health_controller.cpp:6691
 msgid "Insert dyn_chart remark, idcontain, $days"
 msgstr ""
 "ID 为动作脚本文件名去掉末尾 \".cfg\" 的内容。\n"
@@ -5292,15 +5535,62 @@ msgstr ""
 "如：输入 plank，将同时匹配 leagor_plank 及 leagor_plank90s）\n"
 "点击下方“常用值”可快速选取已配置的脚本。"
 
-#: apps-src/apps/librose/health_controller.cpp:6546
+#: apps-src/apps/librose/health_controller.cpp:6838
+msgid "Upload healthxx.dat"
+msgstr "上传做操数据"
+
+#: apps-src/apps/librose/health_controller.cpp:6854
+msgid "wko^healthxx.dat"
+msgstr "做操数据"
+
+#: apps-src/apps/librose/health_controller.cpp:6889
+#: apps-src/apps/librose/health_controller.cpp:7055
+msgid "Sent"
+msgstr "已发送"
+
+#: apps-src/apps/librose/health_controller.cpp:6900
 msgid "Report page"
 msgstr "报表页"
 
-#: apps-src/apps/librose/health_controller.cpp:6811
+#: apps-src/apps/librose/health_controller.cpp:6962
+msgid "Do comment"
+msgstr "写评语"
+
+#: apps-src/apps/librose/health_controller.cpp:6986
+msgid "wko^do comment title, $wko_title, $wko_start"
+msgstr "写评语（$wko_title . $wko_start）"
+
+#: apps-src/apps/librose/health_controller.cpp:6988
+#: apps-src/apps/librose/health_controller.cpp:7020
+msgid "wko^Comment"
+msgstr "评语"
+
+#: apps-src/apps/librose/health_controller.cpp:6995
+msgid ""
+"wko^do comment remrk, $wko_title, $wko_start, $min_charts, $max_chars, $bytes"
+msgstr "评语最多大概$max_chars个汉字，最少$min_chars个。"
+
+#: apps-src/apps/librose/health_controller.cpp:6998
+msgid "wko^comment sample1"
+msgstr "平板支撑到后半段腰有点塌了，下次注意收腹，先把腰背保持平直。"
+
+#: apps-src/apps/librose/health_controller.cpp:6999
+msgid "wko^comment sample2"
+msgstr "你最近完成度一直很好，可以考虑换成进阶版本，增加一点挑战。"
+
+#: apps-src/apps/librose/health_controller.cpp:7000
+msgid "wko^comment sample3"
+msgstr "你上一周只练了一次，是遇到什么困难了吗？跟我说说。"
+
+#: apps-src/apps/librose/health_controller.cpp:7001
+msgid "wko^comment sample4"
+msgstr "你这周的腰部角度比上周稳多了，说明核心力量有在长，继续加油。"
+
+#: apps-src/apps/librose/health_controller.cpp:7311
 msgid "wko^consecutive check-in rules, $max_gap_days"
 msgstr "连续打卡规则：距上次做操超过$max_gap_days天，视为打卡中断。"
 
-#: apps-src/apps/librose/health_controller.cpp:6818
+#: apps-src/apps/librose/health_controller.cpp:7318
 msgid "wko^report generation, $min_duration"
 msgstr "做操报告生成条件：从“0秒”时刻起，继续做操满30秒。"
 
@@ -5419,6 +5709,10 @@ msgstr ""
 msgid ""
 "The current version does not support navigation execution in the fg applet."
 msgstr "当前版本不支持在前台小程序执行导航。"
+
+#: apps-src/apps/librose/scripts/lua_kernel_base.cpp:653
+msgid "The current version does not yet support purchasing paid courses."
+msgstr "当前版本暂不支持购买付费课程。"
 
 #: apps-src/apps/librose/serialization/parser.cpp:131
 msgid "Unexpected characters at line start"
@@ -5568,47 +5862,47 @@ msgstr ""
 msgid "Invalid UTF-8 string!"
 msgstr ""
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1918
+#: apps-src/apps/librose/serialization/string_utils.cpp:1947
 msgid "zero"
 msgstr "零"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1920
+#: apps-src/apps/librose/serialization/string_utils.cpp:1949
 msgid "first"
 msgstr "一"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1922
+#: apps-src/apps/librose/serialization/string_utils.cpp:1951
 msgid "second"
 msgstr "二"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1924
+#: apps-src/apps/librose/serialization/string_utils.cpp:1953
 msgid "third"
 msgstr "三"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1926
+#: apps-src/apps/librose/serialization/string_utils.cpp:1955
 msgid "fourth"
 msgstr "四"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1928
+#: apps-src/apps/librose/serialization/string_utils.cpp:1957
 msgid "fifth"
 msgstr "五"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1930
+#: apps-src/apps/librose/serialization/string_utils.cpp:1959
 msgid "sixth"
 msgstr "六"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1932
+#: apps-src/apps/librose/serialization/string_utils.cpp:1961
 msgid "seventh"
 msgstr "七"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1934
+#: apps-src/apps/librose/serialization/string_utils.cpp:1963
 msgid "eighth"
 msgstr "八"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1936
+#: apps-src/apps/librose/serialization/string_utils.cpp:1965
 msgid "ninth"
 msgstr "九"
 
-#: apps-src/apps/librose/serialization/string_utils.cpp:1938
+#: apps-src/apps/librose/serialization/string_utils.cpp:1967
 msgid "tenth"
 msgstr "十"
 
@@ -5741,6 +6035,21 @@ msgstr ""
 #: apps-src/apps/librose/wml_exception.cpp:98
 msgid "In section '[$section|]' the mandatory key '$key|' isn't set."
 msgstr "在小节“[$section|]”中，必须设定的键值“$key|”没有设定。"
+
+#, fuzzy
+#~| msgid "Username"
+#~ msgid "Modify username"
+#~ msgstr "用户名"
+
+#~ msgid "wko^wkorevise readable log, $wko_title, $wko_start, $comment"
+#~ msgstr ""
+#~ "针对健身操评语\n"
+#~ "健身操：$wko_title\n"
+#~ "时间：$wko_start\n"
+#~ "评语：$comment"
+
+#~ msgid "Integrate into chart"
+#~ msgstr "融入图表"
 
 #~ msgid "wko^pose_legend label"
 #~ msgstr "图例"

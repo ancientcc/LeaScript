@@ -168,6 +168,7 @@ class tlog final :
     kTypeFieldNumber = 2,
     kAiagentFieldNumber = 10,
     kTokensFieldNumber = 8,
+    kResultFieldNumber = 11,
   };
   // string aplt_id = 4;
   void clear_aplt_id();
@@ -261,6 +262,15 @@ class tlog final :
   void _internal_set_tokens(uint64_t value);
   public:
 
+  // int32 result = 11;
+  void clear_result();
+  int32_t result() const;
+  void set_result(int32_t value);
+  private:
+  int32_t _internal_result() const;
+  void _internal_set_result(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:pb2.tlog)
  private:
   class _Internal;
@@ -277,6 +287,7 @@ class tlog final :
     int32_t type_;
     bool aiagent_;
     uint64_t tokens_;
+    int32_t result_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -721,6 +732,26 @@ inline void tlog::_internal_set_aiagent(bool value) {
 inline void tlog::set_aiagent(bool value) {
   _internal_set_aiagent(value);
   // @@protoc_insertion_point(field_set:pb2.tlog.aiagent)
+}
+
+// int32 result = 11;
+inline void tlog::clear_result() {
+  _impl_.result_ = 0;
+}
+inline int32_t tlog::_internal_result() const {
+  return _impl_.result_;
+}
+inline int32_t tlog::result() const {
+  // @@protoc_insertion_point(field_get:pb2.tlog.result)
+  return _internal_result();
+}
+inline void tlog::_internal_set_result(int32_t value) {
+  
+  _impl_.result_ = value;
+}
+inline void tlog::set_result(int32_t value) {
+  _internal_set_result(value);
+  // @@protoc_insertion_point(field_set:pb2.tlog.result)
 }
 
 // -------------------------------------------------------------------

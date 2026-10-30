@@ -147,7 +147,7 @@ REGISTER_DIALOG(launcher, home)
 
 thome::thome(gui2::trstore::tslot& slot, net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& privacy, 
 	std::map<aplt::taplt_key, aplt::tapplet>& applets, tdrivers& drivers, tbase_driver& base_driver, tspeech_driver& speech_driver, tiot_driver& iot_driver, const SDL_OsInfo& os_info,
-	aplt::thealth& health)
+	aplt::thealth& health, net::truser& current_user)
 	: tstatusbar(rdpd_mgr, pble, privacy)
 	, aplt::tdesktop(*this, slot, applets, APPLET0)
 	, applets_(applets)
@@ -157,6 +157,7 @@ thome::thome(gui2::trstore::tslot& slot, net::trdpd_manager& rdpd_mgr, tpble2& p
 	, iot_driver_(iot_driver)
 	, os_info_(os_info)
 	, health_(health)
+	, current_user_(current_user)
 	// , peripheral_name_(RDPD_PERIPHERAL_NAME)
 	, peripheral_name_()
 	, manufacturer_id_(65520) // 0xfff0
@@ -242,6 +243,14 @@ void thome::pre_show()
 			, std::bind(
 			&thome::click_upgrade_app
 			, this, std::ref(*button)));
+
+	button = find_widget<tbutton>(window_, "mass_send", false, true);
+	connect_signal_mouse_left_click(
+			  *button
+			, std::bind(
+			&thome::click_mass_send
+			, this, std::ref(*button)));
+	button->set_icon("misc/msg.png");
 
 	button = find_widget<tbutton>(window_, "stop_speak", false, true);
 	connect_signal_mouse_left_click(
@@ -473,6 +482,97 @@ void thome::click_upgrade_app(tbutton& widget)
 	}
 */
 }
+
+#define WKO_MIN_MASS_SEND_CHARS		16
+#define WKO_MAX_MASS_SEND_CHARS		128
+
+bool thome::did_verify_mass_send(const std::string& label) const
+{
+	if (label.empty()) {
+		return false;
+	}
+
+	return true;
+}
+
+void thome::click_mass_send(tbutton& widget)
+{
+	utils::string_map symbols;
+
+	const std::string title = _("Mass send");
+	if (!current_user_.valid()) {
+		std::string msg = i18n::freq_msgstr_1str(i18n::msgid_not_logged_in, title);
+		gui2::show_message(null_str, msg);
+		return;
+	}
+
+	std::string prefix;
+	std::string placeholder = _("Message");
+	const std::string initial;
+
+	int max_chars = WKO_MAX_MASS_SEND_CHARS;
+	symbols["min_chars"] = str_cast(WKO_MIN_MASS_SEND_CHARS);
+	symbols["max_chars"] = str_cast(WKO_MAX_MASS_SEND_CHARS);
+	std::string remark = vgettext2("wko^mass send remark, $min_charts, $max_chars", symbols);
+
+	std::vector<std::pair<std::string, std::string> > freq_vals;
+	freq_vals.push_back(std::make_pair(_("wko^mass msg sample1"), null_str));
+	freq_vals.push_back(std::make_pair(_("wko^mass msg sample2"), null_str));
+	freq_vals.push_back(std::make_pair(_("wko^mass msg sample3"), null_str));
+	freq_vals.push_back(std::make_pair(_("wko^mass msg sample4"), null_str));
+
+	std::string msg;
+	{
+		gui2::tedit_box_param param(title, prefix, placeholder, initial, remark, null_str, _("OK"), max_chars, gui2::tedit_box_param::show_cancel, true);
+		param.freq_vals = freq_vals;
+		param.did_text_changed = std::bind(&thome::did_verify_mass_send, this, _1);
+		{
+			gui2::tedit_box dlg(param);
+			// it is in landscape, on android/ios, soft-keyboard is almost height.
+			int explicit_y = game_config::os == os_windows? nposm: window_->get_height() / 30;
+			dlg.show(nposm, explicit_y); // / 5
+			if (dlg.get_retval() != gui2::twindow::OK) {
+				return;
+			}
+		}
+		msg = param.result;
+	}
+
+	// const std::string warning_msg = _("Once the message is sent, it cannot be undone. Do you want to continue?");
+	const std::string warning_msg = i18n::freq_msgstr_1str(i18n::sent_xx_not_undone, _("Message"));
+	if (gui2::show_message2(null_str, warning_msg, gui2::tmessage::yes_no_buttons) != gui2::twindow::OK) {
+		return;
+	}
+/*
+	aplt::twkorevise wkorevise;
+	int64_t evt_ts = time(nullptr);
+	wkorevise.set_comment(evt_ts, current_user_.uid, workout.aplt, workout.id, result2.start_of_today + workout.start_s, title, workout.range_ms, msg);
+
+	std::string node = utils::extract_directory(health_.curr_health_dir());
+	node = utils::extract_file(node);
+	std::string uid_str = utils::split_app_prefix_id(node).first;
+	int64_t receiver_uid = utils::to_int64(uid_str);
+
+	// 11259: cwa_133696802123
+	// 11112: ancientcc
+	// int64_t receiver_uid = 11259;
+	Json::Value json_event;
+	wkorevise.to_json(json_event);
+	int image_format = nposm;
+	std::vector<timage_pair> images;
+	bool ret = net::cswamp_addevent2(current_user_, evt_ts, net::cswamp_evttype_courseup_to_fan, receiver_uid, json_event, image_format, images, false);
+	if (!ret) {
+		return;
+	}
+
+	// std::string log = wkorevise.to_string();
+	std::string log = "Send a comment to fan";
+	aplt::tb_api& b_api = aplt::get_b_api();
+	b_api.aplt_add_msg_log(time(nullptr), log, 0, false);
+*/
+	gui2::show_message(null_str, _("Sent"));
+}
+
 /*
 void thome::refresh_pinyin_label()
 {

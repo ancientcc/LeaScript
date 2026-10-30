@@ -44,6 +44,7 @@
 #include "base_instance.hpp"
 #include "protobuf.hpp"
 #include "chinese.hpp"
+#include "aplt_net.hpp"
 
 #include <lua/lauxlib.h>
 
@@ -52,7 +53,7 @@ using namespace std::placeholders;
 
 namespace aplt {
 
-const version_info min_aplt_rose_ver("1.0.1-20260926");
+const version_info min_aplt_rose_ver("1.0.1-20261030");
 
 const std::string file_launcher_android = "launcher.android";
 const std::string file_kdesktop_android = "kdesktop.android";
@@ -404,6 +405,7 @@ void initial()
 	SDL_snprintf(base_subtask_states[aplt::sts_preempted], sizeof(base_subtask_states[aplt::sts_preempted]), "%s", _("Preempted"));
 	VALIDATE(sizeof(base_subtask_states) / sizeof(base_subtask_states[0]) == aplt::sts_count, null_str);
 
+	net::initial();
 }
 
 

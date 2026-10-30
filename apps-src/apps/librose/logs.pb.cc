@@ -28,6 +28,7 @@ PROTOBUF_CONSTEXPR tlog::tlog(
   , /*decltype(_impl_.type_)*/0
   , /*decltype(_impl_.aiagent_)*/false
   , /*decltype(_impl_.tokens_)*/uint64_t{0u}
+  , /*decltype(_impl_.result_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct tlogDefaultTypeInternal {
   PROTOBUF_CONSTEXPR tlogDefaultTypeInternal()
@@ -79,6 +80,7 @@ tlog::tlog(const tlog& from)
     , decltype(_impl_.type_){}
     , decltype(_impl_.aiagent_){}
     , decltype(_impl_.tokens_){}
+    , decltype(_impl_.result_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<std::string>(from._internal_metadata_);
@@ -115,8 +117,8 @@ tlog::tlog(const tlog& from)
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.tokens_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.tokens_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.result_) -
+    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.result_));
   // @@protoc_insertion_point(copy_constructor:pb2.tlog)
 }
 
@@ -133,6 +135,7 @@ inline void tlog::SharedCtor(
     , decltype(_impl_.type_){0}
     , decltype(_impl_.aiagent_){false}
     , decltype(_impl_.tokens_){uint64_t{0u}}
+    , decltype(_impl_.result_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.aplt_id_.InitDefault();
@@ -185,8 +188,8 @@ void tlog::Clear() {
   _impl_.device_id_.ClearToEmpty();
   _impl_.msg_.ClearToEmpty();
   ::memset(&_impl_.timestamp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.tokens_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.tokens_));
+      reinterpret_cast<char*>(&_impl_.result_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.result_));
   _internal_metadata_.Clear<std::string>();
 }
 
@@ -264,6 +267,14 @@ const char* tlog::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
       case 10:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
           _impl_.aiagent_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 result = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
+          _impl_.result_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -361,6 +372,12 @@ uint8_t* tlog::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(10, this->_internal_aiagent(), target);
   }
 
+  // int32 result = 11;
+  if (this->_internal_result() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(11, this->_internal_result(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = stream->WriteRaw(_internal_metadata_.unknown_fields<std::string>(::PROTOBUF_NAMESPACE_ID::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::PROTOBUF_NAMESPACE_ID::internal::GetEmptyString).size()), target);
@@ -425,6 +442,11 @@ size_t tlog::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_tokens());
   }
 
+  // int32 result = 11;
+  if (this->_internal_result() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_result());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     total_size += _internal_metadata_.unknown_fields<std::string>(::PROTOBUF_NAMESPACE_ID::internal::GetEmptyString).size();
   }
@@ -470,6 +492,9 @@ void tlog::MergeFrom(const tlog& from) {
   if (from._internal_tokens() != 0) {
     _this->_internal_set_tokens(from._internal_tokens());
   }
+  if (from._internal_result() != 0) {
+    _this->_internal_set_result(from._internal_result());
+  }
   _this->_internal_metadata_.MergeFrom<std::string>(from._internal_metadata_);
 }
 
@@ -506,8 +531,8 @@ void tlog::InternalSwap(tlog* other) {
       &other->_impl_.msg_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(tlog, _impl_.tokens_)
-      + sizeof(tlog::_impl_.tokens_)
+      PROTOBUF_FIELD_OFFSET(tlog, _impl_.result_)
+      + sizeof(tlog::_impl_.result_)
       - PROTOBUF_FIELD_OFFSET(tlog, _impl_.timestamp_)>(
           reinterpret_cast<char*>(&_impl_.timestamp_),
           reinterpret_cast<char*>(&other->_impl_.timestamp_));

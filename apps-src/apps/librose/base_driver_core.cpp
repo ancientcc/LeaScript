@@ -794,18 +794,30 @@ void tbase_driver_core::start_or_stop_subtask(const aplt::tbase_scene& desire_sc
 		restart_subtask();
 	}
 }
-/*
-void tbase_driver_core::did_scene_id_changed(const std::string& new_id)
+
+bool tbase_driver_core::is_workout_task_ing() const
 {
-	VALIDATE_IN_MAIN_THREAD();
+	if (subtask_pair_.task == nullptr) {
+		return false;
+	}
 
-	VALIDATE(!scene_id_.empty(), null_str);
-	VALIDATE(new_id != scene_id_, null_str);
+	const std::string& workout_id = aplt::reserved_tasks.find(aplt::taskid_workout)->second.id;
+	const aplt::tapplet::ttask& task = *subtask_pair_.task;
+	return task.id == workout_id;
 
-	scene_id_ = new_id;
-	preferences::set_base_scene_id(new_id);
-}
+/*
+	if (scene_id_.empty()) {
+		return false;
+	}
+
+	std::pair<std::string, std::string> pair = utils::split_app_prefix_id(scene_id_);
+
+	char buf[64];
+	SDL_snprintf(buf, sizeof(buf), "%s__", workout_id.c_str());
+	return pair.second.find(buf) == 0;
 */
+}
+
 void tbase_driver_core::set_wko_task_slot(aplt::twko_task_slot* slot)
 {
 	VALIDATE_IN_MAIN_THREAD();

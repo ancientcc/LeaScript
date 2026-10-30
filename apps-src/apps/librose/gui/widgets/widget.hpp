@@ -693,6 +693,8 @@ public:
 	virtual void invalidate_layout(twidget* widget) {}
 	void trigger_invalidate_layout(twindow* window);
 
+	virtual bool gc_handle_height_may_changed(const twidget& widget) { return false; }
+
 	void set_linked_group(const std::string& linked_group)
 	{
 		linked_group_ = linked_group;

@@ -56,6 +56,10 @@ class tble;
 
 // #include "wkocourse.hpp"
 
+namespace aplt {
+class twkorevise;
+}
+
 namespace rtc {
 // SDLThread. Automatically pumps wakeup and IO messages.
 
@@ -297,7 +301,8 @@ public:
 	void logs_pb_log_added2(gui2::tlistbox& list, int count, const pb2::tlog& log, bool aiagent_dlg);
 
 	std::map<std::string, aplt::twkocourse_enroll>& wkocourse_enrolls() { return wkocourse_enrolls_; }
-	virtual void purchase_wkocourse(const std::string& aplt, const std::string& id) {}
+	virtual void purchase_wkocourse(const std::string& aplt, const std::string& id, int price) {}
+	void handle_log_action(int log_at, gui2::tbutton& widget, const aplt::twkorevise& revise);
 
 	virtual void app_fill_anim_tags(std::map<const std::string, int>& tags) {};
 	virtual void fill_anim(int at, const std::string& id, bool area, bool tpl, const config& cfg);
@@ -498,6 +503,8 @@ private:
 	virtual void app_bg_task_stopped(const aplt::tbg_task::tbase_bg_task2& sys_task) {}
 
 	virtual void app_uninitialize() {}
+
+	virtual std::string app_wkorevise_import(const aplt::twkorevise& revise) { return "unknown error."; }
 
 	void did_enter_background();
 	void did_enter_foreground();

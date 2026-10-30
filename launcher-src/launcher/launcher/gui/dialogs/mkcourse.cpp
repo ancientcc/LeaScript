@@ -11,16 +11,333 @@
 #include "gui/dialogs/message.hpp"
 #include "gui/dialogs/menu.hpp"
 #include "gui/dialogs/edit_box.hpp"
+#include "gui/dialogs/new_wkocourse.hpp"
 #include "gettext.hpp"
 #include "aplt.hpp"
 #include "wkoscript.hpp"
 #include "font.hpp"
 #include "game_config.hpp"
 
+#include "rapidcsv/rapidcsv.h"
+
 using namespace std::placeholders;
 
+extern std::string handle_browse_file(bool read_only, const std::string& _title, const std::string& ext_name);
 extern std::string handle_browse_file2(bool wkoscript, bool read_only, const std::string& title, bool set_pref);
 extern bool is_valid_wkoscript_or_wkocoruse_path(bool wkoscript, const std::string& path);
+
+bool evaluate_coruse_meta(aplt::twkocourse& course, int fid, const std::string& value)
+{
+	if (fid == aplt::twkocourse::fid_description) {
+		course.description = value;
+
+	} else if (fid == aplt::twkocourse::fid_reference) {
+		course.reference = value;
+
+	} else if (fid == aplt::twkocourse::fid_author) {
+		course.author = value;
+
+	} else if (fid == aplt::twkocourse::fid_total_days) {
+		course.total_days = utils::to_int(value);
+
+	} else if (fid == aplt::twkocourse::fid_grace_period_days) {
+		course.grace_period_days = utils::to_int(value);
+
+	} else if (fid == aplt::twkocourse::fid_price) {
+		course.price = utils::to_int(value);
+
+	} else if (fid == aplt::twkocourse::fid_currency) {
+		course.currency = value;
+
+	} else if (fid == aplt::twkocourse::fid_prerequisite) {
+		course.prerequisite = value;
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+	return true;
+}
+
+bool parse_course_csv(const std::string& csv_file, std::vector<aplt::twkoscript>& scripts, aplt::twkocourse& course)
+{
+	scripts.clear();
+	course.clear();
+
+	std::string csv_str;
+	{
+		tfile file(csv_file, GENERIC_READ, OPEN_EXISTING);
+		if (!file.valid()) {
+			return false;
+		}
+		int fsize = file.read_2_data();
+		if (fsize == 0) {
+			return false;
+		}
+		csv_str.assign(file.data, fsize);
+	}
+
+	struct tcsvaction
+	{
+		tcsvaction(int min_state_duration_s, const std::string& tpl2_id, int max_count)
+			: min_state_duration_s(min_state_duration_s)
+			, tpl2_id(tpl2_id)
+			, max_count(max_count)
+		{
+			VALIDATE(min_state_duration_s == nposm || min_state_duration_s > 0, null_str);
+			VALIDATE(aplt::action_tpl2s.count(tpl2_id) != 0, null_str);
+			VALIDATE(max_count > 0, null_str);
+		}
+
+		int min_state_duration_s;
+		std::string tpl2_id;
+		int max_count;
+	};
+
+	struct tcsvworkout
+	{
+		tcsvworkout(const std::string& id, const std::string& title)
+			: id(id)
+			, title(title)
+		{}
+
+		std::string id;
+		std::string title;
+
+		std::vector<tcsvaction> actions;
+	};
+
+	std::map<std::string, tcsvworkout> csvworkouts;
+
+	int fids[] = {aplt::twkocourse::fid_description,  aplt::twkocourse::fid_reference,
+		aplt::twkocourse::fid_author,
+		aplt::twkocourse::fid_total_days, aplt::twkocourse::fid_grace_period_days,
+		aplt::twkocourse::fid_price, aplt::twkocourse::fid_currency, 
+		aplt::twkocourse::fid_prerequisite
+	};
+	int NUM = sizeof(fids) / sizeof(fids[0]);
+	std::map<std::string, int> course_metas;
+	for (int at = 0; at < NUM; at ++) {
+		int fid = fids[at];
+		const std::string name = aplt::twkocourse::get_field_str(aplt::twkocourse::typeid_course, fid);
+		course_metas.insert(std::make_pair(name, fid));
+	}
+	std::set<int> existed_meta_fid;
+
+    try {
+		std::stringstream sstream(csv_str);
+
+        // 1. Configure parsing parameters.
+		// Set to -1 to indicate that the first row is not treated as a fixed header but as a regular data row.
+        rapidcsv::LabelParams labelParams(-1);
+		// The delimiter is a comma, and true means automatically trimming leading and trailing spaces from cells (very important!).
+        rapidcsv::SeparatorParams separatorParams(',', true);
+        rapidcsv::Document doc(sstream, labelParams, separatorParams);
+
+        size_t rowCount = doc.GetRowCount();
+        // SDL_Log("total row count: %i", (int)rowCount);
+
+        // 2. Iterate through all rows.
+        for (size_t i = 0; i < rowCount; ++i) {
+            // Get all columns of the current row. Note: if a row does not end with a comma, the vector length here may be shorter.
+            std::vector<std::string> row = doc.GetRow<std::string>(i);
+            
+            if (row.empty()) {
+				continue; // Skip empty lines.
+			}
+
+            std::string type = row[0]; // First column: Type (Workout, Meta, Day)
+
+            // 3. Process by 'type' classification.
+			std::vector<std::string> v_str;
+            if (type == "Workout") {
+                // SDL_Log("--- found [Workout] ---");
+                // To be safe, check the number of columns.
+                if (row.size() >= 3) {
+                    std::string id = row[1];
+                    std::string name = row[2];
+                    // SDL_Log("ID: %s, name: %s", id.c_str(), name.c_str());
+                    
+					if (id.empty()) {
+						return false;
+					}
+					if (name.empty()) {
+						return false;
+					}
+					if (csvworkouts.count(id) != 0) {
+						return false;
+					}
+					std::pair<std::map<std::string, tcsvworkout>::iterator, bool> ins = csvworkouts.insert(std::make_pair(id, tcsvworkout(id, name)));		
+					tcsvworkout& csvworkout = ins.first->second;
+
+                    // Parse actions (starting from the 4th column, in groups of 3 columns: Ref_Item, Ref_Param, Ref_Note)
+                    for (size_t col = 3; col < row.size(); col += 3) {
+                        std::string item = row[col];
+                        if (item.empty()) {
+							// If the action column is empty, it means all actions for this exercise have been parsed.
+							break;
+						}
+
+                        std::string param = (col + 1 < row.size()) ? row[col + 1] : "";
+                        std::string note  = (col + 2 < row.size()) ? row[col + 2] : "";
+                        // SDL_Log("item: %s, param: %s, note: %s", item.c_str(), param.c_str(), note.c_str());
+						v_str = utils::split(item, '/');
+						std::string tpl2_id = v_str.back();
+						if (aplt::action_tpl2s.count(tpl2_id) == 0) {
+							return false;
+						}
+						const aplt::taction_tpl2& tpl2 = aplt::action_tpl2s.find(tpl2_id)->second;
+						if (csvworkout.actions.empty()) {
+							if (!tpl2.is_setup) {
+								return false;
+							}
+						} else if (tpl2.is_setup) {
+							return false;
+						}
+						int max_count = utils::to_int(param);
+						if (max_count <= 0) {
+							return false;
+						}
+						int min_state_duration_s = nposm;
+						if (!note.empty()) {
+							min_state_duration_s = utils::to_int(note);
+						}
+						if (min_state_duration_s != nposm && min_state_duration_s <= 0) {
+							return false;
+						}
+						if (min_state_duration_s != nposm && csvworkout.actions.size() < 2) {
+							// 0: setup, 1: first pose state
+							return false;
+						}
+						csvworkout.actions.push_back(tcsvaction(min_state_duration_s, tpl2_id, max_count));
+                    }
+                }
+            } else if (type == "Meta") {
+                // SDL_Log("--- found [Meta] ---");
+				if (course.id.empty()) {
+					// Note: The first row Meta is special; both ID and Name have values.
+					if (row.size() >= 3) {
+						course.id = row[1];
+						course.title = row[2];
+					}
+					if (course.id.empty()) {
+						return false;
+					}
+					if (course.title.empty()) {
+						return false;
+					}
+
+				} else if (row.size() >= 4) {
+                    // For the subsequent Meta rows, the Key is in the third column (index 2), and the Value is in the fourth column (index 3).
+                    if (!row[2].empty()) {
+                        std::string key = row[2];
+                        std::string value = row[3];
+                        // SDL_Log("key: %s = %s", key.c_str(), value.c_str());
+						if (course_metas.count(key) == 0) {
+							return false;
+						}
+						int fid = course_metas.find(key)->second;
+						if (existed_meta_fid.count(fid) != 0) {
+							return false;
+						}
+						existed_meta_fid.insert(fid);
+						bool ret = evaluate_coruse_meta(course, fid, value);
+						if (!ret) {
+							return false;
+						}
+						if (fid == aplt::twkocourse::fid_total_days) {
+							VALIDATE(course.days.empty(), null_str);
+							course.days.resize(course.total_days);
+						}
+                    }
+                }
+            } 
+            else if (type == "Day") {
+                // SDL_Log("--- found [Day] ---");
+                if (row.size() >= 3) {
+                    std::string day_str = row[1];
+                    std::string title = row[2];
+                    // SDL_Log("Day %s: title: %s", day_str.c_str(), title.c_str());
+                    
+					int day_at = utils::to_int(day_str) - 1;
+					if (day_at < 0 || day_at >= course.total_days) {
+						return false;
+					}
+					if (title.empty()) {
+						return false;
+					}
+					aplt::twkocourse::tday& day = course.days[day_at];
+					day.day_at = day_at;
+					day.title = title;
+
+                    // Parse the day's exercises (starting from the 4th column, in groups of 3 columns: exercise ID, number of rounds, remarks).
+                    for (size_t col = 3; col < row.size(); col += 3) {
+                        std::string workout_id2 = row[col];
+                        if (workout_id2.empty()) {
+							if (col == 3) {
+								return false;
+							}
+							break;
+						}
+						v_str = utils::split(workout_id2, '/');
+						const std::string& workout_id = v_str.back();
+						if (csvworkouts.count(workout_id) == 0) {
+							return false;
+						}
+                        
+                        std::string rounds_str = (col + 1 < row.size()) ? row[col + 1] : "";
+                        std::string note = (col + 2 < row.size()) ? row[col + 2] : "";
+                        // SDL_Log("workout: %s | rounds: %s | note: %s", 
+						//	workout_id.c_str(), rounds_str.c_str(), note.c_str());
+						
+						int rounds = utils::to_int(rounds_str);
+						if (!is_valid_workout_rounds(rounds)) {
+							return false;
+						}
+						day.workouts.push_back(aplt::twkocourse::tworkout());
+						aplt::twkocourse::tworkout& workout = day.workouts.back();
+						workout.id = workout_id;
+						workout.rounds = rounds;
+						workout.note = note;
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        SDL_Log("parse CSV fail: %s", e.what());
+		return false;
+    }
+
+	for (std::map<std::string, tcsvworkout>::const_iterator it = csvworkouts.begin(); it != csvworkouts.end(); ++ it) {
+		const tcsvworkout& csvworkout = it->second;
+
+		scripts.push_back(aplt::twkoscript());
+		aplt::twkoscript& script = scripts.back();
+		script.id = csvworkout.id;
+		script.title = csvworkout.title;
+		script.author = course.author;
+
+		int action_count = csvworkout.actions.size();
+		for (int action_at = 0; action_at < action_count; action_at ++) {
+			const tcsvaction& csvaction = csvworkout.actions[action_at];
+
+			const aplt::taction_tpl2& tpl2 = aplt::action_tpl2s.find(csvaction.tpl2_id)->second;
+			script.insert_state_use_action_tpl2(action_at, csvaction.min_state_duration_s, tpl2, csvaction.max_count);
+		}
+
+		script.insert_end_state(null_str, null_str);
+
+		for (std::map<int, aplt::twkoscript::tstate2>::iterator it = script.states.begin(); it != script.states.end(); ++ it) {
+			aplt::twkoscript::tstate2& state2 = it->second;
+			if (state2.state < (int)(script.states.size() - 1)) {
+				state2.set_next_to_state(state2.state + 1);
+			}
+		}
+		// Ensure that the 'lmk33_png_at' value is the same as the value after 'script.from_file(...)'.
+		script.set_lmk33_png_at_equal_to_nposm();
+	}
+
+    return true;
+}
 
 namespace gui2 {
 
@@ -35,7 +352,7 @@ tmkcourse::tmkcourse(net::trdpd_manager& rdpd_mgr, tpble2& pble, tprivacy& priva
 	: tstatusbar(rdpd_mgr, pble, privacy)
 	, applets_(applets)
 	, file_ops_({
-		{file_new_from_benchmark, _("file^From benchmark...")},
+		{file_new_from_csv, std::string(_("file^From csv")) + "..."},
 		{file_new_empty, _("file^Empty script")},
 		{file_open, _("file^Open")},
 		{file_save_as, _("file^Save as")},
@@ -103,7 +420,7 @@ void tmkcourse::pre_show()
 			  *button
 			, std::bind(
 			&tmkcourse::click_share
-			, this));
+			, this, std::ref(*button)));
 
 	for (std::vector<tcode3>::const_iterator it = edit_widget_ids_.begin(); it != edit_widget_ids_.end(); ++ it) {
 		const tcode3& type = *it;
@@ -844,11 +1161,11 @@ void tmkcourse::click_file(tbutton& widget)
 	const std::map<int, std::string>& ops = file_ops_;
 
 	std::vector<gui2::tmenu::titem> new_items;
-	std::set<int> new_codes{file_new_empty, file_new_from_benchmark};
+	std::set<int> new_codes{file_new_from_csv, file_new_empty};
 	for (std::set<int>::const_iterator it = new_codes.begin(); it != new_codes.end(); ++ it) {
 		int code = *it;
-		if (code == file_new_from_benchmark) {
-			continue;
+		if (code == file_new_from_csv) {
+			// continue;
 		}
 		const std::string& name = ops.find(code)->second;
 		new_items.push_back(gui2::tmenu::titem(name, code));
@@ -888,7 +1205,7 @@ bool tmkcourse::confirm_file_op(int sel)
 
 	bool always_show = sel == file_exit;
 	std::string action = file_ops_.find(sel)->second;
-	if (sel == file_new_from_benchmark) {
+	if (sel == file_new_from_csv) {
 		action = _("file^New from benchmark");
 
 	} else if (sel == file_new_empty) {
@@ -954,19 +1271,60 @@ void tmkcourse::handle_file_op(int sel)
 		// gui_->show_context_menu();
 		refresh_toolbar_ui();
 
-	} else if (sel == file_new_from_benchmark) {
+	} else if (sel == file_new_from_csv) {
 		if (!confirm_file_op(sel)) {
 			return;
 		}
-/*
-		aplt::twkoscript script;
-		{
-			gui2::tnew_wkoscript dlg(rdpd_mgr_, pble_, privacy_, script, preset_poses_, wkoscript_dir_);
+
+		std::string title;
+		std::string filename = handle_browse_file(true, title, "csv");
+		if (filename.empty()) {
+			return;
+		}
+
+		std::vector<aplt::twkoscript> scripts;
+		aplt::twkocourse course;
+		bool ret = parse_course_csv(filename, scripts, course);
+		std::string course_filename;
+		if (ret) {
+			const aplt::tapplet* curr_aplt = aplt::aplt_from_bundleid(applets_, "aplt.leagor.khomelua");
+			VALIDATE(curr_aplt != nullptr, null_str);
+			gui2::tnew_wkocourse dlg(rdpd_mgr_, pble_, privacy_, filename, scripts, course, *curr_aplt);
 			dlg.show();
 			if (dlg.get_retval() != gui2::twindow::OK) {
 				return;
 			}
+			course_filename = dlg.course_filename();
+
+		} else {
+			return;
 		}
+/*
+		std::string to_course_filename = game_config::preferences_dir + "/saves/" + course.id + ".cfg";
+		course.to_file(to_course_filename);
+
+		std::string to_script_dir = game_config::preferences_dir + "/aplt_leagor_khome__documents/wkoscript/__abc";
+		for (std::vector<aplt::twkoscript>::const_iterator it = scripts.begin(); it != scripts.end(); ++ it) {
+			const aplt::twkoscript& script = *it;
+
+			std::string err_msg;
+			const aplt::twkoscript::tstate2* err_state2 = nullptr;
+			uint64_t res = script.is_valid2(err_msg, &err_state2);
+			if (res != TCOOKIE3F_CHECK_OK) {
+				err_msg = aplt::twkoscript::fomrat_is_valid2_result(res, err_msg);
+
+				SDL_Log("%s", err_msg.c_str());
+				int ii = 0;
+
+			} else {
+				VALIDATE(err_msg.empty(), null_str);
+			}
+			std::string to_script_filename = to_script_dir + "/" + script.id + ".cfg";
+			script.to_file(to_script_filename);
+		}
+*/
+		open_cfg_file_bh(course_filename);
+/*
 		select_object(nullptr);
 
 		std::string filename = script.build_script_filename(wkoscript_dir_);
@@ -1013,7 +1371,7 @@ void tmkcourse::handle_file_op(int sel)
 
 void tmkcourse::handle_file_menu(int sel)
 {
-	if (sel == file_new_empty || sel == file_new_from_benchmark || sel == file_open || sel == file_save_as || sel == file_exit) {
+	if (sel == file_new_empty || sel == file_new_from_csv || sel == file_open || sel == file_save_as || sel == file_exit) {
 		handle_file_op(sel);
 
 	} else {
@@ -1152,7 +1510,7 @@ void draw_line_surf(bool with_save, const surface& line_surf, int indentation_w,
 	increment_s(indentation_w + line_surf->w, line_surf->h, s);
 }
 
-SDL_Size tmkcourse::do_save_image(bool todo, std::map<std::string, aplt::twkoscript>& scripts, surface* p_surf) const
+SDL_Size tmkcourse::do_save_image(bool todo, int header_tail_truncate_days, std::map<std::string, aplt::twkoscript>& scripts, surface* p_surf) const
 {
 	const aplt::twkocourse& course = tmp_course_;
 
@@ -1191,7 +1549,7 @@ SDL_Size tmkcourse::do_save_image(bool todo, std::map<std::string, aplt::twkoscr
 	SDL_Size s = {0};
 	surface tmp_surf;
 	utils::string_map symbols;
-	SDL_Rect dst_rect;
+	// SDL_Rect dst_rect;
 
 	// surface split_line_surf = image::get_image("misc/split_line.png");
 	// VALIDATE(split_line_surf.get() != nullptr, null_str);
@@ -1325,6 +1683,8 @@ SDL_Size tmkcourse::do_save_image(bool todo, std::map<std::string, aplt::twkoscr
 	s.h += gap_y_course_days;
 
 	// days
+	// int header_tail_truncate_days = 5;
+
 	VALIDATE(course.total_days == (int)course.days.size(), null_str);
 	for (int day_at = 0; day_at < course.total_days; day_at ++) {
 		const aplt::twkocourse::tday& day = course.days[day_at];
@@ -1359,13 +1719,226 @@ SDL_Size tmkcourse::do_save_image(bool todo, std::map<std::string, aplt::twkoscr
 			tmp_surf = font::get_rendered_text(line_str, INT_MAX, font::SIZE_SMALL, font::GRAY_COLOR);
 			draw_line_surf(with_save, tmp_surf, 0, s, bg_surf);
 		}
+
+		int truncate_min_days = 6;
+		if (header_tail_truncate_days != nposm && course.total_days >= 2 * header_tail_truncate_days + truncate_min_days) {
+			if (day_at == header_tail_truncate_days - 1) {
+				int gap_y_other_days = 5;
+				s.h += gap_y_other_days;
+				line_str = _("# ... other days");
+				tmp_surf = font::get_rendered_text(line_str, INT_MAX, font::SIZE_SMALL, font::GRAY_COLOR);
+				draw_line_surf(with_save, tmp_surf, 0, s, bg_surf);
+				s.h += gap_y_other_days;
+
+				day_at = course.total_days - header_tail_truncate_days - 1;
+			}
+		}
 	}
 
 
 	return s;
 }
 
-void tmkcourse::click_share()
+std::string get_col_titles_str()
+{
+	std::string result;
+
+	const char col_titles[][20] = {"Type", "ID/Day", "Name/Title"};
+	int NUM = sizeof(col_titles) / sizeof(col_titles[0]);
+	for (int at = 0; at < NUM; at ++) {
+		if (at != 0) {
+			result.append(",");
+		}
+		result.append(col_titles[at]);
+	}
+	int reps = 6;
+	char buf[256];
+	for (int at = 0; at < reps; at ++) {
+		SDL_snprintf(buf, sizeof(buf), ",Ref_Item%i,Ref_Param%i,Ref_Note%i", at + 1, at + 1, at + 1);
+		result.append(buf);
+	}
+	return result;
+}
+
+std::string get_course_root_pair_str(const aplt::twkocourse& course, int fid)
+{
+	std::string result;
+	bool double_quotes = false;
+	std::string value;
+	if (fid == aplt::twkocourse::fid_title) {
+		value = course.title;
+
+	} else if (fid == aplt::twkocourse::fid_id) {
+		value = course.id;
+
+	} else if (fid == aplt::twkocourse::fid_description) {
+		value = course.description;
+		double_quotes = true;
+
+	} else if (fid == aplt::twkocourse::fid_author) {
+		value = course.author;
+
+	} else if (fid == aplt::twkocourse::fid_reference) {
+		value = course.reference;
+		double_quotes = true;
+
+	} else if (fid == aplt::twkocourse::fid_total_days) {
+		value = str_cast(course.total_days);
+
+	} else if (fid == aplt::twkocourse::fid_grace_period_days) {
+		value = str_cast(course.grace_period_days);
+
+	} else if (fid == aplt::twkocourse::fid_price) {
+		value = str_cast(course.price);
+
+	} else if (fid == aplt::twkocourse::fid_currency) {
+		value = course.currency;
+
+	} else if (fid == aplt::twkocourse::fid_prerequisite) {
+		value = course.prerequisite;
+
+	} else {
+		VALIDATE(false, null_str);
+	}
+
+	const int type = aplt::twkocourse::typeid_course;
+	result.append(aplt::twkocourse::get_field_str(type, fid) + ",");
+	if (double_quotes) {
+		result.append("\"");
+	}
+	result.append(value);
+	if (double_quotes) {
+		result.append("\"");
+	}
+
+	return result;
+}
+
+std::string tmkcourse::do_save_csv() const
+{
+	const aplt::twkocourse& course = tmp_course_;
+
+	const std::string aplt = "aplt.leagor.khomelua";
+	std::map<std::string, int> id2s;
+	course.get_workout_id2s(aplt, id2s);
+
+	std::map<std::string, aplt::twkoscript> scripts;
+	for (std::map<std::string, int>::const_iterator it = id2s.begin(); it != id2s.end(); ++ it) {
+		const std::string& id2 = it->first;
+		std::pair<std::string, std::string> pair = utils::split_app_prefix_id(id2);
+		std::pair<std::map<std::string, aplt::twkoscript>::iterator, bool> ins = scripts.insert(std::make_pair(id2, aplt::twkoscript()));
+		VALIDATE(ins.second, null_str);
+
+		aplt::twkoscript& script = ins.first->second;
+		const aplt::tapplet* aplt = aplt::aplt_from_bundleid(applets_, pair.first);
+		VALIDATE(aplt != nullptr, null_str);
+		script.from_aplt_file(*aplt, aplt::twkoscript::id_to_filename(pair.second));
+	}
+
+	std::string result = get_col_titles_str();
+	result.append("\n");
+
+	enum {type_workout, type_meta, type_day, type_count};
+	const char types[][20] = {"Workout", "Meta", "Day"};
+
+	char buf[1024];
+	for (std::map<std::string, aplt::twkoscript>::const_iterator it = scripts.begin(); it != scripts.end(); ++ it) {
+		const aplt::twkoscript& script = it->second;
+
+		SDL_snprintf(buf, sizeof(buf), "%s,%s,%s", types[type_workout], 
+			script.id.c_str(), script.title.c_str());
+		result.append(buf);
+
+		int state_at = 0;
+		std::string workout_str;
+		int min_speak_state_duration_s = nposm;
+		for (std::map<int, aplt::twkoscript::tstate2>::const_iterator it2 = script.states.begin(); it2 != script.states.end(); ++ it2) {
+			const aplt::twkoscript::tstate2& state = it2->second;
+
+			if (state.track_pose.poses.empty()) {
+				VALIDATE(state.task->type == aplt::twkoscript::tasktype_speak, null_str);
+				const aplt::twkoscript::ttask_speak* task2 = static_cast<aplt::twkoscript::ttask_speak*>(state.task);
+				min_speak_state_duration_s = task2->min_state_duration_s;
+				continue;
+			}
+			// if (state_at != 0) {
+				workout_str.append(",");
+			// }
+			VALIDATE(!state.action_tpl2_id.empty(), null_str);
+			VALIDATE(aplt::action_tpl2s.count(state.action_tpl2_id) != 0, null_str);
+			const aplt::taction_tpl2& action_tpl2 = aplt::action_tpl2s.find(state.action_tpl2_id)->second;
+
+			workout_str.append(action_tpl2.name + "/" + action_tpl2.id + ",");
+
+			// if (!state.is_setup) {
+				std::string count_str;
+				if (state.task->type == aplt::twkoscript::tasktype_time_counter) {
+					const aplt::twkoscript::ttime_counter* task2 = static_cast<aplt::twkoscript::ttime_counter*>(state.task);
+					workout_str.append(str_cast(task2->max_count));
+
+				} else {
+					VALIDATE(state.task->type == aplt::twkoscript::tasktype_rep_counter, null_str);
+					const aplt::twkoscript::trep_counter* task2 = static_cast<aplt::twkoscript::trep_counter*>(state.task);
+					workout_str.append(str_cast(task2->max_count));
+				}
+			// }
+			workout_str.append(",");
+			if (min_speak_state_duration_s != nposm) {
+				workout_str.append(str_cast(min_speak_state_duration_s));
+				min_speak_state_duration_s = nposm;
+			}
+			state_at ++;
+		}
+		result.append(workout_str + '\n');
+	}
+
+	// result.append("\n");
+	//
+	// course
+	//
+	SDL_snprintf(buf, sizeof(buf), "%s,%s,%s", types[type_meta], 
+			course.id.c_str(), course.title.c_str());
+	result.append(buf);
+
+	int fids[] = {aplt::twkocourse::fid_description,  aplt::twkocourse::fid_reference,
+		aplt::twkocourse::fid_author,
+		aplt::twkocourse::fid_total_days, aplt::twkocourse::fid_grace_period_days,
+		aplt::twkocourse::fid_price, aplt::twkocourse::fid_currency, 
+		aplt::twkocourse::fid_prerequisite
+	};
+	int NUM = sizeof(fids) / sizeof(fids[0]);
+	for (int at = 0; at < NUM; at ++) {
+		int fid = fids[at];
+		SDL_snprintf(buf, sizeof(buf), "\n%s,,", types[type_meta]);
+		result.append(buf);
+		result.append(get_course_root_pair_str(course, fid));
+	}
+
+	VALIDATE(course.total_days == (int)course.days.size(), null_str);
+	for (int day_at = 0; day_at < course.total_days; day_at ++) {
+		const aplt::twkocourse::tday& day = course.days[day_at];
+
+		SDL_snprintf(buf, sizeof(buf), "\n%s,%i,%s", types[type_day], 
+			day_at + 1, day.title.c_str());
+		result.append(buf);
+
+		for (int workout_at = 0; workout_at < (int)day.workouts.size(); workout_at ++) {
+			const aplt::twkocourse::tworkout& workout = day.workouts[workout_at];
+			// (<rounds>)<title>  <note>
+			const std::string id2 = workout.get_id2(aplt);
+			VALIDATE(scripts.count(id2) != 0, null_str);
+
+			const aplt::twkoscript& script = scripts.find(id2)->second;
+			SDL_snprintf(buf, sizeof(buf), ", %s/%s,%i,%s", script.title.c_str(), 
+				workout.id.c_str(), workout.rounds, workout.note.c_str());
+			result.append(buf);
+		}
+	}
+
+	return result;
+}
+
+void tmkcourse::click_share(tbutton& widget)
 {
 	if (wkocourse_dirty()) {
 		bool no_error = handle_pre_save();
@@ -1373,32 +1946,89 @@ void tmkcourse::click_share()
 			return;
 		}
 	}
+
+	enum {type_png, type_csv, type_count};
+	std::vector<tcode2> types = {
+		{type_png, _("Todo list(*.png)")},
+		{type_csv, _("Todo list(*.csv)")}
+	};
+
+	int type = nposm;
+	{
+		std::vector<gui2::tmenu::titem> items;
+		int initial_sel = nposm;
+
+		std::stringstream ss;
+
+		for (std::vector<tcode2>::const_iterator it = types.begin(); it != types.end(); ++ it) {
+			const tcode2& code2 = *it;
+			items.push_back(gui2::tmenu::titem(code2.id, code2.code));
+		}
+
+		if (items.empty()) {
+			return;
+		}
+
+		gui2::tmenu dlg(items, initial_sel);
+		dlg.show(widget.get_x(), widget.get_y() + widget.get_height() + 16 * twidget::hdpi_scale);
+		if (dlg.get_retval() != gui2::twindow::OK) {
+			return;
+		}
+		type = dlg.selected_val();
+	}
+
 	const aplt::twkocourse& course = tmp_course_;
-	bool todo = true;
-
-	std::map<std::string, aplt::twkoscript> scripts;
-	SDL_Size size = do_save_image(todo, scripts, nullptr);
-
-	surface content_surf = create_neutral_surface(size.w, size.h);
-	fill_surface(content_surf, 0xffffffff);
-
-	SDL_Size size2 = do_save_image(todo, scripts, &content_surf);
-	VALIDATE(size.w == size2.w && size.h == size2.h, null_str);
 
 	std::string filename_prfix = "share_course-";
-	const std::string filename = filename_prfix + course.title + "-" + utils::format_time_ymdhms2(time(nullptr)) + ".png";
-	const std::string full_filename = game_config::preferences_dir + "/saves/" + filename;
+	std::string full_filename;
+	bool is_png = type == type_png;
+	if (is_png) {
+		bool todo = false; // true
+		int header_tail_truncate_days = nposm; // nposm, 4
 
-	SDL_Size margin{12, 12};
-	surface result = create_neutral_surface(size.w + margin.w * 2, size.h + margin.h * 2);
-	fill_surface(result, 0xffffffff);
-	SDL_Rect dst_rect{margin.w, margin.h, content_surf->w, content_surf->h};
-	sdl_blit(content_surf, nullptr, result, &dst_rect);
+		std::map<std::string, aplt::twkoscript> scripts;
+		SDL_Size size = do_save_image(todo, header_tail_truncate_days, scripts, nullptr);
 
-	imwrite(result, full_filename);
+		surface content_surf = create_neutral_surface(size.w, size.h);
+		fill_surface(content_surf, 0xffffffff);
+
+		SDL_Size size2 = do_save_image(todo, header_tail_truncate_days, scripts, &content_surf);
+		VALIDATE(size.w == size2.w && size.h == size2.h, null_str);
+
+		const std::string filename = filename_prfix + course.title + "-" + utils::format_time_ymdhms2(time(nullptr)) + ".png";
+		full_filename = game_config::preferences_dir + "/saves/" + filename;
+
+		SDL_Size margin{12, 12};
+		surface result = create_neutral_surface(size.w + margin.w * 2, size.h + margin.h * 2);
+		fill_surface(result, 0xffffffff);
+		SDL_Rect dst_rect{margin.w, margin.h, content_surf->w, content_surf->h};
+		sdl_blit(content_surf, nullptr, result, &dst_rect);
+
+		imwrite(result, full_filename);
+
+	} else {
+		const std::string filename = filename_prfix + course.title + "-" + utils::format_time_ymdhms2(time(nullptr)) + ".csv";
+		full_filename = game_config::preferences_dir + "/saves/" + filename;
+
+		std::string result = do_save_csv();
+		VALIDATE(!result.empty(), null_str);
+
+		{
+			tfile file(full_filename, GENERIC_WRITE, CREATE_ALWAYS);
+			if (!file.valid()) {
+				// symbols["file"] = filename;
+				VALIDATE(false, null_str);
+				// gui2::show_message(null_str, vgettext2("Export failed. Can not open file: $file", symbols));
+				return;
+			}
+			uint8_t bom[3] = {0xef, 0xbb, 0xbf};
+			posix_fwrite(file.fp, bom, sizeof(bom));
+			posix_fwrite(file.fp, result.c_str(), result.size());
+		}
+	}
 
 	utils::string_map symbols;
-	symbols["type"] = _("Task to-do items");
+	symbols["type"] = types[type].id;
 	symbols["file"] = full_filename;
 	const std::string msg = vgettext2("$type file has been generated.\nPath: $file", symbols);
 	gui2::show_message(null_str, msg);

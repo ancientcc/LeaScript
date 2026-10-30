@@ -17,6 +17,7 @@
 
 #include "aplt2.hpp"
 #include "aplt_api.hpp"
+#include <json/json.h>
 
 namespace aplt {
 
@@ -91,6 +92,8 @@ public:
 		virtual void did_exit_state() = 0;
 		virtual void did_mediapipe_new_frame(bool satisfied) {}
 		virtual void did_satisfied_to_unsatisfied() {}
+		virtual bool mute_unsatisfied_speak() const { return false; }
+		virtual int curr_using_phase() const { return nposm; }
 		virtual void slice() {}
 
 		void set_finished()
@@ -194,7 +197,7 @@ public:
 			, tone(nposm)
 			, max_count(nposm)
 			, satisfied_threshold_s(nposm)
-			, sn_last_speak_s_(nposm)
+			, last_speak_s_(nposm)
 			, last_frame_ticks_(0)
 			, total_satisfied_ms_(nposm)
 			, satisfied_trigger_flag_(bool_set_none)
@@ -210,7 +213,7 @@ public:
 		ttime_counter& operator=(const ttime_counter& that)
 		{
 			VALIDATE(type == that.type, null_str);
-			VALIDATE(sn_last_speak_s_ == nposm, null_str);
+			VALIDATE(last_speak_s_ == nposm, null_str);
 			VALIDATE(last_frame_ticks_ == 0, null_str);
 			VALIDATE(total_satisfied_ms_ == nposm, null_str);
 			VALIDATE(satisfied_trigger_flag_ == bool_set_none, null_str);
@@ -275,7 +278,7 @@ public:
 		std::string satisfied_msgstr;
 
 	private:
-		int sn_last_speak_s_;
+		int last_speak_s_;
 		uint32_t last_frame_ticks_;
 		int total_satisfied_ms_;
 
@@ -333,10 +336,13 @@ public:
 			, max_count(nposm)
 			// , curr_phase_(state2.track_pose.curr_phase_)
 			, first_active_period_start_sent_(false)
-			, next_satisfied_ticks_(0)
-			, next_cooldowned_ticks_(0)
+			, active_period_end_ticks_(0)
+			, cooldown_period_end_ticks_(0)
 			, escape_threshold_ms_(3000)
 			, next_speak_escape_ticks_(0)
+			, cooldown_escape_frames_(0)
+			, cooldown_switched_(false)
+			, cooldown_early_end_frames_(0)
 			, count_(nposm)
 			, delay_speak_threshold_ms_(350)
 			, log_file_(nullptr)
@@ -393,7 +399,19 @@ public:
 		void did_exit_state() override;
 		void did_mediapipe_new_frame(bool satisfied) override;
 		void did_satisfied_to_unsatisfied() override;
+		// bool mute_unsatisfied_speak() const override { return in_cooldown() && cooldown_switched_; }
+		// The 'escape action_msg' is directly by 'pinyin_.speak(action_msg)', not through 'unsatisfied speak'.
+		bool mute_unsatisfied_speak() const override { return in_cooldown(); }
 		void slice() override;
+
+		bool in_cooldown() const { return cooldown_period_end_ticks_ != 0; }
+		int curr_using_phase() const 
+		{
+			if (in_cooldown() && cooldown_switched_) {
+				return (state2_->track_pose.curr_phase_ + 1) % phases.size();
+			}
+			return nposm; 
+		}
 
 	private:
 		int& curr_phase() { return state2_->track_pose.curr_phase_; }
@@ -403,6 +421,7 @@ public:
 		void update_next_cooldowned_ticks();
 		void zero_next_cooldowned_ticks();
 
+		void cooldown_may_early_end(bool new_frame_satisfied);
 		void set_delay_speak(uint32_t ticks, const std::string& msg);
 
 		void to_log_file(const char *fmt, ...);
@@ -419,10 +438,20 @@ public:
 		std::string original_unsatisfied_2th_msgstr_;
 		// int& curr_phase_;
 		bool first_active_period_start_sent_;
-		uint32_t next_satisfied_ticks_;
-		uint32_t next_cooldowned_ticks_;
+		uint32_t active_period_end_ticks_;
+		uint32_t cooldown_period_end_ticks_;
 		const int escape_threshold_ms_;
 		uint32_t next_speak_escape_ticks_;
+
+		// During the cooldown period, the number of consecutive frames that do not satisfy the current phase. 
+		// After reaching escape_confirm_frames, switch to detecting the next phase.
+		int cooldown_escape_frames_;
+		// Whether it has switched to detecting the track_pose for the next phase.
+		bool cooldown_switched_;
+		// During the cooldown period, the number of consecutive frames that satisfy the next phase. 
+		// After reaching early_end_confirm_frames, the cooldown period ends early.
+		int cooldown_early_end_frames_;
+
 		int count_;
 
 		struct tdelay_speak 
@@ -589,7 +618,7 @@ public:
 		}
 
 	public:
-		void update_landmarks(twkoscript& script);
+		void update_landmarks(twkoscript& script, int special_curr_phase = nposm);
 
 	public:
 		int landmarks[mediapipe::kNumPoseLandmarks];
@@ -908,10 +937,18 @@ public:
 		void did_mediapipe_new_frame(bool satisfied, const std::string& _unsatisfied_msg);
 		void slice();
 
+		int curr_using_phase() const
+		{
+			VALIDATE(track_pose.valid(), null_str);
+
+			int task_phase = task->curr_using_phase();
+			return task_phase != nposm? task_phase: track_pose.curr_phase_;
+		}
+
 	public:
 		void set_satisfied_msgstr(int threshold_s, const std::string& msgstr);
-		void sn_update_next_unsatisfied_ticks(bool use_2th_threshold);
-		void sn_speak_unsatisfied_msg();
+		void update_next_unsatisfied_ticks(bool use_2th_threshold);
+		void speak_unsatisfied_msg();
 
 	private:
 		uint64_t is_sub_valid_speak(std::string& err_msg) const;
@@ -952,6 +989,28 @@ public:
 	static std::string build_lmk33_png_filename3(const std::string& phase_surf_dir, int state, int phase, bool is_tmp);
 	static void init_wkoscript();
 
+	struct DECLSPEC tcurr_from_file
+	{
+	public:
+		tcurr_from_file()
+			: script(nullptr)
+			, state(nullptr)
+		{}
+
+		void clear()
+		{
+			filename.clear();
+			script = nullptr;
+			state = nullptr;
+		}
+
+	public:
+		std::string filename;
+		const twkoscript* script;
+		const tstate2* state;
+	};
+	static tcurr_from_file curr_from_file;
+
 	twkoscript();
 
 	~twkoscript()
@@ -987,10 +1046,15 @@ public:
 	void sync_task_input_vars(const std::map<aplt::taplt_key, aplt::tapplet>& applets);
 	bool state_swap(int s1, int s2);
 	void get_state_names(const std::string& exclude, std::set<std::string>& result) const;
+	tstate2& insert_state_use_action_tpl2(int action_at, int min_state_duration_s, const aplt::taction_tpl2& tpl2, int max_count);
+	tstate2& insert_end_state(const std::string& name, const std::string& msgstr);
 	tstate2& insert_state(int at, const std::string& name, int task_type, int lmk33_png_at);
+
 	void erase_state(int at);
 	void clone_state(int at);
 	void set_lmk33_png_at_equal_to_state_at();
+	void set_lmk33_png_at_equal_to_nposm();
+	void validate_lmk33_png_at_is_nposm() const;
 	void history_after_one_finish(const SDL_Range& range_ms, uint32_t& reps, uint32_t& duration_s) const;
 	void apply_action_tpl2(tstate2& state2, const taction_tpl2& action_tpl2);
 	void copy_action_tpl2(const tstate2& state2, taction_tpl2& action_tpl2);
@@ -1024,6 +1088,7 @@ public:
 	void enable_run();
 	void set_wko_task_slot(twko_task_slot* _slot);
 	void did_phase_changed(int state_at, int phase_at);
+	void did_analyze_result(const twko_analyze_result_C& result);
 	bool sfx_enabled();
 
 	struct ttmp_result {
@@ -1070,6 +1135,7 @@ public:
 	std::vector<std::string> state_names;
 	std::map<int, tstate2> states;
 private:
+	tb_api& b_api_;
 	//
 	// parse pinyin
 	//
@@ -1077,6 +1143,7 @@ private:
 	const int tone_;
 	const bool eng_lowercase_;
 	const std::string input_var_signature_;
+	const std::string clip_action_tpl2_id_;
 
 	const std::string satisfied_msgstr_;
 	const std::string unsatisfied_msgstr_;
@@ -1092,6 +1159,31 @@ private:
 	float temp_4_average_[MAX_ANTI_SHAKE_SAMPLES];
 	uint32_t last_recv_sample_ticks_;
 	int recv_samples_;
+
+	class tfrom_filename_lock
+	{
+	public:
+		tfrom_filename_lock(twkoscript& script, const std::string& filename)
+			: script_(script)
+		{
+			VALIDATE(curr_from_file.filename.empty(), null_str);
+			VALIDATE(curr_from_file.script == nullptr, null_str);
+			VALIDATE(curr_from_file.state == nullptr, null_str);
+
+			curr_from_file.filename = filename;
+			curr_from_file.script = &script_;
+		}
+
+		~tfrom_filename_lock()
+		{
+			VALIDATE(!curr_from_file.filename.empty(), null_str);
+			VALIDATE(curr_from_file.script == &script_, null_str);
+			curr_from_file.clear();
+		}
+
+	private:
+		twkoscript& script_;
+	};
 };
 
 #define wko_is_angle_from_pose_type(type) \
@@ -1121,7 +1213,7 @@ enum {posemetric_body_tilt_angle, posemetric_header_tilt_angle,
 	posemetric_left_wrist_on_right_shoulder, posemetric_right_wrist_on_left_shoulder,
 	posemetric_left_thigh_angle, posemetric_right_thigh_angle,
 	posemetric_left_knee_angle, posemetric_right_knee_angle,
-	posemetric_left_lower_leg_angle, posemetric_right_lower_leg_angle,
+	posemetric_left_calf_angle, posemetric_right_calf_angle,
 	posemetric_left_leg_angle, posemetric_right_leg_angle, // hip->ankle
 	posemetric_right_hip_angle, posemetric_right_torso_angle,
 	posemetric_count
@@ -1212,6 +1304,15 @@ public:
 		if (msg != derived->msg) {
 			return false;
 		}
+		if (reference != derived->reference) {
+			return false;
+		}
+		if (body_part != derived->body_part) {
+			return false;
+		}
+		if (movement_type != derived->movement_type) {
+			return false;
+		}
 		return true;
 	}
 
@@ -1221,6 +1322,9 @@ public:
 		id.clear();
 		name.clear();
 		msg.clear();
+		reference.clear();
+		body_part.clear();
+		movement_type.clear();
 	}
 
 private:
@@ -1230,6 +1334,9 @@ public:
 	std::string id;
 	std::string name;
 	std::string msg;
+	std::string reference;
+	std::string body_part;
+	std::string movement_type;
 
 private:
 	twkoscript::tstate2 state2_;
@@ -1243,6 +1350,146 @@ LIB3RDPARTY_DECL std::string wkoscript_extract_id(const std::string& cfg_str, st
 enum {type_wkoscript_ids, type_wkoscript_cfgfiles, type_wkoscript_new_benchmarks, type_wkoscript_new_dirs, type_wkoscript_count};
 LIB3RDPARTY_DECL void list_wkoscript_files_by_type(const std::string& wkoscript_dir2, int type, std::set<std::string>& result_set);
 
+//
+// twkorevise
+//
+extern LIB3RDPARTY_DECL std::map<int, tcode3> wko_revise_obj_types;
+extern LIB3RDPARTY_DECL std::map<int, tcode3> wko_revise_op_types;
+
+class DECLSPEC twkorevise
+{
+public:
+	enum {objtype_wkoscript, objtype_health_dat, objtype_count};
+	enum {optype_comment, optype_upload, optype_count};
+
+	static bool is_may_valid_string(const std::string& str);
+
+	twkorevise()
+	{
+		clear();
+	}
+
+	void set_comment(int64_t evt_ts, int64_t uid, const std::string& aplt, const std::string& id, int64_t ts, 
+		const std::string& title, const SDL_Range& range_ms, const std::string& msg);
+
+	void set_upload_health_dat(int64_t evt_ts, int64_t uid, int64_t ts);
+
+	bool from_cfg_or_json(const config* pcfg, const Json::Value* pjson_root);
+	void to_cfg_or_json(config* pcfg, Json::Value* pjson_root) const;
+
+	void from_file(const std::string& filename);
+	bool from_string(const std::string& str);
+	bool from_cfg(const config& cfg);
+
+	void to_cfg(config& cfg) const;
+	std::string to_string() const;
+	void to_file(const std::string& filename) const;
+
+	bool from_json(const Json::Value& json_root);
+	void to_json(Json::Value& json_root) const;
+
+	bool valid() const 
+	{ 
+		if (obj_type < 0 || obj_type >= objtype_count || op_type < 0 || op_type >= optype_count) {
+			return false;
+		}
+		if (obj_type == objtype_health_dat) {
+			return ts != nposm;
+		}
+		if (evt_ts == nposm) {
+			return false;
+		}
+		if (!is_valid_uid(uid)) {
+			return false;
+		}
+
+		return is_bundleid(aplt) && !id.empty() && ts != nposm && !msg.empty(); 
+	}
+
+	void clear()
+	{
+		obj_type = nposm;
+		op_type = nposm;
+		evt_ts = nposm;
+		uid = uid_nposm;
+
+		aplt.clear();
+		id.clear();
+
+		ts = nposm;
+		range_ms = SDL_Range{nposm, nposm};
+
+		msg.clear();
+	}
+
+	std::string log_readable_msg(int result) const;
+	std::string log_action_label(int result) const;
+	bool log_can_action(int result) const;
+	std::string log_error_msg(const std::string& reason) const;
+
+public:
+	int obj_type;
+	int op_type;
+	int64_t evt_ts;
+	int64_t uid;
+
+	std::string aplt;
+	std::string id;
+	int64_t ts;
+
+	std::string title;
+	SDL_Range range_ms;
+
+	std::string msg;
+
+private:
+	config dummy_cfg_;
+	Json::Value dummy_json_root_;
+};
+
+class DECLSPEC twkoevent
+{
+public:
+	twkoevent(int64_t ts, twkorevise& revise, std::vector<timage_pair>& images)
+		: ts(ts)
+		, revise(revise)
+		, images(images)
+	{}
+
+	twkoevent()
+		: ts(0)
+	{}
+/*
+	std::string to_log_msg() const
+	{
+		return join_to_log_msg(ts, devicename, desc, images);
+	
+	}
+*/
+	std::string to_log_msg() const;
+/*
+	bool operator<(const twkoevent& that) const noexcept
+	{
+		if (ts != that.ts) {
+			return ts > that.ts;
+		}
+		int cmp = SDL_strcmp(devicename.c_str(), that.devicename.c_str());
+		return cmp < 0;
+	}
+*/
+	bool operator<(const twkoevent& that) const noexcept
+	{
+		if (ts != that.ts) {
+			return ts > that.ts;
+		}
+		return revise.uid < that.revise.uid;
+	}
+
+public:
+	int64_t ts;
+	twkorevise revise;
+	std::vector<timage_pair> images;
+};
 
 }
 
